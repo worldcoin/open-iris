@@ -9,7 +9,7 @@ A simple inference run can be achived by running source code below.
     import iris
 
     # 1. Create IRISPipeline object
-    iris_pipeline = IRISPipeline()
+    iris_pipeline = iris.IRISPipeline()
 
     # 2. Load IR image of an eye
     img_pixels = cv2.imread("/path/to/ir/image", cv2.IMREAD_GRAYSCALE)
