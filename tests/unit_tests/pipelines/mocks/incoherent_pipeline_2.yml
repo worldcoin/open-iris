@@ -1,0 +1,44 @@
+metadata:
+  pipeline_name: iris_pipeline
+  iris_version: 1.5.1
+
+pipeline:
+  - name: segmentation
+    algorithm:
+      class_name: iris.nodes.segmentation.MultilabelSegmentation
+      params: {}
+    inputs:
+      - name: image
+        source_node: input
+    callbacks:
+
+  - name: segmentation_binarization
+    algorithm:
+      class_name: iris.nodes.segmentation.multilabel_binarization.MultilabelSegmentationBinarization
+      params: {}
+    inputs:
+      - name: segmentation_map
+        source_node: segmentation
+    callbacks:
+
+  - name: specular_reflection_detection
+    algorithm:
+      class_name: iris.nodes.binarization.specular_reflection_detection.SpecularReflectionDetection
+      params: {}
+    inputs:
+      - name: ir_image
+        source_node: input
+    callbacks:
+
+  - name: noise_masks_aggregation
+    algorithm:
+      class_name: iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion
+      params: {}
+    inputs:
+      - name: elements
+        source_node:
+          - name: segmentation_binarization
+            index: 1
+          - name: specular_reflection_detection
+          - name: does_not_exist
+    callbacks:
