@@ -42,7 +42,7 @@ ______________________________________________________________________
 
 Welcome to Worldcoin's Iris Recognition Inference System (IRIS) project, an advanced iris recognition pipeline designed for robust and secure biometric verification. This project leverages state-of-the-art computer vision and machine learning techniques to provide accurate and efficient iris recognition system.
 
-Iris recognition is a powerful biometric technology that identifies individuals based on the unique patterns within the iris of the eye. IRIS package aims to make iris recognition accessible and easy to integrate into various applications.
+Iris recognition is a powerful biometric technology that identifies individuals based on the unique patterns within the iris of the eye. IRIS package aims to make iris recognition accessible and enable further advancement in the field.
 
 Project features highlights are:
 - **Large-Scale Verification**: Capable of verifying uniqueness among billions of users.
@@ -57,9 +57,15 @@ High-level iris recognition pipeline steps overview:
 4. **Scalable Matching**: Efficiently compare extracted features for large-scale uniqueness verification.
 5. **Result**: Receive the verification result with a confidence score, enabling secure and scalable authentication.
 
-At Worldcoin, we are utilizing iris recognition algorithm for verifying uniqueness in a challenging environment, involving billions of individuals. This entails a detailed exploration of our biometric pipeline, a system that confirms uniqueness through the encoding of iris texture into an iris code.
+The Worldcoin system utilizes iris recognition algorithm for verifying uniqueness in a challenging environment, involving billions of individuals. This entails a detailed exploration of the Worldcoin biometric pipeline, a system that confirms uniqueness through the encoding of iris texture into an iris code.
 
 More detailed pipeline overview can be found in our [blog post](https://worldcoin.org/blog/engineering/iris-recognition-inference-system) dedicated to IRIS project.
+
+
+## Disclaimer
+
+_The Iris Recognition Inference System (IRIS) is owned by the Worldcoin Foundation, the steward of the Worldcoin protocol. IRIS is not a product of, and neither IRIS nor the Worldcoin Foundation has any affiliation with, the American Academy of Ophthalmology or its Intelligent Research in Sight Registry_
+
 
 ## Quickstart
 
@@ -91,7 +97,7 @@ python3 -c "import iris; print(iris.__version__)"
 
 ### Setup for development
 
-We have implemented a `conda` environment to simplify the setup process for developing `iris` package. This `conda` environment ensures a seamless and consistent setup for contributors, reducing the complexity of dependency management. By utilizing `conda`, developers can easily replicate the development environment across different systems, minimizing potential setup obstacles. This approach aims to make it straightforward for anyone interested in contributing to quickly set up and engage in the development of `iris` package.
+A `conda` environment simplifies the setup process for developing on the `iris` package. This `conda` environment ensures a seamless and consistent setup for contributors, reducing the complexity of dependency management. By utilizing `conda`, developers can easily replicate the development environment across different systems, minimizing potential setup obstacles. This approach aims to make it straightforward for anyone interested in contributing to quickly set up and engage in the development of `iris` package.
 
 ```bash
 # Clone the iris repo
@@ -128,7 +134,7 @@ img_pixels = cv2.imread("/path/to/ir/image", cv2.IMREAD_GRAYSCALE)
 output = iris_pipeline(img_data=img_pixels, eye_side="left")
 ```
 
-To fully explore and understand the extensive capabilities of the iris package, we invite you to visit the [Example notebooks](#example-notebooks) section. Here, you'll find a collection of Jupyter Notebooks that serve as valuable resources, offering practical guides and real-world examples to provide a comprehensive insight into the rich functionalities and potential applications of the `iris` package.
+To fully explore and understand the extensive capabilities of the iris package, visit the [Example notebooks](#example-notebooks) section. Here, you'll find a collection of Jupyter Notebooks that serve as valuable resources, offering practical guides and real-world examples to provide a comprehensive insight into the rich functionalities and potential applications of the `iris` package.
 
 ## Project structure
 
