@@ -8,7 +8,7 @@
 
 Welcome to Worldcoin's Iris Recognition Inference System (IRIS) project, an advanced iris recognition pipeline designed for robust and secure biometric verification. This project leverages state-of-the-art computer vision and machine learning techniques to provide accurate and efficient iris recognition system.
 
-Iris recognition is a powerful biometric technology that identifies individuals based on the unique patterns within the iris of the eye. IRIS package aims to make iris recognition accessible and easy to integrate into various applications.
+Iris recognition is a powerful biometric technology that identifies individuals based on the unique patterns within the iris of the eye. IRIS package aims to make iris recognition accessible and enable further advancement in the field.
 
 Project features highlights are:
 
@@ -25,9 +25,13 @@ High-level iris recognition pipeline steps overview:
 #. **Scalable Matching**: Efficiently compare extracted features for large-scale uniqueness verification.
 #. **Result**: Receive the verification result with a confidence score, enabling secure and scalable authentication.
 
-At Worldcoin, we are utilizing iris recognition algorithm for verifying uniqueness in a challenging environment, involving billions of individuals. This entails a detailed exploration of our biometric pipeline, a system that confirms uniqueness through the encoding of iris texture into an iris code.
+The Worldcoin system utilizes iris recognition algorithm for verifying uniqueness in a challenging environment, involving billions of individuals. This entails a detailed exploration of the Worldcoin biometric pipeline, a system that confirms uniqueness through the encoding of iris texture into an iris code.
 
 More detailed pipeline overview can be found in our `blog post <https://worldcoin.org/blog/engineering/iris-recognition-inference-system>`_ dedicated to IRIS project.
+
+**Disclaimer**
+
+*The Iris Recognition Inference System (IRIS) is owned by the Worldcoin Foundation, the steward of the Worldcoin protocol. IRIS is not a product of, and neither IRIS nor the Worldcoin Foundation has any affiliation with, the American Academy of Ophthalmology or its Intelligent Research in Sight Registry*
 
 .. toctree::
    :hidden:

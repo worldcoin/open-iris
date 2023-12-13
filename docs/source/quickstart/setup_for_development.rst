@@ -1,7 +1,7 @@
 Setup for development
 ================================
 
-We have implemented a ``conda`` environment to simplify the setup process for developing ``iris`` package. This ``conda`` environment ensures a seamless and consistent setup for contributors, reducing the complexity of dependency management. By utilizing ``conda``, developers can easily replicate the development environment across different systems, minimizing potential setup obstacles. This approach aims to make it straightforward for anyone interested in contributing to quickly set up and engage in the development of ``iris`` package.
+A ``conda`` environment simplifies the setup process for developing on the ``iris`` package. This ``conda`` environment ensures a seamless and consistent setup for contributors, reducing the complexity of dependency management. By utilizing ``conda``, developers can easily replicate the development environment across different systems, minimizing potential setup obstacles. This approach aims to make it straightforward for anyone interested in contributing to quickly set up and engage in the development of ``iris`` package.
 
 .. code-block:: bash
 

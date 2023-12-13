@@ -18,5 +18,5 @@ A simple inference run can be achived by running source code below.
     # Options for the `eye_side` argument are: ["left", "right"]
     output = iris_pipeline(img_data=img_pixels, eye_side="left")
 
-To fully explore and understand the extensive capabilities of the iris package, we invite you to visit the `Examples` subpages. Here, you'll find a collection of Jupyter Notebooks that serve as valuable resources, offering practical guides and real-world examples to provide a comprehensive insight into the rich functionalities and potential applications of the ``iris`` package.
+To fully explore and understand the extensive capabilities of the iris package, visit the `Examples` subpages. Here, you'll find a collection of Jupyter Notebooks that serve as valuable resources, offering practical guides and real-world examples to provide a comprehensive insight into the rich functionalities and potential applications of the ``iris`` package.
 
