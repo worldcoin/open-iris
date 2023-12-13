@@ -1,0 +1,531 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.utils package" href="iris.utils.html" /><link rel="prev" title="iris.orchestration package" href="iris.orchestration.html" />
+
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>iris.pipelines package - iris v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">iris v1.0.0</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">iris v1.0.0</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/setup_for_development.html">Setup for development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/running_inference.html">Running inference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/getting_started.html"><em>Getting started</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_pipeline.html"><em>Configuring custom pipeline</em> tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Issues, pull requests and feature requests</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../issues_note.html">Contact</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">iris</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of iris</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="iris.html">iris package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of iris package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="iris.callbacks.html">iris.callbacks package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html">iris.io package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iris.nodes.html">iris.nodes package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of iris.nodes package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.aggregation.html">iris.nodes.aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.binarization.html">iris.nodes.binarization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.encoder.html">iris.nodes.encoder package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.eye_properties_estimation.html">iris.nodes.eye_properties_estimation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.geometry_estimation.html">iris.nodes.geometry_estimation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.geometry_refinement.html">iris.nodes.geometry_refinement package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="iris.nodes.iris_response.html">iris.nodes.iris_response package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of iris.nodes.iris_response package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.image_filters.html">iris.nodes.iris_response.image_filters package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.probe_schemas.html">iris.nodes.iris_response.probe_schemas package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.iris_response_refinement.html">iris.nodes.iris_response_refinement package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html">iris.orchestration package</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">iris.pipelines package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.utils.html">iris.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="iris-pipelines-package">
+<h1>iris.pipelines package<a class="headerlink" href="#iris-pipelines-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-iris.pipelines.iris_pipeline">
+<span id="iris-pipelines-iris-pipeline-module"></span><h2>iris.pipelines.iris_pipeline module<a class="headerlink" href="#module-iris.pipelines.iris_pipeline" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.iris_pipeline.</span></span><span class="sig-name descname"><span class="pre">IRISPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_orb_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Implementation of a fully configurable iris recognition pipeline.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.DEBUGGING_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">DEBUGGING_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_debugging_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.OffgazeValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.OcclusionValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.IsPupilInsideIrisValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.IsMaskTooSmallValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.cross_object_validators.ExtrapolatedPolygonsInsideImageValidator'&gt;])</span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.DEBUGGING_ENVIRONMENT" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>IRISPipeline parameters, all derived from the input <cite>config</cite>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.Parameters.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters.metadata" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.Parameters.pipeline">
+<span class="sig-name descname"><span class="pre">pipeline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters.pipeline" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.estimate" title="Permalink to this definition">#</a></dt>
+<dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_data</strong> (<em>np.ndarray</em>) – Image data.</p></li>
+<li><p><strong>eye_side</strong> (<em>Literal</em><em>[</em><em>&quot;left&quot;</em><em>, </em><em>&quot;right&quot;</em><em>]</em>) – Eye side.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.instanciate_class">
+<span class="sig-name descname"><span class="pre">instanciate_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.instanciate_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_class" title="Permalink to this definition">#</a></dt>
+<dd><p>Instanciate a class from its string definition and its kwargs.</p>
+<p>This function relies on pydoc.locate, a safe way to instanciate a class from its string definition, which itself relies on pydoc.safe_import.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>class_name</strong> (<em>str</em>) – name of the class.</p></li>
+<li><p><strong>kwargs</strong> (<em>Dict</em>) – kwargs to pass to the class at instanciation time</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the instanciated class</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iris.io.html#iris.io.errors.IRISPipelineError" title="iris.io.errors.IRISPipelineError"><strong>IRISPipelineError</strong></a> – Raised if the class cannot be located.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.instanciate_node">
+<span class="sig-name descname"><span class="pre">instanciate_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineClass" title="iris.orchestration.pipeline_dataclasses.PipelineClass"><span class="pre">PipelineClass</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.instanciate_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_node" title="Permalink to this definition">#</a></dt>
+<dd><p>Instanciate an Algorithm from its class, kwargs and optional Callbacks.</p>
+<p>NOTE: All callbacks of type listed in self.env.disabled_qa will be filtered out. This allows one config file to be used in various QA standards levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_class</strong> (<em>str</em>) – Node’s class.</p></li>
+<li><p><strong>algorithm_params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Node’s kwargs.</p></li>
+<li><p><strong>callbacks</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineClass" title="iris.orchestration.pipeline_dataclasses.PipelineClass"><em>PipelineClass</em></a><em>]</em><em>]</em>) – list of callbacks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>instanciated node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm">Algorithm</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.instanciate_nodes">
+<span class="sig-name descname"><span class="pre">instanciate_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.instanciate_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a list of PipelineNode, return the associated instanciated nodes.</p>
+<p>NOTE: All nodes of type listed in self.env.disabled_qa will be filtered out. This allows one config file to be used in various QA standards levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>instanciated nodes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm">Algorithm</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.instanciate_pipeline">
+<span class="sig-name descname"><span class="pre">instanciate_pipeline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.instanciate_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_pipeline" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a list of PipelineNodes, crawl the parameters and instanciate the PipelineClass available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pipeline with instanciated parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode">PipelineNode</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.load_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.load_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the input configuration string into a dictionary for deserialisation. If no config is given, load the default config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – YAML-formated input configuration string.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iris.io.html#iris.io.errors.IRISPipelineError" title="iris.io.errors.IRISPipelineError"><strong>IRISPipelineError</strong></a> – Raised if the input config is not a string, or is not correctly YAML-formated.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configuration as a dictionary.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.load_from_config_map">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline" title="iris.pipelines.iris_pipeline.IRISPipeline"><span class="pre">IRISPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.load_from_config_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.load_from_config_map" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a mapping between iris versions and iris config strings, initialise an IRISPipeline with config matching the current version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_map</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – mapping between iris versions and iris str configs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Initialised iris pipeline and standard error output.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline" title="iris.pipelines.iris_pipeline.IRISPipeline">IRISPipeline</a>, Optional[Dict[str, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_data</strong> (<em>np.ndarray</em>) – Infrared image as a numpy array.</p></li>
+<li><p><strong>eye_side</strong> (<em>Literal</em><em>[</em><em>&quot;left&quot;</em><em>, </em><em>&quot;right&quot;</em><em>]</em>) – Eye side.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.pipelines">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.pipelines" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="iris.utils.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">iris.utils package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="iris.orchestration.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">iris.orchestration package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Worldcoin AI
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">iris.pipelines package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-iris.pipelines.iris_pipeline">iris.pipelines.iris_pipeline module</a><ul>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.DEBUGGING_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.DEBUGGING_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters.metadata"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters.metadata</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.Parameters.pipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters.pipeline</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.estimate()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_class"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.instanciate_class()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_node"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.instanciate_node()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_nodes"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.instanciate_nodes()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_pipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.instanciate_pipeline()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.load_from_config_map"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_from_config_map()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline.run"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.pipelines">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

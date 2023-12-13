@@ -1,0 +1,858 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="iris.pipelines package" href="iris.pipelines.html" />
+
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>iris.utils package - iris v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">iris v1.0.0</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">iris v1.0.0</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/setup_for_development.html">Setup for development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/running_inference.html">Running inference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/getting_started.html"><em>Getting started</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_pipeline.html"><em>Configuring custom pipeline</em> tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Issues, pull requests and feature requests</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../issues_note.html">Contact</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">iris</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of iris</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="iris.html">iris package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of iris package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="iris.callbacks.html">iris.callbacks package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html">iris.io package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iris.nodes.html">iris.nodes package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of iris.nodes package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.aggregation.html">iris.nodes.aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.binarization.html">iris.nodes.binarization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.encoder.html">iris.nodes.encoder package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.eye_properties_estimation.html">iris.nodes.eye_properties_estimation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.geometry_estimation.html">iris.nodes.geometry_estimation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.geometry_refinement.html">iris.nodes.geometry_refinement package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="iris.nodes.iris_response.html">iris.nodes.iris_response package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of iris.nodes.iris_response package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.image_filters.html">iris.nodes.iris_response.image_filters package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.probe_schemas.html">iris.nodes.iris_response.probe_schemas package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.iris_response_refinement.html">iris.nodes.iris_response_refinement package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html">iris.orchestration package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html">iris.pipelines package</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">iris.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="iris-utils-package">
+<h1>iris.utils package<a class="headerlink" href="#iris-utils-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-iris.utils.common">
+<span id="iris-utils-common-module"></span><h2>iris.utils.common module<a class="headerlink" href="#module-iris.utils.common" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.common.contour_to_mask">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.common.</span></span><span class="sig-name descname"><span class="pre">contour_to_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/iris/utils/common.html#contour_to_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.common.contour_to_mask" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate binary mask based on polygon’s vertices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vertices</strong> (<em>np.ndarray</em>) – Vertices points array.</p></li>
+<li><p><strong>mask_shape</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Tuple with output mask dimension (weight, height).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary mask.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-iris.utils.math">
+<span id="iris-utils-math-module"></span><h2>iris.utils.math module<a class="headerlink" href="#module-iris.utils.math" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.apply_weights_1d">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">apply_weights_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scores_1d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_1d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#apply_weights_1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.apply_weights_1d" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply weights for score fusion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores_1d</strong> (<em>np.ndarray</em>) – scores to be fused.</p></li>
+<li><p><strong>weights_1d</strong> (<em>np.ndarray</em>) – weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the input 1d arrays do not have the same length.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>fused score.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.area">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.area" title="Permalink to this definition">#</a></dt>
+<dd><p>Shoelace formula for simple polygon area calculation.</p>
+<p>WARNING: This formula only works for simple polygons, i.e planar polygon without self-intersection nor holes.
+These conditions are not checked within this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>np.ndarray</em>) – np array representing a polygon as a list of points, i.e. of shape (_, 2).</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the input array does not have shape (_, 2)</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Polygon area</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>[1] <a class="reference external" href="https://en.wikipedia.org/wiki/Shoelace_formula">https://en.wikipedia.org/wiki/Shoelace_formula</a>
+[2] <a class="reference external" href="https://stackoverflow.com/questions/24467972/calculate-area-of-polygon-given-x-y-coordinates">https://stackoverflow.com/questions/24467972/calculate-area-of-polygon-given-x-y-coordinates</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.cartesian2polar">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">cartesian2polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#cartesian2polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.cartesian2polar" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert xs and ys cartesian coordinates to polar coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>np.ndarray</em>) – x values.</p></li>
+<li><p><strong>ys</strong> (<em>np.ndarray</em>) – y values.</p></li>
+<li><p><strong>center_x</strong> (<em>float</em>) – center’s x.</p></li>
+<li><p><strong>center_y</strong> (<em>float</em>) – center’s y.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted coordinates (rhos, phis).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.eccentricity">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">eccentricity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#eccentricity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.eccentricity" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</p>
+<p>The eccentricity is a number in [0, 1] which caracterises the “roundness” or “linearity” of a shape.
+A perfect circle will have an eccentricity of 0, and an infinite line an eccentricity of 1.
+For ellipses, the eccentricity is calculated as <span class="math notranslate nohighlight">\(\frac{\sqrt{a^2 - b^2}}{a^2}\)</span>
+with a (resp. b) the semi-major (resp. -minor) axis of the ellipses.</p>
+<p>For <cite>mu20 + mu02 == 0</cite>, i.e. perfect line, the max theoretical value (1.0) is returned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>moments</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – cv2.moments of desired the binary image or contour.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the eccentricity of the contour or binary map.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>eccentricity (float)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>[1] <a class="reference external" href="https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19">https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.estimate_diameter">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">estimate_diameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#estimate_diameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.estimate_diameter" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimates the diameter of an arbitrary arc by evaluating the maximum distance between any two points on the arc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>polygon</strong> (<em>np.ndarray</em>) – Polygon points.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated diameter length.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>[1] <a class="reference external" href="https://sparrow.dev/pairwise-distance-in-numpy/">https://sparrow.dev/pairwise-distance-in-numpy/</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.orientation">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.orientation" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the main orientation of a contour or a binary image given its precomputed cv2 moments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>moments</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – cv2.moments of desired the binary image or contour.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Main orientation of the shape. The orientation is a float in [-pi/2, pi/2[ representing the signed angle from the x axis.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.polar2cartesian">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">polar2cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#polar2cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.polar2cartesian" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert polar coordinates to cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rho</strong> (<em>np.ndarray</em>) – rho values.</p></li>
+<li><p><strong>phi</strong> (<em>np.ndarray</em>) – phi values.</p></li>
+<li><p><strong>center_x</strong> (<em>float</em>) – center’s x.</p></li>
+<li><p><strong>center_y</strong> (<em>float</em>) – center’s y.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted coordinates (xs, ys).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.math.polygon_length">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">polygon_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_point_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#polygon_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.polygon_length" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the length of a polygon represented as a (_, 2)-dimensionnal numpy array.</p>
+<p>One polygon can include several disjoint arcs, which should be identified as separate so that the distance
+between them is not counted. If a polygon is made of two small arc separated by a large distance, then the large
+distance between the two arcs will not be discounted in the polygon’s length</p>
+<p>WARNING: The input polygon is assumed to be non-looped, i.e. if the first and last point are not equal,
+which is the case for all ou GeometryPolygons. The last implicit segment looping back from the
+last to the first point is therefore not included in the computed polygon length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygon</strong> (<em>np.ndarray</em>) – (_, 2) - shaped numpy array representing a polygon.</p></li>
+<li><p><strong>max_point_distance</strong> (<em>int</em>) – Maximum distance between two points for them to be considered part of the same arc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>length of the polygon, in pixels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-iris.utils.visualisation">
+<span id="iris-utils-visualisation-module"></span><h2>iris.utils.visualisation module<a class="headerlink" href="#module-iris.utils.visualisation" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.utils.visualisation.</span></span><span class="sig-name descname"><span class="pre">IRISVisualizer</span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IRISPipeline outputs visualizer.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_all_geometry">
+<span class="sig-name descname"><span class="pre">plot_all_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeOrientation" title="iris.io.dataclasses.EyeOrientation"><span class="pre">EyeOrientation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_all_geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_all_geometry" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualises all major geometry-related objects produced at an IR image level.</p>
+<p>This function displays the source IR Image, the produced GeometryPolygons, the eye orientation,
+and the pupil and iris centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_image</strong> (<em>iris_dc.IRImage</em>) – source IR Image</p></li>
+<li><p><strong>geometry_polygons</strong> (<em>Union</em><em>[</em><em>iris_dc.GeometryPolygons</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – geometry polygons from any stage of the pipeline</p></li>
+<li><p><strong>eye_orientation</strong> (<em>Union</em><em>[</em><em>iris_dc.EyeOrientation</em><em>, </em><em>float</em><em>]</em>) – eye orientation to visualise</p></li>
+<li><p><strong>eye_center</strong> (<em>Union</em><em>[</em><em>iris_dc.EyeCenters</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Tuple</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – eye centers to visualise</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_eye_centers">
+<span class="sig-name descname"><span class="pre">plot_eye_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eye_centers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_eye_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_eye_centers" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS EyeCenters object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eye_center</strong> (<em>Union</em><em>[</em><em>iris_dc.EyeCenters</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Tuple</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – Eye centers to visualise</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional IRImage to lay over in transparency. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_eye_orientation">
+<span class="sig-name descname"><span class="pre">plot_eye_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eye_orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeOrientation" title="iris.io.dataclasses.EyeOrientation"><span class="pre">EyeOrientation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_centers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_eye_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_eye_orientation" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS EyeOrientation object. Require an EyeCenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eye_orientation</strong> (<em>Union</em><em>[</em><em>iris_dc.EyeOrientation</em><em>, </em><em>float</em><em>]</em>) – EyeOrientation to visualise</p></li>
+<li><p><strong>eye_centers</strong> (<em>Union</em><em>[</em><em>iris_dc.EyeCenters</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Tuple</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – EyeCenters, from which the origin of the displayed vector is inferred.</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – optional IRImage to lay over in transparency. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>output figure and axes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_geometry_mask">
+<span class="sig-name descname"><span class="pre">plot_geometry_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryMask" title="iris.io.dataclasses.GeometryMask"><span class="pre">GeometryMask</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_geometry_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_geometry_mask" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize an IRIS GeometryMask objet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_mask</strong> (<em>Union</em><em>[</em><em>iris_dc.GeometryMask</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Geometry mask.</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional IRImage to lay over in transparency. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em><em>, </em><em>optional</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_geometry_polygons">
+<span class="sig-name descname"><span class="pre">plot_geometry_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_geometry_polygons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_geometry_polygons" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS GeometryPolygons object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_polygons</strong> (<em>Union</em><em>[</em><em>iris_dc.GeometryPolygons</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – Geometry polygons to visualise</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional IRImage to lay over in transparency. Defaults to None.</p></li>
+<li><p><strong>plot_kwargs</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Kwargs of a plot function. Defaults to None.</p></li>
+<li><p><strong>scatter_kwargs</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Kwargs of a scatter function. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_ir_image">
+<span class="sig-name descname"><span class="pre">plot_ir_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_ir_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_ir_image" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS IRImage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_image</strong> (<em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – input image of iris’ IRImage type</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_ir_image_with_landmarks">
+<span class="sig-name descname"><span class="pre">plot_ir_image_with_landmarks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landmarks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Landmarks" title="iris.io.dataclasses.Landmarks"><span class="pre">Landmarks</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_ir_image_with_landmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_ir_image_with_landmarks" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot landmarks together with IR image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_image</strong> (<em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – IR image.</p></li>
+<li><p><strong>landmarks</strong> (<em>Union</em><em>[</em><em>iris_dc.Landmarks</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – Landmarks.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em><em>, </em><em>optional</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_iris_filter_response">
+<span class="sig-name descname"><span class="pre">plot_iris_filter_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_filter_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cartesian'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polar'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cartesian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vlim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_iris_filter_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_filter_response" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS IrisFilterResponse object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iris_filter_response</strong> (<em>Union</em><em>[</em><em>iris_dc.IrisFilterResponse</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>np.ndarray</em><em>]</em><em>]</em><em>]</em>) – iris filter response to visualise.</p></li>
+<li><p><strong>space</strong> (<em>Literal</em><em>[</em><em>&quot;cartesian&quot;</em><em>, </em><em>&quot;polar&quot;</em><em>]</em><em>, </em><em>optional</em>) – Wether to plot the response in cartesian or polar coordinates. Defaults to cartesian.</p></li>
+<li><p><strong>plot_mask</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to overlay the mask response in transparency. Defaults to True.</p></li>
+<li><p><strong>mask_threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Wether to overlay the mask in transparency. Defaults to 0.9.</p></li>
+<li><p><strong>vlim</strong> (<em>float</em><em>, </em><em>optional</em>) – The maximal value displayed in real, imaginary and amplitude graphs. Defaults to 1e-3</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_iris_template">
+<span class="sig-name descname"><span class="pre">plot_iris_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_iris_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_template" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS IrisTemplate object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iris_template</strong> (<em>Union</em><em>[</em><em>iris_dc.IrisTemplate</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – iris template to visualise</p></li>
+<li><p><strong>plot_mask</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to overlay the mask in transparency. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_iris_template_and_normalized_iris">
+<span class="sig-name descname"><span class="pre">plot_iris_template_and_normalized_iris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_iris</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NormalizedIris" title="iris.io.dataclasses.NormalizedIris"><span class="pre">NormalizedIris</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_iris_template_and_normalized_iris"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_template_and_normalized_iris" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualises a normalised iris image and its associated iris template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iris_template</strong> (<em>iris_dc.IrisTemplate</em>) – iris template to visualise</p></li>
+<li><p><strong>normalized_iris</strong> (<em>Union</em><em>[</em><em>iris_dc.NormalizedIris</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – normalised iris to visualise</p></li>
+<li><p><strong>plot_mask</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to overlay the mask in transparency. Defaults to True.</p></li>
+<li><p><strong>linewidth</strong> (<em>float</em><em>, </em><em>optional</em>) – line width of the iris template. Defaults to 0.5.</p></li>
+<li><p><strong>fill_alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – transparency of the overlaid iris template. Defaults to 0.05.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_noise_mask">
+<span class="sig-name descname"><span class="pre">plot_noise_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NoiseMask" title="iris.io.dataclasses.NoiseMask"><span class="pre">NoiseMask</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_noise_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_noise_mask" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualize an IRIS NoiseMask objet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>noise_mask</strong> (<em>Union</em><em>[</em><em>iris_dc.NoiseMask</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – Noise mask.</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Optional IRImage to lay over in transparency. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em><em>, </em><em>optional</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_normalized_iris">
+<span class="sig-name descname"><span class="pre">plot_normalized_iris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normalized_iris</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NormalizedIris" title="iris.io.dataclasses.NormalizedIris"><span class="pre">NormalizedIris</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stretch_hist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_normalized_iris"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_normalized_iris" title="Permalink to this definition">#</a></dt>
+<dd><p>Visualise an IRIS NormalizedIris object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>normalized_iris</strong> (<em>Union</em><em>[</em><em>iris_dc.NormalizedIris</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – Normalized iris image</p></li>
+<li><p><strong>plot_mask</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to overlay the normalised mask in transparency. Defaults to True.</p></li>
+<li><p><strong>stretch_hist</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to ignore masked out pixels in the image histogram. Useful for darker images. Defaults to True.</p></li>
+<li><p><strong>exposure_factor</strong> (<em>float</em><em>, </em><em>optional</em>) – Multiplicative factor to brighten the image. Defaults to 1.0.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.utils.visualisation.IRISVisualizer.plot_segmentation_map">
+<span class="sig-name descname"><span class="pre">plot_segmentation_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.SegmentationMap" title="iris.io.dataclasses.SegmentationMap"><span class="pre">SegmentationMap</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/utils/visualisation.html#IRISVisualizer.plot_segmentation_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.visualisation.IRISVisualizer.plot_segmentation_map" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot segmentation maps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segmap</strong> (<em>Union</em><em>[</em><em>iris_dc.SegmentationMap</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Segmentation maps.</p></li>
+<li><p><strong>ir_image</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>iris_dc.IRImage</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – IR image. Defaults to None.</p></li>
+<li><p><strong>ax</strong> (<em>Optional</em><em>[</em><em>matplotlib.axes._axes.Axes</em><em>]</em><em>, </em><em>optional</em>) – ax to plot the figure at. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Canvas</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.utils" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="iris.pipelines.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">iris.pipelines package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Worldcoin AI
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">iris.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-iris.utils.common">iris.utils.common module</a><ul>
+<li><a class="reference internal" href="#iris.utils.common.contour_to_mask"><code class="docutils literal notranslate"><span class="pre">contour_to_mask()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.utils.math">iris.utils.math module</a><ul>
+<li><a class="reference internal" href="#iris.utils.math.apply_weights_1d"><code class="docutils literal notranslate"><span class="pre">apply_weights_1d()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.area"><code class="docutils literal notranslate"><span class="pre">area()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.cartesian2polar"><code class="docutils literal notranslate"><span class="pre">cartesian2polar()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.eccentricity"><code class="docutils literal notranslate"><span class="pre">eccentricity()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.estimate_diameter"><code class="docutils literal notranslate"><span class="pre">estimate_diameter()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.orientation"><code class="docutils literal notranslate"><span class="pre">orientation()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.polar2cartesian"><code class="docutils literal notranslate"><span class="pre">polar2cartesian()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.math.polygon_length"><code class="docutils literal notranslate"><span class="pre">polygon_length()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.utils.visualisation">iris.utils.visualisation module</a><ul>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer</span></code></a><ul>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_all_geometry"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_all_geometry()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_eye_centers"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_eye_centers()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_eye_orientation"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_eye_orientation()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_geometry_mask"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_geometry_mask()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_geometry_polygons"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_geometry_polygons()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_ir_image"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_ir_image()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_ir_image_with_landmarks"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_ir_image_with_landmarks()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_filter_response"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_iris_filter_response()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_template"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_iris_template()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_iris_template_and_normalized_iris"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_iris_template_and_normalized_iris()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_noise_mask"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_noise_mask()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_normalized_iris"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_normalized_iris()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.visualisation.IRISVisualizer.plot_segmentation_map"><code class="docutils literal notranslate"><span class="pre">IRISVisualizer.plot_segmentation_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

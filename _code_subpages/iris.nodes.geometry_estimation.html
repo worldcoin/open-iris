@@ -1,0 +1,548 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.geometry_refinement package" href="iris.nodes.geometry_refinement.html" /><link rel="prev" title="iris.nodes.eye_properties_estimation package" href="iris.nodes.eye_properties_estimation.html" />
+
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>iris.nodes.geometry_estimation package - iris v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #FFFFFF;
+  --color-brand-content: #1AA7EC;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">iris v1.0.0</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">iris v1.0.0</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/setup_for_development.html">Setup for development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/running_inference.html">Running inference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/getting_started.html"><em>Getting started</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_pipeline.html"><em>Configuring custom pipeline</em> tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Issues, pull requests and feature requests</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../issues_note.html">Contact</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">iris</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of iris</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="iris.html">iris package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of iris package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="iris.callbacks.html">iris.callbacks package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html">iris.io package</a></li>
+<li class="toctree-l3 current has-children"><a class="reference internal" href="iris.nodes.html">iris.nodes package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of iris.nodes package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.aggregation.html">iris.nodes.aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.binarization.html">iris.nodes.binarization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.encoder.html">iris.nodes.encoder package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.eye_properties_estimation.html">iris.nodes.eye_properties_estimation package</a></li>
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">iris.nodes.geometry_estimation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.geometry_refinement.html">iris.nodes.geometry_refinement package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="iris.nodes.iris_response.html">iris.nodes.iris_response package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of iris.nodes.iris_response package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.image_filters.html">iris.nodes.iris_response.image_filters package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="iris.nodes.iris_response.probe_schemas.html">iris.nodes.iris_response.probe_schemas package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.iris_response_refinement.html">iris.nodes.iris_response_refinement package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html">iris.orchestration package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html">iris.pipelines package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.utils.html">iris.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="iris-nodes-geometry-estimation-package">
+<h1>iris.nodes.geometry_estimation package<a class="headerlink" href="#iris-nodes-geometry-estimation-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-iris.nodes.geometry_estimation.fusion_extrapolation">
+<span id="iris-nodes-geometry-estimation-fusion-extrapolation-module"></span><h2>iris.nodes.geometry_estimation.fusion_extrapolation module<a class="headerlink" href="#module-iris.nodes.geometry_estimation.fusion_extrapolation" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.geometry_estimation.fusion_extrapolation.</span></span><span class="sig-name descname"><span class="pre">FusionExtrapolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circle_extrapolation:</span> <span class="pre">~iris.io.class_configs.Algorithm</span> <span class="pre">=</span> <span class="pre">&lt;iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipse_fit:</span> <span class="pre">~iris.io.class_configs.Algorithm</span> <span class="pre">=</span> <span class="pre">&lt;iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm_switch_std_threshold:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">3.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks:</span> <span class="pre">~typing.List[~iris.callbacks.callback_interface.Callback]</span> <span class="pre">=</span> <span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/fusion_extrapolation.html#FusionExtrapolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<dl class="simple">
+<dt>Algorithm implements fusion extrapolation that consist of two concreate extrapolation algoriths.</dt><dd><ol class="arabic simple">
+<li><p>circle extrapolation algorithm - linear extrapolation algorithm</p></li>
+<li><p>ellipse extrapolation algorithm - least square ellipse fit with iris polygon refinement.</p></li>
+</ol>
+</dd>
+</dl>
+<p>By default the linear extrapolation algorithm is used but if standard deviation of radiuses is greater than given threshold then least square ellipse fit algorithm is applied because eye is ver likely to be more elliptical then circular.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circle_extrapolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipse_fit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm_switch_std_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/fusion_extrapolation.html#FusionExtrapolation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Parameters of fusion extrapolation algorithm.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.algorithm_switch_std_threshold">
+<span class="sig-name descname"><span class="pre">algorithm_switch_std_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.algorithm_switch_std_threshold" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.circle_extrapolation">
+<span class="sig-name descname"><span class="pre">circle_extrapolation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a></em><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.circle_extrapolation" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.ellipse_fit">
+<span class="sig-name descname"><span class="pre">ellipse_fit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><span class="pre">Algorithm</span></a></em><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.ellipse_fit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/fusion_extrapolation.html#FusionExtrapolation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Perform extrapolation algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_polygons</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><em>GeometryPolygons</em></a>) – Smoothed polygons.</p></li>
+<li><p><strong>eye_center</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><em>EyeCenters</em></a>) – Computed eye centers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Extrapolated polygons</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons">GeometryPolygons</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.nodes.geometry_estimation.linear_extrapolation">
+<span id="iris-nodes-geometry-estimation-linear-extrapolation-module"></span><h2>iris.nodes.geometry_estimation.linear_extrapolation module<a class="headerlink" href="#module-iris.nodes.geometry_estimation.linear_extrapolation" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.geometry_estimation.linear_extrapolation.</span></span><span class="sig-name descname"><span class="pre">LinearExtrapolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/linear_extrapolation.html#LinearExtrapolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Implementation of geometry estimation algorithm through linear extrapolation in polar space.</p>
+<p>Algorithm depends on np.interp therefore it’s better to perform smoothing beforehand.</p>
+<dl class="simple">
+<dt>Algorith steps:</dt><dd><ol class="arabic simple">
+<li><p>Map iris/pupil polygon vertices to polar space based on estimated iris/pupil centers.</p></li>
+<li><dl class="simple">
+<dt>For iris/pupil, perform function interpolation in polar space to estimate missing circle points.</dt><dd><p>Note: interpolation in polar space is extrapolation in cartesian space.</p>
+</dd>
+</dl>
+</li>
+<li><p>Take 2 * np.pi / dphi points from function in polar space.</p></li>
+<li><p>Map iris/pupil points from polar space back to cartesian space.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/linear_extrapolation.html#LinearExtrapolation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Parameters of linear extrapolation algorithm.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters.dphi">
+<span class="sig-name descname"><span class="pre">dphi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters.dphi" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/linear_extrapolation.html#LinearExtrapolation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_polygons</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><em>GeometryPolygons</em></a>) – Input contours.</p></li>
+<li><p><strong>eye_center</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><em>EyeCenters</em></a>) – Eye’s centers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Extrapolated contours.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons">GeometryPolygons</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement">
+<span id="iris-nodes-geometry-estimation-lsq-ellipse-fit-with-refinement-module"></span><h2>iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement module<a class="headerlink" href="#module-iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.</span></span><span class="sig-name descname"><span class="pre">LSQEllipseFitWithRefinement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Algorithm that implements least square ellipse fit with iris polygon refinement by finding points to refine by computing euclidean distance.</p>
+<dl class="simple">
+<dt>Algorithm steps:</dt><dd><ol class="arabic simple">
+<li><p>Use OpenCV’s fitEllipse method to fit an ellipse to predicted iris and pupil polygons.</p></li>
+<li><p>Refine predicted pupil polygons points to their original location to prevent location precision loss for those points which were predicted by semseg algorithm.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dphi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Parameters of least square ellipse fit extrapolation algorithm.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters.dphi">
+<span class="sig-name descname"><span class="pre">dphi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters.dphi" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.parametric_ellipsis">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parametric_ellipsis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement.parametric_ellipsis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.parametric_ellipsis" title="Permalink to this definition">#</a></dt>
+<dd><p>Given the parameters of a general ellipsis, returns an array of points in this ellipsis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>float</em>) – Major axis length.</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – Minor axis length.</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – x offset.</p></li>
+<li><p><strong>y0</strong> (<em>float</em>) – y offset.</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) – rotation of the ellipsis.</p></li>
+<li><p><strong>nb_step</strong> (<em>int</em>) – number of points in the ellipsis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>points within the ellipsis.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate extrapolated polygons with OpenCV’s method fitEllipse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_polygons</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><em>GeometryPolygons</em></a>) – Smoothed polygons.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Extrapolated polygons.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons">GeometryPolygons</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.nodes.geometry_estimation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.geometry_estimation" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="iris.nodes.geometry_refinement.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">iris.nodes.geometry_refinement package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="iris.nodes.eye_properties_estimation.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">iris.nodes.eye_properties_estimation package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Worldcoin AI
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">iris.nodes.geometry_estimation package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-iris.nodes.geometry_estimation.fusion_extrapolation">iris.nodes.geometry_estimation.fusion_extrapolation module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.algorithm_switch_std_threshold"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation.Parameters.algorithm_switch_std_threshold</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.circle_extrapolation"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation.Parameters.circle_extrapolation</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters.ellipse_fit"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation.Parameters.ellipse_fit</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.run"><code class="docutils literal notranslate"><span class="pre">FusionExtrapolation.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.nodes.geometry_estimation.linear_extrapolation">iris.nodes.geometry_estimation.linear_extrapolation module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation"><code class="docutils literal notranslate"><span class="pre">LinearExtrapolation</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters"><code class="docutils literal notranslate"><span class="pre">LinearExtrapolation.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.Parameters.dphi"><code class="docutils literal notranslate"><span class="pre">LinearExtrapolation.Parameters.dphi</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation.run"><code class="docutils literal notranslate"><span class="pre">LinearExtrapolation.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement">iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement"><code class="docutils literal notranslate"><span class="pre">LSQEllipseFitWithRefinement</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters"><code class="docutils literal notranslate"><span class="pre">LSQEllipseFitWithRefinement.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.Parameters.dphi"><code class="docutils literal notranslate"><span class="pre">LSQEllipseFitWithRefinement.Parameters.dphi</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.parametric_ellipsis"><code class="docutils literal notranslate"><span class="pre">LSQEllipseFitWithRefinement.parametric_ellipsis()</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run"><code class="docutils literal notranslate"><span class="pre">LSQEllipseFitWithRefinement.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.nodes.geometry_estimation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=af2ce170"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>
