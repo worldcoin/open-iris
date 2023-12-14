@@ -90,6 +90,7 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         url="https://github.com/worldcoin/open-iris",
         classifiers=[
+            "License :: OSI Approved :: MIT License",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
@@ -97,6 +98,7 @@ if __name__ == "__main__":
             "Operating System :: OS Independent",
         ],
         python_requires=">=3.8",
+        license="MIT",
         keywords=["biometrics", "iris recognition"],
         include_package_data=True,
         **IRIS_ENV_INSTALLATION_CONFIGS[os.environ[IRIS_ENV_STRING_KEY]],
