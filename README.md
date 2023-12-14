@@ -64,7 +64,7 @@ More detailed pipeline overview can be found in our [blog post](https://worldcoi
 
 ## Disclaimer
 
-_The Iris Recognition Inference System (IRIS) is owned by the Worldcoin Foundation, the steward of the Worldcoin protocol. IRIS is not a product of, and neither IRIS nor the Worldcoin Foundation has any affiliation with, the American Academy of Ophthalmology or its Intelligent Research in Sight Registry_
+_The Iris Recognition Inference System (IRIS) software repository is owned and maintained by the Worldcoin Foundation, the steward of the Worldcoin protocol; the repository is not affiliated with any other project or service provider_
 
 
 ## Quickstart
