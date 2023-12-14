@@ -47,7 +47,7 @@ The WLD-InHouse-v2 dataset was internally collected to simulate more challenging
 
 > **Note**: IRIS* is an optimised version of IRIS to accommodate high-resolution images captured by the Orb.
 
-Because of the high quality image capture enabled by the Orb and the effectiveness of iris encoding enabled by IRIS*, we are able to achieve high accuracy with FNMR less than 0.0001 at FMR of 0.000001 in WLD-InHouse-v2 dataset.
+Note that in the above public dataset tests, errors are mainly caused by poor image quality due to offgaze, motion blur and occlusion. These errors are greatly reduced in our WLD-InHouse-v2 dataset due to the auto-focus capability and stringent image quality control of the Orb. Together with the effectiveness of iris encoding enabled by IRIS*, we are able to achieve high accuracy with FNMR less than 0.0001 at FMR of 0.000001 in WLD-InHouse-v2 dataset.
 
 ## References
 
