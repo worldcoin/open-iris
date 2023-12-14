@@ -6,15 +6,18 @@ The content on this card pertains to a model that conducts semantic segmentation
 
 ## Model Architecture
 
-The model architecture is based on the Unet++. Unet++ represents a complete convolutional neural network designed for semantic segmentation of images. It comprises both an encoder and a decoder, linked through skip connections. The encoder captures features with varying spatial resolutions (utilizing skip connections), which the decoder leverages to create precise segmentation masks. Notably, the decoder within Unet++ possesses greater complexity compared to the standard Unet model.
+The model architecture is based on the UNet++ [1]. UNet++ represents a complete convolutional neural network designed for semantic segmentation of images. It comprises both an encoder and a decoder, linked through skip connections. The encoder captures features with varying spatial resolutions (utilizing skip connections), which the decoder leverages to create precise segmentation masks. Notably, the decoder within Unet++ possesses greater complexity compared to the standard Unet model.
 
-The MobileNetV2 architecture serves as the encoder for our model. During the inference phase, the encoder produces five sets of feature map tensors, each corresponding to distinct depths of encoding. Subsequent feature map tensors exhibit a reduction of spatial dimensions by a factor of two compared to their preceding counterparts. For instance, a tensor generated at depth 0 will possess dimensions [(batch_size, num_channels, height, width)], while a tensor generated at depth 1 will exhibit dimensions [(batch_size, num_channels, height / 2, width / 2)].
+The MobileNetV2 [2] architecture serves as the encoder for our model. During the inference phase, the encoder produces five sets of feature map tensors, each corresponding to distinct depths of encoding. Subsequent feature map tensors exhibit a reduction of spatial dimensions by a factor of two compared to their preceding counterparts. For instance, a tensor generated at depth 0 will possess dimensions [(batch_size, num_channels, height, width)], while a tensor generated at depth 1 will exhibit dimensions [(batch_size, num_channels, height / 2, width / 2)].
 
-The decoder is enhanced through the incorporation of Spatial and Channel "Squeeze & Excitation" (scSE) blocks, which are appended to each decoding layer.
+The decoder is enhanced through the incorporation of Spatial and Channel "Squeeze & Excitation" (scSE) blocks [3], which are appended to each decoding layer.
 
 ## Dataset
 
+Importantly, no Worldcoin user data was used to train or fine-tune the IRIS pipeline. Rather, a research dataset from the University of Notre Dame du Lac (ND-IRIS-0405) [4] was used, with the University’s permission. This dataset was enhanced with manual labels, which themselves may be made available for research purposes.
+
 The experimental dataset contained a total of 9 957 manually annotated IR images comming from 676 different people. All images were captured using LG 4000 device. Table below presents dataset split used during training semantic segmentation model.
+
 
 | **Dataset type**| **Number of images** | **Number of subject** |
 |-----------------------------|-----------|-----------|
@@ -95,6 +98,8 @@ Thorough examination of the results enabled us to pinpoint situations where the 
 - Data based on which the model was trained were captured in the constrained environment with cooperative users. Therefore, in practise model is expected to produce poor segmentation maps for cases like: offgazes, misaligned eyes, blurry images etc.
 
 ## Further reading
-- [UNet++ paper](https://arxiv.org/abs/1807.10165v1)
-- [MobileNetV2 paper](https://arxiv.org/abs/1801.04381)
-- [scSE attention paper](https://arxiv.org/abs/1808.08127v1)
+
+1. Zhou, Z., Rahman Siddiquee, M. M., Tajbakhsh, N., & Liang, J. (2018). UNet++: A nested U-Net Architecture for Medical Image Segmentation. (https://arxiv.org/abs/1807.10165v1)
+2. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., & Chen, L. C. (2018). MobileNetV2: Inverted Residuals and Linear Bottlenecks. (https://arxiv.org/abs/1801.04381)
+3. Roy, A. G., Navab, N., & Wachinger, C. (2018). Recalibrating Fully Convolutional Networks with Spatial and Channel “Squeeze and Excitation” Blocks. (https://arxiv.org/abs/1808.08127v1)
+4. Bowyer, K. , Flynn, P. (2016), The ND-IRIS-0405 Iris Image Dataset (https://arxiv.org/abs/1606.04853)
