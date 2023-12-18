@@ -72,14 +72,14 @@ _The Iris Recognition Inference System (IRIS) software repository is owned and m
 ### Installation
 
 Installation is as simple as running `pip install` with specifying `IRIS_ENV` installation global flag (`IRIS_ENV` flag may be skipped if `iris` is installed from PyPl server but this option is only available when `iris` is installed on local machine). The `IRIS_ENV` flag is used to indicate an "environment" in which package is meant to work. Possible options are:
-1. `SERVER` - For installing `iris` package with dependecies required for running an inference on a local machines.
+1. `SERVER` - For installing `iris` package with dependencies required for running an inference on a local machines.
 ```bash
 # On a local machine
 pip install open-iris
 # or directly from GitHub
 IRIS_ENV=SERVER pip install git+https://github.com/worldcoin/open-iris.git
 ```
-2. `ORB` - For installing `iris` package with dependecies required for running an inference on the Orb.
+2. `ORB` - For installing `iris` package with dependencies required for running an inference on the Orb.
 ```bash
 # On the Orb
 IRIS_ENV=ORB pip install git+https://github.com/worldcoin/open-iris.git
