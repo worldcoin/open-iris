@@ -148,7 +148,7 @@ The `iris` package features a structured design with modular components, enhanci
 | [`iris.nodes`](https://worldcoin.github.io/open-iris/) | a module that contains implementation of iris recognition pipeline nodes |
 | [`iris.orchestration`](https://worldcoin.github.io/open-iris/) | a module that contains iris recognition pipeline's orchestration support mechanisms |
 | [`iris.pipelines`](https://worldcoin.github.io/open-iris/) | a module that contains implementation of iris recognition pipelines |
-| [`iris.utils`](https://worldcoin.github.io/open-iris/) | a module that contains utilities used throughout the code base and modules usefull for outputs analysis |
+| [`iris.utils`](https://worldcoin.github.io/open-iris/) | a module that contains utilities used throughout the code base and modules useful for outputs analysis |
 
 ## Example notebooks
 
