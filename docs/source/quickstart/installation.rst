@@ -3,7 +3,7 @@ Installation
 
 Installation is as simple as running ``pip install`` with specifying ``IRIS_ENV`` installation global flag (``IRIS_ENV`` flag may be skipped if ``iris`` is installed from PyPl server but this option is only available when ``iris`` is installed on local machine). The ``IRIS_ENV`` flag is used to indicate an "environment" in which package is meant to work. Possible options are:
 
-#. ``SERVER`` - For installing ``iris`` package with dependecies required for running an inference on a local machines.
+#. ``SERVER`` - For installing ``iris`` package with dependencies required for running an inference on a local machines.
 
 .. code:: bash
 
@@ -12,7 +12,7 @@ Installation is as simple as running ``pip install`` with specifying ``IRIS_ENV`
     # or directly from GitHub
     IRIS_ENV=SERVER pip install git+https://github.com/worldcoin/open-iris.git
 
-#. ``ORB`` - For installing ``iris`` package with dependecies required for running an inference on the Orb.
+#. ``ORB`` - For installing ``iris`` package with dependencies required for running an inference on the Orb.
 
 .. code:: bash
 

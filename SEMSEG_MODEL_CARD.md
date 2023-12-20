@@ -16,7 +16,7 @@ The decoder is enhanced through the incorporation of Spatial and Channel "Squeez
 
 Importantly, no Worldcoin user data was used to train or fine-tune the IRIS pipeline. Rather, a research dataset from the University of Notre Dame du Lac (ND-IRIS-0405) [4] was used, with the University’s permission. This dataset was enhanced with manual labels, which themselves may be made available for research purposes.
 
-The experimental dataset contained a total of 9 957 manually annotated IR images comming from 676 different people. All images were captured using LG 4000 device. Table below presents dataset split used during training semantic segmentation model.
+The experimental dataset contained a total of 9 957 manually annotated IR images coming from 676 different people. All images were captured using LG 4000 device. Table below presents dataset split used during training semantic segmentation model.
 
 
 | **Dataset type**| **Number of images** | **Number of subject** |
@@ -76,7 +76,7 @@ The model yields a tensor characterized by dimensions of Nx4x640x480, denoting b
 
 Within the ambit of each class, the model formulates probability estimates pertaining to the likelihood of a given pixel being attributed to a particular class.
 
-### Examplary inference results
+### Example inference results
 
 **Note**: The provided input image has been subjected to the processing methodology described earlier, prior to its introduction into the model. Moreover, for the intent of visualization, the IR image presented has been anonymized to safeguard the identity of the user. It is also worth to note that the inference process was conducted on the original, non-anonymized version of the image.
 
@@ -93,9 +93,9 @@ Within the ambit of each class, the model formulates probability estimates perta
 ## Limitations
 
 Thorough examination of the results enabled us to pinpoint situations where the segmentation model experiences declines in performance. These instances are as follows:
-- Segmenting images that were not captured by LG4400 sensor may not always produce smooth segmentation maps. The segmention performance depends on how similar images to be segmented are to the images captured by LG4400 sensor.
-- Segmenting images with high specular reflection comming usually from glasses may lead to bad segmentation map predictions.
-- Data based on which the model was trained were captured in the constrained environment with cooperative users. Therefore, in practise model is expected to produce poor segmentation maps for cases like: offgazes, misaligned eyes, blurry images etc.
+- Segmenting images that were not captured by LG4400 sensor may not always produce smooth segmentation maps. The segmentation performance depends on how similar images to be segmented are to the images captured by LG4400 sensor.
+- Segmenting images with high specular reflection coming usually from glasses may lead to bad segmentation map predictions.
+- Data based on which the model was trained were captured in the constrained environment with cooperative users. Therefore, in practice model is expected to produce poor segmentation maps for cases like: offgaze, misaligned eyes, blurry images etc.
 
 ## Further reading
 

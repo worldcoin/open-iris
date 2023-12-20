@@ -1,7 +1,7 @@
 Running inference
 ================================
 
-A simple inference run can be achived by running source code below.
+A simple inference run can be achieved by running source code below.
 
 .. code-block:: python
 

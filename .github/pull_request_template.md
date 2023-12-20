@@ -25,7 +25,7 @@ Please, give a brief description of what was changed or fixed and how you did it
 ## Checklist
 <!-- Please make sure you did all pre review requesting steps and check all with an 'x' ([x]). -->
 
-- [ ] I've made sure that my code works as expected by writting unit tests.
+- [ ] I've made sure that my code works as expected by writing unit tests.
 - [ ] I've checked if my code doesn't generate warnings or errors.
 - [ ] I've performed a self-review of my code.
 - [ ] I've made sure that my code follows the style guidelines of the project.
