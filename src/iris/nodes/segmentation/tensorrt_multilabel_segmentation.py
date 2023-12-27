@@ -139,7 +139,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         predictions: List[np.ndarray],
         original_image_size: Tuple[int, int],
     ) -> np.ndarray:
-        """Postprocesses model output.
+        """Postprocessed model output.
 
         Args:
             predictions (List[np.ndarray]]): Model output.

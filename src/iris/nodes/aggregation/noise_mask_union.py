@@ -19,7 +19,7 @@ class NoiseMaskUnion(Algorithm):
             ValueError: if not all NoiseMask.mask do not have the same shape.
 
         Returns:
-            NoiseMask: agrgegated NoiseMasks
+            NoiseMask: aggregated NoiseMasks
         """
         if not all([mask.mask.shape == elements[0].mask.shape for mask in elements]):
             raise ValueError(

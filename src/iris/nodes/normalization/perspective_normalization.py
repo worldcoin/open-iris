@@ -17,7 +17,7 @@ class PerspectiveNormalization(Algorithm):
         1) Create a grid of trapezoids around iris in original image based on following algorithm parameters: res_in_phi, res_in_r, intermediate_radiuses.
         2) Create a grid of corresponding to each trapezoid rectangles in normalized image.
         3) For each corresponding trapezoid, rectangle pair compute perspective matrix to estimate normalized image pixel location in an original image location.
-        4) Map each normalized image pixel to original image pixel based on estimated perspctive matrix and perform bilinear intepolation if necessary.
+        4) Map each normalized image pixel to original image pixel based on estimated perspective matrix and perform bilinear interpolation if necessary.
     """
 
     class Parameters(Algorithm.Parameters):

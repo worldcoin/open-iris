@@ -10,7 +10,7 @@ class EyeCentersInsideImageValidator(Algorithm):
     """Validate that the eye center are not too close to the border.
 
     Raises:
-        EyeCentersInsideImageValidatorError: If pupil or iris center are stricly less than `min_distance_to_border`
+        EyeCentersInsideImageValidatorError: If pupil or iris center are strictly less than `min_distance_to_border`
             pixel of the image boundary.
     """
 
