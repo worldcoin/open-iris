@@ -481,7 +481,7 @@ def test_instanciate_node(
 
     The goals of this tests are
       * to ensure that nodes are created as expected,
-      * to ensure that callbacks get filtered out correctly throught the Environment.disable_qa mechanism
+      * to ensure that callbacks get filtered out correctly through the Environment.disable_qa mechanism
     """
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\n\npipeline: []"
     iris_pipeline = IRISPipeline(config=config, env=env)
@@ -612,8 +612,8 @@ def test_instanciate_nodes(
 
     The goals of this tests are
       * to ensure that the list of nodes is created as expected,
-      * to ensure that callbacks get filtered out correctly throught the Environment.disable_qa mechanism
-      * to ensure that nodes get filtered out correctly throught the Environment.disable_qa mechanism
+      * to ensure that callbacks get filtered out correctly through the Environment.disable_qa mechanism
+      * to ensure that nodes get filtered out correctly through the Environment.disable_qa mechanism
     """
     b = "\n"
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\npipeline:{b if len(pipeline) > 0 else ' '}{yaml.dump(pipeline)}"

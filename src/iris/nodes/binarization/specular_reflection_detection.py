@@ -24,7 +24,7 @@ class SpecularReflectionDetection(Algorithm):
         super().__init__(reflection_threshold=reflection_threshold)
 
     def run(self, ir_image: IRImage) -> NoiseMask:
-        """Thresholds an IRImage to detet Specular Reflection.
+        """Thresholds an IRImage to detect Specular Reflection.
 
         Args:
             ir_image (IRImage): Infrared image object.

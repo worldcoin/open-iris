@@ -65,7 +65,7 @@ class IRISPipeline(Algorithm):
         """Initialise IRISPipeline.
 
         Args:
-            config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formated string or dictionary specifing all nodes configuration. Defaults to None, which loads the default config.
+            config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formatted string or dictionary specifying all nodes configuration. Defaults to None, which loads the default config.
             env (Environment, optional): Environment properties. Defaults to Environment(output_builder=build_orb_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
         """
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
@@ -265,10 +265,10 @@ class IRISPipeline(Algorithm):
         """Convert the input configuration string into a dictionary for deserialisation. If no config is given, load the default config.
 
         Args:
-            config (Optional[str]): YAML-formated input configuration string.
+            config (Optional[str]): YAML-formatted input configuration string.
 
         Raises:
-            IRISPipelineError: Raised if the input config is not a string, or is not correctly YAML-formated.
+            IRISPipelineError: Raised if the input config is not a string, or is not correctly YAML-formatted.
 
         Returns:
             Dict[str, Any]: Configuration as a dictionary.

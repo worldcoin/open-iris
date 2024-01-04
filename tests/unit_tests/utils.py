@@ -22,7 +22,7 @@ def generate_multiple_arcs(arc_params: List[Dict[str, Any]]) -> np.ndarray:
 def rotated_elliptical_contour(
     theta: float, a: float = 5, b: float = 1, resolution: int = 200, centered=False
 ) -> np.ndarray:
-    r"""Compute the pixellised contour of a rotated ellipses.
+    r"""Compute the pixelised contour of a rotated ellipses.
 
     This function creates a binary image where   :math:`pixel = 1 \Leftrightarrow pixel \in` ellipse
 
@@ -94,15 +94,15 @@ def area_of_circular_segment(circle_radius: float, delta_height: float) -> float
     return area
 
 
-def rotated_asymetric_rectangle(
+def rotated_asymmetric_rectangle(
     center_x: float, center_y: float, semi_width: float, upper_height: float, lower_height: float, angle: float
 ) -> np.ndarray:
     """Compute a rotated rectangle with different upper and lower semi-heights.
 
     Args:
-        center_x (float): X coordinates of the center of the asymetric rectangle.
-        center_y (float): Y coordinates of the center of the asymetric rectangle
-        semi_width (float): half of the recantgle width.
+        center_x (float): X coordinates of the center of the asymmetric rectangle.
+        center_y (float): Y coordinates of the center of the asymmetric rectangle
+        semi_width (float): half of the rectangle width.
         upper_height (float): distance from the center of the rectangle to the upper edge.
         lower_height (float): distance from the center of the rectangle to the lower edge.
         angle (float): angle of rotation in radians.

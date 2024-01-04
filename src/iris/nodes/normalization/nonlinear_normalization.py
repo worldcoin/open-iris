@@ -16,12 +16,12 @@ from iris.utils import math
 
 
 class NonlinearNormalization(Algorithm):
-    """Implementation of a normalization algorithm which uses nonlinear sqaured transformation to map image pixels.
+    """Implementation of a normalization algorithm which uses nonlinear squared transformation to map image pixels.
 
     Algorithm steps:
         1) Create nonlinear grids of sampling radii based on parameters: res_in_r, intermediate_radiuses.
         2) Compute the mapping between the normalized image pixel location and the original image location.
-        3) Obtain pixel values of normalized image using bilinear intepolation.
+        3) Obtain pixel values of normalized image using bilinear interpolation.
     """
 
     class Parameters(Algorithm.Parameters):
@@ -38,7 +38,7 @@ class NonlinearNormalization(Algorithm):
 
         Args:
             res_in_r (int): Normalized image r resolution. Defaults to 128.
-            oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254.
+            oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254. 
         """
         intermediate_radiuses = np.array([getgrids(max(0, res_in_r), p2i_ratio) for p2i_ratio in range(100)])
         super().__init__(
