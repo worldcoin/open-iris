@@ -31,10 +31,12 @@ ______________________________________________________________________
   - [Installation](#installation)
   - [Setup for development](#setup-for-development)
   - [Running inference](#Running-inference)
+- [Disclaimer](#disclaimer)
 - [Project structure](#project-structure)
 - [Example notebooks](#example-notebooks)
 - [Documentation](#documentation)
 - [Issues, pull requests and feature requests](#issues-pull-requests-and-feature-requests)
+- [Citation](#citation)
 - [License](#license)
 - [Resources](#resources)
 
@@ -167,6 +169,16 @@ If you have any question or you found a bug or you feel like some feature is mis
 Any suggestion for potential project improvements are and will always be welcome!
 
 Feel free to reach out to any project [contributor](https://github.com/worldcoin/open-iris/graphs/contributors)!
+
+## Citation
+```BibTeX
+@misc{wldiris,
+  author =       {Worldcoin AI},
+  title =        {IRIS: Iris Recognition Inference System of the Worldcoin project},
+  year =         {2023},
+  url =          {https://github.com/worldcoin/open-iris}
+}
+```
 
 ## License
 
