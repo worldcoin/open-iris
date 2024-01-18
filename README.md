@@ -180,7 +180,6 @@ Feel free to reach out to any project [contributor](https://github.com/worldcoin
 }
 ```
 
-
 ## License
 
 This project is licensed under the [MIT license](https://github.com/worldcoin/open-iris/blob/main/LICENSE).
