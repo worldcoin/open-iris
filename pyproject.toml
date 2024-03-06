@@ -4,8 +4,8 @@ exclude_lines = ["if __name__ == .__main__.:"]
 
 [tool.ruff]
 exclude = ["__init__.py"]
-select = ["E", "F", "PLC", "PLE", "PLR", "PLW"]
-ignore = ["E501", "F722", "F821", "PLR2004", "PLR0915", "PLR0913", "PLC0414", "PLR0402", "PLR5501", "PLR0911", "PLR0912", "PLW0603", "PLW2901"]
+lint.select = ["E", "F", "PLC", "PLE", "PLR", "PLW"]
+lint.ignore = ["E501", "F722", "F821", "PLR2004", "PLR0915", "PLR0913", "PLC0414", "PLR0402", "PLR5501", "PLR0911", "PLR0912", "PLW0603", "PLW2901"]
 
 [tool.isort]
 profile = "black"
