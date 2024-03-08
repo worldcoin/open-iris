@@ -6,6 +6,32 @@ from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import ImmutableModel
 
 
+def build_simple_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Build the output for the Orb.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call results storage.
+
+    Returns:
+        Dict[str, Any]: {
+                "iris_template": (Optional[IrisTemplate]) the iris template object if the pipeline succeeded,
+                "error": (Optional[Dict]) the error dict if the pipeline returned an error,
+                "metadata": (Dict) the metadata dict,
+        }.
+    """
+    metadata = __get_metadata(call_trace=call_trace)
+    error = __get_error(call_trace=call_trace)
+    iris_template = call_trace["encoder"]
+
+    output = {
+        "error": error,
+        "iris_template": iris_template,
+        "metadata": metadata,
+    }
+
+    return output
+
+
 def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
     """Build the output for the Orb.
 
@@ -19,27 +45,8 @@ def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
                 "metadata": (Dict) the metadata dict,
         }.
     """
-    iris_template = __safe_serialize(call_trace["encoder"])
-    metadata = __get_metadata(call_trace=call_trace)
-    error = __get_error(call_trace=call_trace)
-
-    exception = call_trace.get_error()
-    if exception is None:
-        iris_template = __safe_serialize(call_trace["encoder"])
-        error = None
-    elif isinstance(exception, Exception):
-        iris_template = None
-        error = {
-            "error_type": type(exception).__name__,
-            "message": str(exception),
-            "traceback": "".join(traceback.format_tb(exception.__traceback__)),
-        }
-
-    output = {
-        "error": error,
-        "iris_template": iris_template,
-        "metadata": metadata,
-    }
+    output = build_simple_output(call_trace)
+    output["iris_template"] = __safe_serialize(output["iris_template"])
 
     return output
 

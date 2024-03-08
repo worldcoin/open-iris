@@ -18,7 +18,7 @@ from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_debugging_output, build_orb_output
+from iris.orchestration.output_builders import build_debugging_output, build_orb_output, build_simple_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
 
@@ -41,6 +41,12 @@ class IRISPipeline(Algorithm):
         call_trace_initialiser=PipelineCallTraceStorage.initialise,
     )
 
+    ORB_ENVIRONMENT = Environment(
+        pipeline_output_builder=build_orb_output,
+        error_manager=store_error_manager,
+        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+    )
+
     class Parameters(Algorithm.Parameters):
         """IRISPipeline parameters, all derived from the input `config`."""
 
@@ -57,7 +63,7 @@ class IRISPipeline(Algorithm):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_orb_output,
+            pipeline_output_builder=build_simple_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
@@ -66,7 +72,7 @@ class IRISPipeline(Algorithm):
 
         Args:
             config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formatted string or dictionary specifying all nodes configuration. Defaults to None, which loads the default config.
-            env (Environment, optional): Environment properties. Defaults to Environment(output_builder=build_orb_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
+            env (Environment, optional): Environment properties. Defaults to Environment(output_builder=build_simple_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
         """
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(**deserialized_config)

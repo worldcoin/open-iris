@@ -38,7 +38,7 @@ class NonlinearNormalization(Algorithm):
 
         Args:
             res_in_r (int): Normalized image r resolution. Defaults to 128.
-            oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254. 
+            oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
         intermediate_radiuses = np.array([getgrids(max(0, res_in_r), p2i_ratio) for p2i_ratio in range(100)])
         super().__init__(
