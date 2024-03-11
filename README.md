@@ -165,10 +165,16 @@ For detailed documentation, including installation instructions, usage guideline
 
 ## Issues, pull requests and feature requests
 
-If you have any question or you found a bug or you feel like some feature is missing, please don't hesitate to file a new issue, discussion or PR with respective title and description.
+If you have any question or you found a bug or you feel like some feature is missing, please don't hesitate to file a new [issue](https://github.com/worldcoin/open-iris/issues), discussion or [PR](https://github.com/worldcoin/open-iris/pulls) with respective title and description.
 Any suggestion for potential project improvements are and will always be welcome!
 
-Feel free to reach out to any project [contributor](https://github.com/worldcoin/open-iris/graphs/contributors)!
+## Contact
+
+If you have any questions, suggestions, or feedback, feel free to reach out to us:
+
+- Email: [iris@toolsforhumanity.com](mailto:iris@toolsforhumanity.com)
+- GitHub Issues: [Open an issue](https://github.com/worldcoin/open-iris/issues)
+- Contributors: Feel free to reach out to any project [contributor](https://github.com/worldcoin/open-iris/graphs/contributors) directly!
 
 ## Citation
 ```BibTeX
