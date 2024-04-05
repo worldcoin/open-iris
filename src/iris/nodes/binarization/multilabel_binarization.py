@@ -25,6 +25,7 @@ class MultilabelSegmentationBinarization(Algorithm):
         iris_threshold: float = 0.5,
         pupil_threshold: float = 0.5,
         eyelashes_threshold: float = 0.5,
+        callbacks=[],
     ) -> None:
         """Assign parameters.
 
@@ -39,6 +40,7 @@ class MultilabelSegmentationBinarization(Algorithm):
             iris_threshold=iris_threshold,
             pupil_threshold=pupil_threshold,
             eyelashes_threshold=eyelashes_threshold,
+            callbacks=callbacks,
         )
 
     def run(self, segmentation_map: SegmentationMap) -> Tuple[GeometryMask, NoiseMask]:
