@@ -11,3 +11,4 @@ python-dotenv
 ruff
 sphinx
 twine
+hf_transfer
