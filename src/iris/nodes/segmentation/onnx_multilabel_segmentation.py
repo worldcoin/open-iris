@@ -30,6 +30,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.onnx",
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
+        callbacks=[],
     ) -> None:
         """Assign parameters.
 
@@ -51,6 +52,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             session=ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]),
             input_resolution=input_resolution,
             input_num_channels=input_num_channels,
+            callbacks=callbacks,
         )
 
     def run(self, image: IRImage) -> SegmentationMap:
