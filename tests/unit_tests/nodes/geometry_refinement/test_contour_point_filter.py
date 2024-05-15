@@ -3,6 +3,7 @@ import pytest
 from pydantic import ValidationError
 
 from iris.nodes.geometry_refinement.contour_points_filter import ContourPointNoiseEyeballDistanceFilter
+from iris.io.errors import GeometryRefinementError
 
 
 @pytest.fixture
@@ -59,3 +60,17 @@ def test_filter_polygon_points(algorithm: ContourPointNoiseEyeballDistanceFilter
     result = algorithm._filter_polygon_points(mock_forbidden_touch_map, mock_polygon_points)
 
     np.testing.assert_equal(result, expected_result)
+
+
+def test_filter_polygon_points_raises_an_exception(algorithm: ContourPointNoiseEyeballDistanceFilter) -> None:
+    mock_forbidden_touch_map = np.ones((3, 3)) * np.array([1.0, 0.0, 0.0])
+    mock_polygon_points = np.array(
+        [
+            [0, 0],
+            [0, 1],
+            [0, 2],
+        ]
+    )
+
+    with pytest.raises(GeometryRefinementError):
+        _ = algorithm._filter_polygon_points(mock_forbidden_touch_map, mock_polygon_points)

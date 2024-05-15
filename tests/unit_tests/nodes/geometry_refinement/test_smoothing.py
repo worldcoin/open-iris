@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 import pytest
 
 from iris.io.errors import GeometryRefinementError
@@ -32,6 +33,20 @@ def test_cut_into_arcs(algorithm: Smoothing, arc: np.ndarray, expected_num_gaps:
     _, result_num_gaps = algorithm._cut_into_arcs(arc, (center_x, center_y))
 
     assert result_num_gaps == expected_num_gaps
+
+@pytest.mark.parametrize(
+    "phis, rhos, expected_result",
+    [
+        (
+            np.array([0.0, 0.02621434, 0.05279587, 0.08517275, 0.12059719, 0.15643903]),
+            np.array([36.89178243, 36.62426603, 36.38227748, 37.14610941, 36.90603523, 36.71284955]),
+            (np.array([0., 0.01745329, 0.03490659, 0.05235988, 0.06981317, 0.08726646, 0.10471976, 0.12217305, 0.13962634]), np.array([36.80346909, 36.89178243, 36.89178243, 36.80346909, 36.80346909, 36.80346909, 36.78374777, 36.78374777, 36.78374777])),
+        )
+    ],
+)
+def test_smooth_array(algorithm: Smoothing, phis: np.ndarray, rhos: np.ndarray, expected_result: Tuple[np.ndarray, np.ndarray]) -> None:
+    result = algorithm._smooth_array(phis, rhos)
+    np.testing.assert_almost_equal(expected_result, result, decimal=0)
 
 
 def test_smooth_arc(algorithm: Smoothing) -> None:
