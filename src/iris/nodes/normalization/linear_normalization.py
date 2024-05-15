@@ -9,26 +9,23 @@ from iris.io.errors import NormalizationError
 from iris.nodes.normalization.common import (
     correct_orientation,
     generate_iris_mask,
-    getgrids,
     to_uint8,
 )
-from iris.utils import math
 
 
-class NonlinearNormalization(Algorithm):
-    """Implementation of a normalization algorithm which uses nonlinear squared transformation to map image pixels.
-    
+class LinearNormalization(Algorithm):
+    """Implementation of a normalization algorithm which uses linear transformation to map image pixels.
+
     Algorithm steps:
-        1) Create nonlinear grids of sampling radii based on parameters: res_in_r, intermediate_radiuses.
+        1) Create linear grids of sampling radii based on parameters: res_in_r (height) and the number of extrapolated iris and pupil points from extrapolated_contours (width).
         2) Compute the mapping between the normalized image pixel location and the original image location.
-        3) Obtain pixel values of normalized image using bilinear intepolation.
+        3) Obtain pixel values of normalized image using Nearest Neighbor interpolation.
     """
 
     class Parameters(Algorithm.Parameters):
-        """Parameters class for NonlinearNormalization."""
+        """Parameters class for LinearNormalization."""
 
         res_in_r: PositiveInt
-        intermediate_radiuses: Collection[float]
         oversat_threshold: PositiveInt
 
     __parameters_type__ = Parameters
@@ -44,12 +41,8 @@ class NonlinearNormalization(Algorithm):
             res_in_r (PositiveInt): Normalized image r resolution. Defaults to 128.
             oversat_threshold (PositiveInt, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
-        intermediate_radiuses = np.array(
-            [getgrids(max(0, res_in_r), p2i_ratio) for p2i_ratio in range(100)]
-        )
         super().__init__(
             res_in_r=res_in_r,
-            intermediate_radiuses=intermediate_radiuses,
             oversat_threshold=oversat_threshold,
         )
 
@@ -60,7 +53,7 @@ class NonlinearNormalization(Algorithm):
         extrapolated_contours: GeometryPolygons,
         eye_orientation: EyeOrientation,
     ) -> NormalizedIris:
-        """Normalize iris using nonlinear transformation when sampling points from cartisian to polar coordinates.
+        """Normalize iris using linear transformation when sampling points from cartisian to polar coordinates.
 
         Args:
             image (IRImage): Input image to normalize.
@@ -82,6 +75,7 @@ class NonlinearNormalization(Algorithm):
 
         iris_mask = generate_iris_mask(extrapolated_contours, noise_mask.mask)
         iris_mask[image.img_data >= self.params.oversat_threshold] = False
+
         src_points = self._generate_correspondences(pupil_points, iris_points)
 
         normalized_image, normalized_mask = self._normalize_all(
@@ -93,32 +87,27 @@ class NonlinearNormalization(Algorithm):
         )
         return normalized_iris
 
-    def _generate_correspondences(self, pupil_points: np.ndarray, iris_points: np.ndarray) -> np.ndarray:
-        """Generate corresponding positions in original image.
+    def _generate_correspondences(
+        self, pupil_points: np.ndarray, iris_points: np.ndarray) -> np.ndarray:
+        """Generate correspondences between points in original image and normalized image.
 
         Args:
-            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points x 2).
-            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points x 2).
+            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
+            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
 
         Returns:
-            np.ndarray: generated corresponding points.
+            Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.
         """
-        pupil_diameter = math.estimate_diameter(pupil_points)
-        iris_diameter = math.estimate_diameter(iris_points)
-        p2i_ratio = pupil_diameter / iris_diameter
-
-        if p2i_ratio <= 0 or p2i_ratio >= 1:
-            raise NormalizationError(f"Invalid pupil to iris ratio, not in the range (0,1): {p2i_ratio}.")
-
+        
         src_points = np.array(
             [
-                pupil_points + x * (iris_points - pupil_points)
-                for x in self.params.intermediate_radiuses[round(100 * (p2i_ratio))]
+                pupil_points + x * (iris_points - pupil_points) 
+                for x in np.linspace(0.0, 1.0, self.params.res_in_r)
             ]
         )
 
         return np.round(src_points).astype(int)
-    
+
     def _normalize_all(
         self,
         original_image: np.ndarray,
@@ -152,5 +141,3 @@ class NonlinearNormalization(Algorithm):
         normalized_mask = np.reshape(normalized_mask, src_shape)
 
         return normalized_image / 255.0, normalized_mask
-
-    

@@ -149,3 +149,18 @@ def interpolate_pixel_intensity(image: np.ndarray, pixel_coords: Tuple[float, fl
     pixel_intensity = np.matmul(np.matmul(xs_differences, neighboring_pixel_intensities), ys_differences)
 
     return pixel_intensity.item()
+
+
+def to_uint8(image: np.ndarray) -> np.ndarray:
+    """Map normalized image values from [0, 1] range to [0, 255] and cast dtype to np.uint8.
+
+    Args:
+        image (np.ndarray): Normalized iris.
+
+    Returns:
+        np.ndarray: Normalized iris with modified values.
+    """
+    out_image = np.round(image * 255)
+    out_image = out_image.astype(np.uint8)
+
+    return out_image

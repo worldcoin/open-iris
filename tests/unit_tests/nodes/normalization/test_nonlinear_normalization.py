@@ -32,8 +32,8 @@ def test_generate_correspondences(algorithm: NonlinearNormalization) -> None:
 
     expected_correspondences = np.array(
         [
-            [[9.52122066, 5.02237089], [2.672277, 8.97661036], [2.672277, 1.06813143]],
-            [[12.92122066, 5.07237089], [0.822277, 12.05769927], [0.822277, -1.91295749]],
+            [[10, 5], [3, 9], [3, 1]],
+            [[13, 5], [1, 12], [1, -2]],
         ]
     )
 
