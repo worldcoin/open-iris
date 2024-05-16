@@ -1,7 +1,8 @@
-from typing import Tuple
+from typing import List, Tuple
 
 from pydantic import Field
 
+from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import GeometryMask, NoiseMask, SegmentationMap
 
@@ -25,7 +26,7 @@ class MultilabelSegmentationBinarization(Algorithm):
         iris_threshold: float = 0.5,
         pupil_threshold: float = 0.5,
         eyelashes_threshold: float = 0.5,
-        callbacks=[],
+        callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
 
@@ -34,6 +35,7 @@ class MultilabelSegmentationBinarization(Algorithm):
             iris_threshold (float, optional): Iris class threshold. Defaults to 0.5.
             pupil_threshold (float, optional): Pupil class threshold. Defaults to 0.5.
             eyelashes_threshold (float, optional): Eyelashes class threshold. Defaults to 0.5.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
         super().__init__(
             eyeball_threshold=eyeball_threshold,

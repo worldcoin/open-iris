@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 from pydantic import ValidationError
 
-from iris.nodes.geometry_refinement.contour_points_filter import ContourPointNoiseEyeballDistanceFilter
 from iris.io.errors import GeometryRefinementError
+from iris.nodes.geometry_refinement.contour_points_filter import ContourPointNoiseEyeballDistanceFilter
 
 
 @pytest.fixture

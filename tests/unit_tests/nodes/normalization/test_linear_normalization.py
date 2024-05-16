@@ -48,7 +48,9 @@ def test_constructor_raises_exception(wrong_param: dict) -> None:
         "test2",
     ],
 )
-def test_generate_correspondences(pupil_points: np.ndarray, iris_points: np.ndarray, expected_correspondences: np.ndarray) -> None:
+def test_generate_correspondences(
+    pupil_points: np.ndarray, iris_points: np.ndarray, expected_correspondences: np.ndarray
+) -> None:
     algorithm = LinearNormalization(
         res_in_r=2,
     )

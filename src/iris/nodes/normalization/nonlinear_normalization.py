@@ -1,4 +1,4 @@
-from typing import Collection, Tuple
+from typing import Collection
 
 import numpy as np
 from pydantic import PositiveInt
@@ -6,19 +6,13 @@ from pydantic import PositiveInt
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import (
-    correct_orientation,
-    generate_iris_mask,
-    normalize_all,
-    getgrids,
-    to_uint8,
-)
+from iris.nodes.normalization.common import correct_orientation, generate_iris_mask, getgrids, normalize_all, to_uint8
 from iris.utils import math
 
 
 class NonlinearNormalization(Algorithm):
     """Implementation of a normalization algorithm which uses nonlinear squared transformation to map image pixels.
-    
+
     Algorithm steps:
         1) Create nonlinear grids of sampling radii based on parameters: res_in_r, intermediate_radiuses.
         2) Compute the mapping between the normalized image pixel location and the original image location.
@@ -45,9 +39,7 @@ class NonlinearNormalization(Algorithm):
             res_in_r (PositiveInt): Normalized image r resolution. Defaults to 128.
             oversat_threshold (PositiveInt, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
-        intermediate_radiuses = np.array(
-            [getgrids(max(0, res_in_r), p2i_ratio) for p2i_ratio in range(100)]
-        )
+        intermediate_radiuses = np.array([getgrids(max(0, res_in_r), p2i_ratio) for p2i_ratio in range(100)])
         super().__init__(
             res_in_r=res_in_r,
             intermediate_radiuses=intermediate_radiuses,
@@ -119,6 +111,3 @@ class NonlinearNormalization(Algorithm):
         )
 
         return np.round(src_points).astype(int)
-
-
-    

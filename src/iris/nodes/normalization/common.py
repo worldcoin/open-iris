@@ -150,38 +150,40 @@ def interpolate_pixel_intensity(image: np.ndarray, pixel_coords: Tuple[float, fl
 
     return pixel_intensity.item()
 
+
 def normalize_all(
-        image: np.ndarray,
-        iris_mask: np.ndarray,
-        src_points: np.ndarray,
-    ) -> Tuple[np.ndarray, np.ndarray]:
-        """Normalize all points of an image using nearest neighbor.
+    image: np.ndarray,
+    iris_mask: np.ndarray,
+    src_points: np.ndarray,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Normalize all points of an image using nearest neighbor.
 
-        Args:
-            image (np.ndarray): Original, not normalized image.
-            iris_mask (np.ndarray): Iris class segmentation mask.
-            src_points (np.ndarray): original input image points.
+    Args:
+        image (np.ndarray): Original, not normalized image.
+        iris_mask (np.ndarray): Iris class segmentation mask.
+        src_points (np.ndarray): original input image points.
 
-        Returns:
-            t.Tuple[np.ndarray, np.ndarray]: Tuple with normalized image and mask.
-        """
-        src_shape = src_points.shape[0:2]
-        src_points = np.vstack(src_points)
-        image_size = image.shape
-        src_points[src_points[:, 0] >= image_size[1], 0] = -1
-        src_points[src_points[:, 1] >= image_size[0], 1] = -1
+    Returns:
+        Tuple[np.ndarray, np.ndarray]: Tuple with normalized image and mask.
+    """
+    src_shape = src_points.shape[0:2]
+    src_points = np.vstack(src_points)
+    image_size = image.shape
+    src_points[src_points[:, 0] >= image_size[1], 0] = -1
+    src_points[src_points[:, 1] >= image_size[0], 1] = -1
 
-        normalized_image = np.array(
-            [image[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else 0 for image_xy in src_points]
-        )
-        normalized_image = np.reshape(normalized_image, src_shape)
+    normalized_image = np.array(
+        [image[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else 0 for image_xy in src_points]
+    )
+    normalized_image = np.reshape(normalized_image, src_shape)
 
-        normalized_mask = np.array(
-            [iris_mask[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else False for image_xy in src_points]
-        )
-        normalized_mask = np.reshape(normalized_mask, src_shape)
+    normalized_mask = np.array(
+        [iris_mask[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else False for image_xy in src_points]
+    )
+    normalized_mask = np.reshape(normalized_mask, src_shape)
 
-        return normalized_image / 255.0, normalized_mask
+    return normalized_image / 255.0, normalized_mask
+
 
 def to_uint8(image: np.ndarray) -> np.ndarray:
     """Map normalized image values from [0, 1] range to [0, 255] and cast dtype to np.uint8.

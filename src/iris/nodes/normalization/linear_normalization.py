@@ -1,17 +1,10 @@
-from typing import Collection, Tuple
-
 import numpy as np
 from pydantic import PositiveInt
 
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import (
-    correct_orientation,
-    generate_iris_mask,
-    normalize_all,
-    to_uint8,
-)
+from iris.nodes.normalization.common import correct_orientation, generate_iris_mask, normalize_all, to_uint8
 
 
 class LinearNormalization(Algorithm):
@@ -88,8 +81,7 @@ class LinearNormalization(Algorithm):
         )
         return normalized_iris
 
-    def _generate_correspondences(
-        self, pupil_points: np.ndarray, iris_points: np.ndarray) -> np.ndarray:
+    def _generate_correspondences(self, pupil_points: np.ndarray, iris_points: np.ndarray) -> np.ndarray:
         """Generate correspondences between points in original image and normalized image.
 
         Args:
@@ -99,13 +91,8 @@ class LinearNormalization(Algorithm):
         Returns:
             Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.
         """
-        
         src_points = np.array(
-            [
-                pupil_points + x * (iris_points - pupil_points) 
-                for x in np.linspace(0.0, 1.0, self.params.res_in_r)
-            ]
+            [pupil_points + x * (iris_points - pupil_points) for x in np.linspace(0.0, 1.0, self.params.res_in_r)]
         )
 
         return np.round(src_points).astype(int)
-    
