@@ -9,6 +9,7 @@ from iris.io.errors import NormalizationError
 from iris.nodes.normalization.common import (
     correct_orientation,
     generate_iris_mask,
+    normalize_all,
     getgrids,
     to_uint8,
 )
@@ -84,8 +85,8 @@ class NonlinearNormalization(Algorithm):
         iris_mask[image.img_data >= self.params.oversat_threshold] = False
         src_points = self._generate_correspondences(pupil_points, iris_points)
 
-        normalized_image, normalized_mask = self._normalize_all(
-            original_image=image.img_data, iris_mask=iris_mask, src_points=src_points
+        normalized_image, normalized_mask = normalize_all(
+            image=image.img_data, iris_mask=iris_mask, src_points=src_points
         )
         normalized_iris = NormalizedIris(
             normalized_image=to_uint8(normalized_image),
@@ -118,39 +119,6 @@ class NonlinearNormalization(Algorithm):
         )
 
         return np.round(src_points).astype(int)
-    
-    def _normalize_all(
-        self,
-        original_image: np.ndarray,
-        iris_mask: np.ndarray,
-        src_points: np.ndarray,
-    ) -> Tuple[np.ndarray, np.ndarray]:
-        """Normalize all points of an image using bilinear.
 
-        Args:
-            original_image (np.ndarray): Entire input image to normalize.
-            iris_mask (np.ndarray): Iris class segmentation mask.
-            src_points (np.ndarray): original input image points.
-
-        Returns:
-            t.Tuple[np.ndarray, np.ndarray]: Tuple with normalized image and mask.
-        """
-        src_shape = src_points.shape[0:2]
-        src_points = np.vstack(src_points)
-        image_size = original_image.shape
-        src_points[src_points[:, 0] >= image_size[1], 0] = -1
-        src_points[src_points[:, 1] >= image_size[0], 1] = -1
-
-        normalized_image = np.array(
-            [original_image[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else 0 for image_xy in src_points]
-        )
-        normalized_image = np.reshape(normalized_image, src_shape)
-
-        normalized_mask = np.array(
-            [iris_mask[image_xy[1], image_xy[0]] if min(image_xy) >= 0 else False for image_xy in src_points]
-        )
-        normalized_mask = np.reshape(normalized_mask, src_shape)
-
-        return normalized_image / 255.0, normalized_mask
 
     
