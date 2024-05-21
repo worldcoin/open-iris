@@ -6,6 +6,7 @@ import onnxruntime as ort
 from huggingface_hub import hf_hub_download
 from pydantic import PositiveInt
 
+from iris.callbacks.callback_interface import Callback
 from iris.io.dataclasses import IRImage, SegmentationMap
 from iris.nodes.segmentation.multilabel_segmentation_interface import MultilabelSemanticSegmentationInterface
 
@@ -30,7 +31,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.onnx",
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
-        callbacks=[],
+        callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
 
@@ -38,6 +39,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.onnx".
             input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
         model_path = hf_hub_download(
             repo_id=MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID,

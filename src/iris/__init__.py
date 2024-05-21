@@ -65,6 +65,7 @@ from iris.nodes.iris_response.probe_schemas.probe_schema_interface import ProbeS
 from iris.nodes.iris_response.probe_schemas.regular_probe_schema import RegularProbeSchema
 from iris.nodes.iris_response_refinement.fragile_bits_refinement import FragileBitRefinement
 from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
+from iris.nodes.normalization.linear_normalization import LinearNormalization
 from iris.nodes.normalization.nonlinear_normalization import NonlinearNormalization
 from iris.nodes.normalization.perspective_normalization import PerspectiveNormalization
 from iris.nodes.segmentation import MultilabelSegmentation
