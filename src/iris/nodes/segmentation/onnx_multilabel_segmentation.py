@@ -1,3 +1,4 @@
+import os
 from typing import Dict, List, Literal, Tuple
 
 import numpy as np
@@ -41,6 +42,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
+        os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
         model_path = hf_hub_download(
             repo_id=MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID,
             cache_dir=MultilabelSemanticSegmentationInterface.MODEL_CACHE_DIR,
