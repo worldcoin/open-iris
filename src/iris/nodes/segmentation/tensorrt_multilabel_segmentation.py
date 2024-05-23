@@ -1,3 +1,4 @@
+import os
 from typing import List, Literal, Tuple
 
 import numpy as np
@@ -71,6 +72,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.engine".
             input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
         """
+        os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
         model_path = hf_hub_download(
             repo_id=MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID,
             cache_dir=MultilabelSemanticSegmentationInterface.MODEL_CACHE_DIR,
