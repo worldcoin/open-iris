@@ -5,7 +5,7 @@ metadata:
 pipeline:
   - name: segmentation
     algorithm:
-      class_name: iris.MultilabelSegmentation
+      class_name: iris.MultilabelSegmentation.create_from_hugging_face
       params: {}
     inputs:
       - name: image
@@ -78,7 +78,7 @@ pipeline:
       - name: geometries
         source_node: distance_filter
     callbacks:
-  
+
   - name: eye_centers_inside_image_validator
     algorithm:
       class_name: iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator

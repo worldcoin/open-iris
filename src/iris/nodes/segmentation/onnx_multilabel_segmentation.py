@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import Dict, List, Literal, Tuple
 
@@ -27,20 +29,24 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
     __parameters_type__ = Parameters
 
-    def __init__(
-        self,
+    @classmethod
+    def create_from_hugging_face(
+        cls,
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.onnx",
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
         callbacks: List[Callback] = [],
-    ) -> None:
-        """Assign parameters.
+    ) -> ONNXMultilabelSegmentation:
+        """Create ONNXMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.
 
         Args:
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.onnx".
             input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+
+        Returns:
+            ONNXMultilabelSegmentation: ONNXMultilabelSegmentation object.
         """
         os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
         model_path = hf_hub_download(
@@ -49,6 +55,23 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             filename=model_name,
         )
 
+        return ONNXMultilabelSegmentation(model_path, input_resolution, input_num_channels, callbacks)
+
+    def __init__(
+        self,
+        model_path: str,
+        input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
+        input_num_channels: Literal[1, 3] = 3,
+        callbacks: List[Callback] = [],
+    ) -> None:
+        """Assign parameters.
+
+        Args:
+            model_path (str): Path to the ONNX model.
+            input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
+            input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+        """
         onnx_model = onnx.load(model_path)
         onnx.checker.check_model(onnx_model)
 

@@ -10,7 +10,7 @@ from iris.nodes.segmentation.onnx_multilabel_segmentation import ONNXMultilabelS
 
 @pytest.fixture
 def multilabel_model() -> ONNXMultilabelSegmentation:
-    return ONNXMultilabelSegmentation()
+    return ONNXMultilabelSegmentation.create_from_hugging_face()
 
 
 def test_forward(multilabel_model: ONNXMultilabelSegmentation) -> None:

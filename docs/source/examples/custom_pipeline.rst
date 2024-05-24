@@ -27,7 +27,7 @@ The top YAML file contains ``IRISPipeline`` metadata, used to both describe ``IR
     pipeline:
         - name: segmentation
             algorithm:
-            class_name: iris.MultilabelSegmentation
+            class_name: iris.MultilabelSegmentation.create_from_hugging_face
             params: {}
             inputs:
             - name: image
@@ -97,7 +97,7 @@ First let's intantiate ``IRISPipeline`` with default configuration and see ``iri
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -324,7 +324,7 @@ As expected all threshold values are set to default ``0.5`` value. Now, let's mo
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -556,7 +556,7 @@ First let's instantiate ``IRISPipeline`` with default configuration and see node
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -787,7 +787,7 @@ As expected, ``input_polygons`` argument of the ``run`` method is taken from the
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
