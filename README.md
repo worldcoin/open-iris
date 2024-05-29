@@ -158,6 +158,7 @@ The Jupyter Notebooks provided present practical guides and real-world instances
 
 1. **Getting started** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/main/colab/GettingStarted.ipynb)
 2. **Configuring custom pipeline** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/main/colab/ConfiguringCustomPipeline.ipynb)
+3. **Matching entities** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/dev/colab/MatchingEntities.ipynb)
 
 ## Documentation
 
