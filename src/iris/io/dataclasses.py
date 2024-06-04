@@ -511,6 +511,8 @@ class NormalizedIris(ImmutableModel):
         v.are_shapes_equal("normalized_image", "normalized_mask")
     )
 
+    _is_uint8 = validator("normalized_image", allow_reuse=True)(v.is_uint8)
+
     def serialize(self) -> Dict[str, np.ndarray]:
         """Serialize NormalizedIris object.
 
