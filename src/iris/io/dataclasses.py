@@ -539,10 +539,12 @@ class IrisFilterResponse(ImmutableModel):
 
     iris_responses: List[np.ndarray]
     mask_responses: List[np.ndarray]
+    iris_code_version: str
 
     _responses_mask_shape_match = root_validator(pre=True, allow_reuse=True)(
         v.are_all_shapes_equal("iris_responses", "mask_responses")
     )
+    _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
     def serialize(self) -> Dict[str, List[np.ndarray]]:
         """Serialize IrisFilterResponse object.
@@ -570,11 +572,13 @@ class IrisTemplate(ImmutableModel):
 
     iris_codes: List[np.ndarray]
     mask_codes: List[np.ndarray]
+    iris_code_version: str
 
     _responses_mask_shape_match = root_validator(pre=True, allow_reuse=True)(
         v.are_all_shapes_equal("iris_codes", "mask_codes")
     )
-    _is_binary = validator("*", allow_reuse=True, each_item=True)(v.is_binary)
+    _is_binary = validator("iris_codes", "mask_codes", allow_reuse=True, each_item=True)(v.is_binary)
+    _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
     def serialize(self) -> Dict[str, np.ndarray]:
         """Serialize IrisTemplate object.

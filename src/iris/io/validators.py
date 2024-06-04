@@ -1,7 +1,11 @@
+import re
 from typing import Any, Callable, Dict, Iterable, List
 
 import numpy as np
 from pydantic import fields
+
+from iris.io.errors import IRISPipelineError
+
 
 # ----- validators -----
 
@@ -134,6 +138,13 @@ def are_all_positive(cls: type, v: Any, field: fields.ModelField) -> Any:
     elif v < 0.0:
         raise ValueError(f"{cls.__name__}: {field.name} must be positive. Received {v}")
 
+    return v
+
+
+def iris_code_version_check(cls: type, v: str, field: fields.ModelField) -> str:
+    """Check if the version provided in the input config matches the current iris.__version__."""
+    if not re.match("v[\d]+\.[\d]+$", v):
+        raise IRISPipelineError(f"Wrong iris code version. Expected standard version nuber, received {v}")
     return v
 
 
