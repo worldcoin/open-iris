@@ -253,7 +253,7 @@ def test_bounding_box_constructor_raises_an_exception(x_min: float, x_max: float
 
 
 def test_normalized_iris_constructor() -> None:
-    mock_normalized_image = np.ones(shape=(10, 10))
+    mock_normalized_image = np.ones(shape=(10, 10)).astype(np.uint8)
     mock_normalized_mask = np.ones(shape=(10, 10)).astype(bool)
 
     _ = dc.NormalizedIris(normalized_image=mock_normalized_image, normalized_mask=mock_normalized_mask)
@@ -263,19 +263,23 @@ def test_normalized_iris_constructor() -> None:
     "normalized_image,normalized_mask",
     [
         (
-            np.ones(shape=(3, 10)),
+            np.ones(shape=(3, 10)).astype(np.uint8),
             np.ones(shape=(10, 3)).astype(bool),
         ),
         (
-            np.ones(shape=(2)),
+            np.ones(shape=(2)).astype(np.uint8),
             np.ones(shape=(2)).astype(bool),
         ),
         (
-            np.ones(shape=(10, 10)),
+            np.ones(shape=(10, 10)).astype(np.uint8),
             np.ones(shape=(10, 10)),
         ),
+        (
+            np.ones(shape=(10, 10)).astype(np.float32),
+            np.ones(shape=(10, 10)).astype(bool),
+        ),
     ],
-    ids=["resolution_mismatch", "resolution not 2D", "mask not binary"],
+    ids=["resolution_mismatch", "resolution not 2D", "mask not binary", "image not uint8"],
 )
 def test_normalized_iris_constructor_raises_an_exception(
     normalized_image: np.ndarray, normalized_mask: np.ndarray
@@ -285,7 +289,7 @@ def test_normalized_iris_constructor_raises_an_exception(
 
 
 def test_normalized_iris_serialize_deserialize() -> None:
-    mock_normalized_image = np.random.random(size=(10, 10))
+    mock_normalized_image = np.random.randint(0, 255, size=(10, 10)).astype(np.uint8)
     mock_normalized_mask = np.random.randint(0, 1, size=(10, 10)).astype(bool)
 
     normalized_iris = dc.NormalizedIris(normalized_image=mock_normalized_image, normalized_mask=mock_normalized_mask)
