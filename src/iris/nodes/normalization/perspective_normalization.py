@@ -71,12 +71,12 @@ class PerspectiveNormalization(Algorithm):
         """Assign parameters.
 
         Args:
-            res_in_phi (int): Normalized image phi resolution. Defaults to 512.
+            res_in_phi (int): Normalized image phi resolution. Defaults to 1024.
             res_in_r (int): Normalized image r resolution. Defaults to 128.
             skip_boundary_points (int, optional): Take every nth point from estimated boundaries when generating correspondences.
-                Defaults to 1.
+                Defaults to 10.
             intermediate_radiuses (t.Iterable[float], optional): Intermediate rings radiuses used to generate additional points for estimating transformations.
-                Defaults to np.linspace(0.0, 1.0, 8).
+                Defaults to np.linspace(0.0, 1.0, 10).
             oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
         super().__init__(
@@ -104,6 +104,9 @@ class PerspectiveNormalization(Algorithm):
 
         Returns:
             NormalizedIris: NormalizedIris object containing normalized image and iris mask.
+
+        Raises:
+            NormalizationError: Raised if amount of iris and pupil points is different.
         """
         if len(extrapolated_contours.pupil_array) != len(extrapolated_contours.iris_array):
             raise NormalizationError("Extrapolated amount of iris and pupil points must be the same.")
@@ -123,8 +126,8 @@ class PerspectiveNormalization(Algorithm):
             normalized_image=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=np.uint8),
             normalized_mask=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=bool),
         )
-
         self._run_core(image, iris_mask, src_points, dst_points, normalized_iris)
+
         return normalized_iris
 
     def _run_core(
@@ -155,8 +158,6 @@ class PerspectiveNormalization(Algorithm):
 
                 normalized_iris.normalized_image[ymin:ymax, xmin:xmax] = to_uint8(normalized_image_roi)
                 normalized_iris.normalized_mask[ymin:ymax, xmin:xmax] = normalized_mask_roi
-
-        return normalized_iris
 
     def _generate_correspondences(
         self, pupil_points: np.ndarray, iris_points: np.ndarray
