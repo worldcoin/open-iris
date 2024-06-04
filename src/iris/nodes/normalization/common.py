@@ -34,8 +34,8 @@ def correct_orientation(
     """Correct orientation by changing the starting angle in pupil and iris points' arrays.
 
     Args:
-        pupil_points (np.ndarray): Pupil boundary points' array. NumPy array of shape (num_points = 512, xy_coords = 2).
-        iris_points (np.ndarray): Iris boundary points' array. NumPy array of shape (num_points = 512, xy_coords = 2).
+        pupil_points (np.ndarray): Pupil boundary points' array. NumPy array of shape (num_points = 360, xy_coords = 2).
+        iris_points (np.ndarray): Iris boundary points' array. NumPy array of shape (num_points = 360, xy_coords = 2).
         eye_orientation (float): Eye orientation angle in radians.
 
     Returns:

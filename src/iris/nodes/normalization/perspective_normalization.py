@@ -164,8 +164,8 @@ class PerspectiveNormalization(Algorithm):
         """Generate correspondences between points in original image and normalized image.
 
         Args:
-            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
-            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
+            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 360, xy_coords = 2).
+            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 360, xy_coords = 2).
 
         Returns:
             Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.
@@ -268,13 +268,13 @@ class PerspectiveNormalization(Algorithm):
             src_points (np.ndarray): All mapping points from an original image.
                 NumPy array of shape (
                     num_intermediate_rings = self.intermediate_radiuses,
-                    num_boundary_points = 512 // self.skip_boundary_points,
+                    num_boundary_points = 360 // self.skip_boundary_points,
                     xy_coords = 2
                 ).
             dst_points (np.ndarray): All mapping points from an normalized image.
                 NumPy array of shape (
                     num_intermediate_rings = self.intermediate_radiuses,
-                    num_boundary_points = 512 // self.skip_boundary_points,
+                    num_boundary_points = 360 // self.skip_boundary_points,
                     xy_coords = 2
                 ).
 
