@@ -62,10 +62,10 @@ class PerspectiveNormalization(Algorithm):
 
     def __init__(
         self,
-        res_in_phi: int = 512,
+        res_in_phi: int = 1024,
         res_in_r: int = 128,
-        skip_boundary_points: int = 1,
-        intermediate_radiuses: Collection[float] = np.linspace(0.0, 1.0, 8),
+        skip_boundary_points: int = 10,
+        intermediate_radiuses: Collection[float] = np.linspace(0.0, 1.0, 10),
         oversat_threshold: int = 254,
     ) -> None:
         """Assign parameters.
