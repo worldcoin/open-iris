@@ -5,7 +5,7 @@ import pytest
 from pydantic import ValidationError
 
 import iris.io.dataclasses as dc
-
+from iris.io.errors import IRISPipelineError
 
 def test_irimage_constructor() -> None:
     mock_image = np.ones(shape=(10, 10))
@@ -304,77 +304,133 @@ def test_normalized_iris_serialize_deserialize() -> None:
 def test_iris_filter_response_constructor() -> None:
     mock_responses = [np.random.randint(5, size=(4, 6)) for _ in range(3)]
     mock_masks = [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)]
+    mock_iris_code_version = 'v14.28'
 
-    _ = dc.IrisFilterResponse(iris_responses=mock_responses, mask_responses=mock_masks)
+    _ = dc.IrisFilterResponse(iris_responses=mock_responses, mask_responses=mock_masks, iris_code_version=mock_iris_code_version)
 
 
 @pytest.mark.parametrize(
-    "iris_responses,mask_responses",
+    "iris_responses,mask_responses,iris_code_version",
     [
         (
             [np.ones(shape=(10, 10)), "not some string", np.ones(shape=(10, 10))],
             [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)],
+            'v3.0',
         ),
         (
             [np.random.randint(5, size=(4, 6)) for _ in range(3)],
             [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(5)],
+            'v6.2',
         ),
         (
             [np.ones(shape=(10, 10)), np.ones(shape=(123, 456))],
             [np.ones(shape=(10, 10)).astype(bool), np.ones(shape=(835, 19)).astype(bool)],
+            'v2.1',
+        ),
+        (
+            [np.random.randint(5, size=(4, 6)) for _ in range(3)],
+            [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)],
+            3,
+        ),
+        (
+            [np.random.randint(5, size=(4, 6)) for _ in range(3)],
+            [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)],
+            'not_a_version',
+        ),
+        (
+            [np.random.randint(5, size=(4, 6)) for _ in range(3)],
+            [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)],
+            'va.b.c',
         ),
     ],
     ids=[
         "not list of np arrays",
         "iris_responses / mask_responses length difference",
         "individual iris_responses / mask_responses shape difference",
+        "incorrect iris code version 1",
+        "incorrect iris code version 2",
+        "incorrect iris code version 3",
     ],
 )
 def test_iris_filter_response_constructor_raises_an_exception(
-    iris_responses: List[np.ndarray], mask_responses: List[np.ndarray]
+    iris_responses: List[np.ndarray], mask_responses: List[np.ndarray], iris_code_version: str
 ) -> None:
-    with pytest.raises((ValueError, AttributeError)):
-        _ = dc.IrisFilterResponse(iris_responses=iris_responses, mask_responses=mask_responses)
+    with pytest.raises((ValueError, AttributeError, IRISPipelineError)):
+        _ = dc.IrisFilterResponse(
+            iris_responses=iris_responses,
+            mask_responses=mask_responses,
+            iris_code_version=iris_code_version
+        )
 
 
 def test_iris_filter_response_serialize_deserialize() -> None:
     mock_responses = [np.random.randint(5, size=(4, 6)) for _ in range(3)]
     mock_masks = [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)]
+    mock_iris_code_version = 'v14.28'
 
-    iris_response = dc.IrisFilterResponse(iris_responses=mock_responses, mask_responses=mock_masks)
+    iris_response = dc.IrisFilterResponse(
+        iris_responses=mock_responses,
+        mask_responses=mock_masks,
+        iris_code_version=mock_iris_code_version,
+    )
 
     serialized_iris_response = iris_response.serialize()
     deserialized_iris_response = dc.IrisFilterResponse.deserialize(serialized_iris_response)
 
     np.testing.assert_equal(iris_response.iris_responses, deserialized_iris_response.iris_responses)
     np.testing.assert_equal(iris_response.mask_responses, deserialized_iris_response.mask_responses)
+    assert iris_response.iris_code_version ==deserialized_iris_response.iris_code_version
 
 
 def test_iris_template_constructor() -> None:
     mock_iris_codes = [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)]
     mock_mask_codes = [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)]
+    mock_iris_code_version = 'v14.28'
 
-    _ = dc.IrisTemplate(iris_codes=mock_iris_codes, mask_codes=mock_mask_codes)
+    _ = dc.IrisTemplate(
+        iris_codes=mock_iris_codes,
+        mask_codes=mock_mask_codes,
+        iris_code_version=mock_iris_code_version,
+    )
 
 
 @pytest.mark.parametrize(
-    "iris_codes,mask_codes",
+    "iris_codes,mask_codes,iris_code_version",
     [
         (
             [np.random.randint(2, size=(10, 10)) for _ in range(5)],
             [np.random.randint(2, size=(10, 10)) for _ in range(5)],
+            'v3.0',
         ),
         (
             "not a list of arrays",
             3,
+            'v3.0',
         ),
         (
             [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(3)],
             [np.random.randint(2, size=(4, 6)).astype(bool) for _ in range(5)],
+            'v3.0',
         ),
         (
             [np.ones(shape=(10, 10)).astype(bool), np.ones(shape=(123, 456)).astype(bool)],
             [np.ones(shape=(10, 10)).astype(bool), np.ones(shape=(835, 19)).astype(bool)],
+            'v3.0',
+        ),
+        (
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            42,
+        ),
+        (
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            'not_a_version',
+        ),
+        (
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            [np.random.randint(2, size=(10, 10)).astype(bool) for _ in range(5)],
+            'va.b.c',
         ),
     ],
     ids=[
@@ -382,10 +438,13 @@ def test_iris_template_constructor() -> None:
         "not array",
         "iris_codes / mask_codes length difference",
         "individual iris_codes / mask_codes shape difference",
+        "incorrect iris code version 1",
+        "incorrect iris code version 2",
+        "incorrect iris code version 3",
     ],
 )
 def test_iris_template_constructor_raises_an_exception(
-    iris_codes: List[np.ndarray], mask_codes: List[np.ndarray]
+    iris_codes: List[np.ndarray], mask_codes: List[np.ndarray], iris_code_version: str,
 ) -> None:
-    with pytest.raises((ValueError, ValidationError, AttributeError)):
-        _ = dc.IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes)
+    with pytest.raises((ValueError, ValidationError, AttributeError, IRISPipelineError)):
+        _ = dc.IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version=iris_code_version)
