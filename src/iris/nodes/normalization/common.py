@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Any, Tuple
 
 import numpy as np
 from pydantic import NonNegativeInt
@@ -67,6 +67,23 @@ def getgrids(res_in_r: NonNegativeInt, p2i_ratio: NonNegativeInt) -> np.ndarray:
     return grids[0:-1] + np.diff(grids) / 2
 
 
+def get_pixel_or_default(image: np.ndarray, pixel_x: float, pixel_y: float, default: Any) -> Any:
+    """Get the value of a pixel in the image 2D array.
+
+    Args:
+        image (np.ndarray): 2D Array.
+        pixel_x (float): Pixel x coordinate.
+        pixel_y (float): Pixel y coordinate.
+        default (Any): Default value to return when (pixel_x, pixel_y) is out-of-bounds
+
+    Returns:
+        Any: Pixel value.
+    """
+    h, w = image.shape
+    x, y = int(pixel_x), int(pixel_y)
+    return image[y, x] if x >= 0 and x < w and y >= 0 and y < h else default
+
+
 def interpolate_pixel_intensity(image: np.ndarray, pixel_coords: Tuple[float, float]) -> float:
     """Perform bilinear interpolation to estimate pixel intensity in a given location.
 
@@ -80,22 +97,6 @@ def interpolate_pixel_intensity(image: np.ndarray, pixel_coords: Tuple[float, fl
     Reference:
         [1] https://en.wikipedia.org/wiki/Bilinear_interpolation
     """
-
-    def get_pixel_intensity(image: np.ndarray, pixel_x: float, pixel_y: float) -> float:
-        """Get the intensity value of a pixel from an intensity image.
-
-        Args:
-            image (np.ndarray): Intensity image.
-            pixel_x (float): Pixel x coordinate.
-            pixel_y (float): Pixel y coordinate.
-
-        Returns:
-            float: Pixel value.
-        """
-        try:
-            return image[int(pixel_y), int(pixel_x)]
-        except IndexError:
-            return 0.0
 
     def get_interpolation_points_coords(
         image: np.ndarray, pixel_x: float, pixel_y: float
@@ -129,13 +130,13 @@ def interpolate_pixel_intensity(image: np.ndarray, pixel_coords: Tuple[float, fl
     pixel_x, pixel_y = pixel_coords
     xmin, ymin, xmax, ymax = get_interpolation_points_coords(image, pixel_x=pixel_x, pixel_y=pixel_y)
 
-    lower_left_pixel_intensity = get_pixel_intensity(image, pixel_x=xmin, pixel_y=ymax)
+    lower_left_pixel_intensity = get_pixel_or_default(image, pixel_x=xmin, pixel_y=ymax, default=0.0)
 
-    lower_right_pixel_intensity = get_pixel_intensity(image, pixel_x=xmax, pixel_y=ymax)
+    lower_right_pixel_intensity = get_pixel_or_default(image, pixel_x=xmax, pixel_y=ymax, default=0.0)
 
-    upper_left_pixel_intensity = get_pixel_intensity(image, pixel_x=xmin, pixel_y=ymin)
+    upper_left_pixel_intensity = get_pixel_or_default(image, pixel_x=xmin, pixel_y=ymin, default=0.0)
 
-    upper_right_pixel_intensity = get_pixel_intensity(image, pixel_x=xmax, pixel_y=ymin)
+    upper_right_pixel_intensity = get_pixel_or_default(image, pixel_x=xmax, pixel_y=ymin, default=0.0)
 
     xs_differences = np.array([xmax - pixel_x, pixel_x - xmin])
     neighboring_pixel_intensities = np.array(

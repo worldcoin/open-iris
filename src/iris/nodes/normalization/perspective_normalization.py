@@ -7,7 +7,13 @@ from pydantic import Field, validator
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import correct_orientation, generate_iris_mask, interpolate_pixel_intensity
+from iris.nodes.normalization.common import (
+    correct_orientation,
+    generate_iris_mask,
+    get_pixel_or_default,
+    interpolate_pixel_intensity,
+    to_uint8
+)
 
 
 class PerspectiveNormalization(Algorithm):
@@ -114,9 +120,21 @@ class PerspectiveNormalization(Algorithm):
         src_points, dst_points = self._generate_correspondences(pupil_points, iris_points)
 
         normalized_iris = NormalizedIris(
-            normalized_image=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=np.float32),
+            normalized_image=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=np.uint8),
             normalized_mask=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=bool),
         )
+
+        self._run_core(image, iris_mask, src_points, dst_points, normalized_iris)
+        return normalized_iris
+
+    def _run_core(
+        self,
+        image: IRImage,
+        iris_mask: np.ndarray,
+        src_points: np.ndarray,
+        dst_points: np.ndarray,
+        normalized_iris: NormalizedIris,
+    ):
         for angle_point_idx in range(src_points.shape[1] - 1):
             for ring_idx in range(src_points.shape[0] - 1):
                 current_src, current_dst = self._correspondence_rois_coords(
@@ -135,7 +153,7 @@ class PerspectiveNormalization(Algorithm):
                     normalize_roi_output_shape=(ymax - ymin, xmax - xmin),
                 )
 
-                normalized_iris.normalized_image[ymin:ymax, xmin:xmax] = normalized_image_roi
+                normalized_iris.normalized_image[ymin:ymax, xmin:xmax] = to_uint8(normalized_image_roi)
                 normalized_iris.normalized_mask[ymin:ymax, xmin:xmax] = normalized_mask_roi
 
         return normalized_iris
@@ -215,11 +233,9 @@ class PerspectiveNormalization(Algorithm):
                 original_image, pixel_coords=image_xy
             )
 
-            try:
-                img_x, img_y = map(int, image_xy)
-                normalized_mask_roi[shifted_y, shifted_x] = iris_mask[img_y, img_x]
-            except IndexError:
-                normalized_mask_roi[shifted_y, shifted_x] = False
+            normalized_mask_roi[shifted_y, shifted_x] = get_pixel_or_default(
+                iris_mask, image_xy[0], image_xy[1], default=False
+            )
 
         return normalized_image_roi / 255.0, normalized_mask_roi
 
