@@ -79,6 +79,7 @@ def test_computed_responses(
     assert np.allclose(expected_result.mask_responses[0], result.mask_responses[0], rtol=1e-05, atol=1e-07)
     assert np.allclose(expected_result.mask_responses[1], result.mask_responses[1], rtol=1e-05, atol=1e-07)
     assert np.allclose(expected_result.mask_responses[2], result.mask_responses[2], rtol=1e-05, atol=1e-07)
+    assert result.iris_code_version == 'v0.1'
 
 
 @pytest.mark.parametrize(
@@ -121,3 +122,4 @@ def test_convfilterbank_constructor(
         assert np.max(i_mask_response) > np.min(i_mask_response)
         assert np.max(i_iris_response.real) > np.min(i_iris_response.real)
         assert np.max(i_iris_response.imag) > np.min(i_iris_response.imag)
+    assert filter_responses.iris_code_version == 'v0.1'

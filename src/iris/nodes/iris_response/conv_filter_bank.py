@@ -5,7 +5,7 @@ from pydantic import root_validator, validator
 
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisFilterResponse, NormalizedIris
-from iris.io.validators import are_lengths_equal, is_not_empty
+from iris.io.validators import are_lengths_equal, iris_code_version_check, is_not_empty
 from iris.nodes.iris_response.image_filters.gabor_filters import GaborFilter
 from iris.nodes.iris_response.image_filters.image_filter_interface import ImageFilter
 from iris.nodes.iris_response.probe_schemas.probe_schema_interface import ProbeSchema
@@ -47,15 +47,18 @@ class ConvFilterBank(Algorithm):
 
         filters: List[ImageFilter]
         probe_schemas: List[ProbeSchema]
+        iris_code_version: str
 
         # Validators
         _are_lengths_equal = root_validator(pre=True, allow_reuse=True)(are_lengths_equal("probe_schemas", "filters"))
-        _is_not_empty = validator("*", allow_reuse=True)(is_not_empty)
+        _is_not_empty = validator("filters", "probe_schemas", allow_reuse=True)(is_not_empty)
+        _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(iris_code_version_check)
 
     __parameters_type__ = Parameters
 
     def __init__(
         self,
+        iris_code_version: str = "v0.1",
         filters: List[ImageFilter] = [
             GaborFilter(
                 kernel_size=(41, 21),
@@ -87,7 +90,7 @@ class ConvFilterBank(Algorithm):
             filters (List[ImageFilter]): List of image filters.
             probe_schemas (List[ProbeSchema]): List of corresponding probe schemas.
         """
-        super().__init__(filters=filters, probe_schemas=probe_schemas)
+        super().__init__(filters=filters, probe_schemas=probe_schemas, iris_code_version=iris_code_version)
 
     def run(self, normalization_output: NormalizedIris) -> IrisFilterResponse:
         """Apply filters to a normalized iris image.
@@ -106,7 +109,11 @@ class ConvFilterBank(Algorithm):
             iris_responses.append(iris_response)
             mask_responses.append(mask_response)
 
-        return IrisFilterResponse(iris_responses=iris_responses, mask_responses=mask_responses)
+        return IrisFilterResponse(
+            iris_responses=iris_responses,
+            mask_responses=mask_responses,
+            iris_code_version=self.params.iris_code_version,
+        )
 
     def _convolve(
         self, img_filter: ImageFilter, probe_schema: ProbeSchema, normalization_output: NormalizedIris
