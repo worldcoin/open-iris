@@ -24,6 +24,7 @@ def test_iris_encoder_constructor() -> None:
 
     assert len(result.iris_codes) == len(expected_result.iris_codes)
     assert len(result.mask_codes) == len(expected_result.mask_codes)
+    assert len(result.iris_code_version) == len(expected_result.iris_code_version)
 
     for i, (i_iris_code, i_mask_code) in enumerate(zip(result.iris_codes, result.mask_codes)):
         assert np.allclose(expected_result.iris_codes[i], i_iris_code, rtol=1e-05, atol=1e-07)
