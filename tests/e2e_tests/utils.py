@@ -74,6 +74,7 @@ def compare_iris_pipeline_template_output(iris_template_1: Dict[str, Any], iris_
     """
     assert np.all(iris_template_2["iris_codes"] == iris_template_1["iris_codes"])
     assert np.all(iris_template_2["mask_codes"] == iris_template_1["mask_codes"])
+    assert iris_template_2["iris_code_version"] == iris_template_1["iris_code_version"]
 
 
 def compare_iris_pipeline_error_output(error_dict_1: Dict[str, str], error_dict_2: Dict[str, str]) -> None:
@@ -88,6 +89,30 @@ def compare_iris_pipeline_error_output(error_dict_1: Dict[str, str], error_dict_
         assert error_dict_1["error_type"] == error_dict_2["error_type"]
         assert error_dict_1["traceback"] == error_dict_2["traceback"]
         assert error_dict_1["message"] == error_dict_2["message"]
+
+
+def compare_simple_pipeline_template_output(iris_template_1: Dict[str, Any], iris_template_2: Dict[str, Any]) -> None:
+    """Compare two IRISPipeline template outputs.
+
+    Args:
+        iris_template_1 (Dict[str, Any]): pipeline's iris template output 1.
+        iris_template_2 (Dict[str, Any]): pipeline's iris template output 2.
+    """
+    assert np.all([ic1 == ic2 for ic1, ic2 in zip(iris_template_2.iris_codes, iris_template_1.iris_codes)])
+    assert np.all([ic1 == ic2 for ic1, ic2 in zip(iris_template_2.mask_codes, iris_template_1.mask_codes)])
+    assert iris_template_2.iris_code_version == iris_template_1.iris_code_version
+
+
+def compare_simple_pipeline_outputs(pipeline_output_1: Dict[str, Any], pipeline_output_2: Dict[str, Any]):
+    """Compare two IRISPipeline outputs for the Orb.
+
+    Args:
+        pipeline_output_1 (Dict[str, Any]): pipeline output 1.
+        pipeline_output_2 (Dict[str, Any]): pipeline output 2.
+    """
+    compare_simple_pipeline_template_output(pipeline_output_1["iris_template"], pipeline_output_2["iris_template"])
+    compare_iris_pipeline_metadata_output(pipeline_output_1["metadata"], pipeline_output_2["metadata"])
+    compare_iris_pipeline_error_output(pipeline_output_1["error"], pipeline_output_2["error"])
 
 
 def compare_iris_pipeline_outputs(pipeline_output_1: Dict[str, Any], pipeline_output_2: Dict[str, Any]):
