@@ -3,6 +3,7 @@ import pickle
 from typing import Any
 
 import pytest
+import numpy as np
 
 from iris.io.dataclasses import EyeOcclusion
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator
@@ -33,4 +34,4 @@ def test_e2e_occlusion_calculator() -> None:
 
     result = algorithm(mock_extrapolated_polygons, mock_noise_mask, mock_eye_orientation, mock_eye_center)
 
-    assert round(result.visible_fraction, 4) == expected_result.visible_fraction
+    np.testing.assert_almost_equal(result.visible_fraction, expected_result.visible_fraction, decimal=4)
