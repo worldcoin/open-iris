@@ -7,7 +7,7 @@ from pydantic import Field, NonNegativeInt, root_validator, validator
 
 from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
-from iris.utils import math
+from iris.utils import base64_encoding, math
 
 
 class IRImage(ImmutableModel):
@@ -580,11 +580,11 @@ class IrisTemplate(ImmutableModel):
     _is_binary = validator("iris_codes", "mask_codes", allow_reuse=True, each_item=True)(v.is_binary)
     _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
-    def serialize(self) -> Dict[str, np.ndarray]:
-        """Serialize IrisTemplate object.
+    def convert2old_format(self) -> Tuple[np.ndarray, np.ndarray]:
+        """Convert IrisTemplate class to an old engines pipeline output format.
 
         Returns:
-            Dict[str, np.ndarray]: Serialized object.
+            Tuple[np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes).
         """
         stacked_iris_codes = np.stack(self.iris_codes)
         stacked_iris_codes = stacked_iris_codes.transpose(1, 2, 0, 3)
@@ -592,9 +592,20 @@ class IrisTemplate(ImmutableModel):
         stacked_mask_codes = np.stack(self.mask_codes)
         stacked_mask_codes = stacked_mask_codes.transpose(1, 2, 0, 3)
 
+        return stacked_iris_codes, stacked_mask_codes
+
+    def serialize(self) -> Dict[str, bytes]:
+        """Serialize IrisTemplate object.
+
+        Returns:
+            Dict[str, bytes]: Serialized object.
+        """
+        old_format_iris_codes, old_format_mask_codes = self.convert2old_format()
+
         return {
-            "iris_codes": stacked_iris_codes,
-            "mask_codes": stacked_mask_codes,
+            "iris_codes": base64_encoding.base64_encode_array(old_format_iris_codes).decode("utf-8"),
+            "mask_codes": base64_encoding.base64_encode_array(old_format_mask_codes).decode("utf-8"),
+            "iris_code_version": self.iris_code_version,
         }
 
 
