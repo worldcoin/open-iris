@@ -4,20 +4,21 @@ from typing import Dict, Tuple
 import numpy as np
 
 
-def area(array: np.ndarray) -> float:
+def area(array: np.ndarray, signed: bool = False) -> float:
     """Shoelace formula for simple polygon area calculation.
 
-    WARNING: This formula only works for simple polygons, i.e planar polygon without self-intersection nor holes.
+    WARNING: This formula only works for _simple polygons_, i.e planar polygon without self-intersection nor holes.
     These conditions are not checked within this function.
 
     Args:
         array (np.ndarray): np array representing a polygon as a list of points, i.e. of shape (_, 2).
-
-    Raises:
-        ValueError: if the input array does not have shape (_, 2)
+        signed (bool): If True, the area is signed, i.e. negative if the polygon is oriented clockwise.
 
     Returns:
         float: Polygon area
+
+    Raises:
+        ValueError: if the input array does not have shape (_, 2)
 
     References:
         [1] https://en.wikipedia.org/wiki/Shoelace_formula
@@ -27,7 +28,9 @@ def area(array: np.ndarray) -> float:
         raise ValueError(f"Unable to determine the area of a polygon with shape {array.shape}. Expecting (_, 2).")
 
     xs, ys = array.T
-    area = 0.5 * np.abs(np.dot(xs, np.roll(ys, 1)) - np.dot(ys, np.roll(xs, 1)))
+    area = 0.5 * (np.dot(xs, np.roll(ys, 1)) - np.dot(ys, np.roll(xs, 1)))
+    if not signed:
+        area = abs(area)
 
     return float(area)
 
