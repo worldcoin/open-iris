@@ -51,7 +51,7 @@ def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
     return output
 
 
-def build_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+def build_debugging_output(call_trace: PipelineCallTraceStorage, serialise_iris_template: bool = False) -> Dict[str, Any]:
     """Build the output for debugging purposes.
 
     Args:
@@ -60,7 +60,10 @@ def build_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, An
     Returns:
         Dict[str, Any]: Returns data to be stored in MongoDB.
     """
-    iris_template = __safe_serialize(call_trace["encoder"])
+    iris_template = call_trace["encoder"]
+    if serialise_iris_template:
+        iris_template = __safe_serialize(iris_template)
+
     metadata = __get_metadata(call_trace=call_trace)
     error = __get_error(call_trace=call_trace)
 
