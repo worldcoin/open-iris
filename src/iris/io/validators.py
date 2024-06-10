@@ -143,7 +143,7 @@ def are_all_positive(cls: type, v: Any, field: fields.ModelField) -> Any:
 
 def iris_code_version_check(cls: type, v: str, field: fields.ModelField) -> str:
     """Check if the version provided in the input config matches the current iris.__version__."""
-    if not re.match("v[\d]+\.[\d]+$", v):
+    if not re.match(r"v[\d]+\.[\d]+$", v):
         raise IRISPipelineError(f"Wrong iris code version. Expected standard version nuber, received {v}")
     return v
 
