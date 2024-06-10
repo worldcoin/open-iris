@@ -644,7 +644,6 @@ def test_instanciate_nodes(
         ),
         (None, None),
     ],
-
     ids=["specified pipeline", "default pipeline"],
 )
 def test_load_from_config(config: Dict[str, str], expected_pipeline_name: str) -> None:

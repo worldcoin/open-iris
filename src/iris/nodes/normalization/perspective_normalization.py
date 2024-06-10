@@ -12,7 +12,7 @@ from iris.nodes.normalization.common import (
     generate_iris_mask,
     get_pixel_or_default,
     interpolate_pixel_intensity,
-    to_uint8
+    to_uint8,
 )
 
 

@@ -2,8 +2,8 @@ import os
 import pickle
 from typing import Any
 
-import pytest
 import numpy as np
+import pytest
 
 from iris.io.dataclasses import EyeOcclusion
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator

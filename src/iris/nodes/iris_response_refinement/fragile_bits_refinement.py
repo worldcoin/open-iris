@@ -70,6 +70,6 @@ class FragileBitRefinement(Algorithm):
 
         return IrisFilterResponse(
             iris_responses=iris_filter_response.iris_responses,
-            mask_responses=fragile_masks, 
-            iris_code_version=iris_filter_response.iris_code_version
+            mask_responses=fragile_masks,
+            iris_code_version=iris_filter_response.iris_code_version,
         )

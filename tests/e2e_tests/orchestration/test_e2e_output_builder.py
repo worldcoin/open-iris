@@ -17,7 +17,9 @@ from tests.e2e_tests.utils import (
 
 @pytest.fixture
 def expected_simple_iris_pipeline_output() -> Tuple[Tuple[np.ndarray, np.ndarray], Landmarks, Dict[str, Any]]:
-    expected_output_path = os.path.join(os.path.dirname(__file__), "mocks", "expected_iris_pipeline_simple_output.pickle")
+    expected_output_path = os.path.join(
+        os.path.dirname(__file__), "mocks", "expected_iris_pipeline_simple_output.pickle"
+    )
     return pickle.load(open(expected_output_path, "rb"))
 
 

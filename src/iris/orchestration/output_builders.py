@@ -51,7 +51,9 @@ def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
     return output
 
 
-def build_debugging_output(call_trace: PipelineCallTraceStorage, serialise_iris_template: bool = False) -> Dict[str, Any]:
+def build_debugging_output(
+    call_trace: PipelineCallTraceStorage, serialise_iris_template: bool = False
+) -> Dict[str, Any]:
     """Build the output for debugging purposes.
 
     Args:

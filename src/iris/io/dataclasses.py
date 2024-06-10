@@ -604,7 +604,9 @@ class IrisTemplate(ImmutableModel):
         return (IrisTemplate.new_to_old_format(self.iris_codes), IrisTemplate.new_to_old_format(self.mask_codes))
 
     @staticmethod
-    def deserialize(serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)) -> IrisTemplate:
+    def deserialize(
+        serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)
+    ) -> IrisTemplate:
         """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
 
         Args:
@@ -617,7 +619,7 @@ class IrisTemplate(ImmutableModel):
         return IrisTemplate.convert_to_new_format(
             iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
             mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
-            iris_code_version=serialized_template["iris_code_version"]
+            iris_code_version=serialized_template["iris_code_version"],
         )
 
     @staticmethod
@@ -636,7 +638,7 @@ class IrisTemplate(ImmutableModel):
     @staticmethod
     def new_to_old_format(array: List[np.ndarray]) -> np.ndarray:
         """Convert new iris template format to old iris template format.
-        
+
         New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
             This enable having different convolution layout for each wavelet.
         Old format is a numpy array of shape (height, width, nb_wavelets, 2)
@@ -653,11 +655,11 @@ class IrisTemplate(ImmutableModel):
         if not all([code.shape == array[0].shape for code in array]):
             raise ValueError("All codes must have the same shape to be converted to the old format.")
         return np.stack(array).transpose(1, 2, 0, 3)
-    
+
     @staticmethod
     def old_to_new_format(array: np.ndarray) -> List[np.ndarray]:
         """Convert old iris template format to new iris template format.
-        
+
         Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
             This enable having different convolution layout for each wavelet.
         New format is a numpy array of shape (height, width, nb_wavelets, 2)
