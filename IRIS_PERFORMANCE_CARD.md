@@ -21,7 +21,7 @@ Fig. 1(a) and 1(b) show the ROC on right and left eye, respectively, from all pa
 
 We also compare our performance with the latest available iris open source algorithm OSIRIS, which has three versions OSIRISV2, OSIRISV4, OSIRISV4.1 [3] as well as HDBIF [4]. As we can see in the table below, IRIS achieves significantly lower False NonMatch Rate (FNMR) at False Match Rate (FMR) of 0.001 and 0.0001 than these open source algorithms.
 
-|                   | OSIRISV2 | OSIRISV4 | OSIRISV4.1 | HDBIF | IRIS\* |
+|                   | OSIRISV2 <br>[2009] | OSIRISV4 <br>[2011] | OSIRISV4.1 <br>[2016] | HDBIF <br>[2019] | IRIS\* <br>[2023] |
 |-------------------|----------|----------|------------|-------|--------|
 | FNMR @ FMR=0.001  | 0.174    | 0.031    | 0.019      | 0.025 | 0.003  |
 | FNMR @ FMR=0.0001 | 0.268    | 0.058    | 0.034      | 0.039 | 0.006  |
