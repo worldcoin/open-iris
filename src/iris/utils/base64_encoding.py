@@ -18,12 +18,12 @@ def base64_encode_array(array2encode: np.ndarray) -> bytes:
     return base64.b64encode(co_pack.tobytes())
 
 
-def base64_decode_array(bytes_array: str, array_shape: Tuple[int, int, int, int] = (16, 200, 2, 2)) -> np.ndarray:
+def base64_decode_array(bytes_array: str, array_shape: Tuple[int, int, int, int] = (16, 256, 2, 2)) -> np.ndarray:
     """Convert a packed base64 string to a numpy array.
 
     Args:
         bytes_array (bytes): The packed base64 byte string.
-        shape (Tuple[int, int, int, int], optional): The shape of the array. Defaults to (16, 200, 2, 2).
+        shape (Tuple[int, int, int, int], optional): The shape of the array. Defaults to (16, 256, 2, 2).
 
     Returns:
         np.ndarray: The array.

@@ -581,23 +581,6 @@ class IrisTemplate(ImmutableModel):
     _is_binary = validator("iris_codes", "mask_codes", allow_reuse=True, each_item=True)(v.is_binary)
     _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
-
-    def deserialize(serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)) -> IrisTemplate:
-        """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
-
-        Args:
-            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.
-            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
-
-        Returns:
-            IrisTemplate: Serialized object.
-        """
-        return IrisTemplate.convert_to_new_format(
-            iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
-            mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
-            iris_code_version=serialized_template["iris_code_version"]
-        )
-
     def serialize(self) -> Dict[str, bytes]:
         """Serialize IrisTemplate object.
 
@@ -621,6 +604,23 @@ class IrisTemplate(ImmutableModel):
         return (IrisTemplate.new_to_old_format(self.iris_codes), IrisTemplate.new_to_old_format(self.mask_codes))
 
     @staticmethod
+    def deserialize(serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)) -> IrisTemplate:
+        """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
+
+        Args:
+            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.
+            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            IrisTemplate: Serialized object.
+        """
+        return IrisTemplate.convert_to_new_format(
+            iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
+            mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
+            iris_code_version=serialized_template["iris_code_version"]
+        )
+
+    @staticmethod
     def convert_to_new_format(iris_codes: np.ndarray, mask_codes: np.ndarray, iris_code_version: str) -> IrisTemplate:
         """Convert an old template format and the associated iris code version into an IrisTemplate object.
 
@@ -634,7 +634,7 @@ class IrisTemplate(ImmutableModel):
         )
 
     @staticmethod
-    def new_to_old_format(codes: List[np.ndarray]) -> np.ndarray:
+    def new_to_old_format(array: List[np.ndarray]) -> np.ndarray:
         """Convert new iris template format to old iris template format.
         
         New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
@@ -650,12 +650,12 @@ class IrisTemplate(ImmutableModel):
         Raises:
             ValueError: Raised if not all codes have the same shape. In this case, the IrisTemplate cannot be converted to the old format.
         """
-        if not all([code.shape == codes[0].shape for code in codes]):
+        if not all([code.shape == array[0].shape for code in array]):
             raise ValueError("All codes must have the same shape to be converted to the old format.")
-        return np.stack(codes).transpose(1, 2, 0, 3)
+        return np.stack(array).transpose(1, 2, 0, 3)
     
     @staticmethod
-    def old_to_new_format(codes: np.ndarray) -> List[np.ndarray]:
+    def old_to_new_format(array: np.ndarray) -> List[np.ndarray]:
         """Convert old iris template format to new iris template format.
         
         Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
@@ -668,7 +668,7 @@ class IrisTemplate(ImmutableModel):
         Returns:
             np.ndarray: New format codes.
         """
-        return [codes[:, :, i, :] for i in range(codes.shape[2])]
+        return [array[:, :, i, :] for i in range(array.shape[2])]
 
 
 class EyeOcclusion(ImmutableModel):

@@ -379,7 +379,7 @@ def test_iris_filter_response_serialize_deserialize() -> None:
 
     np.testing.assert_equal(iris_response.iris_responses, deserialized_iris_response.iris_responses)
     np.testing.assert_equal(iris_response.mask_responses, deserialized_iris_response.mask_responses)
-    assert iris_response.iris_code_version ==deserialized_iris_response.iris_code_version
+    assert iris_response.iris_code_version == deserialized_iris_response.iris_code_version
 
 
 def test_iris_template_constructor() -> None:
@@ -448,3 +448,92 @@ def test_iris_template_constructor_raises_an_exception(
 ) -> None:
     with pytest.raises((ValueError, ValidationError, AttributeError, IRISPipelineError)):
         _ = dc.IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version=iris_code_version)
+
+
+
+@pytest.mark.parametrize("code_height,code_width,num_filters", [(5, 10, 2), (10, 5, 4)])
+def test_iris_template_convert2old_format(code_height: int, code_width: int, num_filters: int) -> None:
+    mock_iris_template = dc.IrisTemplate(
+        iris_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)],
+        mask_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)],
+        iris_code_version="v2.1",
+    )
+
+    # 2 is for the real/complex part
+    stacked_iris_codes_expected_shape = (code_height, code_width, num_filters, 2)
+    stacked_mask_codes_expected_shape = (code_height, code_width, num_filters, 2)
+
+    result_stacked_iris_codes, result_stacked_mask_codes = mock_iris_template.convert2old_format()
+
+    assert result_stacked_iris_codes.shape == stacked_iris_codes_expected_shape
+    assert result_stacked_mask_codes.shape == stacked_mask_codes_expected_shape
+
+    for filter_idx in range(num_filters):
+        np.testing.assert_equal(
+            result_stacked_iris_codes[..., filter_idx, 0], mock_iris_template.iris_codes[filter_idx][..., 0]
+        )
+        np.testing.assert_equal(
+            result_stacked_iris_codes[..., filter_idx, 1], mock_iris_template.iris_codes[filter_idx][..., 1]
+        )
+        np.testing.assert_equal(
+            result_stacked_mask_codes[..., filter_idx, 0], mock_iris_template.mask_codes[filter_idx][..., 0]
+        )
+        np.testing.assert_equal(
+            result_stacked_mask_codes[..., filter_idx, 1], mock_iris_template.mask_codes[filter_idx][..., 1]
+        )
+
+
+@pytest.mark.parametrize("code_height,code_width,num_filters", [(5, 10, 2), (10, 5, 4)])
+def test_iris_template_conversion(code_height: int, code_width: int, num_filters: int) -> None:
+    iris_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)]
+    mask_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)]
+    iris_code_version="v2.1"
+
+    mock_iris_template = dc.IrisTemplate(
+        iris_codes=iris_codes,
+        mask_codes=mask_codes,
+        iris_code_version=iris_code_version,
+    )
+
+    old_format_iris_template = mock_iris_template.convert2old_format()
+    new_format_iris_template = dc.IrisTemplate.convert_to_new_format(*old_format_iris_template, iris_code_version)
+
+    np.testing.assert_equal(new_format_iris_template.iris_codes, mock_iris_template.iris_codes)
+    np.testing.assert_equal(new_format_iris_template.mask_codes, mock_iris_template.mask_codes)
+    assert new_format_iris_template.iris_code_version == mock_iris_template.iris_code_version
+
+
+@pytest.mark.parametrize("code_height,code_width,num_filters", [(5, 10, 2), (10, 5, 4)])
+def test_iris_template_conversion_reverse(code_height: int, code_width: int, num_filters: int) -> None:
+    iris_codes=np.random.choice(2, size=(code_height, code_width, num_filters, 2)).astype(bool)
+    mask_codes=np.random.choice(2, size=(code_height, code_width, num_filters, 2)).astype(bool)
+    iris_code_version="v2.1"
+
+    mock_old_format_iris_template = (iris_codes, mask_codes)
+
+    new_format_iris_template = dc.IrisTemplate.convert_to_new_format(*mock_old_format_iris_template, iris_code_version)
+    old_format_iris_template = new_format_iris_template.convert2old_format()
+
+
+    np.testing.assert_equal(old_format_iris_template[0], mock_old_format_iris_template[0])
+    np.testing.assert_equal(old_format_iris_template[1], mock_old_format_iris_template[1])
+
+
+@pytest.mark.parametrize("code_height,code_width,num_filters", [(5, 10, 2), (10, 5, 4)])
+def test_iris_template_serialize(code_height: int, code_width: int, num_filters: int) -> None:
+    iris_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)]
+    mask_codes=[np.random.choice(2, size=(code_height, code_width, 2)).astype(bool) for _ in range(num_filters)]
+    iris_code_version="v2.1"
+
+    mock_iris_template = dc.IrisTemplate(
+        iris_codes=iris_codes,
+        mask_codes=mask_codes,
+        iris_code_version=iris_code_version,
+    )
+
+    serialized_iris_template = mock_iris_template.serialize()
+    deserialized_iris_template = dc.IrisTemplate.deserialize(serialized_iris_template, array_shape=(code_height, code_width, num_filters, 2))
+
+    np.testing.assert_equal(deserialized_iris_template.iris_codes, mock_iris_template.iris_codes)
+    np.testing.assert_equal(deserialized_iris_template.mask_codes, mock_iris_template.mask_codes)
+    assert deserialized_iris_template.iris_code_version == mock_iris_template.iris_code_version
