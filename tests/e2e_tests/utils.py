@@ -134,7 +134,7 @@ def compare_debug_pipeline_outputs(pipeline_output_1: Dict[str, Any], pipeline_o
         pipeline_output_1 (Dict[str, Any]): pipeline output 1.
         pipeline_output_2 (Dict[str, Any]): pipeline output 2.
     """
-    compare_iris_pipeline_template_output(pipeline_output_1["iris_template"], pipeline_output_2["iris_template"])
+    compare_simple_pipeline_template_output(pipeline_output_1["iris_template"], pipeline_output_2["iris_template"])
     compare_iris_pipeline_metadata_output(pipeline_output_1["metadata"], pipeline_output_2["metadata"])
 
     # Debug-specific intermediary outputs
