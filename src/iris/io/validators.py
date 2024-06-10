@@ -26,6 +26,14 @@ def is_odd(cls: type, v: int, field: fields.ModelField) -> int:
     return v
 
 
+def is_uint8(cls: type, v: np.ndarray, field: fields.ModelField) -> np.ndarray:
+    """Check if np array contains only uint8 values."""
+    values_check = not (np.all(v >= 0) and np.all(v <= 255))
+    if values_check or v.dtype != np.uint8:
+        raise ValueError(f"{cls.__name__}: {field.name} must be of uint8 type. Received {v.dtype}")
+    return v
+
+
 def is_binary(cls: type, v: np.ndarray, field: fields.ModelField) -> np.ndarray:
     """Check if array has only boolean values, i.e. is binary.
 

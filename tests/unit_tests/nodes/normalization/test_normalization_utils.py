@@ -3,7 +3,7 @@ from typing import Tuple
 import numpy as np
 import pytest
 
-from iris.nodes.normalization.common import correct_orientation, interpolate_pixel_intensity
+from iris.nodes.normalization.common import correct_orientation, interpolate_pixel_intensity, to_uint8
 from tests.unit_tests.utils import generate_arc
 
 
@@ -81,3 +81,18 @@ def test_interpolate_pixel_intensity(pixel_coords: Tuple[float, float], expected
     result = interpolate_pixel_intensity(image=test_image, pixel_coords=pixel_coords)
 
     assert result == expected_intensity
+
+
+@pytest.mark.parametrize(
+    "input_img",
+    [
+        (np.ones(shape=(10, 10), dtype=np.uint8)),
+        (np.zeros(shape=(10, 10), dtype=np.uint8)),
+        (np.random.randn(100).reshape((10, 10))),
+    ],
+)
+def test_to_uint8(input_img: np.ndarray) -> None:
+    result = to_uint8(input_img)
+
+    assert result.dtype == np.uint8
+    assert np.all(result >= 0) and np.all(result <= 255)

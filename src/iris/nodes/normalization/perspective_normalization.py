@@ -7,7 +7,13 @@ from pydantic import Field, validator
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import correct_orientation, generate_iris_mask, interpolate_pixel_intensity
+from iris.nodes.normalization.common import (
+    correct_orientation,
+    generate_iris_mask,
+    get_pixel_or_default,
+    interpolate_pixel_intensity,
+    to_uint8
+)
 
 
 class PerspectiveNormalization(Algorithm):
@@ -56,21 +62,21 @@ class PerspectiveNormalization(Algorithm):
 
     def __init__(
         self,
-        res_in_phi: int = 512,
+        res_in_phi: int = 1024,
         res_in_r: int = 128,
-        skip_boundary_points: int = 1,
-        intermediate_radiuses: Collection[float] = np.linspace(0.0, 1.0, 8),
+        skip_boundary_points: int = 10,
+        intermediate_radiuses: Collection[float] = np.linspace(0.0, 1.0, 10),
         oversat_threshold: int = 254,
     ) -> None:
         """Assign parameters.
 
         Args:
-            res_in_phi (int): Normalized image phi resolution. Defaults to 512.
+            res_in_phi (int): Normalized image phi resolution. Defaults to 1024.
             res_in_r (int): Normalized image r resolution. Defaults to 128.
             skip_boundary_points (int, optional): Take every nth point from estimated boundaries when generating correspondences.
-                Defaults to 1.
+                Defaults to 10.
             intermediate_radiuses (t.Iterable[float], optional): Intermediate rings radiuses used to generate additional points for estimating transformations.
-                Defaults to np.linspace(0.0, 1.0, 8).
+                Defaults to np.linspace(0.0, 1.0, 10).
             oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
         super().__init__(
@@ -98,6 +104,9 @@ class PerspectiveNormalization(Algorithm):
 
         Returns:
             NormalizedIris: NormalizedIris object containing normalized image and iris mask.
+
+        Raises:
+            NormalizationError: Raised if amount of iris and pupil points is different.
         """
         if len(extrapolated_contours.pupil_array) != len(extrapolated_contours.iris_array):
             raise NormalizationError("Extrapolated amount of iris and pupil points must be the same.")
@@ -114,9 +123,21 @@ class PerspectiveNormalization(Algorithm):
         src_points, dst_points = self._generate_correspondences(pupil_points, iris_points)
 
         normalized_iris = NormalizedIris(
-            normalized_image=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=np.float32),
+            normalized_image=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=np.uint8),
             normalized_mask=np.zeros((self.params.res_in_r, self.params.res_in_phi), dtype=bool),
         )
+        self._run_core(image, iris_mask, src_points, dst_points, normalized_iris)
+
+        return normalized_iris
+
+    def _run_core(
+        self,
+        image: IRImage,
+        iris_mask: np.ndarray,
+        src_points: np.ndarray,
+        dst_points: np.ndarray,
+        normalized_iris: NormalizedIris,
+    ):
         for angle_point_idx in range(src_points.shape[1] - 1):
             for ring_idx in range(src_points.shape[0] - 1):
                 current_src, current_dst = self._correspondence_rois_coords(
@@ -135,10 +156,8 @@ class PerspectiveNormalization(Algorithm):
                     normalize_roi_output_shape=(ymax - ymin, xmax - xmin),
                 )
 
-                normalized_iris.normalized_image[ymin:ymax, xmin:xmax] = normalized_image_roi
+                normalized_iris.normalized_image[ymin:ymax, xmin:xmax] = to_uint8(normalized_image_roi)
                 normalized_iris.normalized_mask[ymin:ymax, xmin:xmax] = normalized_mask_roi
-
-        return normalized_iris
 
     def _generate_correspondences(
         self, pupil_points: np.ndarray, iris_points: np.ndarray
@@ -146,8 +165,8 @@ class PerspectiveNormalization(Algorithm):
         """Generate correspondences between points in original image and normalized image.
 
         Args:
-            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
-            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).
+            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 360, xy_coords = 2).
+            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 360, xy_coords = 2).
 
         Returns:
             Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.
@@ -215,11 +234,9 @@ class PerspectiveNormalization(Algorithm):
                 original_image, pixel_coords=image_xy
             )
 
-            try:
-                img_x, img_y = map(int, image_xy)
-                normalized_mask_roi[shifted_y, shifted_x] = iris_mask[img_y, img_x]
-            except IndexError:
-                normalized_mask_roi[shifted_y, shifted_x] = False
+            normalized_mask_roi[shifted_y, shifted_x] = get_pixel_or_default(
+                iris_mask, image_xy[0], image_xy[1], default=False
+            )
 
         return normalized_image_roi / 255.0, normalized_mask_roi
 
@@ -252,13 +269,13 @@ class PerspectiveNormalization(Algorithm):
             src_points (np.ndarray): All mapping points from an original image.
                 NumPy array of shape (
                     num_intermediate_rings = self.intermediate_radiuses,
-                    num_boundary_points = 512 // self.skip_boundary_points,
+                    num_boundary_points = 360 // self.skip_boundary_points,
                     xy_coords = 2
                 ).
             dst_points (np.ndarray): All mapping points from an normalized image.
                 NumPy array of shape (
                     num_intermediate_rings = self.intermediate_radiuses,
-                    num_boundary_points = 512 // self.skip_boundary_points,
+                    num_boundary_points = 360 // self.skip_boundary_points,
                     xy_coords = 2
                 ).
 
