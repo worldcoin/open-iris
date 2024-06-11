@@ -1,4 +1,4 @@
-from typing import Any, Tuple, Union
+from typing import Tuple, Union
 
 import numpy as np
 from pydantic import NonNegativeInt
@@ -67,7 +67,9 @@ def getgrids(res_in_r: NonNegativeInt, p2i_ratio: NonNegativeInt) -> np.ndarray:
     return grids[0:-1] + np.diff(grids) / 2
 
 
-def get_pixel_or_default(image: np.ndarray, pixel_x: float, pixel_y: float, default: Union[bool, int]) -> Union[bool, int]:
+def get_pixel_or_default(
+    image: np.ndarray, pixel_x: float, pixel_y: float, default: Union[bool, int]
+) -> Union[bool, int]:
     """Get the value of a pixel in the image 2D array.
 
     Args:
