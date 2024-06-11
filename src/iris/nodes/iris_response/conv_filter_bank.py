@@ -87,6 +87,7 @@ class ConvFilterBank(Algorithm):
         """Assign parameters.
 
         Args:
+            iris_code_version (str): Iris code version. Defaults to "v0.1".
             filters (List[ImageFilter]): List of image filters.
             probe_schemas (List[ProbeSchema]): List of corresponding probe schemas.
         """
