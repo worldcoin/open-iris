@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Literal, Tuple
+from typing import Any, Dict, List, Literal, Tuple, Union
 
 import numpy as np
 from pydantic import Field, NonNegativeInt, root_validator, validator
 
 from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
-from iris.utils import math
+from iris.utils.base64_encoding import base64_decode_array, base64_encode_array
+from iris.utils.math import estimate_diameter
 
 
 class IRImage(ImmutableModel):
@@ -270,7 +271,7 @@ class GeometryPolygons(ImmutableModel):
         Returns:
             float: pupil diameter.
         """
-        return math.estimate_diameter(self.pupil_array)
+        return estimate_diameter(self.pupil_array)
 
     @property
     def iris_diameter(self) -> float:
@@ -279,7 +280,7 @@ class GeometryPolygons(ImmutableModel):
         Returns:
             float: iris diameter.
         """
-        return math.estimate_diameter(self.iris_array)
+        return estimate_diameter(self.iris_array)
 
     def serialize(self) -> Dict[str, np.ndarray]:
         """Serialize GeometryPolygons object.
@@ -539,10 +540,12 @@ class IrisFilterResponse(ImmutableModel):
 
     iris_responses: List[np.ndarray]
     mask_responses: List[np.ndarray]
+    iris_code_version: str
 
     _responses_mask_shape_match = root_validator(pre=True, allow_reuse=True)(
         v.are_all_shapes_equal("iris_responses", "mask_responses")
     )
+    _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
     def serialize(self) -> Dict[str, List[np.ndarray]]:
         """Serialize IrisFilterResponse object.
@@ -570,28 +573,104 @@ class IrisTemplate(ImmutableModel):
 
     iris_codes: List[np.ndarray]
     mask_codes: List[np.ndarray]
+    iris_code_version: str
 
     _responses_mask_shape_match = root_validator(pre=True, allow_reuse=True)(
         v.are_all_shapes_equal("iris_codes", "mask_codes")
     )
-    _is_binary = validator("*", allow_reuse=True, each_item=True)(v.is_binary)
+    _is_binary = validator("iris_codes", "mask_codes", allow_reuse=True, each_item=True)(v.is_binary)
+    _iris_code_version_check = validator("iris_code_version", allow_reuse=True)(v.iris_code_version_check)
 
-    def serialize(self) -> Dict[str, np.ndarray]:
+    def serialize(self) -> Dict[str, bytes]:
         """Serialize IrisTemplate object.
 
         Returns:
-            Dict[str, np.ndarray]: Serialized object.
+            Dict[str, bytes]: Serialized object.
         """
-        stacked_iris_codes = np.stack(self.iris_codes)
-        stacked_iris_codes = stacked_iris_codes.transpose(1, 2, 0, 3)
-
-        stacked_mask_codes = np.stack(self.mask_codes)
-        stacked_mask_codes = stacked_mask_codes.transpose(1, 2, 0, 3)
+        old_format_iris_codes, old_format_mask_codes = self.convert2old_format()
 
         return {
-            "iris_codes": stacked_iris_codes,
-            "mask_codes": stacked_mask_codes,
+            "iris_codes": base64_encode_array(old_format_iris_codes).decode("utf-8"),
+            "mask_codes": base64_encode_array(old_format_mask_codes).decode("utf-8"),
+            "iris_code_version": self.iris_code_version,
         }
+
+    def convert2old_format(self) -> List[np.ndarray]:
+        """Convert an old tempalte format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes).
+        """
+        return (IrisTemplate.new_to_old_format(self.iris_codes), IrisTemplate.new_to_old_format(self.mask_codes))
+
+    @staticmethod
+    def deserialize(
+        serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)
+    ) -> IrisTemplate:
+        """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
+
+        Args:
+            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.
+            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            IrisTemplate: Serialized object.
+        """
+        return IrisTemplate.convert_to_new_format(
+            iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
+            mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
+            iris_code_version=serialized_template["iris_code_version"],
+        )
+
+    @staticmethod
+    def convert_to_new_format(iris_codes: np.ndarray, mask_codes: np.ndarray, iris_code_version: str) -> IrisTemplate:
+        """Convert an old template format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes).
+        """
+        return IrisTemplate(
+            iris_codes=IrisTemplate.old_to_new_format(iris_codes),
+            mask_codes=IrisTemplate.old_to_new_format(mask_codes),
+            iris_code_version=iris_code_version,
+        )
+
+    @staticmethod
+    def new_to_old_format(array: List[np.ndarray]) -> np.ndarray:
+        """Convert new iris template format to old iris template format.
+
+        New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
+            This enable having different convolution layout for each wavelet.
+        Old format is a numpy array of shape (height, width, nb_wavelets, 2)
+
+        Args:
+            codes (List[np.ndarray]): New format iris/mask codes.
+
+        Returns:
+            np.ndarray: Old format codes.
+
+        Raises:
+            ValueError: Raised if not all codes have the same shape. In this case, the IrisTemplate cannot be converted to the old format.
+        """
+        if not all([code.shape == array[0].shape for code in array]):
+            raise ValueError("All codes must have the same shape to be converted to the old format.")
+        return np.stack(array).transpose(1, 2, 0, 3)
+
+    @staticmethod
+    def old_to_new_format(array: np.ndarray) -> List[np.ndarray]:
+        """Convert old iris template format to new iris template format.
+
+        Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
+            This enable having different convolution layout for each wavelet.
+        New format is a numpy array of shape (height, width, nb_wavelets, 2)
+
+        Args:
+            codes (List[np.ndarray]): Old format iris/mask codes.
+
+        Returns:
+            np.ndarray: New format codes.
+        """
+        return [array[:, :, i, :] for i in range(array.shape[2])]
 
 
 class EyeOcclusion(ImmutableModel):

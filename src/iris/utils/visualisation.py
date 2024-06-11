@@ -370,9 +370,10 @@ class IRISVisualizer:
         if isinstance(normalized_iris, dict):
             normalized_iris = iris_dc.NormalizedIris.deserialize(normalized_iris)
 
-        axis.imshow(np.minimum(normalized_iris.normalized_image * exposure_factor, 1.0), cmap="gray")
+        axis.imshow(np.minimum(normalized_iris.normalized_image * exposure_factor, 255), cmap="gray")
         if stretch_hist:
             norm = normalized_iris.normalized_image * normalized_iris.normalized_mask
+            norm = norm.astype(np.float32)
             norm[norm == 0] = np.nan
             axis.imshow(norm, cmap="gray")
 

@@ -16,10 +16,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -29,10 +31,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [False, True]]), np.array([[True, True], [True, False]])],
                 mask_codes=[np.array([[True, False], [True, False]]), np.array([[False, True], [False, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, False]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -42,10 +46,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [False, False]]), np.array([[False, False], [False, False]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -55,10 +61,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -68,10 +76,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             0,
             None,
@@ -81,10 +91,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -94,10 +106,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [False, True]]), np.array([[True, True], [True, False]])],
                 mask_codes=[np.array([[True, False], [True, False]]), np.array([[False, True], [False, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, False]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -107,10 +121,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [False, False]]), np.array([[False, False], [False, False]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -120,10 +136,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -133,10 +151,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             -1,
             0.45,
@@ -146,10 +166,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -159,10 +181,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, False]]), np.array([[True, False], [False, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [True, True]]), np.array([[True, True], [True, False]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -172,10 +196,12 @@ from iris.nodes.matcher.utils import hamming_distance
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[False, True], [False, True]]), np.array([[False, False], [False, False]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, False]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -217,10 +243,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -231,10 +259,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [False, True]]), np.array([[True, True], [True, False]])],
                 mask_codes=[np.array([[True, False], [True, False]]), np.array([[False, True], [False, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, False]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -245,10 +275,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [False, False]]), np.array([[False, False], [False, False]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -259,10 +291,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -273,10 +307,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             0,
             None,
@@ -287,10 +323,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -301,10 +339,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [False, True]]), np.array([[True, True], [True, False]])],
                 mask_codes=[np.array([[True, False], [True, False]]), np.array([[False, True], [False, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, False]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -315,10 +355,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [False, True]]), np.array([[False, False], [False, False]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -329,10 +371,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             0.45,
@@ -343,10 +387,12 @@ def test_hamming_distance(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
                 mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             -1,
             0.45,
@@ -363,6 +409,7 @@ def test_hamming_distance(
                     np.array([[True, True], [True, True]]),
                     np.array([[True, False, False, True], [True, True, True, True]]),
                 ],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[
@@ -373,6 +420,7 @@ def test_hamming_distance(
                     np.array([[True, False], [False, True]]),
                     np.array([[True, True, True, True], [True, True, False, True]]),
                 ],
+                iris_code_version="v2.1",
             ),
             -1,
             0.45,
@@ -415,10 +463,12 @@ def test_hamming_distance_with_weights(
             IrisTemplate(
                 iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[np.array([[True, True]]), np.array([[True, True], [True, True]])],
                 mask_codes=[np.array([[True, True]]), np.array([[True, True], [True, True]])],
+                iris_code_version="v2.1",
             ),
             1,
             None,
@@ -433,6 +483,7 @@ def test_hamming_distance_with_weights(
                     np.array([[True, True, False], [True, True, False], [True, True, True]]),
                     np.array([[True, True, True], [True, True, True], [True, True, True]]),
                 ],
+                iris_code_version="v2.1",
             ),
             IrisTemplate(
                 iris_codes=[
@@ -443,6 +494,7 @@ def test_hamming_distance_with_weights(
                     np.array([[True, True, True], [True, True, False], [True, True, False]]),
                     np.array([[True, True, True], [True, True, True], [True, True, False]]),
                 ],
+                iris_code_version="v2.1",
             ),
             1,
             None,

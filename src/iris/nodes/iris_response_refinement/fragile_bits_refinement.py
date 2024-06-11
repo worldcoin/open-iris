@@ -68,4 +68,8 @@ class FragileBitRefinement(Algorithm):
             mask_value = mask_value * iris_mask
             fragile_masks.append(mask_value)
 
-        return IrisFilterResponse(iris_responses=iris_filter_response.iris_responses, mask_responses=fragile_masks)
+        return IrisFilterResponse(
+            iris_responses=iris_filter_response.iris_responses,
+            mask_responses=fragile_masks,
+            iris_code_version=iris_filter_response.iris_code_version,
+        )

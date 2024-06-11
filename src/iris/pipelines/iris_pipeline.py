@@ -21,6 +21,7 @@ from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import build_debugging_output, build_orb_output, build_simple_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
+from iris.utils.base64_encoding import base64_decode_str
 
 
 class IRISPipeline(Algorithm):
@@ -72,7 +73,7 @@ class IRISPipeline(Algorithm):
 
         Args:
             config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formatted string or dictionary specifying all nodes configuration. Defaults to None, which loads the default config.
-            env (Environment, optional): Environment properties. Defaults to Environment(output_builder=build_simple_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
+            env (Environment, optional): Environment properties. Defaults to Environment(pipeline_output_builder=build_simple_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
         """
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(**deserialized_config)
@@ -279,7 +280,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if not config:
+        if config is None or config == "":
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):
@@ -296,22 +297,22 @@ class IRISPipeline(Algorithm):
 
         return deserialized_config
 
-    @staticmethod
-    def load_from_config_map(config_map: Dict[str, str]) -> Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]:
-        """Given a mapping between iris versions and iris config strings, initialise an IRISPipeline with config matching the current version.
+    @classmethod
+    def load_from_config(cls, config: str) -> Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]:
+        """Given a iris config string in base64, initialise an IRISPipeline with config this config.
 
         Args:
-            config_map (Dict[str, str]): mapping between iris versions and iris str configs
+            config (str): an iris str configs in base64
 
         Returns:
             Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]: Initialised iris pipeline and standard error output.
         """
-        current_version = iris.__version__
         error = None
         iris_pipeline = None
 
         try:
-            iris_pipeline = IRISPipeline(config=config_map[current_version])
+            decoded_config_str = base64_decode_str(config)
+            iris_pipeline = cls(config=decoded_config_str)
         except Exception as exception:
             error = {
                 "error_type": type(exception).__name__,

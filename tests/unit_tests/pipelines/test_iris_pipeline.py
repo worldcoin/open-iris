@@ -18,6 +18,7 @@ from iris.orchestration.error_managers import raise_error_manager, store_error_m
 from iris.orchestration.output_builders import build_debugging_output, build_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
+from iris.utils.base64_encoding import base64_encode_str
 
 
 @pytest.fixture
@@ -633,22 +634,20 @@ def test_instanciate_nodes(
 
 
 @pytest.mark.parametrize(
-    "config_map,expected_pipeline_name",
+    "config,expected_pipeline_name",
     [
         (
-            {
-                __version__: f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: []",
-                "v0.0.0": b"notconfig",
-                "v14.28.57": b"stuff",
-            },
+            base64_encode_str(
+                f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: []"
+            ),
             "v1.5.1_pipeline",
         ),
-        ({}, None),
+        (None, None),
     ],
     ids=["specified pipeline", "default pipeline"],
 )
-def test_load_from_config_map(config_map: Dict[str, str], expected_pipeline_name: str) -> None:
-    res = IRISPipeline.load_from_config_map(config_map=config_map)
+def test_load_from_config(config: Dict[str, str], expected_pipeline_name: str) -> None:
+    res = IRISPipeline.load_from_config(config=config)
 
     if expected_pipeline_name is not None:
         assert res["agent"].params.metadata.pipeline_name == expected_pipeline_name

@@ -85,4 +85,4 @@ from iris.nodes.vectorization.contouring import ContouringAlgorithm
 from iris.orchestration import error_managers, output_builders, pipeline_dataclasses
 from iris.orchestration.environment import Environment
 from iris.pipelines.iris_pipeline import IRISPipeline
-from iris.utils import common, math, visualisation
+from iris.utils import base64_encoding, common, math, visualisation

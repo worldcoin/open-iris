@@ -56,4 +56,4 @@ class IrisEncoder(Algorithm):
             iris_codes.append(iris_code)
             mask_codes.append(mask_code)
 
-        return IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes)
+        return IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version=response.iris_code_version)
