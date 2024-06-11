@@ -137,7 +137,7 @@ class PerspectiveNormalization(Algorithm):
         src_points: np.ndarray,
         dst_points: np.ndarray,
         normalized_iris: NormalizedIris,
-    ):
+    ) -> None:
         for angle_point_idx in range(src_points.shape[1] - 1):
             for ring_idx in range(src_points.shape[0] - 1):
                 current_src, current_dst = self._correspondence_rois_coords(
