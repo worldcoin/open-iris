@@ -2,7 +2,7 @@ ______________________________________________________________________
 <div align="center">
 
 <p align="center">
-  <a href="https://worldcoin.org/"><img src="https://github.com/worldcoin/open-iris/blob/main/docs/source/images/logos/wld.png" width=150px></img></a>
+  <a href="https://worldcoin.org/"><img src="https://github.com/worldcoin/open-iris/blob/main/docs/source/images/logos/wld.png?raw=true" width=150px></img></a>
 </p>
 
 # **_IRIS: Iris Recognition Inference System_**
