@@ -18,7 +18,7 @@ from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_simple_debugging_output, build_orb_output, build_simple_orb_output
+from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output, build_simple_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
 from iris.utils.base64_encoding import base64_decode_str

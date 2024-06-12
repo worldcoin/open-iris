@@ -7,7 +7,7 @@ import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import Landmarks
-from iris.orchestration.output_builders import build_simple_debugging_output, build_orb_output, build_simple_orb_output
+from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output, build_simple_orb_output
 from tests.e2e_tests.utils import (
     compare_debug_pipeline_outputs,
     compare_iris_pipeline_outputs,
