@@ -47,6 +47,7 @@ More detailed pipeline overview can be found in our `blog post <https://worldcoi
 
    examples/getting_started
    examples/custom_pipeline
+   examples/matching_entities
 
 .. toctree::
    :hidden:
