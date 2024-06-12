@@ -638,10 +638,9 @@ class IrisTemplate(ImmutableModel):
     @staticmethod
     def new_to_old_format(array: List[np.ndarray]) -> np.ndarray:
         """Convert new iris template format to old iris template format.
-
-        New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
-            This enable having different convolution layout for each wavelet.
-        Old format is a numpy array of shape (height, width, nb_wavelets, 2)
+            - New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
+                This enable having different convolution layout for each wavelet.
+            - Old format is a numpy array of shape (height, width, nb_wavelets, 2)
 
         Args:
             codes (List[np.ndarray]): New format iris/mask codes.
@@ -659,10 +658,9 @@ class IrisTemplate(ImmutableModel):
     @staticmethod
     def old_to_new_format(array: np.ndarray) -> List[np.ndarray]:
         """Convert old iris template format to new iris template format.
-
-        Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
-            This enable having different convolution layout for each wavelet.
-        New format is a numpy array of shape (height, width, nb_wavelets, 2)
+            - Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.
+                This enable having different convolution layout for each wavelet.
+            - New format is a numpy array of shape (height, width, nb_wavelets, 2)
 
         Args:
             codes (List[np.ndarray]): Old format iris/mask codes.

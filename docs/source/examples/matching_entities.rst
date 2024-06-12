@@ -17,7 +17,7 @@ Load all IR images with ``opencv-python`` package.
     subject1_second_image = cv2.imread("./subject1_second_image.png", cv2.IMREAD_GRAYSCALE)
     subject2_image = cv2.imread("./subject2_image.png", cv2.IMREAD_GRAYSCALE)
 
-Create ``IRISPipeline`` object and compute ``IrisTemplate``s for all images.
+Create ``IRISPipeline`` object and compute ``IrisTemplates`` for all images.
 
 .. code-block:: python
 
@@ -33,6 +33,7 @@ Create ``IRISPipeline`` object and compute ``IrisTemplate``s for all images.
     subject2_code = iris_pipeline.call_trace.get("encoder")
 
 Create a ``HammingDistanceMatcher`` matcher object.
+
 .. code-block:: python
 
     def __init__(
@@ -53,7 +54,7 @@ Create a ``HammingDistanceMatcher`` matcher object.
 
     matcher = iris.HammingDistanceMatcher()
 
-Call ``run`` method and provide two ``IrisTemplate``s to compute distances.
+Call ``run`` method and provide two ``IrisTemplates`` to compute distances.
 
 .. code-block:: python
 

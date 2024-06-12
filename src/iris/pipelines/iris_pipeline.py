@@ -299,7 +299,7 @@ class IRISPipeline(Algorithm):
 
     @classmethod
     def load_from_config(cls, config: str) -> Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]:
-        """Given a iris config string in base64, initialise an IRISPipeline with config this config.
+        """Given an iris config string in base64, initialise an IRISPipeline with config this config.
 
         Args:
             config (str): an iris str configs in base64

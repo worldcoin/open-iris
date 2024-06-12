@@ -14,9 +14,9 @@ def build_simple_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
 
     Returns:
         Dict[str, Any]: {
-                "iris_template": (Optional[IrisTemplate]) the iris template object if the pipeline succeeded,
-                "error": (Optional[Dict]) the error dict if the pipeline returned an error,
-                "metadata": (Dict) the metadata dict,
+        "iris_template": (Optional[IrisTemplate]) the iris template object if the pipeline succeeded,
+        "error": (Optional[Dict]) the error dict if the pipeline returned an error,
+        "metadata": (Dict) the metadata dict,
         }.
     """
     metadata = __get_metadata(call_trace=call_trace)
@@ -40,9 +40,9 @@ def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
 
     Returns:
         Dict[str, Any]: {
-                "iris_template": (Optional[Dict]) the iris template dict if the pipeline succeeded,
-                "error": (Optional[Dict]) the error dict if the pipeline returned an error,
-                "metadata": (Dict) the metadata dict,
+        "iris_template": (Optional[Dict]) the iris template dict if the pipeline succeeded.
+        "error": (Optional[Dict]) the error dict if the pipeline returned an error.
+        "metadata": (Dict) the metadata dict.
         }.
     """
     output = build_simple_output(call_trace)

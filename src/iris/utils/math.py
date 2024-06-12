@@ -7,7 +7,7 @@ import numpy as np
 def area(array: np.ndarray, signed: bool = False) -> float:
     """Shoelace formula for simple polygon area calculation.
 
-    WARNING: This formula only works for _simple polygons_, i.e planar polygon without self-intersection nor holes.
+    WARNING: This formula only works for "simple polygons", i.e planar polygon without self-intersection nor holes.
     These conditions are not checked within this function.
 
     Args:

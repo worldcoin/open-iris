@@ -153,20 +153,17 @@ class RegularProbeSchema(ProbeSchema):
             row_min (int): Starting value for row count
             row_max (int): End value for row count
             length (int): Pixels in the respective dimension
-            boundary_condition (Union[Literal["periodic-symmetric", "periodic-left"], List[float]], optional):  Boundary conditions for the probing
-                can either be periodic or non-periodic, if they are periodic, the distance
-                from one row to the next must be the same also for the boundaries.
-                Else, no conditions for the boundaries are required. Options are:
-                    - 'periodic-symmetric': the first and the last row are placed with an offset to the
-                                borders, that is half of the spacing of the two rows
-                    - 'periodic-left': the first row is at the border of the bottom of the image, while
-                            the last row is one spacing apart from the top of the image
-                    - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the
-                            the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
-                Defaults to "periodic_symmetric".
+            boundary_condition (Union[Literal["periodic-symmetric", "periodic-left"], List[float]], optional):  Boundary conditions for the probing can either be periodic or non-periodic, if they are periodic, the distance from one row to the next must be the same also for the boundaries. Defaults to "periodic_symmetric".
+            Else, no conditions for the boundaries are required. Options are:
+                - 'periodic-symmetric': the first and the last row are placed with an offset to the
+                            borders, that is half of the spacing of the two rows
+                - 'periodic-left': the first row is at the border of the bottom of the image, while
+                        the last row is one spacing apart from the top of the image
+                - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the
+                        the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
 
         Returns:
-            list: List of all number of rows that does not lead to interpolation errors
+            List[int]: List of all number of rows that does not lead to interpolation errors
         """
         suitable_values: List[int] = []
         # loop through all values and validate whether they are suitable
