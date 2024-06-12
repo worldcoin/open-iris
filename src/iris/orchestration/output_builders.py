@@ -6,7 +6,7 @@ from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import ImmutableModel
 
 
-def build_simple_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+def build_simple_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
     """Build the output for the Orb.
 
     Args:
@@ -45,16 +45,14 @@ def build_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
         "metadata": (Dict) the metadata dict.
         }.
     """
-    output = build_simple_output(call_trace)
+    output = build_simple_orb_output(call_trace)
     output["iris_template"] = __safe_serialize(output["iris_template"])
 
     return output
 
 
-def build_debugging_output(
-    call_trace: PipelineCallTraceStorage, serialise_iris_template: bool = False
-) -> Dict[str, Any]:
-    """Build the output for debugging purposes.
+def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Build the simplest output for debugging purposes.
 
     Args:
         call_trace (PipelineCallTraceStorage): Pipeline call results storage.
@@ -63,8 +61,6 @@ def build_debugging_output(
         Dict[str, Any]: Returns data to be stored in MongoDB.
     """
     iris_template = call_trace["encoder"]
-    if serialise_iris_template:
-        iris_template = __safe_serialize(iris_template)
 
     metadata = __get_metadata(call_trace=call_trace)
     error = __get_error(call_trace=call_trace)
@@ -137,6 +133,23 @@ def __get_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
         "occlusion30": __safe_serialize(call_trace["occlusion30_calculator"]),
         "iris_bbox": __safe_serialize(call_trace["bounding_box_estimation"]),
     }
+
+
+def build_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Build the output for debugging purposes.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call results storage.
+
+    Returns:
+        Dict[str, Any]: Returns data to be stored in MongoDB.
+    """
+    output = build_simple_debugging_output(call_trace)
+
+    serialized_iris_template = __safe_serialize(output["iris_template"])
+    output["iris_template"] = serialized_iris_template
+
+    return output
 
 
 def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]]:

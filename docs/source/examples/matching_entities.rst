@@ -25,12 +25,14 @@ Create ``IRISPipeline`` object and compute ``IrisTemplates`` for all images.
 
     iris_pipeline = iris.IRISPipeline()
 
-    _ = iris_pipeline(subject1_first_image, eye_side="left")
-    subject1_first_code = iris_pipeline.call_trace.get("encoder")
-    _ = iris_pipeline(subject1_second_image, eye_side="left")
-    subject1_second_code = iris_pipeline.call_trace.get("encoder")
-    _ = iris_pipeline(subject2_image, eye_side="left")
-    subject2_code = iris_pipeline.call_trace.get("encoder")
+    output_1 = iris_pipeline(subject1_first_image, eye_side="left")
+    subject1_first_code = output_1["iris_template"]
+
+    output_2 = iris_pipeline(subject1_second_image, eye_side="left")
+    subject1_second_code = output_2["iris_template"]
+
+    output_3 = iris_pipeline(subject2_image, eye_side="left")
+    subject2_code = output_3["iris_template"]
 
 Create a ``HammingDistanceMatcher`` matcher object.
 

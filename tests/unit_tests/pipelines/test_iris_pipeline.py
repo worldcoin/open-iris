@@ -15,7 +15,7 @@ from iris.io.class_configs import Algorithm
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
-from iris.orchestration.output_builders import build_debugging_output, build_orb_output
+from iris.orchestration.output_builders import build_simple_debugging_output, build_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
 from iris.utils.base64_encoding import base64_encode_str
@@ -258,7 +258,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_debugging_output,
+                pipeline_output_builder=build_simple_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -268,7 +268,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_debugging_output,
+                pipeline_output_builder=build_simple_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),

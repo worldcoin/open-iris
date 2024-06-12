@@ -18,7 +18,7 @@ from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_debugging_output, build_orb_output, build_simple_output
+from iris.orchestration.output_builders import build_simple_debugging_output, build_orb_output, build_simple_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
 from iris.utils.base64_encoding import base64_decode_str
@@ -28,7 +28,7 @@ class IRISPipeline(Algorithm):
     """Implementation of a fully configurable iris recognition pipeline."""
 
     DEBUGGING_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_debugging_output,
+        pipeline_output_builder=build_simple_debugging_output,
         error_manager=store_error_manager,
         disabled_qa=[
             iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator,
@@ -64,7 +64,7 @@ class IRISPipeline(Algorithm):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_simple_output,
+            pipeline_output_builder=build_simple_orb_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
