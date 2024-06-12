@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Setup for development" href="setup_for_development.html" /><link rel="prev" title="Iris Recognition Inference System" href="../index.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contact" href="../issues_note.html" /><link rel="prev" title="Configuring custom pipeline tutorial" href="custom_pipeline.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>Installation - iris v1.1.0</title>
+        <title>Matching entities tutorial - iris v1.1.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -195,7 +195,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -216,16 +216,16 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
-<ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_for_development.html">Setup for development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="running_inference.html">Running inference</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/setup_for_development.html">Setup for development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/running_inference.html">Running inference</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/getting_started.html"><em>Getting started</em> tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/custom_pipeline.html"><em>Configuring custom pipeline</em> tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/matching_entities.html"><em>Matching entities</em> tutorial</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html"><em>Getting started</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pipeline.html"><em>Configuring custom pipeline</em> tutorial</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#"><em>Matching entities</em> tutorial</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Issues, pull requests and feature requests</span></p>
 <ul>
@@ -284,7 +284,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/quickstart/installation.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/examples/matching_entities.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -298,42 +298,70 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
-<p>Installation is as simple as running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> with specifying <code class="docutils literal notranslate"><span class="pre">IRIS_ENV</span></code> installation global flag (<code class="docutils literal notranslate"><span class="pre">IRIS_ENV</span></code> flag may be skipped if <code class="docutils literal notranslate"><span class="pre">iris</span></code> is installed from PyPl server but this option is only available when <code class="docutils literal notranslate"><span class="pre">iris</span></code> is installed on local machine). The <code class="docutils literal notranslate"><span class="pre">IRIS_ENV</span></code> flag is used to indicate an “environment” in which package is meant to work. Possible options are:</p>
-<ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">SERVER</span></code> - For installing <code class="docutils literal notranslate"><span class="pre">iris</span></code> package with dependencies required for running an inference on a local machines.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On a local machine</span>
-pip<span class="w"> </span>install<span class="w"> </span>open-iris
-<span class="c1"># or directly from GitHub</span>
-<span class="nv">IRIS_ENV</span><span class="o">=</span>SERVER<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/worldcoin/open-iris.git
+          <section id="matching-entities-tutorial">
+<h1><em>Matching entities</em> tutorial<a class="headerlink" href="#matching-entities-tutorial" title="Permalink to this heading">¶</a></h1>
+<p>This subpage will walk you through the basics of how to use matchers available in the <code class="docutils literal notranslate"><span class="pre">iris</span></code> package. From it you will learn how to:
+- Use the <code class="docutils literal notranslate"><span class="pre">HammingDistanceMatcher</span></code> matcher to compute distance between two eyes.</p>
+<section id="use-the-hammingdistancematcher-matcher-to-compute-distance-between-two-eyes">
+<h2>1. Use the <code class="docutils literal notranslate"><span class="pre">HammingDistanceMatcher</span></code> matcher to compute distance between two eyes.<a class="headerlink" href="#use-the-hammingdistancematcher-matcher-to-compute-distance-between-two-eyes" title="Permalink to this heading">¶</a></h2>
+<p>Load all IR images with <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code> package.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="n">subject1_first_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject1_first_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">subject1_second_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject1_second_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">subject2_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject2_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
 </pre></div>
 </div>
-<ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ORB</span></code> - For installing <code class="docutils literal notranslate"><span class="pre">iris</span></code> package with dependencies required for running an inference on the Orb.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the Orb</span>
-<span class="nv">IRIS_ENV</span><span class="o">=</span>ORB<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/worldcoin/open-iris.git
+<p>Create <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object and compute <code class="docutils literal notranslate"><span class="pre">IrisTemplates</span></code> for all images.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">iris</span>
+
+<span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">()</span>
+
+<span class="n">output_1</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject1_first_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">subject1_first_code</span> <span class="o">=</span> <span class="n">output_1</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
+
+<span class="n">output_2</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject1_second_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">subject1_second_code</span> <span class="o">=</span> <span class="n">output_2</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
+
+<span class="n">output_3</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject2_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">subject2_code</span> <span class="o">=</span> <span class="n">output_3</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DEV</span></code> - For installing iris package together with packages necessary for development of <code class="docutils literal notranslate"><span class="pre">iris</span></code> package.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For development</span>
-<span class="nv">IRIS_ENV</span><span class="o">=</span>DEV<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/worldcoin/open-iris.git
+<p>Create a <code class="docutils literal notranslate"><span class="pre">HammingDistanceMatcher</span></code> matcher object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="n">nm_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rotation_shift (int): rotations allowed in matching, converted to shifts in columns. Defaults to 15.</span>
+<span class="sd">        nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to None.</span>
+<span class="sd">        weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<p>After successfully installing <code class="docutils literal notranslate"><span class="pre">iris</span></code>, verify your installation by attempting to import.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import iris; print(iris.__version__)&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">matcher</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">HammingDistanceMatcher</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Call <code class="docutils literal notranslate"><span class="pre">run</span></code> method and provide two <code class="docutils literal notranslate"><span class="pre">IrisTemplates</span></code> to compute distances.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">same_subjects_distance</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">subject1_first_code</span><span class="p">,</span> <span class="n">subject1_second_code</span><span class="p">)</span>
+<span class="n">different_subjects_distance</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">subject1_first_code</span><span class="p">,</span> <span class="n">subject2_code</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Thank you for making it to the end of this tutorial!</strong></p>
+</section>
 </section>
 
         </article>
@@ -341,23 +369,23 @@ pip<span class="w"> </span>install<span class="w"> </span>open-iris
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="setup_for_development.html">
+          <a class="next-page" href="../issues_note.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Setup for development</div>
+                <div class="title">Contact</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../index.html">
+          <a class="prev-page" href="custom_pipeline.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title"><em>Configuring custom pipeline</em> tutorial</div>
                 
               </div>
             </a>
@@ -379,8 +407,27 @@ pip<span class="w"> </span>install<span class="w"> </span>open-iris
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#"><em>Matching entities</em> tutorial</a><ul>
+<li><a class="reference internal" href="#use-the-hammingdistancematcher-matcher-to-compute-distance-between-two-eyes">1. Use the <code class="docutils literal notranslate"><span class="pre">HammingDistanceMatcher</span></code> matcher to compute distance between two eyes.</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

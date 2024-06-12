@@ -4,6 +4,14 @@ iris.utils package
 Submodules
 ----------
 
+iris.utils.base64\_encoding module
+----------------------------------
+
+.. automodule:: iris.utils.base64_encoding
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 iris.utils.common module
 ------------------------
 

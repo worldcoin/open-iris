@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.orchestration.pipeline_dataclasses - iris v1.1.0</title>
+        <title>iris.utils.base64_encoding - iris v1.1.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -297,64 +297,67 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for iris.orchestration.pipeline_dataclasses</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+          <h1>Source code for iris.utils.base64_encoding</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
-
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
-
-<span class="kn">from</span> <span class="nn">iris.io.class_configs</span> <span class="kn">import</span> <span class="n">ImmutableModel</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.validators</span> <span class="kn">import</span> <span class="n">pipeline_metadata_version_check</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="PipelineMetadata"><a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata">[docs]</a><span class="k">class</span> <span class="nc">PipelineMetadata</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for input config&#39;s metadata.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="base64_encode_array"><a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_array">[docs]</a><span class="k">def</span> <span class="nf">base64_encode_array</span><span class="p">(</span><span class="n">array2encode</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a numpy array to a packed base64 string.</span>
 
-    <span class="n">pipeline_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">iris_version</span><span class="p">:</span> <span class="nb">str</span>
+<span class="sd">    Args:</span>
+<span class="sd">        array2encode (np.ndarray): The array to convert.</span>
 
-    <span class="n">_version_check</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;iris_version&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pipeline_metadata_version_check</span><span class="p">)</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        bytes: The packed base64 string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">co_pack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">packbits</span><span class="p">(</span><span class="n">array2encode</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="PipelineValue"><a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineValue">[docs]</a><span class="k">class</span> <span class="nc">PipelineValue</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for pipeline value that flows through the system with optional index to specify value this holder refers to if value is of Iterable type.&quot;&quot;&quot;</span>
-
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">co_pack</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="PipelineInput"><a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineInput">[docs]</a><span class="k">class</span> <span class="nc">PipelineInput</span><span class="p">(</span><span class="n">PipelineValue</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the reference to an input node.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="base64_decode_array"><a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_array">[docs]</a><span class="k">def</span> <span class="nf">base64_decode_array</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a packed base64 string to a numpy array.</span>
 
-    <span class="n">source_node</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PipelineValue</span><span class="p">]]]</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">        bytes_array (bytes): The packed base64 byte string.</span>
+<span class="sd">        shape (Tuple[int, int, int, int], optional): The shape of the array. Defaults to (16, 256, 2, 2).</span>
 
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: The array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">decoded_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PipelineClass"><a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineClass">[docs]</a><span class="k">class</span> <span class="nc">PipelineClass</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the reference to any class: Algorithm, Callback, etc.&quot;&quot;&quot;</span>
+    <span class="n">deserialized_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">decoded_bytes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">unpacked_bits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unpackbits</span><span class="p">(</span><span class="n">deserialized_bytes</span><span class="p">)</span>
 
-    <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
-        <span class="nb">str</span><span class="p">,</span>
-        <span class="n">Union</span><span class="p">[</span>
-            <span class="nb">int</span><span class="p">,</span>
-            <span class="nb">float</span><span class="p">,</span>
-            <span class="nb">str</span><span class="p">,</span>
-            <span class="n">PipelineClass</span><span class="p">,</span>
-            <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">PipelineClass</span><span class="p">],</span>
-            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">PipelineClass</span><span class="p">]],</span>
-        <span class="p">],</span>
-    <span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">unpacked_bits</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">array_shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PipelineNode"><a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode">[docs]</a><span class="k">class</span> <span class="nc">PipelineNode</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for one node in a declared pipeline.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="base64_encode_str"><a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_str">[docs]</a><span class="k">def</span> <span class="nf">base64_encode_str</span><span class="p">(</span><span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a string to base64 string. Both input and output are string, but base64 encoded vs non-encoded.</span>
 
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">algorithm</span><span class="p">:</span> <span class="n">PipelineClass</span>
-    <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineInput</span><span class="p">]</span>
-    <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PipelineClass</span><span class="p">]]</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">        input_str (str): The string to encode.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: the encoded base64 string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">input_str</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="base64_decode_str"><a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_str">[docs]</a><span class="k">def</span> <span class="nf">base64_decode_str</span><span class="p">(</span><span class="n">base64_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert base64-encoded string to decoded string. Both input and output are string, but base64 encoded vs non-encoded.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        base64_str (str): The base64-encoded string</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: the decoded string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_str</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 </pre></div>
         </article>
       </div>

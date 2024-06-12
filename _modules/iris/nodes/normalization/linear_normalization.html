@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.encoder.iris_encoder - iris v1.1.0</title>
+        <title>iris.nodes.normalization.linear_normalization - iris v1.1.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -297,66 +297,105 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for iris.nodes.encoder.iris_encoder</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+          <h1>Source code for iris.nodes.normalization.linear_normalization</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">PositiveInt</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span>
-
-<span class="kn">from</span> <span class="nn">iris.callbacks.callback_interface</span> <span class="kn">import</span> <span class="n">Callback</span>
 <span class="kn">from</span> <span class="nn">iris.io.class_configs</span> <span class="kn">import</span> <span class="n">Algorithm</span>
-<span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">IrisFilterResponse</span><span class="p">,</span> <span class="n">IrisTemplate</span>
+<span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">EyeOrientation</span><span class="p">,</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">IRImage</span><span class="p">,</span> <span class="n">NoiseMask</span><span class="p">,</span> <span class="n">NormalizedIris</span>
+<span class="kn">from</span> <span class="nn">iris.io.errors</span> <span class="kn">import</span> <span class="n">NormalizationError</span>
+<span class="kn">from</span> <span class="nn">iris.nodes.normalization.common</span> <span class="kn">import</span> <span class="n">correct_orientation</span><span class="p">,</span> <span class="n">generate_iris_mask</span><span class="p">,</span> <span class="n">normalize_all</span><span class="p">,</span> <span class="n">to_uint8</span>
 
 
-<div class="viewcode-block" id="IrisEncoder"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.encoder.html#iris.nodes.encoder.iris_encoder.IrisEncoder">[docs]</a><span class="k">class</span> <span class="nc">IrisEncoder</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Binarize IrisFilterResponse to generate iris code using Daugman&#39;s method.</span>
+<div class="viewcode-block" id="LinearNormalization"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.linear_normalization.LinearNormalization">[docs]</a><span class="k">class</span> <span class="nc">LinearNormalization</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a normalization algorithm which uses linear transformation to map image pixels.</span>
 
 <span class="sd">    Algorithm steps:</span>
-<span class="sd">        1) Binarize iris response by comparing real and imaginary parts to zero.</span>
-<span class="sd">        2) Binarize mask response by comparing real and imaginary parts to a given parameter: mask_threshold.</span>
-
-<span class="sd">    Reference:</span>
-<span class="sd">        [1] https://www.robots.ox.ac.uk/~az/lectures/est/iris.pdf.</span>
+<span class="sd">        1) Create linear grids of sampling radii based on parameters: res_in_r (height) and the number of extrapolated iris and pupil points from extrapolated_contours (width).</span>
+<span class="sd">        2) Compute the mapping between the normalized image pixel location and the original image location.</span>
+<span class="sd">        3) Obtain pixel values of normalized image using Nearest Neighbor interpolation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IrisEncoder.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.encoder.html#iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;IrisEncoder parameters.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LinearNormalization.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.linear_normalization.LinearNormalization.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for LinearNormalization.&quot;&quot;&quot;</span>
 
-        <span class="n">mask_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+        <span class="n">res_in_r</span><span class="p">:</span> <span class="n">PositiveInt</span>
+        <span class="n">oversat_threshold</span><span class="p">:</span> <span class="n">PositiveInt</span></div>
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">res_in_r</span><span class="p">:</span> <span class="n">PositiveInt</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
+        <span class="n">oversat_threshold</span><span class="p">:</span> <span class="n">PositiveInt</span> <span class="o">=</span> <span class="mi">254</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mask_threshold (float): threshold to binarize mask_responses, in the range of [0,1]. Defaults to 0.9.</span>
-<span class="sd">            callbacks (List[Callback]): callbacks list. Defaults to [].</span>
+<span class="sd">            res_in_r (PositiveInt): Normalized image r resolution. Defaults to 128.</span>
+<span class="sd">            oversat_threshold (PositiveInt, optional): threshold for masking over-satuated pixels. Defaults to 254.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mask_threshold</span><span class="o">=</span><span class="n">mask_threshold</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">res_in_r</span><span class="o">=</span><span class="n">res_in_r</span><span class="p">,</span>
+            <span class="n">oversat_threshold</span><span class="o">=</span><span class="n">oversat_threshold</span><span class="p">,</span>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="IrisEncoder.run"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.encoder.html#iris.nodes.encoder.iris_encoder.IrisEncoder.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">IrisFilterResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisTemplate</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode iris code and mask code.</span>
+<div class="viewcode-block" id="LinearNormalization.run"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.linear_normalization.LinearNormalization.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">image</span><span class="p">:</span> <span class="n">IRImage</span><span class="p">,</span>
+        <span class="n">noise_mask</span><span class="p">:</span> <span class="n">NoiseMask</span><span class="p">,</span>
+        <span class="n">extrapolated_contours</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span>
+        <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NormalizedIris</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize iris using linear transformation when sampling points from cartisian to polar coordinates.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            response (IrisFilterResponse): Filter responses.</span>
+<span class="sd">            image (IRImage): Input image to normalize.</span>
+<span class="sd">            noise_mask (NoiseMask): Noise mask.</span>
+<span class="sd">            extrapolated_contours (GeometryPolygons): Extrapolated contours.</span>
+<span class="sd">            eye_orientation (EyeOrientation): Eye orientation angle.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            IrisTemplate: Final iris template.</span>
+<span class="sd">            NormalizedIris: NormalizedIris object containing normalized image and iris mask.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">iris_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">mask_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">iris_array</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="s2">&quot;The number of extrapolated iris and pupil points must be the same.&quot;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">iris_response</span><span class="p">,</span> <span class="n">mask_response</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">iris_responses</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">mask_responses</span><span class="p">):</span>
-            <span class="n">mask_code</span> <span class="o">=</span> <span class="n">mask_response</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">mask_threshold</span>
+        <span class="n">pupil_points</span><span class="p">,</span> <span class="n">iris_points</span> <span class="o">=</span> <span class="n">correct_orientation</span><span class="p">(</span>
+            <span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span>
+            <span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span>
+            <span class="n">eye_orientation</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span>
+        <span class="p">)</span>
 
-            <span class="n">iris_code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">iris_response</span><span class="o">.</span><span class="n">real</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">iris_response</span><span class="o">.</span><span class="n">imag</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">mask_code</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">mask_code</span><span class="p">,</span> <span class="n">mask_code</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">iris_mask</span> <span class="o">=</span> <span class="n">generate_iris_mask</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="p">,</span> <span class="n">noise_mask</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span>
+        <span class="n">iris_mask</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">img_data</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">oversat_threshold</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-            <span class="n">iris_codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iris_code</span><span class="p">)</span>
-            <span class="n">mask_codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mask_code</span><span class="p">)</span>
+        <span class="n">src_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_correspondences</span><span class="p">(</span><span class="n">pupil_points</span><span class="p">,</span> <span class="n">iris_points</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">IrisTemplate</span><span class="p">(</span><span class="n">iris_codes</span><span class="o">=</span><span class="n">iris_codes</span><span class="p">,</span> <span class="n">mask_codes</span><span class="o">=</span><span class="n">mask_codes</span><span class="p">,</span> <span class="n">iris_code_version</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">iris_code_version</span><span class="p">)</span></div></div>
+        <span class="n">normalized_image</span><span class="p">,</span> <span class="n">normalized_mask</span> <span class="o">=</span> <span class="n">normalize_all</span><span class="p">(</span>
+            <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">img_data</span><span class="p">,</span> <span class="n">iris_mask</span><span class="o">=</span><span class="n">iris_mask</span><span class="p">,</span> <span class="n">src_points</span><span class="o">=</span><span class="n">src_points</span>
+        <span class="p">)</span>
+        <span class="n">normalized_iris</span> <span class="o">=</span> <span class="n">NormalizedIris</span><span class="p">(</span>
+            <span class="n">normalized_image</span><span class="o">=</span><span class="n">to_uint8</span><span class="p">(</span><span class="n">normalized_image</span><span class="p">),</span>
+            <span class="n">normalized_mask</span><span class="o">=</span><span class="n">normalized_mask</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">normalized_iris</span></div>
+
+    <span class="k">def</span> <span class="nf">_generate_correspondences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pupil_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate correspondences between points in original image and normalized image.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).</span>
+<span class="sd">            iris_points (np.ndarray): Iris bounding points. NumPy array of shape (num_points = 512, xy_coords = 2).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">src_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">pupil_points</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">iris_points</span> <span class="o">-</span> <span class="n">pupil_points</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">res_in_r</span><span class="p">)]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">src_points</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
