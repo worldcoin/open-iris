@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import os
 from typing import Dict, List, Literal, Tuple
 
 import numpy as np
@@ -6,6 +9,7 @@ import onnxruntime as ort
 from huggingface_hub import hf_hub_download
 from pydantic import PositiveInt
 
+from iris.callbacks.callback_interface import Callback
 from iris.io.dataclasses import IRImage, SegmentationMap
 from iris.nodes.segmentation.multilabel_segmentation_interface import MultilabelSemanticSegmentationInterface
 
@@ -25,25 +29,49 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
     __parameters_type__ = Parameters
 
-    def __init__(
-        self,
+    @classmethod
+    def create_from_hugging_face(
+        cls,
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.onnx",
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
-    ) -> None:
-        """Assign parameters.
+        callbacks: List[Callback] = [],
+    ) -> ONNXMultilabelSegmentation:
+        """Create ONNXMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.
 
         Args:
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.onnx".
             input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+
+        Returns:
+            ONNXMultilabelSegmentation: ONNXMultilabelSegmentation object.
         """
+        os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
         model_path = hf_hub_download(
             repo_id=MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID,
             cache_dir=MultilabelSemanticSegmentationInterface.MODEL_CACHE_DIR,
             filename=model_name,
         )
 
+        return ONNXMultilabelSegmentation(model_path, input_resolution, input_num_channels, callbacks)
+
+    def __init__(
+        self,
+        model_path: str,
+        input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
+        input_num_channels: Literal[1, 3] = 3,
+        callbacks: List[Callback] = [],
+    ) -> None:
+        """Assign parameters.
+
+        Args:
+            model_path (str): Path to the ONNX model.
+            input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
+            input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+        """
         onnx_model = onnx.load(model_path)
         onnx.checker.check_model(onnx_model)
 
@@ -51,6 +79,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             session=ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]),
             input_resolution=input_resolution,
             input_num_channels=input_num_channels,
+            callbacks=callbacks,
         )
 
     def run(self, image: IRImage) -> SegmentationMap:

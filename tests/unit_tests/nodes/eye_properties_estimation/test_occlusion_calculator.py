@@ -5,7 +5,7 @@ import pytest
 
 from iris.io.dataclasses import EyeCenters, EyeOrientation, GeometryPolygons, NoiseMask
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator
-from tests.unit_tests.utils import area_of_circular_segment, generate_arc, rotated_asymetric_rectangle
+from tests.unit_tests.utils import area_of_circular_segment, generate_arc, rotated_asymmetric_rectangle
 
 
 @pytest.fixture
@@ -168,7 +168,7 @@ def test_occlusion_calculation(
         to_angle=2 * np.pi,
         num_points=360,
     )
-    mock_eyeball = rotated_asymetric_rectangle(
+    mock_eyeball = rotated_asymmetric_rectangle(
         img_center_x, img_center_y, 1.5 * iris_radius, upper_eyelid_distance, lower_eyelid_distance, eye_orientation
     )
     mock_extrapolated_polygons = GeometryPolygons(

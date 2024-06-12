@@ -18,16 +18,17 @@ from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_debugging_output, build_orb_output
+from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output, build_simple_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
+from iris.utils.base64_encoding import base64_decode_str
 
 
 class IRISPipeline(Algorithm):
     """Implementation of a fully configurable iris recognition pipeline."""
 
     DEBUGGING_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_debugging_output,
+        pipeline_output_builder=build_simple_debugging_output,
         error_manager=store_error_manager,
         disabled_qa=[
             iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator,
@@ -38,6 +39,12 @@ class IRISPipeline(Algorithm):
             iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator,
             iris.nodes.validators.cross_object_validators.ExtrapolatedPolygonsInsideImageValidator,
         ],
+        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+    )
+
+    ORB_ENVIRONMENT = Environment(
+        pipeline_output_builder=build_orb_output,
+        error_manager=store_error_manager,
         call_trace_initialiser=PipelineCallTraceStorage.initialise,
     )
 
@@ -57,7 +64,7 @@ class IRISPipeline(Algorithm):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_orb_output,
+            pipeline_output_builder=build_simple_orb_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
@@ -65,8 +72,8 @@ class IRISPipeline(Algorithm):
         """Initialise IRISPipeline.
 
         Args:
-            config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formated string or dictionary specifing all nodes configuration. Defaults to None, which loads the default config.
-            env (Environment, optional): Environment properties. Defaults to Environment(output_builder=build_orb_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
+            config (Union[Dict[str, Any], Optional[str]]): Input configuration, as a YAML-formatted string or dictionary specifying all nodes configuration. Defaults to None, which loads the default config.
+            env (Environment, optional): Environment properties. Defaults to Environment(pipeline_output_builder=build_simple_output, error_manager=store_error_manager, call_trace_initialiser=PipelineCallTraceStorage).
         """
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(**deserialized_config)
@@ -206,7 +213,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Algorithm: instanciated node.
         """
-        if callbacks is not None:
+        if callbacks is not None and len(callbacks):
             instanciated_callbacks = [self.instanciate_class(cb.class_name, cb.params) for cb in callbacks]
             instanciated_callbacks = [cb for cb in instanciated_callbacks if type(cb) not in self.env.disabled_qa]
 
@@ -265,15 +272,15 @@ class IRISPipeline(Algorithm):
         """Convert the input configuration string into a dictionary for deserialisation. If no config is given, load the default config.
 
         Args:
-            config (Optional[str]): YAML-formated input configuration string.
+            config (Optional[str]): YAML-formatted input configuration string.
 
         Raises:
-            IRISPipelineError: Raised if the input config is not a string, or is not correctly YAML-formated.
+            IRISPipelineError: Raised if the input config is not a string, or is not correctly YAML-formatted.
 
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if not config:
+        if config is None or config == "":
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):
@@ -290,22 +297,22 @@ class IRISPipeline(Algorithm):
 
         return deserialized_config
 
-    @staticmethod
-    def load_from_config_map(config_map: Dict[str, str]) -> Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]:
-        """Given a mapping between iris versions and iris config strings, initialise an IRISPipeline with config matching the current version.
+    @classmethod
+    def load_from_config(cls, config: str) -> Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]:
+        """Given an iris config string in base64, initialise an IRISPipeline with config this config.
 
         Args:
-            config_map (Dict[str, str]): mapping between iris versions and iris str configs
+            config (str): an iris str configs in base64
 
         Returns:
             Dict[str, Union[IRISPipeline, Optional[Dict[str, Any]]]]: Initialised iris pipeline and standard error output.
         """
-        current_version = iris.__version__
         error = None
         iris_pipeline = None
 
         try:
-            iris_pipeline = IRISPipeline(config=config_map[current_version])
+            decoded_config_str = base64_decode_str(config)
+            iris_pipeline = cls(config=decoded_config_str)
         except Exception as exception:
             error = {
                 "error_type": type(exception).__name__,

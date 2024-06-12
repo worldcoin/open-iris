@@ -265,6 +265,7 @@ def test_is_mask_too_small_validator(
         mask_codes=[
             rng.choice(2, size=(code_height, code_width, 2), p=[0.1, 0.9]).astype(bool) for _ in range(num_filters)
         ],
+        iris_code_version="v3.0",
     )
     validator = obj_v.IsMaskTooSmallValidator(min_maskcodes_size=min_maskcodes_size)
     try:
@@ -292,6 +293,7 @@ def test_is_mask_too_small_validator_raise_exception(
         mask_codes=[
             rng.choice(2, size=(code_height, code_width, 2), p=[0.5, 0.5]).astype(bool) for _ in range(num_filters)
         ],
+        iris_code_version="v3.0",
     )
     validator = obj_v.IsMaskTooSmallValidator(min_maskcodes_size=min_maskcodes_size)
 

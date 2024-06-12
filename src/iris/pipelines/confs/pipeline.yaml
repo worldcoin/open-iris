@@ -1,11 +1,11 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.0.0
+  iris_version: 1.1.0
 
 pipeline:
   - name: segmentation
     algorithm:
-      class_name: iris.MultilabelSegmentation
+      class_name: iris.MultilabelSegmentation.create_from_hugging_face
       params: {}
     inputs:
       - name: image
@@ -79,6 +79,18 @@ pipeline:
         source_node: distance_filter
     callbacks:
 
+  - name: eye_centers_inside_image_validator
+    algorithm:
+      class_name: iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator
+      params:
+        min_distance_to_border: 0.0
+    inputs:
+      - name: ir_image
+        source_node: input
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+
   - name: smoothing
     algorithm:
       class_name: iris.Smoothing
@@ -113,13 +125,19 @@ pipeline:
   - name: pupil_to_iris_property_estimation
     algorithm:
       class_name: iris.PupilIrisPropertyCalculator
-      params: {}
+      params:
+        min_iris_diameter: 50
     inputs:
       - name: geometries
         source_node: geometry_estimation
       - name: eye_centers
         source_node: eye_center_estimation
     callbacks:
+      - class_name: iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator
+        params:
+          min_allowed_diameter_ratio: 0.1
+          max_allowed_diameter_ratio: 0.7
+          max_allowed_center_dist_ratio: 0.9
 
   - name: offgaze_estimation
     algorithm:
@@ -129,6 +147,9 @@ pipeline:
       - name: geometries
         source_node: geometry_estimation
     callbacks:
+      - class_name: iris.nodes.validators.object_validators.OffgazeValidator
+        params:
+          max_allowed_offgaze: 0.8
 
   - name: occlusion90_calculator
     algorithm:
@@ -146,6 +167,9 @@ pipeline:
       - name: eye_centers
         source_node: eye_center_estimation
     callbacks:
+      - class_name: iris.nodes.validators.object_validators.OcclusionValidator
+        params:
+          min_allowed_occlusion: 0.25
 
   - name: occlusion30_calculator
     algorithm:
@@ -163,6 +187,9 @@ pipeline:
       - name: eye_centers
         source_node: eye_center_estimation
     callbacks:
+      - class_name: iris.nodes.validators.object_validators.OcclusionValidator
+        params:
+          min_allowed_occlusion: 0.3
 
   - name: noise_masks_aggregation
     algorithm:
@@ -178,7 +205,7 @@ pipeline:
 
   - name: normalization
     algorithm:
-      class_name: iris.PerspectiveNormalization
+      class_name: iris.LinearNormalization
       params: {}
     inputs:
       - name: image
@@ -236,6 +263,9 @@ pipeline:
       - name: response
         source_node: filter_bank
     callbacks:
+      - class_name: iris.nodes.validators.object_validators.IsMaskTooSmallValidator
+        params:
+          min_maskcodes_size: 4096
 
   - name: bounding_box_estimation
     algorithm:

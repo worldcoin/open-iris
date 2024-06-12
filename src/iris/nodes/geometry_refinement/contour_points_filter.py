@@ -4,6 +4,7 @@ from pydantic import Field
 
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import GeometryPolygons, NoiseMask
+from iris.io.errors import GeometryRefinementError
 
 
 class ContourPointNoiseEyeballDistanceFilter(Algorithm):
@@ -77,5 +78,7 @@ class ContourPointNoiseEyeballDistanceFilter(Algorithm):
             np.ndarray: Filtered polygon's points.
         """
         valid_points = [not forbidden_touch_map[y, x] for x, y in np.round(polygon_points).astype(int)]
+        if not any(valid_points):
+            raise GeometryRefinementError("No valid points after filtering polygon points!")
 
         return polygon_points[valid_points]

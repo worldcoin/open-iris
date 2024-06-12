@@ -181,7 +181,10 @@ class Smoothing(Algorithm):
         interpolated_rho = np.interp(interpolated_phi, xp=phis, fp=rhos, period=2 * np.pi)
 
         smoothed_rho = self._rolling_median(interpolated_rho, self.kernel_offset)
-        smoothed_phi = interpolated_phi[self.kernel_offset : -self.kernel_offset]
+        if len(interpolated_phi) - 1 >= self.kernel_offset * 2:
+            smoothed_phi = interpolated_phi[self.kernel_offset : -self.kernel_offset]
+        else:
+            smoothed_phi = interpolated_phi
 
         return smoothed_phi, smoothed_rho
 
@@ -247,6 +250,7 @@ class Smoothing(Algorithm):
         stacked_signals = np.stack(stacked_signals)
 
         rolling_median = np.median(stacked_signals, axis=0)
-        rolling_median = rolling_median[kernel_offset:-kernel_offset]
+        if len(rolling_median) - 1 >= kernel_offset * 2:
+            rolling_median = rolling_median[kernel_offset:-kernel_offset]
 
         return rolling_median

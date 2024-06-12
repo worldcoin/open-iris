@@ -9,7 +9,7 @@ from tests.unit_tests.utils import rotated_elliptical_contour
 
 
 @pytest.mark.parametrize(
-    "geometry_polygons,ensembling_method,eccentricity_method,expected_eccentricity",
+    "geometry_polygons,assembling_method,eccentricity_method,expected_eccentricity",
     [
         (
             GeometryPolygons(
@@ -226,12 +226,12 @@ from tests.unit_tests.utils import rotated_elliptical_contour
 )
 def test_eccentricity_offgaze_estimation(
     geometry_polygons: GeometryPolygons,
-    ensembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"],
+    assembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"],
     eccentricity_method: Literal["moments", "fit_ellipse"],
     expected_eccentricity: float,
 ) -> None:
     offgaze_estimator = EccentricityOffgazeEstimation(
-        ensembling_method=ensembling_method, eccentricity_method=eccentricity_method
+        assembling_method=assembling_method, eccentricity_method=eccentricity_method
     )
 
     offgaze = offgaze_estimator(geometry_polygons)

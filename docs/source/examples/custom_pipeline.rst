@@ -18,7 +18,7 @@ When the ``IRISPipeline`` pipeline is created with default parameters, it's grap
 
     metadata:
     pipeline_name: iris_pipeline
-    iris_version: 1.0.0
+    iris_version: 1.1.0
 
 The top YAML file contains ``IRISPipeline`` metadata, used to both describe ``IRISPipeline`` and specify package parameters that are later used to verify compatibility between ``iris`` package version/release and later, specified in the ``pipeline`` YAML file section, pipeline's graph.
 
@@ -27,7 +27,7 @@ The top YAML file contains ``IRISPipeline`` metadata, used to both describe ``IR
     pipeline:
         - name: segmentation
             algorithm:
-            class_name: iris.MultilabelSegmentation
+            class_name: iris.MultilabelSegmentation.create_from_hugging_face
             params: {}
             inputs:
             - name: image
@@ -47,7 +47,7 @@ The ``pipeline`` subsection contains a list of ``IRISPipeline`` nodes. The node 
 
 * ``name`` - that's node metadata information about node name. It's used later to define connections with other defined nodes. Also, it's worth to notice that the ``name`` key is later used by ``PipelineCallTraceStorage`` to store and return different intermediate results.
 * ``algorithm`` - that's a key that contains a definition of a Python object that implements an algorithm we want to use in our pipeline.
-* ``algorithms.class_name`` - a Python object class name that implements ``iris.Algorithm`` interface (more information about ``Algorithm`` class will be provided in section 3 of this tutorial). Please note, that defined here Python object must be importable by Python interpreter. That means that ``Algorithm`` implementation doesn't have to be implemented within ``iris`` package. User may implement or import it from any external library. The only contrain is that ``Algorithm`` interface must be satisfied to make everything compatible.
+* ``algorithms.class_name`` - a Python object class name that implements ``iris.Algorithm`` interface (more information about ``Algorithm`` class will be provided in section 3 of this tutorial). Please note, that defined here Python object must be importable by Python interpreter. That means that ``Algorithm`` implementation doesn't have to be implemented within ``iris`` package. User may implement or import it from any external library. The only constraint is that ``Algorithm`` interface must be satisfied to make everything compatible.
 * ``algorithms.params`` - that key defined a dictionary that contains all ``__init__`` parameters of a given node - ``Algorithm`` object. List of parameters of nodes available in the ``iris`` package with their descriptions can be found in project documentation.
 * ``inputs`` - that key defined a list of inputs to node's ``run`` method - connections between node within pipeline graph. A single input record has to contain following keys: ``["name", "source_node"]``. Optionally, an ``inputs`` record can contain an ``index`` key. It's used whenever input node returns a tuple/list of objects and user wants to extract a certain output to be provided to ``run`` method of currently defined node. An example of a node definition that utilized ``index`` can look like follow:
 
@@ -65,7 +65,7 @@ The ``pipeline`` subsection contains a list of ``IRISPipeline`` nodes. The node 
 
 * ``inputs.name`` - the ``Algorithm`` ``run`` method argument name that is meant to be filled with the output from the ``source_name``.
 * ``inputs.source_name`` - a name of node that outputs input to currently defined node.
-* ``callbacks`` - a key that defines a list of possible ``iris.Callback`` object of a node. That key requires from an ``Algorithm`` object to allow callback plug in. User can allow that behaviour when specifing ``callbacks`` argument of the ``__init__`` method of particular ``Algorithm``.
+* ``callbacks`` - a key that defines a list of possible ``iris.Callback`` object of a node. That key requires from an ``Algorithm`` object to allow callback plug in. User can allow that behaviour when specifying ``callbacks`` argument of the ``__init__`` method of particular ``Algorithm``.
 
 *NOTE*: Nodes has to be defined consecutively with the order they appear within pipeline. That means that specifying ``source_name`` to the node which definition appears later within YAML file will cause exception being raised when instantiating pipeline.
 
@@ -93,11 +93,11 @@ First let's intantiate ``IRISPipeline`` with default configuration and see ``iri
 .. code-block:: python
 
     default_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.0.0"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.0"},
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -320,11 +320,11 @@ As expected all threshold values are set to default ``0.5`` value. Now, let's mo
 .. code-block:: python
 
     new_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.0.0"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.0"},
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -543,20 +543,20 @@ Perfect! We've just learned how to modify ``IRISPipeline`` algorithms parameters
 2. Configure ``IRISPipeline`` graph.
 ------------------------------------------------------
 
-As descibed in previous section to define connection between nodes, we utilize ``inputs`` key within our YAML file or dictionary. Similar to previous tutorial, let's start with instantiating a default ``IRISPipeline`` and then modify "artificially" for demonstration purposes connections between ``distance_filter`` (``iris.ContourPointNoiseEyeballDistanceFilter``), ``smoothing`` (``iris.Smoothing``) and ``geometry_estimation`` (``iris.FusionExtrapolation``) nodes.
+As described in previous section to define connection between nodes, we utilize ``inputs`` key within our YAML file or dictionary. Similar to previous tutorial, let's start with instantiating a default ``IRISPipeline`` and then modify "artificially" for demonstration purposes connections between ``distance_filter`` (``iris.ContourPointNoiseEyeballDistanceFilter``), ``smoothing`` (``iris.Smoothing``) and ``geometry_estimation`` (``iris.FusionExtrapolation``) nodes.
 
 By default, ``smoothing`` node, responsible for refinement of vectorized iris and pupil points is taking as an input the output of ``distance_filter`` nodes, which btw is also doing refinement of vectorized iris and pupil points but of course a different one. The output of ``smoothing`` node is later passed to final ``geometry_estimation`` node as an input. Within commented section below user can follow that connection. Now, in this example let's imagine we want to bypass ``smoothing`` node and perform ``geometry_estimation`` based on the output of ``distance_filter`` node while still keeping ``smoothing`` node.
 
-First let's intantiate ``IRISPipeline`` with default configuration and see nodes connected to ``geometry_estimation`` node.
+First let's instantiate ``IRISPipeline`` with default configuration and see nodes connected to ``geometry_estimation`` node.
 
 .. code-block:: python
 
     default_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.0.0"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.0"},
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -783,11 +783,11 @@ As expected, ``input_polygons`` argument of the ``run`` method is taken from the
 .. code-block:: python
 
     new_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.0.0"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.0"},
         "pipeline": [
             {
                 "name": "segmentation",
-                "algorithm": {"class_name": "iris.MultilabelSegmentation", "params": {}},
+                "algorithm": {"class_name": "iris.MultilabelSegmentation.create_from_hugging_face", "params": {}},
                 "inputs": [{"name": "image", "source_node": "input"}],
                 "callbacks": None,
             },
@@ -1061,16 +1061,16 @@ The ``Algorithm`` class is an abstract class that is a base class for every node
                 NotImplementedError: Raised if subclass doesn't implement `run` method.
 
             Returns:
-                Any: Return value by concrate implementation of the `run` method.
+                Any: Return value by concrete implementation of the `run` method.
             """
             raise NotImplementedError(f"{self.__class__.__name__}.run method not implemented!")
 
 There are 3 important things to note that have direct implications on how user have to implement custom ``Algorithm``:
 
 * The ``run`` method - If we implement our own custom ``Algorithm`` we have to make sure that ``run`` method is implemented. Other then that, already mentioned callbacks.
-* The ``__parameters_type__`` variable - In our code base, we use ``pydantic`` package to perform validation of ``Algorithm`` ``__init__`` parameters. To simplify, and hide behind the sceen, those mechanisms we introduced that variable.
+* The ``__parameters_type__`` variable - In our code base, we use ``pydantic`` package to perform validation of ``Algorithm`` ``__init__`` parameters. To simplify and hide behind the screen those mechanisms, we introduced this variable.
 * The ``callbacks`` special key that can be provided in the ``__init__`` method. As already mentioned before, if we want to turn on in our ``Algorithm`` callbacks mechanisms, we have to specify special - ``callbacks`` - parameter in that ``Algorithm`` ``__init__`` method.
 
-In this section, we won't provide examples since there is a planty of them within the ``iris`` package. Plus, we also want to encourage you to explore the ``iris`` package by yourself. Therefore, for examples of concreate ``Algorithm`` implementations, please check ``iris.nodes`` submodule of the ``iris`` package.
+In this section, we won't provide examples since there are plenty of them within the ``iris`` package. Plus, we also want to encourage you to explore the ``iris`` package by yourself. Therefore, for examples of concrete ``Algorithm`` implementations, please check ``iris.nodes`` submodule of the ``iris`` package.
 
 **Thank you for making it to the end of this tutorial!**

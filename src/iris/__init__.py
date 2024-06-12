@@ -65,6 +65,7 @@ from iris.nodes.iris_response.probe_schemas.probe_schema_interface import ProbeS
 from iris.nodes.iris_response.probe_schemas.regular_probe_schema import RegularProbeSchema
 from iris.nodes.iris_response_refinement.fragile_bits_refinement import FragileBitRefinement
 from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
+from iris.nodes.normalization.linear_normalization import LinearNormalization
 from iris.nodes.normalization.nonlinear_normalization import NonlinearNormalization
 from iris.nodes.normalization.perspective_normalization import PerspectiveNormalization
 from iris.nodes.segmentation import MultilabelSegmentation
@@ -84,4 +85,4 @@ from iris.nodes.vectorization.contouring import ContouringAlgorithm
 from iris.orchestration import error_managers, output_builders, pipeline_dataclasses
 from iris.orchestration.environment import Environment
 from iris.pipelines.iris_pipeline import IRISPipeline
-from iris.utils import common, math, visualisation
+from iris.utils import base64_encoding, common, math, visualisation

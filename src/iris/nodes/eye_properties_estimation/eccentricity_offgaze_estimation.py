@@ -66,7 +66,7 @@ def get_eccentricity_through_ellipse_fit_ams(shape_array: np.ndarray) -> float:
 
 
 class EccentricityOffgazeEstimation(Algorithm):
-    """Determines an off-gaze score by ensembling the eccentricity of the iris and pupil polygons.
+    """Determines an off-gaze score by assembling the eccentricity of the iris and pupil polygons.
 
     The goal of this algorithm is to attribute an offgaze score to the GeometryPolygons associated with an IR image.
 
@@ -84,7 +84,7 @@ class EccentricityOffgazeEstimation(Algorithm):
       * `fit_ellipse`: an ellipse is fitted to the shape, and the ellipse's eccentricity is returned
       * `fit_ellipse_direct`: TBFU
       * `fit_ellipse_ams`: TBFU
-    The eccentricity of the iris and pupil can then be ensembled in various ways:
+    The eccentricity of the iris and pupil can then be assembled in various ways:
       * `min`: the minimum between pupil and iris eccentricity
       * `max`: the maximum between pupil and iris eccentricity
       * `mean`: the average between pupil and iris eccentricity
@@ -101,7 +101,7 @@ class EccentricityOffgazeEstimation(Algorithm):
     class Parameters(Algorithm.Parameters):
         """Parameters class for EccentricityOffgazeEstimation objects."""
 
-        ensembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"]
+        assembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"]
         eccentricity_method: Literal["moments", "ellipse_fit", "ellipse_fit_direct", "ellipse_fit_ams"]
 
     __parameters_type__ = Parameters
@@ -113,7 +113,7 @@ class EccentricityOffgazeEstimation(Algorithm):
         "ellipse_fit_ams": get_eccentricity_through_ellipse_fit_ams,
     }
 
-    ensembling_method2function_mapping = {
+    assembling_method2function_mapping = {
         "min": min,
         "max": max,
         "mean": lambda x, y: (x + y) / 2,
@@ -123,19 +123,19 @@ class EccentricityOffgazeEstimation(Algorithm):
 
     def __init__(
         self,
-        ensembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"] = "min",
+        assembling_method: Literal["min", "max", "mean", "only_pupil", "only_iris"] = "min",
         eccentricity_method: Literal["moments", "ellipse_fit", "ellipse_fit_direct", "ellipse_fit_ams"] = "moments",
         callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
 
         Args:
-            ensembling_method (Literal["min", "max", "mean", "only_pupil", "only_iris"], optional): How are the pupil eccentricity and iris eccentricity ensembled. Defaults to "min".
+            assembling_method (Literal["min", "max", "mean", "only_pupil", "only_iris"], optional): How are the pupil eccentricity and iris eccentricity assembled. Defaults to "min".
             eccentricity_method (Literal["moments", "ellipse_fit", "ellipse_fit_direct", "ellipse_fit_ams"], optional): How is the eccentricity determined. Defaults to "moments".
             callbacks (List[Callback]): callbacks list. Defaults to [].
         """
         super().__init__(
-            ensembling_method=ensembling_method, eccentricity_method=eccentricity_method, callbacks=callbacks
+            assembling_method=assembling_method, eccentricity_method=eccentricity_method, callbacks=callbacks
         )
 
     def run(self, geometries: GeometryPolygons) -> Offgaze:
@@ -151,12 +151,12 @@ class EccentricityOffgazeEstimation(Algorithm):
             self.params.eccentricity_method
         ]
 
-        ensembling_function = EccentricityOffgazeEstimation.ensembling_method2function_mapping[
-            self.params.ensembling_method
+        assembling_function = EccentricityOffgazeEstimation.assembling_method2function_mapping[
+            self.params.assembling_method
         ]
 
         pupil_eccentricity = eccentricity_function(geometries.pupil_array)
         iris_eccentricity = eccentricity_function(geometries.iris_array)
 
-        offgaze = Offgaze(score=ensembling_function(pupil_eccentricity, iris_eccentricity))
+        offgaze = Offgaze(score=assembling_function(pupil_eccentricity, iris_eccentricity))
         return offgaze

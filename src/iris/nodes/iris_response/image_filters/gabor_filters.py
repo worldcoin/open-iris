@@ -318,9 +318,7 @@ class LogGaborFilter(ImageFilter):
 
         # calculate envelope and orientation
         envelope = np.exp(
-            -0.5
-            * np.log2(radius * self.params.lambda_rho / self.params.kernel_size[1]) ** 2
-            / self.params.sigma_rho**2
+            -0.5 * np.log2(radius * self.params.lambda_rho / self.params.kernel_size[1]) ** 2 / self.params.sigma_rho**2
         )
         envelope[ksize_rho_half][ksize_phi_half] = 0
         orientation = np.exp(-0.5 * dtheta**2 / self.params.sigma_phi**2)

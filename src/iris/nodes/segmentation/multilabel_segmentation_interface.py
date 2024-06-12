@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import Any, Tuple
 
@@ -19,6 +21,18 @@ class MultilabelSemanticSegmentationInterface(Algorithm):
         2: "pupil",
         3: "eyelashes",
     }
+
+    @classmethod
+    def create_from_hugging_face(cls) -> MultilabelSemanticSegmentationInterface:
+        """Abstract function just to make sure all subclasses implement it.
+
+        Raises:
+            RuntimeError: Raised if subclass doesn't implement that class method.
+
+        Returns:
+            MultilabelSemanticSegmentationInterface: MultilabelSemanticSegmentationInterface subclass object.
+        """
+        raise RuntimeError(f"`create_from_hugging_face` function hasn't been implemented for {cls.__name__} subclass.")
 
     def __init__(self, **kwargs: Any) -> None:
         """Assign parameters."""

@@ -28,7 +28,7 @@ class RegularProbeSchema(ProbeSchema):
             v: Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]],
             field: fields.ModelField,
         ) -> Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]]:
-            """Validate offsets to avoid overlapp.
+            """Validate offsets to avoid overlap.
 
             Args:
                 cls (type): Class type.
@@ -44,7 +44,7 @@ class RegularProbeSchema(ProbeSchema):
             if isinstance(v, List):
                 if (v[0] + v[1]) >= 1:
                     raise ProbeSchemaError(
-                        f"Offset for {field.name} on left and right corner must be a sum smaller 1, otherwise, offsets overlapp."
+                        f"Offset for {field.name} on left and right corner must be a sum smaller 1, otherwise, offsets overlap."
                     )
 
             return v
@@ -70,7 +70,7 @@ class RegularProbeSchema(ProbeSchema):
                             phi values
             boundary_rho (List[float], optional): List with two values f1 and f2. The sampling goes from 0+f1 to 0-f2.
             boundary_phi (Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]], optional): Boundary conditions for the probing
-                can either be periodic or non-periodic, if they are periodic, the distantce
+                can either be periodic or non-periodic, if they are periodic, the distance
                 from one column to the next must be the same also for the boundaries.
                 Else, no conditions for the boundaries are required. Options are:
                     - 'periodic-symmetric': the first and the last column are placed with an offset to the
@@ -78,7 +78,7 @@ class RegularProbeSchema(ProbeSchema):
                     - 'periodic-left': the first column is at the border of the bottom of the image, while
                             the last column is one spacing apart from the top of the image
                     - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the
-                            the samping no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
+                            the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
                 Defaults to "periodic_symmetric".
             image_shape (list, optional): list containing the desired image dimensions. If provided, the function will throw
                 a warning if interpolation happens, i.e. if a kernel would be placed in between two pixels. Defaults to None.
@@ -147,26 +147,23 @@ class RegularProbeSchema(ProbeSchema):
             List[float],
         ] = "periodic_symmetric",
     ) -> List[int]:
-        """Find proper spacing of rows/columns for given boundary conditions (i.e. image size, offsset. etc).
+        """Find proper spacing of rows/columns for given boundary conditions (i.e. image size, offset. etc).
 
         Args:
             row_min (int): Starting value for row count
             row_max (int): End value for row count
             length (int): Pixels in the respective dimension
-            boundary_condition (Union[Literal["periodic-symmetric", "periodic-left"], List[float]], optional):  Boundary conditions for the probing
-                can either be periodic or non-periodic, if they are periodic, the distantce
-                from one row to the next must be the same also for the boundaries.
-                Else, no conditions for the boundaries are required. Options are:
-                    - 'periodic-symmetric': the first and the last row are placed with an offset to the
-                                borders, that is half of the spacing of the two rows
-                    - 'periodic-left': the first row is at the border of the bottom of the image, while
-                            the last row is one spacing apart from the top of the image
-                    - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the
-                            the samping no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
-                Defaults to "periodic_symmetric".
+            boundary_condition (Union[Literal["periodic-symmetric", "periodic-left"], List[float]], optional):  Boundary conditions for the probing can either be periodic or non-periodic, if they are periodic, the distance from one row to the next must be the same also for the boundaries. Defaults to "periodic_symmetric".
+            Else, no conditions for the boundaries are required. Options are:
+                - 'periodic-symmetric': the first and the last row are placed with an offset to the
+                            borders, that is half of the spacing of the two rows
+                - 'periodic-left': the first row is at the border of the bottom of the image, while
+                        the last row is one spacing apart from the top of the image
+                - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the
+                        the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2
 
         Returns:
-            list: List of all number of rows that does not lead to interpolation errors
+            List[int]: List of all number of rows that does not lead to interpolation errors
         """
         suitable_values: List[int] = []
         # loop through all values and validate whether they are suitable

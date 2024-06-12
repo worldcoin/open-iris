@@ -41,9 +41,9 @@ class IrisBBoxCalculator(Algorithm):
         super().__init__(buffer=buffer, crop=crop)
 
     def run(self, ir_image: IRImage, geometry_polygons: GeometryPolygons) -> BoundingBox:
-        """Compute the bounding box around the iris with an additionnal buffer. Works best on extrapolated polygons.
+        """Compute the bounding box around the iris with an additional buffer. Works best on extrapolated polygons.
 
-        The buffer's behavious is explained in the constructor's docstring.
+        The buffer's behaviour is explained in the constructor's docstring.
         The bounding box will be cropped to the shape of the input IR Image.
 
         Args:

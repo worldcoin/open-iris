@@ -14,16 +14,26 @@ The decoder is enhanced through the incorporation of Spatial and Channel "Squeez
 
 ## Dataset
 
-Importantly, no Worldcoin user data was used to train or fine-tune the IRIS pipeline. Rather, a research dataset from the University of Notre Dame du Lac (ND-IRIS-0405) [4] was used, with the University’s permission. This dataset was enhanced with manual labels, which themselves may be made available for research purposes.
+Importantly, no Worldcoin user data was used to train or fine-tune the IRIS pipeline. Rather, a research datasets were used to train model. Datasets used during training comes from:
+ - ND-IRIS-0405 [4]
+ - CASIA-Iris-Interval [5]
+ - CASIA-Iris-Lamp [5]
+ - CASIA-Iris-Thousand [5]
+ - CASIA-Iris-Twins [5]
+ - IIT Delhi Iris Database (IITD) [6]
+ - LivDet2013-Iris [7]
+ - LivDet2015-Iris [8]
+ - LivDet2017-Iris [9]
+ - Multimedia University Iris Database (MMU) [10]
 
-The experimental dataset contained a total of 9 957 manually annotated IR images comming from 676 different people. All images were captured using LG 4000 device. Table below presents dataset split used during training semantic segmentation model.
+The experimental dataset contained a total of 18 431 annotated IR images. Table below presents dataset split used during training semantic segmentation model.
 
 
-| **Dataset type**| **Number of images** | **Number of subject** |
-|-----------------------------|-----------|-----------|
-| train               | 7933     | 541     |
-| validation               | 1032     | 67     |
-| test               | 1030     | 68     |
+| **Dataset type**| **Number of images** |
+|-----------------------------|-----------|
+| train               | 14685     |
+| validation               | 1880     |
+| test               | 1866     |
 
 ## Performance
 
@@ -33,17 +43,33 @@ The experimental dataset contained a total of 9 957 manually annotated IR images
 
 | **Metric**                  | **Value** |
 |-----------------------------|-----------|
-| _eyeball_IoU_               | 0.981     |
-| _iris_IoU_                  | 0.977     |
-| _pupil_IoU_                 | 0.976     |
-| _eyelashes_IoU_             | 0.755     |
-| _mIoU_                      | 0.918     |
-| _eyelashes_inside_iris_IoU_ | 0.683     |
-| _boundary_confidence_pupil_ | 0.971     |
-| _boundary_confidence_iris_  | 0.921     |
-| _chamfer_eyeball_           | 1.667     |
-| _chamfer_iris_              | 1.632     |
-| _chamfer_pupil_             | 0.686     |
+| _eyeball_IoU_               | 0.986     |
+| _iris_IoU_                  | 0.978     |
+| _pupil_IoU_                 | 0.978     |
+| _eyelashes_IoU_             | 0.798     |
+| _mIoU_                      | 0.943     |
+| _eyelashes_inside_iris_IoU_ | 0.791     |
+| _boundary_confidence_pupil_ | 0.965     |
+| _boundary_confidence_iris_  | 0.907     |
+| _chamfer_eyeball_           | 1.689     |
+| _chamfer_iris_              | 1.868     |
+| _chamfer_pupil_             | 0.680     |
+
+#### Measured on particular dataset
+
+|Name                                                           |test_IoU_eyeball|test_IoU_eyelashes|test_IoU_iris|test_IoU_pupil|test_boundary_confidence_iris|test_boundary_confidence_pupil|test_chamfer_dist_eyeball|test_chamfer_dist_iris|test_chamfer_dist_pupil|test_mIoU |test_mIoU_eyelashes_inside_iris|
+|---------------------------------------------------------------|------------------------|--------------------------|---------------------|----------------------|-----------------------------|------------------------------|---------------------------------|------------------------------|-------------------------------|------------------|---------------------------------------|
+|CASIA-Iris-Interval                                            |0.992                   |0.885                     |0.977                |0.983                 |0.868                        |0.959                         |1.230                            |3.132                         |0.673                          |0.970             |0.876                                  |
+|CASIA-Iris-Lamp                                                |0.987                   |0.844                     |0.988                |0.983                 |0.979                        |0.988                         |0.683                            |0.482                         |0.295                          |0.953             |0.836                                  |
+|CASIA-Iris-Thousand                                            |0.987                   |0.823                     |0.989                |0.981                 |0.981                        |0.988                         |0.637                            |0.430                         |0.252                          |0.956             |0.767                                  |
+|CASIA-Iris-Twins                                               |0.986                   |0.837                     |0.986                |0.981                 |0.966                        |0.984                         |0.998                            |0.865                         |0.710                          |0.949             |0.840                                  |
+|IITD                                                           |0.990                   |0.868                     |0.975                |0.979                 |0.843                        |0.944                         |3.424                            |3.564                         |0.939                          |0.966             |0.861                                  |
+|LivDet2013-Iris                                                |0.980                   |0.853                     |0.985                |0.977                 |0.973                        |0.977                         |1.242                            |0.518                         |0.393                          |0.945             |0.851                                  |
+|LivDet2015-Iris                                                |0.978                   |0.844                     |0.984                |0.974                 |0.955                        |0.958                         |1.524                            |0.794                         |0.608                          |0.938             |0.870                                  |
+|LivDet2017-Iris                                                |0.978                   |0.791                     |0.981                |0.956                 |0.956                        |0.973                         |1.920                            |1.274                         |1.204                          |0.921             |0.738                                  |
+|MMU                                                            |0.983                   |0.845                     |0.985                |0.980                 |0.960                        |0.980                         |1.405                            |0.821                         |0.500                          |0.946             |0.765                                  |
+|ND-IRIS-0405                                                   |0.981                   |0.750                     |0.977                |0.975                 |0.918                        |0.969                         |1.757                            |1.653                         |0.739                          |0.917             |0.676                                  |
+
 
 ### Time Performance
 
@@ -76,7 +102,7 @@ The model yields a tensor characterized by dimensions of Nx4x640x480, denoting b
 
 Within the ambit of each class, the model formulates probability estimates pertaining to the likelihood of a given pixel being attributed to a particular class.
 
-### Examplary inference results
+### Example inference results
 
 **Note**: The provided input image has been subjected to the processing methodology described earlier, prior to its introduction into the model. Moreover, for the intent of visualization, the IR image presented has been anonymized to safeguard the identity of the user. It is also worth to note that the inference process was conducted on the original, non-anonymized version of the image.
 
@@ -93,9 +119,8 @@ Within the ambit of each class, the model formulates probability estimates perta
 ## Limitations
 
 Thorough examination of the results enabled us to pinpoint situations where the segmentation model experiences declines in performance. These instances are as follows:
-- Segmenting images that were not captured by LG4400 sensor may not always produce smooth segmentation maps. The segmention performance depends on how similar images to be segmented are to the images captured by LG4400 sensor.
-- Segmenting images with high specular reflection comming usually from glasses may lead to bad segmentation map predictions.
-- Data based on which the model was trained were captured in the constrained environment with cooperative users. Therefore, in practise model is expected to produce poor segmentation maps for cases like: offgazes, misaligned eyes, blurry images etc.
+- Segmenting images with high specular reflection coming usually from glasses may lead to bad segmentation map predictions.
+- Data based on which the model was trained were captured in the constrained environment with cooperative users. Therefore, in practice model is expected to produce poor segmentation maps for cases like: offgaze, misaligned eyes, blurry images etc.
 
 ## Further reading
 
@@ -103,3 +128,9 @@ Thorough examination of the results enabled us to pinpoint situations where the 
 2. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., & Chen, L. C. (2018). MobileNetV2: Inverted Residuals and Linear Bottlenecks. (https://arxiv.org/abs/1801.04381)
 3. Roy, A. G., Navab, N., & Wachinger, C. (2018). Recalibrating Fully Convolutional Networks with Spatial and Channel “Squeeze and Excitation” Blocks. (https://arxiv.org/abs/1808.08127v1)
 4. Bowyer, K. , Flynn, P. (2016), The ND-IRIS-0405 Iris Image Dataset (https://arxiv.org/abs/1606.04853)
+5. http://biometrics.idealtest.org/
+6. http://www4.comp.polyu.edu.hk/csajaykr/IITD/Database_Iris.htm
+7. D. Yambay, J.S. Doyle, K.W. Bowyer, A. Czajka, S. Schuckers Livdet-iris 2013 - iris liveness detection competition 2013
+8. D. Yambay, B. Walczak, S. Schuckers, A. Czajka Livdet-iris 2015 - iris liveness detection competition 2015
+9. D. Yambay, B. Becker, N. Kohli, D. Yadav, A. Czajka, K.W. Bowyer, S. Schuckers, R. Singh, M.Vatsa, A. Noore, D. Gragnaniello, C. Sansone, L. Verdoliva, L. He, Y. Ru, H. Li, N. Liu, Z. Sun, T. Tan Livdet iris 2017 - iris liveness detection competition 2017
+10. https://mmuexpert.mmu.edu.my/ccteo

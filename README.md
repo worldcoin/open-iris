@@ -2,7 +2,7 @@ ______________________________________________________________________
 <div align="center">
 
 <p align="center">
-  <a href="https://worldcoin.org/"><img src="https://github.com/worldcoin/open-iris/blob/main/docs/source/images/logos/wld.png" width=150px></img></a>
+  <a href="https://worldcoin.org/"><img src="https://github.com/worldcoin/open-iris/blob/main/docs/source/images/logos/wld.png?raw=true" width=150px></img></a>
 </p>
 
 # **_IRIS: Iris Recognition Inference System_**
@@ -31,10 +31,12 @@ ______________________________________________________________________
   - [Installation](#installation)
   - [Setup for development](#setup-for-development)
   - [Running inference](#Running-inference)
+- [Disclaimer](#disclaimer)
 - [Project structure](#project-structure)
 - [Example notebooks](#example-notebooks)
 - [Documentation](#documentation)
 - [Issues, pull requests and feature requests](#issues-pull-requests-and-feature-requests)
+- [Citation](#citation)
 - [License](#license)
 - [Resources](#resources)
 
@@ -72,14 +74,14 @@ _The Iris Recognition Inference System (IRIS) software repository is owned and m
 ### Installation
 
 Installation is as simple as running `pip install` with specifying `IRIS_ENV` installation global flag (`IRIS_ENV` flag may be skipped if `iris` is installed from PyPl server but this option is only available when `iris` is installed on local machine). The `IRIS_ENV` flag is used to indicate an "environment" in which package is meant to work. Possible options are:
-1. `SERVER` - For installing `iris` package with dependecies required for running an inference on a local machines.
+1. `SERVER` - For installing `iris` package with dependencies required for running an inference on a local machines.
 ```bash
 # On a local machine
 pip install open-iris
 # or directly from GitHub
 IRIS_ENV=SERVER pip install git+https://github.com/worldcoin/open-iris.git
 ```
-2. `ORB` - For installing `iris` package with dependecies required for running an inference on the Orb.
+2. `ORB` - For installing `iris` package with dependencies required for running an inference on the Orb.
 ```bash
 # On the Orb
 IRIS_ENV=ORB pip install git+https://github.com/worldcoin/open-iris.git
@@ -148,7 +150,7 @@ The `iris` package features a structured design with modular components, enhanci
 | [`iris.nodes`](https://worldcoin.github.io/open-iris/) | a module that contains implementation of iris recognition pipeline nodes |
 | [`iris.orchestration`](https://worldcoin.github.io/open-iris/) | a module that contains iris recognition pipeline's orchestration support mechanisms |
 | [`iris.pipelines`](https://worldcoin.github.io/open-iris/) | a module that contains implementation of iris recognition pipelines |
-| [`iris.utils`](https://worldcoin.github.io/open-iris/) | a module that contains utilities used throughout the code base and modules usefull for outputs analysis |
+| [`iris.utils`](https://worldcoin.github.io/open-iris/) | a module that contains utilities used throughout the code base and modules useful for outputs analysis |
 
 ## Example notebooks
 
@@ -156,6 +158,7 @@ The Jupyter Notebooks provided present practical guides and real-world instances
 
 1. **Getting started** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/main/colab/GettingStarted.ipynb)
 2. **Configuring custom pipeline** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/main/colab/ConfiguringCustomPipeline.ipynb)
+3. **Matching entities** [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/worldcoin/open-iris/blob/main/colab/MatchingEntities.ipynb)
 
 ## Documentation
 
@@ -163,10 +166,26 @@ For detailed documentation, including installation instructions, usage guideline
 
 ## Issues, pull requests and feature requests
 
-If you have any question or you found a bug or you feel like some feature is missing, please don't hesitate to file a new issue, discussion or PR with respective title and description.
+If you have any question or you found a bug or you feel like some feature is missing, please don't hesitate to file a new [issue](https://github.com/worldcoin/open-iris/issues), discussion or [PR](https://github.com/worldcoin/open-iris/pulls) with respective title and description.
 Any suggestion for potential project improvements are and will always be welcome!
 
-Feel free to reach out to any project [contributor](https://github.com/worldcoin/open-iris/graphs/contributors)!
+## Contact
+
+If you have any questions, suggestions, or feedback, feel free to reach out to us:
+
+- Email: [iris@toolsforhumanity.com](mailto:iris@toolsforhumanity.com)
+- GitHub Issues: [Open an issue](https://github.com/worldcoin/open-iris/issues)
+- Contributors: Feel free to reach out to any project [contributor](https://github.com/worldcoin/open-iris/graphs/contributors) directly!
+
+## Citation
+```BibTeX
+@misc{wldiris,
+  author =       {Worldcoin AI},
+  title =        {IRIS: Iris Recognition Inference System of the Worldcoin project},
+  year =         {2023},
+  url =          {https://github.com/worldcoin/open-iris}
+}
+```
 
 ## License
 

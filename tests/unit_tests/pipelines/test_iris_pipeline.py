@@ -15,9 +15,10 @@ from iris.io.class_configs import Algorithm
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
-from iris.orchestration.output_builders import build_debugging_output, build_orb_output
+from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
+from iris.utils.base64_encoding import base64_encode_str
 
 
 @pytest.fixture
@@ -257,7 +258,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_debugging_output,
+                pipeline_output_builder=build_simple_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -267,7 +268,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_debugging_output,
+                pipeline_output_builder=build_simple_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -481,7 +482,7 @@ def test_instanciate_node(
 
     The goals of this tests are
       * to ensure that nodes are created as expected,
-      * to ensure that callbacks get filtered out correctly throught the Environment.disable_qa mechanism
+      * to ensure that callbacks get filtered out correctly through the Environment.disable_qa mechanism
     """
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\n\npipeline: []"
     iris_pipeline = IRISPipeline(config=config, env=env)
@@ -612,8 +613,8 @@ def test_instanciate_nodes(
 
     The goals of this tests are
       * to ensure that the list of nodes is created as expected,
-      * to ensure that callbacks get filtered out correctly throught the Environment.disable_qa mechanism
-      * to ensure that nodes get filtered out correctly throught the Environment.disable_qa mechanism
+      * to ensure that callbacks get filtered out correctly through the Environment.disable_qa mechanism
+      * to ensure that nodes get filtered out correctly through the Environment.disable_qa mechanism
     """
     b = "\n"
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\npipeline:{b if len(pipeline) > 0 else ' '}{yaml.dump(pipeline)}"
@@ -633,22 +634,20 @@ def test_instanciate_nodes(
 
 
 @pytest.mark.parametrize(
-    "config_map,expected_pipeline_name",
+    "config,expected_pipeline_name",
     [
         (
-            {
-                __version__: f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: []",
-                "v0.0.0": b"notconfig",
-                "v14.28.57": b"stuff",
-            },
+            base64_encode_str(
+                f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: []"
+            ),
             "v1.5.1_pipeline",
         ),
-        ({}, None),
+        (None, None),
     ],
     ids=["specified pipeline", "default pipeline"],
 )
-def test_load_from_config_map(config_map: Dict[str, str], expected_pipeline_name: str) -> None:
-    res = IRISPipeline.load_from_config_map(config_map=config_map)
+def test_load_from_config(config: Dict[str, str], expected_pipeline_name: str) -> None:
+    res = IRISPipeline.load_from_config(config=config)
 
     if expected_pipeline_name is not None:
         assert res["agent"].params.metadata.pipeline_name == expected_pipeline_name

@@ -12,6 +12,14 @@ iris.nodes.normalization.common module
    :undoc-members:
    :show-inheritance:
 
+iris.nodes.normalization.linear\_normalization module
+-----------------------------------------------------
+
+.. automodule:: iris.nodes.normalization.linear_normalization
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 iris.nodes.normalization.nonlinear\_normalization module
 --------------------------------------------------------
 

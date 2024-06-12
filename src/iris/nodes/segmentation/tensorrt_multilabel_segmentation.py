@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import os
 from typing import List, Literal, Tuple
 
 import numpy as np
@@ -7,6 +10,7 @@ import pycuda.driver as cuda
 import tensorrt as trt
 from huggingface_hub import hf_hub_download
 
+from iris.callbacks.callback_interface import Callback
 from iris.io.dataclasses import IRImage, SegmentationMap
 from iris.nodes.segmentation.multilabel_segmentation_interface import MultilabelSemanticSegmentationInterface
 
@@ -62,21 +66,45 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
     __parameters_type__ = Parameters
 
-    def __init__(
-        self, model_name: str = "iris_semseg_upp_scse_mobilenetv2.engine", input_num_channels: Literal[1, 3] = 3
-    ) -> None:
-        """Assign parameters.
+    @classmethod
+    def create_from_hugging_face(
+        cls,
+        model_name: str = "iris_semseg_upp_scse_mobilenetv2.engine",
+        input_num_channels: Literal[1, 3] = 3,
+        callbacks: List[Callback] = [],
+    ) -> TensorRTMultilabelSegmentation:
+        """Create TensorRTMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.
 
         Args:
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.engine".
             input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+
+        Returns:
+            TensorRTMultilabelSegmentation: TensorRTMultilabelSegmentation object.
         """
+        os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0"
         model_path = hf_hub_download(
             repo_id=MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID,
             cache_dir=MultilabelSemanticSegmentationInterface.MODEL_CACHE_DIR,
             filename=model_name,
         )
 
+        return TensorRTMultilabelSegmentation(model_path, input_num_channels, callbacks)
+
+    def __init__(
+        self,
+        model_path: str,
+        input_num_channels: Literal[1, 3] = 3,
+        callbacks: List[Callback] = [],
+    ) -> None:
+        """Assign parameters.
+
+        Args:
+            model_path (str): Path to the TensorRT model.
+            input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
+            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+        """
         engine = self._load_engine(model_path)
 
         segmap_output_shape = engine.get_binding_shape(1)
@@ -94,6 +122,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             stream=stream,
             context=context,
             pagelocked_buffer=pagelocked_buffer,
+            callbacks=callbacks,
         )
 
     def run(self, image: IRImage) -> SegmentationMap:
@@ -139,7 +168,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         predictions: List[np.ndarray],
         original_image_size: Tuple[int, int],
     ) -> np.ndarray:
-        """Postprocesses model output.
+        """Postprocessed model output.
 
         Args:
             predictions (List[np.ndarray]]): Model output.

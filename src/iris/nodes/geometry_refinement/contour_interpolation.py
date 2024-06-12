@@ -11,7 +11,7 @@ class ContourInterpolation(Algorithm):
     """Implementation of contour interpolation algorithm conditioned by given NoiseMask.
 
     Algorithm performs linar interpolation of points between vectorized, predicted points such that maximum distance between two consecutive points in a polygon isn't greater than
-    a fraction of a iris diameter length specified as `max_distance_between_boundary_points` parameter.
+    a fraction of an iris diameter length specified as `max_distance_between_boundary_points` parameter.
     """
 
     class Parameters(Algorithm.Parameters):
