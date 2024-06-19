@@ -24,7 +24,7 @@ class HammingDistanceMatcher(Algorithm):
     class Parameters(Algorithm.Parameters):
         """Parameters class for HammingDistanceMatcher."""
 
-        rotation_shift: conint(ge=0, le=180, strict=True)
+        rotation_shift: conint(ge=0, strict=True)
         nm_dist: Optional[confloat(ge=0, le=1, strict=True)]
         weights: Optional[List[np.ndarray]]
 
@@ -39,7 +39,7 @@ class HammingDistanceMatcher(Algorithm):
         """Assign parameters.
 
         Args:
-            rotation_shift (int): rotations allowed in matching, converted to shifts in columns. Defaults to 15.
+            rotation_shift (int): rotations allowed in matching, experessed in iris code columns. Defaults to 15.
             nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to None.
             weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.
         """
