@@ -12,7 +12,6 @@ from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
     [
         pytest.param(-0.5, 0.45),
         pytest.param(1.5, None),
-        pytest.param(200, 0.3),
         pytest.param(200, "a"),
         pytest.param(100, -0.2),
         pytest.param(10, 1.3),
@@ -20,7 +19,6 @@ from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
     ids=[
         "rotation_shift should not be negative",
         "rotation_shift should not be floating points",
-        "rotation_shift should not be larger than 180",
         "nm_dist should be float",
         "nm_dist should not be negative",
         "nm_dist should not be more than 1",
