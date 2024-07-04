@@ -10,7 +10,7 @@ from iris.nodes.matcher.utils import hamming_distance
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, nm_dist, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, expected_result",
     [
         (
             IrisTemplate(
@@ -24,6 +24,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             (0, 0),
         ),
@@ -39,6 +40,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             (0.25, -1),
         ),
@@ -54,6 +56,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             (1, 0),
         ),
@@ -69,6 +72,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             (0.8, -1),
         ),
@@ -84,6 +88,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             0,
+            False,
             None,
             (1, 0),
         ),
@@ -99,6 +104,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0, 0),
         ),
@@ -114,6 +120,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0.2867006838144548, -1),
         ),
@@ -129,6 +136,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (1, 0),
         ),
@@ -144,6 +152,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0.7703179042939132, -1),
         ),
@@ -159,6 +168,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             -1,
+            True,
             0.45,
             (1, 0),
         ),
@@ -174,6 +184,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0.7703179042939132, -1),
         ),
@@ -189,6 +200,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0.6349365679618759, 0),
         ),
@@ -204,6 +216,7 @@ from iris.nodes.matcher.utils import hamming_distance
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             (0.48484617125293383, -1),
         ),
@@ -228,16 +241,17 @@ def test_hamming_distance(
     template_probe: IrisTemplate,
     template_gallery: IrisTemplate,
     rotation_shift: int,
+    normalise: bool,
     nm_dist: float,
     expected_result: Tuple[float, ...],
 ) -> None:
-    result = hamming_distance(template_probe, template_gallery, rotation_shift, nm_dist)
+    result = hamming_distance(template_probe, template_gallery, rotation_shift, normalise, nm_dist)
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, nm_dist, weights, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, weights, expected_result",
     [
         (
             IrisTemplate(
@@ -251,6 +265,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0, 0),
@@ -267,6 +282,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.14285714285714285, -1),
@@ -283,6 +299,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (1, 0),
@@ -299,6 +316,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            False,
             None,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.8888888888888888, -1),
@@ -315,6 +333,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             0,
+            False,
             None,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (1, 0),
@@ -331,6 +350,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0, 0),
@@ -347,6 +367,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.22967674843904062, -1),
@@ -363,6 +384,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.8512211593818028, 0),
@@ -379,6 +401,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.8020834362167217, -1),
@@ -395,6 +418,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             -1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (1, 0),
@@ -423,6 +447,7 @@ def test_hamming_distance(
                 iris_code_version="v2.1",
             ),
             -1,
+            True,
             0.45,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1, 4, 2], [1, 2, 5, 4]])],
             (1, 0),
@@ -446,11 +471,12 @@ def test_hamming_distance_with_weights(
     template_probe: IrisTemplate,
     template_gallery: IrisTemplate,
     rotation_shift: int,
+    normalise: bool,
     nm_dist: float,
     weights: np.ndarray,
     expected_result: Tuple[float, ...],
 ) -> None:
-    result = hamming_distance(template_probe, template_gallery, rotation_shift, nm_dist, weights)
+    result = hamming_distance(template_probe, template_gallery, rotation_shift, normalise, nm_dist, weights=weights)
 
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
