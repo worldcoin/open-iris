@@ -1,14 +1,14 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 import numpy as np
-from pydantic import confloat, conint
+from pydantic import confloat
 
-from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.matcher.utils import hamming_distance
+from iris.nodes.matcher.hamming_distance_matcher_interface import Matcher
 
 
-class HammingDistanceMatcher(Algorithm):
+class HammingDistanceMatcher(Matcher):
     """Hamming distance Matcher.
 
     Algorithm steps:
@@ -18,14 +18,15 @@ class HammingDistanceMatcher(Algorithm):
        4) If parameters nm_dist and weights are both defined, calculate weighted normalized Hamming distance (WNHD) based on IB_Counts, MB_Counts, nm_dist and weights.
        5) Otherwise, calculate Hamming distance (HD) based on IB_Counts and MB_Counts.
        6) If parameter rotation_shift is > 0, repeat the above steps for additional rotations of the iriscode.
-       7) Return the minimium distance from above calculations and its correpsonding rotation angle.
+       7) Return the minimium distance from above calculations.
     """
 
-    class Parameters(Algorithm.Parameters):
-        """Parameters class for HammingDistanceMatcher."""
+    class Parameters(Matcher.Parameters):
+        """IrisMatcherParameters parameters."""
 
-        rotation_shift: conint(ge=0, strict=True)
-        nm_dist: Optional[confloat(ge=0, le=1, strict=True)]
+        normalise: bool
+        nm_dist: confloat(ge=0, le=1, strict=True)
+        nm_type: Literal["linear", "sqrt"]
         weights: Optional[List[np.ndarray]]
 
     __parameters_type__ = Parameters
@@ -33,7 +34,9 @@ class HammingDistanceMatcher(Algorithm):
     def __init__(
         self,
         rotation_shift: int = 15,
-        nm_dist: Optional[confloat(ge=0, le=1, strict=True)] = None,
+        normalise: bool = False,
+        nm_dist: confloat(ge=0, le=1, strict=True) = 0.45,
+        nm_type: Literal["linear", "sqrt"] = "sqrt",
         weights: Optional[List[np.ndarray]] = None,
     ) -> None:
         """Assign parameters.
@@ -43,7 +46,9 @@ class HammingDistanceMatcher(Algorithm):
             nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to None.
             weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.
         """
-        super().__init__(rotation_shift=rotation_shift, nm_dist=nm_dist, weights=weights)
+        super().__init__(
+            rotation_shift=rotation_shift, normalise=normalise, nm_dist=nm_dist, nm_type=nm_type, weights=weights
+        )
 
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
         """Match iris templates using Hamming distance.
@@ -59,7 +64,9 @@ class HammingDistanceMatcher(Algorithm):
             template_probe,
             template_gallery,
             self.params.rotation_shift,
+            self.params.normalise,
             self.params.nm_dist,
+            self.params.nm_type,
             self.params.weights,
         )
 
