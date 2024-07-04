@@ -6,6 +6,59 @@ from iris.io.dataclasses import IrisTemplate
 from iris.io.errors import MatcherError
 
 
+def simple_hamming_distance(
+    template_probe: IrisTemplate,
+    template_gallery: IrisTemplate,
+    rotation_shift: int = 15,
+    normalise: bool = False,
+    norm_mean: float = 0.45,
+    norm_nb_bits: float = 12288,
+) -> Tuple[float, int]:
+    """Compute Hamming distance, without bells and whistles.
+    Args:
+        template_probe (IrisTemplate): Iris template from probe.
+        template_gallery (IrisTemplate): Iris template from gallery.
+        rotation_shift (int): Rotations allowed in matching, in columns. Defaults to 15.
+        normalise (bool): Flag to normalize HD. Defaults to False.
+        norm_mean (float): Peak of the non-match distribution. Defaults to 0.45.
+        norm_nb_bits (float): Average number of bits visible in 2 randomly sampled iris codes. Defaults to 12288 (3/4 * total_bits_number for the iris code format v0.1).
+
+    Returns:
+        Tuple[float, int]: miminum Hamming distance and corresonding rotation shift.
+    """
+    for probe_code, gallery_code in zip(template_probe.iris_codes, template_gallery.iris_codes):
+        if probe_code.shape != gallery_code.shape:
+            raise MatcherError("prove and gallery iriscode are of different sizes")
+
+    best_dist = 1
+    rot_shift = 0
+    for current_shift in range(-rotation_shift, rotation_shift + 1):
+        irisbits = [
+            np.roll(probe_code, current_shift, axis=1) != gallery_code
+            for probe_code, gallery_code in zip(template_probe.iris_codes, template_gallery.iris_codes)
+        ]
+        maskbits = [
+            np.roll(probe_code, current_shift, axis=1) & gallery_code
+            for probe_code, gallery_code in zip(template_probe.mask_codes, template_gallery.mask_codes)
+        ]
+
+        irisbitcount = sum([np.sum(x & y) for x, y in zip(irisbits, maskbits)])
+        maskbitcount = sum([maskbit.sum() for maskbit in maskbits])
+
+        if maskbitcount == 0:
+            continue
+
+        current_dist = irisbitcount / maskbitcount
+        if normalise:
+            current_dist = max(0, norm_mean - (norm_mean - current_dist) * np.sqrt(maskbitcount / norm_nb_bits))
+
+        if (current_dist < best_dist) or (current_dist == best_dist and current_shift == 0):
+            best_dist = current_dist
+            rot_shift = current_shift
+
+    return best_dist, rot_shift
+
+
 def normalized_HD(irisbitcount: int, maskbitcount: int, sqrt_totalbitcount: float, nm_dist: float) -> float:
     """Perform normalized HD calculation.
 
