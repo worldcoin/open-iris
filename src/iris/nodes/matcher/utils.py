@@ -71,9 +71,7 @@ def normalized_HD(irisbitcount: int, maskbitcount: int, sqrt_totalbitcount: floa
     Returns:
         float: normalized Hamming distance.
     """
-    norm_HD = max(
-        0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * min(1.0, np.sqrt(maskbitcount) / sqrt_totalbitcount)
-    )
+    norm_HD = max(0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * np.sqrt(maskbitcount) / sqrt_totalbitcount)
     return norm_HD
 
 
