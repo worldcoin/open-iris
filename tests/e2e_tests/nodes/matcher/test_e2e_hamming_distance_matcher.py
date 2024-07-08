@@ -18,16 +18,16 @@ def load_mock_pickle(name: str) -> Any:
 
 
 @pytest.mark.parametrize(
-    "rotation_shift,nm_dist,weights,expected_result",
+    "rotation_shift,normalise,nm_dist,weights,expected_result",
     [
-        pytest.param(10, None, None, 0.0),
-        pytest.param(15, None, None, 0.0),
-        pytest.param(10, 0.45, None, 0.0123),
-        pytest.param(15, 0.45, None, 0.0123),
-        pytest.param(10, None, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(15, None, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
-        pytest.param(15, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
+        pytest.param(10, False, 0.45, None, 0.0),
+        pytest.param(15, False, 0.45, None, 0.0),
+        pytest.param(10, True, 0.45, None, 0.0123),
+        pytest.param(15, True, 0.45, None, 0.0123),
+        pytest.param(10, False, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(15, False, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(10, True, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
+        pytest.param(15, True, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
     ],
     ids=[
         "regular1",
@@ -42,6 +42,7 @@ def load_mock_pickle(name: str) -> Any:
 )
 def test_e2e_iris_matcher(
     rotation_shift: int,
+    normalise: bool, 
     nm_dist: float,
     weights: Optional[List[np.ndarray]],
     expected_result: float,
@@ -49,7 +50,12 @@ def test_e2e_iris_matcher(
     first_template = load_mock_pickle("iris_template")
     second_template = deepcopy(first_template)
 
-    matcher = HammingDistanceMatcher(rotation_shift, nm_dist, weights)
+    matcher = HammingDistanceMatcher(
+        rotation_shift=rotation_shift,
+        normalise=normalise,
+        nm_dist=nm_dist,
+        weights=weights,
+    )
     result = matcher.run(first_template, second_template)
 
     assert round(result, 4) == expected_result
