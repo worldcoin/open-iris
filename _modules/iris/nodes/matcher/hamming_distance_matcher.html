@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.matcher.hamming_distance_matcher - iris v1.1.0</title>
+        <title>iris.nodes.matcher.hamming_distance_matcher - iris v1.1.1</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.1.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.1.1</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +206,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.0</span>
+  <span class="sidebar-brand-text">iris v1.1.1</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -298,17 +298,17 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.nodes.matcher.hamming_distance_matcher</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">confloat</span><span class="p">,</span> <span class="n">conint</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">confloat</span>
 
-<span class="kn">from</span> <span class="nn">iris.io.class_configs</span> <span class="kn">import</span> <span class="n">Algorithm</span>
 <span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">IrisTemplate</span>
 <span class="kn">from</span> <span class="nn">iris.nodes.matcher.utils</span> <span class="kn">import</span> <span class="n">hamming_distance</span>
+<span class="kn">from</span> <span class="nn">iris.nodes.matcher.hamming_distance_matcher_interface</span> <span class="kn">import</span> <span class="n">Matcher</span>
 
 
-<div class="viewcode-block" id="HammingDistanceMatcher"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher">[docs]</a><span class="k">class</span> <span class="nc">HammingDistanceMatcher</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="HammingDistanceMatcher"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher">[docs]</a><span class="k">class</span> <span class="nc">HammingDistanceMatcher</span><span class="p">(</span><span class="n">Matcher</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Hamming distance Matcher.</span>
 
 <span class="sd">    Algorithm steps:</span>
@@ -318,14 +318,15 @@
 <span class="sd">       4) If parameters nm_dist and weights are both defined, calculate weighted normalized Hamming distance (WNHD) based on IB_Counts, MB_Counts, nm_dist and weights.</span>
 <span class="sd">       5) Otherwise, calculate Hamming distance (HD) based on IB_Counts and MB_Counts.</span>
 <span class="sd">       6) If parameter rotation_shift is &gt; 0, repeat the above steps for additional rotations of the iriscode.</span>
-<span class="sd">       7) Return the minimium distance from above calculations and its correpsonding rotation angle.</span>
+<span class="sd">       7) Return the minimium distance from above calculations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="HammingDistanceMatcher.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for HammingDistanceMatcher.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="HammingDistanceMatcher.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Matcher</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;IrisMatcherParameters parameters.&quot;&quot;&quot;</span>
 
-        <span class="n">rotation_shift</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">nm_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+        <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">nm_dist</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">nm_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">]</span>
         <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span></div>
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -333,17 +334,21 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
-        <span class="n">nm_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">nm_dist</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
+        <span class="n">nm_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">,</span>
         <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            rotation_shift (int): rotations allowed in matching, converted to shifts in columns. Defaults to 15.</span>
+<span class="sd">            rotation_shift (int): rotations allowed in matching, experessed in iris code columns. Defaults to 15.</span>
 <span class="sd">            nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to None.</span>
 <span class="sd">            weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">rotation_shift</span><span class="o">=</span><span class="n">rotation_shift</span><span class="p">,</span> <span class="n">nm_dist</span><span class="o">=</span><span class="n">nm_dist</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">rotation_shift</span><span class="o">=</span><span class="n">rotation_shift</span><span class="p">,</span> <span class="n">normalise</span><span class="o">=</span><span class="n">normalise</span><span class="p">,</span> <span class="n">nm_dist</span><span class="o">=</span><span class="n">nm_dist</span><span class="p">,</span> <span class="n">nm_type</span><span class="o">=</span><span class="n">nm_type</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="HammingDistanceMatcher.run"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Match iris templates using Hamming distance.</span>
@@ -359,7 +364,9 @@
             <span class="n">template_probe</span><span class="p">,</span>
             <span class="n">template_gallery</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">rotation_shift</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">normalise</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nm_dist</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nm_type</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -396,7 +403,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=def9ab29"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=7a812f30"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=4e2eecee"></script>
