@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.matcher.utils - iris v1.1.0</title>
+        <title>iris.nodes.matcher.utils - iris v1.1.1</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.1.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.1.1</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +206,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.0</span>
+  <span class="sidebar-brand-text">iris v1.1.1</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -298,12 +298,65 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.nodes.matcher.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">IrisTemplate</span>
 <span class="kn">from</span> <span class="nn">iris.io.errors</span> <span class="kn">import</span> <span class="n">MatcherError</span>
+
+
+<div class="viewcode-block" id="simple_hamming_distance"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.simple_hamming_distance">[docs]</a><span class="k">def</span> <span class="nf">simple_hamming_distance</span><span class="p">(</span>
+    <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
+    <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
+    <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">norm_mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
+    <span class="n">norm_nb_bits</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">12288</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Hamming distance, without bells and whistles.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        template_probe (IrisTemplate): Iris template from probe.</span>
+<span class="sd">        template_gallery (IrisTemplate): Iris template from gallery.</span>
+<span class="sd">        rotation_shift (int): Rotations allowed in matching, in columns. Defaults to 15.</span>
+<span class="sd">        normalise (bool): Flag to normalize HD. Defaults to False.</span>
+<span class="sd">        norm_mean (float): Peak of the non-match distribution. Defaults to 0.45.</span>
+<span class="sd">        norm_nb_bits (float): Average number of bits visible in 2 randomly sampled iris codes. Defaults to 12288 (3/4 * total_bits_number for the iris code format v0.1).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[float, int]: miminum Hamming distance and corresonding rotation shift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">probe_code</span><span class="p">,</span> <span class="n">gallery_code</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">template_probe</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">,</span> <span class="n">template_gallery</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">probe_code</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">gallery_code</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MatcherError</span><span class="p">(</span><span class="s2">&quot;prove and gallery iriscode are of different sizes&quot;</span><span class="p">)</span>
+
+    <span class="n">best_dist</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">rot_shift</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">current_shift</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">rotation_shift</span><span class="p">,</span> <span class="n">rotation_shift</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">irisbits</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">probe_code</span><span class="p">,</span> <span class="n">current_shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">gallery_code</span>
+            <span class="k">for</span> <span class="n">probe_code</span><span class="p">,</span> <span class="n">gallery_code</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">template_probe</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">,</span> <span class="n">template_gallery</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">maskbits</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">probe_code</span><span class="p">,</span> <span class="n">current_shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">gallery_code</span>
+            <span class="k">for</span> <span class="n">probe_code</span><span class="p">,</span> <span class="n">gallery_code</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">template_probe</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">,</span> <span class="n">template_gallery</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">irisbitcount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">irisbits</span><span class="p">,</span> <span class="n">maskbits</span><span class="p">)])</span>
+        <span class="n">maskbitcount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">maskbit</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">maskbit</span> <span class="ow">in</span> <span class="n">maskbits</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">maskbitcount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">current_dist</span> <span class="o">=</span> <span class="n">irisbitcount</span> <span class="o">/</span> <span class="n">maskbitcount</span>
+        <span class="k">if</span> <span class="n">normalise</span><span class="p">:</span>
+            <span class="n">current_dist</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">norm_mean</span> <span class="o">-</span> <span class="p">(</span><span class="n">norm_mean</span> <span class="o">-</span> <span class="n">current_dist</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount</span> <span class="o">/</span> <span class="n">norm_nb_bits</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">current_dist</span> <span class="o">&lt;</span> <span class="n">best_dist</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">current_dist</span> <span class="o">==</span> <span class="n">best_dist</span> <span class="ow">and</span> <span class="n">current_shift</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">best_dist</span> <span class="o">=</span> <span class="n">current_dist</span>
+            <span class="n">rot_shift</span> <span class="o">=</span> <span class="n">current_shift</span>
+
+    <span class="k">return</span> <span class="n">best_dist</span><span class="p">,</span> <span class="n">rot_shift</span></div>
 
 
 <div class="viewcode-block" id="normalized_HD"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.normalized_HD">[docs]</a><span class="k">def</span> <span class="nf">normalized_HD</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maskbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sqrt_totalbitcount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nm_dist</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -318,9 +371,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        float: normalized Hamming distance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">norm_HD</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-        <span class="mi">0</span><span class="p">,</span> <span class="n">nm_dist</span> <span class="o">-</span> <span class="p">(</span><span class="n">nm_dist</span> <span class="o">-</span> <span class="n">irisbitcount</span> <span class="o">/</span> <span class="n">maskbitcount</span><span class="p">)</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt_totalbitcount</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">norm_HD</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nm_dist</span> <span class="o">-</span> <span class="p">(</span><span class="n">nm_dist</span> <span class="o">-</span> <span class="n">irisbitcount</span> <span class="o">/</span> <span class="n">maskbitcount</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt_totalbitcount</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">norm_HD</span></div>
 
 
@@ -409,7 +460,9 @@
     <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">nm_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">nm_dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
+    <span class="n">nm_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">,</span>
     <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Hamming distance.</span>
@@ -418,7 +471,9 @@
 <span class="sd">        template_probe (IrisTemplate): Iris template from probe.</span>
 <span class="sd">        template_gallery (IrisTemplate): Iris template from gallery.</span>
 <span class="sd">        rotation_shift (int): rotation allowed in matching, converted to columns.</span>
-<span class="sd">        nm_dist (Optional[float] = None): nonmatch distance, Optional paremeter for normalized HD. Defaults to None.</span>
+<span class="sd">        normalise (bool): Flag to normalize HD. Defaults to False.</span>
+<span class="sd">        nm_dist (float): nonmatch mean distance for normalized HD. Defaults to 0.45.</span>
+<span class="sd">        nm_type (Literal[&quot;linear&quot;, &quot;sqrt&quot;]): type of normalized HD. Defaults to &quot;sqrt&quot;.</span>
 <span class="sd">        weights (Optional[List[np.ndarray]]= None): list of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
@@ -438,7 +493,7 @@
             <span class="k">if</span> <span class="n">probe_code</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">MatcherError</span><span class="p">(</span><span class="s2">&quot;weights table and iris codes are of different sizes&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">nm_dist</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">normalise</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">weights</span><span class="p">:</span>
             <span class="n">sqrt_totalbitcount</span><span class="p">,</span> <span class="n">sqrt_totalbitcount_top</span><span class="p">,</span> <span class="n">sqrt_totalbitcount_bot</span> <span class="o">=</span> <span class="n">count_sqrt_totalbits</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">template_probe</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">]),</span> <span class="n">half_codewidth</span><span class="p">,</span> <span class="n">weights</span>
@@ -474,7 +529,7 @@
         <span class="k">if</span> <span class="n">maskbitcount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="n">nm_dist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">normalise</span><span class="p">:</span>
             <span class="n">normdist_top</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">normalized_HD</span><span class="p">(</span><span class="n">irisbitcount_top</span><span class="p">,</span> <span class="n">maskbitcount_top</span><span class="p">,</span> <span class="n">sqrt_totalbitcount_top</span><span class="p">,</span> <span class="n">nm_dist</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">maskbitcount_top</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -485,12 +540,22 @@
                 <span class="k">if</span> <span class="n">maskbitcount_bot</span> <span class="o">&gt;</span> <span class="mi">0</span>
                 <span class="k">else</span> <span class="mi">1</span>
             <span class="p">)</span>
-            <span class="n">w_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount_top</span><span class="p">)</span>
-            <span class="n">w_bot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount_bot</span><span class="p">)</span>
-            <span class="n">Hdist</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">normalized_HD</span><span class="p">((</span><span class="n">irisbitcount_top</span> <span class="o">+</span> <span class="n">irisbitcount_bot</span><span class="p">),</span> <span class="n">maskbitcount</span><span class="p">,</span> <span class="n">sqrt_totalbitcount</span><span class="p">,</span> <span class="n">nm_dist</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                <span class="o">+</span> <span class="p">(</span><span class="n">normdist_top</span> <span class="o">*</span> <span class="n">w_top</span> <span class="o">+</span> <span class="n">normdist_bot</span> <span class="o">*</span> <span class="n">w_bot</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_top</span> <span class="o">+</span> <span class="n">w_bot</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">nm_type</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+                <span class="n">Hdist</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">normalized_HD</span><span class="p">((</span><span class="n">irisbitcount_top</span> <span class="o">+</span> <span class="n">irisbitcount_bot</span><span class="p">),</span> <span class="n">maskbitcount</span><span class="p">,</span> <span class="n">sqrt_totalbitcount</span><span class="p">,</span> <span class="n">nm_dist</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">normdist_top</span> <span class="o">*</span> <span class="n">maskbitcount_top</span> <span class="o">+</span> <span class="n">normdist_bot</span> <span class="o">*</span> <span class="n">maskbitcount_bot</span><span class="p">)</span> <span class="o">/</span> <span class="n">maskbitcount</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nm_type</span> <span class="o">==</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">:</span>
+                <span class="n">w_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount_top</span><span class="p">)</span>
+                <span class="n">w_bot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">maskbitcount_bot</span><span class="p">)</span>
+                <span class="n">Hdist</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">normalized_HD</span><span class="p">((</span><span class="n">irisbitcount_top</span> <span class="o">+</span> <span class="n">irisbitcount_bot</span><span class="p">),</span> <span class="n">maskbitcount</span><span class="p">,</span> <span class="n">sqrt_totalbitcount</span><span class="p">,</span> <span class="n">nm_dist</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">normdist_top</span> <span class="o">*</span> <span class="n">w_top</span> <span class="o">+</span> <span class="n">normdist_bot</span> <span class="o">*</span> <span class="n">w_bot</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_top</span> <span class="o">+</span> <span class="n">w_bot</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;Given `nm_type` not supported. Expected: Literal[</span><span class="se">\&quot;</span><span class="s2">linear</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">sqrt</span><span class="se">\&quot;</span><span class="s2">]. Received </span><span class="si">{nm_type}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">Hdist</span> <span class="o">=</span> <span class="p">(</span><span class="n">irisbitcount_top</span> <span class="o">+</span> <span class="n">irisbitcount_bot</span><span class="p">)</span> <span class="o">/</span> <span class="n">maskbitcount</span>
 
@@ -531,7 +596,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=def9ab29"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=7a812f30"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=4e2eecee"></script>
