@@ -1,8 +1,8 @@
-from typing import List
-from pydantic import Field, validator
+from typing import List, Tuple
 
 import cv2
 import numpy as np
+from pydantic import Field, validator
 
 import iris.io.validators as pydantic_v
 from iris.callbacks.callback_interface import Callback
@@ -10,7 +10,7 @@ from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import NormalizedIris, Sharpness
 
 
-def get_sharpness(normalization_output: NormalizedIris, lap_ksize: int = 11, erosion_ksize: tuple = (29,15)) -> float:
+def get_sharpness(normalization_output: NormalizedIris, lap_ksize: int = 11, erosion_ksize: tuple = (29, 15)) -> float:
     """Calculate sharpness of the normalized iris.
 
     Args:
@@ -19,9 +19,10 @@ def get_sharpness(normalization_output: NormalizedIris, lap_ksize: int = 11, ero
     Returns:
         float: Compuated sharpness.
     """
-    Laplacian_im = cv2.Laplacian(normalization_output.normalized_image/255, cv2.CV_32F, ksize =lap_ksize)
-    mask_im = cv2.erode(normalization_output.normalized_mask.astype(np.uint8), kernel = np.ones(erosion_ksize, np.uint8))
-    return Laplacian_im[mask_im==1].std() if np.sum(mask_im==1)>0 else 0
+    Laplacian_im = cv2.Laplacian(normalization_output.normalized_image / 255, cv2.CV_32F, ksize=lap_ksize)
+    mask_im = cv2.erode(normalization_output.normalized_mask.astype(np.uint8), kernel=np.ones(erosion_ksize, np.uint8))
+    return Laplacian_im[mask_im == 1].std() if np.sum(mask_im == 1) > 0 else 0
+
 
 class SharpnessEstimation(Algorithm):
     """Calculate sharpness of the normalized iris.
@@ -41,7 +42,7 @@ class SharpnessEstimation(Algorithm):
         """
 
         lap_ksize: int = Field(..., gt=0, le=31)
-        erosion_ksize: tuple[int, int] = Field(..., gt=0)
+        erosion_ksize: Tuple[int, int] = Field(..., gt=0)
 
         _is_odd0 = validator("lap_ksize", allow_reuse=True)(pydantic_v.is_odd)
         _is_odd = validator("erosion_ksize", allow_reuse=True, each_item=True)(pydantic_v.is_odd)
@@ -51,7 +52,7 @@ class SharpnessEstimation(Algorithm):
     def __init__(
         self,
         lap_ksize: int = 11,
-        erosion_ksize: tuple = (29,15),
+        erosion_ksize: tuple = (29, 15),
         callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
@@ -61,10 +62,8 @@ class SharpnessEstimation(Algorithm):
             erosion_ksize (tuple, optional): kernal size for mask erosion. Defaults to (29,15).
             callbacks (List[Callback]): callbacks list. Defaults to [].
         """
-        super().__init__(
-            lap_ksize=lap_ksize, erosion_ksize=erosion_ksize, callbacks=callbacks
-        )
-    
+        super().__init__(lap_ksize=lap_ksize, erosion_ksize=erosion_ksize, callbacks=callbacks)
+
     def run(self, normalization_output: NormalizedIris) -> Sharpness:
         """Calculate sharpness of the normalized iris.
 
@@ -74,5 +73,7 @@ class SharpnessEstimation(Algorithm):
         Returns:
             Sharpness: Sharpness object.
         """
-        sharpness = Sharpness(score=get_sharpness(normalization_output, self.params.lap_ksize, self.params.erosion_ksize))
+        sharpness = Sharpness(
+            score=get_sharpness(normalization_output, self.params.lap_ksize, self.params.erosion_ksize)
+        )
         return sharpness
