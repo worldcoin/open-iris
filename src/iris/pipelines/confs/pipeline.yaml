@@ -218,6 +218,18 @@ pipeline:
         source_node: eye_orientation
     callbacks:
 
+  - name: sharpness_estimation
+    algorithm:
+      class_name: iris.SharpnessEstimation
+      params: {}
+    inputs:
+      - name: normalization_output
+        source_node: normalization
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.SharpnessValidator
+        params:
+          min_sharpness: 461.0
+
   - name: filter_bank
     algorithm:
       class_name: iris.ConvFilterBank

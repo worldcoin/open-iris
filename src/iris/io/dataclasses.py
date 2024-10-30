@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Literal, Tuple, Union
+from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
 import numpy as np
 from pydantic import Field, NonNegativeInt, root_validator, validator
@@ -400,6 +400,31 @@ class Offgaze(ImmutableModel):
             Offgaze: Deserialized object.
         """
         return Offgaze(score=data)
+    
+class Sharpness(ImmutableModel):
+    """Data holder for Sharpness score."""
+
+    score: float = Field(..., ge=0.0)
+
+    def serialize(self) -> float:
+        """Serialize Sharpness object.
+
+        Returns:
+            float: Serialized object.
+        """
+        return self.score
+
+    @staticmethod
+    def deserialize(data: float) -> Sharpness:
+        """Deserialize Sharpness object.
+
+        Args:
+            data (float): Serialized object to float.
+
+        Returns:
+            Sharpness: Deserialized object.
+        """
+        return Sharpness(score=data)
 
 
 class PupilToIrisProperty(ImmutableModel):

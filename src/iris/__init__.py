@@ -18,6 +18,7 @@ from iris.io.dataclasses import (
     NoiseMask,
     NormalizedIris,
     Offgaze,
+    Sharpness,
     PupilToIrisProperty,
     SegmentationMap,
 )
@@ -34,6 +35,8 @@ from iris.io.errors import (
     IRISPipelineError,
     IsPupilInsideIrisValidatorError,
     LandmarkEstimationError,
+    SharpnessEstimationError,
+    MaskTooSmallError,
     MatcherError,
     NormalizationError,
     OcclusionError,
@@ -48,6 +51,7 @@ from iris.nodes.binarization.specular_reflection_detection import SpecularReflec
 from iris.nodes.encoder.iris_encoder import IrisEncoder
 from iris.nodes.eye_properties_estimation.bisectors_method import BisectorsMethod
 from iris.nodes.eye_properties_estimation.eccentricity_offgaze_estimation import EccentricityOffgazeEstimation
+from iris.nodes.eye_properties_estimation.sharpness_estimation import SharpnessEstimation
 from iris.nodes.eye_properties_estimation.iris_bbox_calculator import IrisBBoxCalculator
 from iris.nodes.eye_properties_estimation.moment_of_area import MomentOfArea
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator
@@ -80,6 +84,7 @@ from iris.nodes.validators.object_validators import (
     IsPupilInsideIrisValidator,
     OcclusionValidator,
     OffgazeValidator,
+    SharpnessValidator,
     PolygonsLengthValidator,
     Pupil2IrisPropertyValidator,
 )

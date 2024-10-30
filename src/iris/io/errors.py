@@ -99,6 +99,17 @@ class VectorizationError(Exception):
 
     pass
 
+class SharpnessEstimationError(Exception):
+    """SharpnessEstimation Error class."""
+
+    pass
+
+
+class MaskTooSmallError(Exception):
+    """Mask is too small Error class."""
+
+    pass
+
 
 class MatcherError(Exception):
     """Matcher module Error class."""
