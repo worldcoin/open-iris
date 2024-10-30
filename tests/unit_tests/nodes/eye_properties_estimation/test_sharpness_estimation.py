@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 import pytest
 from pydantic import ValidationError
@@ -46,6 +48,6 @@ def test_sharpness_lap_ksize_raises_an_exception(lap_ksize: int) -> None:
         "erosion_ksize should be a tuple of integer with length 2",
     ],
 )
-def test_sharpness_erosion_ksize_raises_an_exception(erosion_ksize: tuple[int, int]) -> None:
+def test_sharpness_erosion_ksize_raises_an_exception(erosion_ksize: Tuple[int, int]) -> None:
     with pytest.raises(ValidationError):
         _ = SharpnessEstimation(erosion_ksize=erosion_ksize)
