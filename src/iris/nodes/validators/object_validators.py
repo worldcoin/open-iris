@@ -6,7 +6,7 @@ from pydantic import Field
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, Sharpness, PupilToIrisProperty
+from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty, Sharpness
 from iris.utils.math import polygon_length
 
 
@@ -315,6 +315,7 @@ class PolygonsLengthValidator(Callback, Algorithm):
         """
         self.run(input_polygons)
 
+
 class SharpnessValidator(Callback, Algorithm):
     """Validate that the normalized image is not too blurry.
 
@@ -346,12 +347,11 @@ class SharpnessValidator(Callback, Algorithm):
         Raises:
             E.SharpnessEstimationError: Raised if the sharpness score is below the desired threshold.
         """
-
         if val_arguments.score < self.params.min_sharpness:
             raise E.SharpnessEstimationError(
                 f"sharpness={val_arguments.score} < min_sharpness={self.params.min_sharpness}"
             )
-        
+
     def on_execute_end(self, result: Sharpness) -> None:
         """Wrap for validate method so that validator can be used as a Callback.
 
@@ -359,7 +359,6 @@ class SharpnessValidator(Callback, Algorithm):
             result (Sharpness): Sharpness resulted from computations.
         """
         self.run(result)
-
 
 
 class IsMaskTooSmallValidator(Callback, Algorithm):

@@ -1,12 +1,8 @@
 import math
 import os
 import pickle
-from typing import Any, Literal
+from typing import Any
 
-import numpy as np
-import pytest
-
-from iris.io.dataclasses import NormalizedIris
 from iris.nodes.eye_properties_estimation.sharpness_estimation import SharpnessEstimation
 
 

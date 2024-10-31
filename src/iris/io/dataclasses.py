@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
+from typing import Any, Dict, List, Literal, Tuple, Union
 
 import numpy as np
 from pydantic import Field, NonNegativeInt, root_validator, validator
@@ -400,7 +400,8 @@ class Offgaze(ImmutableModel):
             Offgaze: Deserialized object.
         """
         return Offgaze(score=data)
-    
+
+
 class Sharpness(ImmutableModel):
     """Data holder for Sharpness score."""
 

@@ -10,20 +10,6 @@ from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import NormalizedIris, Sharpness
 
 
-def get_sharpness(normalization_output: NormalizedIris, lap_ksize: int = 11, erosion_ksize: tuple = (29, 15)) -> float:
-    """Calculate sharpness of the normalized iris.
-
-    Args:
-        normalization_output (NormalizedIris): Normalized iris.
-
-    Returns:
-        float: Compuated sharpness.
-    """
-    Laplacian_im = cv2.Laplacian(normalization_output.normalized_image / 255, cv2.CV_32F, ksize=lap_ksize)
-    mask_im = cv2.erode(normalization_output.normalized_mask.astype(np.uint8), kernel=np.ones(erosion_ksize, np.uint8))
-    return Laplacian_im[mask_im == 1].std() if np.sum(mask_im == 1) > 0 else 0
-
-
 class SharpnessEstimation(Algorithm):
     """Calculate sharpness of the normalized iris.
 
@@ -31,14 +17,14 @@ class SharpnessEstimation(Algorithm):
 
     LIMITATIONS:
 
-    This method may be biased against dark images and may also fail to catch some images with motion blur.
+    This method may be biased against dark images with inadequate lighting.
     """
 
     class Parameters(Algorithm.Parameters):
         """Parameters class for SharpnessEstimation objects.
 
         lap_ksize (int): Laplacian kernel size, must be odd integer no larger than 31.
-        erosion_ksize (tuple): Mask erosion kernel size, must be odd integers.
+        erosion_ksize (Tuple[int, int]): Mask erosion kernel size, must be odd integers.
         """
 
         lap_ksize: int = Field(..., gt=0, le=31)
@@ -52,14 +38,14 @@ class SharpnessEstimation(Algorithm):
     def __init__(
         self,
         lap_ksize: int = 11,
-        erosion_ksize: tuple = (29, 15),
+        erosion_ksize: Tuple[int, int] = (29, 15),
         callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
 
         Args:
             lap_ksize (int, optional): kernal size for Laplacian. Defaults to 11.
-            erosion_ksize (tuple, optional): kernal size for mask erosion. Defaults to (29,15).
+            erosion_ksize (Tuple[int, int], optional): kernal size for mask erosion. Defaults to (29,15).
             callbacks (List[Callback]): callbacks list. Defaults to [].
         """
         super().__init__(lap_ksize=lap_ksize, erosion_ksize=erosion_ksize, callbacks=callbacks)
@@ -73,7 +59,9 @@ class SharpnessEstimation(Algorithm):
         Returns:
             Sharpness: Sharpness object.
         """
-        sharpness = Sharpness(
-            score=get_sharpness(normalization_output, self.params.lap_ksize, self.params.erosion_ksize)
+        output_im = cv2.Laplacian(normalization_output.normalized_image / 255, cv2.CV_32F, ksize=self.params.lap_ksize)
+        mask_im = cv2.erode(
+            normalization_output.normalized_mask.astype(np.uint8), kernel=np.ones(self.params.erosion_ksize, np.uint8)
         )
-        return sharpness
+        sharpness_score = output_im[mask_im == 1].std() if np.sum(mask_im == 1) > 0 else 0.0
+        return Sharpness(score=sharpness_score)
