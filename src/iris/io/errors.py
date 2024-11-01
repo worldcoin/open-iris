@@ -99,6 +99,7 @@ class VectorizationError(Exception):
 
     pass
 
+
 class SharpnessEstimationError(Exception):
     """SharpnessEstimation Error class."""
 
