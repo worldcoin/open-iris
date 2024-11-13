@@ -1,0 +1,5 @@
+huggingface-hub==0.19.4
+matplotlib==3.7.4
+numpy==1.24.4
+pydantic==1.10.13
+pyyaml==6.0.1
