@@ -9,7 +9,6 @@ pipeline:
       params: {
             model_path: "assets/sam_pretrained/Focal_model.pt",
             model_type: "vit_h",
-            # model_path: "/mnt/pool1/sharehome/usman/projects/misc/Finetuned-SAM/checkpoints/focal_casia_multi_cls_correct_split/gamma_2.0/model.pt",
             # model_type: "vit_b",
             input_num_channels: 3
       }
