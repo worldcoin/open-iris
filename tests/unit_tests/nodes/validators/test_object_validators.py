@@ -3,7 +3,7 @@ import pytest
 
 import iris.io.errors as E
 import iris.nodes.validators.object_validators as obj_v
-from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty
+from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty, Sharpness
 from tests.unit_tests.utils import generate_arc, generate_multiple_arcs
 
 
@@ -249,6 +249,26 @@ def test_polygon_length_validator(input_polygons: str, min_iris_length: int, min
 
 
 @pytest.mark.parametrize(
+    "min_sharpness",
+    [
+        100.0,
+        300.0,
+        461.0,
+    ],
+    ids=["low", "medial", "high"],
+)
+def test_sharpness_validator(min_sharpness: float) -> None:
+    sharpness = Sharpness(score=500.0)
+    validator = obj_v.SharpnessValidator(min_sharpness=min_sharpness)
+
+    try:
+        validator(sharpness)
+        assert True
+    except E.SharpnessEstimationError:
+        assert False, "E.SharpnessEstimationError exception raised."
+
+
+@pytest.mark.parametrize(
     "code_height,code_width,num_filters,min_maskcodes_size",
     [
         (16, 200, 2, 5120),
@@ -271,8 +291,8 @@ def test_is_mask_too_small_validator(
     try:
         validator(mock_iris_template)
         assert True
-    except E.EncoderError:
-        assert False, "E.EncoderError exception raised."
+    except E.MaskTooSmallError:
+        assert False, "E.MaskTooSmallError exception raised."
 
 
 @pytest.mark.parametrize(
@@ -297,5 +317,5 @@ def test_is_mask_too_small_validator_raise_exception(
     )
     validator = obj_v.IsMaskTooSmallValidator(min_maskcodes_size=min_maskcodes_size)
 
-    with pytest.raises(E.EncoderError):
+    with pytest.raises(E.MaskTooSmallError):
         validator(mock_iris_template)

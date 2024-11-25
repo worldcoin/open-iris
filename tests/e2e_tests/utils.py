@@ -63,6 +63,11 @@ def compare_iris_pipeline_metadata_output(metadata_1: Dict[str, Any], metadata_2
         ],
         decimal=4,
     )
+    np.testing.assert_almost_equal(
+        metadata_2["sharpness_score"],
+        metadata_1["sharpness_score"],
+        decimal=4,
+    )
 
 
 def compare_iris_pipeline_template_output(iris_template_1: Dict[str, Any], iris_template_2: Dict[str, Any]) -> None:

@@ -20,6 +20,7 @@ from iris.io.dataclasses import (
     Offgaze,
     PupilToIrisProperty,
     SegmentationMap,
+    Sharpness,
 )
 from iris.io.errors import (
     BoundingBoxEstimationError,
@@ -34,12 +35,14 @@ from iris.io.errors import (
     IRISPipelineError,
     IsPupilInsideIrisValidatorError,
     LandmarkEstimationError,
+    MaskTooSmallError,
     MatcherError,
     NormalizationError,
     OcclusionError,
     OffgazeEstimationError,
     ProbeSchemaError,
     PupilIrisPropertyEstimationError,
+    SharpnessEstimationError,
     VectorizationError,
 )
 from iris.nodes.aggregation.noise_mask_union import NoiseMaskUnion
@@ -52,6 +55,7 @@ from iris.nodes.eye_properties_estimation.iris_bbox_calculator import IrisBBoxCa
 from iris.nodes.eye_properties_estimation.moment_of_area import MomentOfArea
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator
 from iris.nodes.eye_properties_estimation.pupil_iris_property_calculator import PupilIrisPropertyCalculator
+from iris.nodes.eye_properties_estimation.sharpness_estimation import SharpnessEstimation
 from iris.nodes.geometry_estimation.fusion_extrapolation import FusionExtrapolation
 from iris.nodes.geometry_estimation.linear_extrapolation import LinearExtrapolation
 from iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement import LSQEllipseFitWithRefinement
@@ -65,8 +69,8 @@ from iris.nodes.iris_response.probe_schemas.probe_schema_interface import ProbeS
 from iris.nodes.iris_response.probe_schemas.regular_probe_schema import RegularProbeSchema
 from iris.nodes.iris_response_refinement.fragile_bits_refinement import FragileBitRefinement
 from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
-from iris.nodes.matcher.simple_hamming_distance_matcher import SimpleHammingDistanceMatcher
 from iris.nodes.matcher.hamming_distance_matcher_interface import BatchMatcher, Matcher
+from iris.nodes.matcher.simple_hamming_distance_matcher import SimpleHammingDistanceMatcher
 from iris.nodes.normalization.linear_normalization import LinearNormalization
 from iris.nodes.normalization.nonlinear_normalization import NonlinearNormalization
 from iris.nodes.normalization.perspective_normalization import PerspectiveNormalization
@@ -82,6 +86,7 @@ from iris.nodes.validators.object_validators import (
     OffgazeValidator,
     PolygonsLengthValidator,
     Pupil2IrisPropertyValidator,
+    SharpnessValidator,
 )
 from iris.nodes.vectorization.contouring import ContouringAlgorithm
 from iris.orchestration import error_managers, output_builders, pipeline_dataclasses

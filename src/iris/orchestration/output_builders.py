@@ -130,6 +130,7 @@ def __get_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
         "occlusion90": __safe_serialize(call_trace["occlusion90_calculator"]),
         "occlusion30": __safe_serialize(call_trace["occlusion30_calculator"]),
         "iris_bbox": __safe_serialize(call_trace["bounding_box_estimation"]),
+        "sharpness_score": __safe_serialize(call_trace["sharpness_estimation"]),
     }
 
 

@@ -594,6 +594,7 @@ def test_instanciate_node(
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OffgazeValidator,
+                    iris.nodes.validators.object_validators.SharpnessValidator,
                     iris.nodes.validators.object_validators.PolygonsLengthValidator,
                 ],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
