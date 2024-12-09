@@ -117,9 +117,11 @@ def test_convfilterbank_constructor(
 
     for i_iris_response, i_mask_response in zip(filter_responses.iris_responses, filter_responses.mask_responses):
         assert i_iris_response.shape == i_mask_response.shape
-        assert np.iscomplexobj(i_iris_response) and not np.iscomplexobj(i_mask_response)
-        assert np.max(i_mask_response) <= 1 and np.min(i_mask_response) >= 0
-        assert np.max(i_mask_response) > np.min(i_mask_response)
+        assert np.iscomplexobj(i_iris_response) and np.iscomplexobj(i_mask_response)
+        assert np.max(i_mask_response.real) <= 1 and np.min(i_mask_response.real) >= 0
+        assert np.max(i_mask_response.imag) <= 1 and np.min(i_mask_response.imag) >= 0
+        assert np.max(i_mask_response.real) > np.min(i_mask_response.real)
+        assert np.max(i_mask_response.imag) > np.min(i_mask_response.imag)
         assert np.max(i_iris_response.real) > np.min(i_iris_response.real)
         assert np.max(i_iris_response.imag) > np.min(i_iris_response.imag)
     assert filter_responses.iris_code_version == "v0.1"

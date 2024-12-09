@@ -134,7 +134,7 @@ class ConvFilterBank(Algorithm):
         p_rows = k_rows // 2
         p_cols = k_cols // 2
         iris_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
-        mask_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols))
+        mask_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
 
         padded_iris = polar_img_padding(normalization_output.normalized_image, 0, p_cols)
         padded_mask = polar_img_padding(normalization_output.normalized_mask, 0, p_cols)
@@ -162,5 +162,6 @@ class ConvFilterBank(Algorithm):
                 mask_response[i][j] = (
                     0 if iris_response[i][j] == 0 else (mask_patch.sum() / iris_patch.shape[0] / k_cols)
                 )
+                mask_response.imag = mask_response.real
 
         return iris_response, mask_response
