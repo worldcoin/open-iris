@@ -67,7 +67,7 @@ class ConvFilterBank(Algorithm):
                 theta_degrees=90.0,
                 lambda_phi=28,
                 dc_correction=True,
-                to_fixpoints=True,
+                to_fixpoints=False,
             ),
             GaborFilter(
                 kernel_size=(17, 21),
@@ -76,7 +76,7 @@ class ConvFilterBank(Algorithm):
                 theta_degrees=90.0,
                 lambda_phi=8,
                 dc_correction=True,
-                to_fixpoints=True,
+                to_fixpoints=False,
             ),
         ],
         probe_schemas: List[ProbeSchema] = [
@@ -131,13 +131,13 @@ class ConvFilterBank(Algorithm):
         """
         i_rows, i_cols = normalization_output.normalized_image.shape
         k_rows, k_cols = img_filter.kernel_values.shape
-        p_rows = k_rows // 2
-        p_cols = k_cols // 2
+        p_rows = int(k_rows // 2)
+        p_cols = int(k_cols // 2)
         iris_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
         mask_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
 
-        padded_iris = polar_img_padding(normalization_output.normalized_image, 0, p_cols)
-        padded_mask = polar_img_padding(normalization_output.normalized_mask, 0, p_cols)
+        padded_iris = polar_img_padding(normalization_output.normalized_image, p_rows, p_cols)
+        padded_mask = polar_img_padding(normalization_output.normalized_mask, p_rows, p_cols)
 
         for i in range(probe_schema.params.n_rows):
             for j in range(probe_schema.params.n_cols):
@@ -147,21 +147,18 @@ class ConvFilterBank(Algorithm):
                 c_probe = min(round(probe_schema.phis[pos] * i_cols), i_cols - 1)
 
                 # Get patch from image centered at [i,j] probed pixel position.
-                rtop = max(0, r_probe - p_rows)
-                rbot = min(r_probe + p_rows + 1, i_rows - 1)
-                iris_patch = padded_iris[rtop:rbot, c_probe : c_probe + k_cols]
-                mask_patch = padded_mask[rtop:rbot, c_probe : c_probe + k_cols]
+                iris_patch = padded_iris[r_probe : r_probe + k_rows, c_probe : c_probe + k_cols]
+                mask_patch = padded_mask[r_probe : r_probe + k_rows, c_probe : c_probe + k_cols]
 
+                # Compute normalization term by excluding zero-padded pixels
+                non_padded_k_rows = (
+                    k_rows
+                    if np.logical_and(r_probe > p_rows, r_probe <= i_rows - p_rows)
+                    else (k_rows - max(p_rows - r_probe, r_probe + p_rows - i_rows))
+                )
                 # Perform convolution at [i,j] probed pixel position.
-                ktop = p_rows - iris_patch.shape[0] // 2
-                iris_response[i][j] = (
-                    (iris_patch * img_filter.kernel_values[ktop : ktop + iris_patch.shape[0], :]).sum()
-                    / iris_patch.shape[0]
-                    / k_cols
-                )
-                mask_response[i][j] = (
-                    0 if iris_response[i][j] == 0 else (mask_patch.sum() / iris_patch.shape[0] / k_cols)
-                )
-                mask_response.imag = mask_response.real
+                iris_response[i][j] = (iris_patch * img_filter.kernel_values).sum() / non_padded_k_rows / k_cols
+                mask_response[i][j] = 0 if iris_response[i][j] == 0 else (mask_patch.sum() / non_padded_k_rows / k_cols)
+        mask_response.imag = mask_response.real
 
         return iris_response, mask_response
