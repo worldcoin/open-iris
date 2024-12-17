@@ -21,6 +21,16 @@ class ImageFilter(Algorithm):
         """Init function."""
         super().__init__(**kwargs)
         self.__kernel_values = self.compute_kernel_values()
+        self.__kernel_norm = np.linalg.norm(self.__kernel_values.real, ord="fro") + np.linalg.norm(self.__kernel_values.imag, ord="fro")*1j
+
+    @property
+    def kernel_norm(self) -> float:
+        """Get kernel norm.
+
+        Returns:
+            float: Filter kernel norm.
+        """
+        return self.__kernel_norm
 
     @property
     def kernel_values(self) -> np.ndarray:

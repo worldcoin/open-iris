@@ -67,7 +67,7 @@ class ConvFilterBank(Algorithm):
                 theta_degrees=90.0,
                 lambda_phi=28,
                 dc_correction=True,
-                to_fixpoints=False,
+                to_fixpoints=True,
             ),
             GaborFilter(
                 kernel_size=(17, 21),
@@ -76,7 +76,7 @@ class ConvFilterBank(Algorithm):
                 theta_degrees=90.0,
                 lambda_phi=8,
                 dc_correction=True,
-                to_fixpoints=False,
+                to_fixpoints=True,
             ),
         ],
         probe_schemas: List[ProbeSchema] = [
@@ -159,6 +159,9 @@ class ConvFilterBank(Algorithm):
                 # Perform convolution at [i,j] probed pixel position.
                 iris_response[i][j] = (iris_patch * img_filter.kernel_values).sum() / non_padded_k_rows / k_cols
                 mask_response[i][j] = 0 if iris_response[i][j] == 0 else (mask_patch.sum() / non_padded_k_rows / k_cols)
+        
+        iris_response.real = iris_response.real / img_filter.kernel_norm.real
+        iris_response.imag = iris_response.imag / img_filter.kernel_norm.imag
         mask_response.imag = mask_response.real
 
         return iris_response, mask_response

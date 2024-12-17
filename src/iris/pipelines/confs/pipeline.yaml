@@ -243,7 +243,7 @@ pipeline:
               theta_degrees: 90.0
               lambda_phi: 28.0
               dc_correction: True
-              to_fixpoints: False
+              to_fixpoints: True
           - class_name: iris.GaborFilter
             params:
               kernel_size: [17, 21]
@@ -252,7 +252,7 @@ pipeline:
               theta_degrees: 90.0
               lambda_phi: 8
               dc_correction: True
-              to_fixpoints: False
+              to_fixpoints: True
         probe_schemas:
           - class_name: iris.RegularProbeSchema
             params:
