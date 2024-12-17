@@ -70,6 +70,7 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
     extrapolated_polygons = call_trace["geometry_estimation"]
     normalized_iris = call_trace["normalization"]
     iris_response = call_trace["filter_bank"]
+    iris_response_refined = call_trace["iris_response_refinement"]
 
     return {
         "iris_template": iris_template,
@@ -82,6 +83,7 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
         "extrapolated_polygons": __safe_serialize(extrapolated_polygons),
         "normalized_iris": __safe_serialize(normalized_iris),
         "iris_response": __safe_serialize(iris_response),
+        "iris_response_refined": __safe_serialize(iris_response_refined),
         "error": error,
     }
 
