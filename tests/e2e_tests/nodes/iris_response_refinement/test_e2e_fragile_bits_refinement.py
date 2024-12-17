@@ -4,6 +4,7 @@ from typing import Any, Literal, Tuple
 
 import numpy as np
 import pytest
+from pydantic import confloat
 
 from iris.nodes.iris_response_refinement.fragile_bits_refinement import FragileBitRefinement, FragileType
 
@@ -25,7 +26,7 @@ def load_mock_pickle(name: str) -> Any:
     ids=["cartesian", "polar"],
 )
 def test_fragile_bits_dummy_responses(
-    value_threshold: Tuple[float, float, float], fragile_type: FragileType
+    value_threshold: Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)], fragile_type: FragileType
 ) -> None:
     iris_filter_response = load_mock_pickle(f"artificial_iris_responses_{fragile_type}")
 
