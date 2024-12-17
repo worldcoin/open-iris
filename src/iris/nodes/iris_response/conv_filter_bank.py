@@ -131,8 +131,8 @@ class ConvFilterBank(Algorithm):
         """
         i_rows, i_cols = normalization_output.normalized_image.shape
         k_rows, k_cols = img_filter.kernel_values.shape
-        p_rows = int(k_rows // 2)
-        p_cols = int(k_cols // 2)
+        p_rows = k_rows // 2
+        p_cols = k_cols // 2
         iris_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
         mask_response = np.zeros((probe_schema.params.n_rows, probe_schema.params.n_cols), dtype=np.complex64)
 

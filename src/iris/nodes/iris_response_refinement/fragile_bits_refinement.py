@@ -34,7 +34,7 @@ class FragileBitRefinement(Algorithm):
     def __init__(
         self,
         value_threshold: Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)],
-        fragile_type: FragileType = FragileType.cartesian,
+        fragile_type: FragileType = FragileType.polar,
         callbacks: List[Callback] = [],
     ) -> None:
         """Create Fragile Bit Refinement object.
@@ -45,7 +45,7 @@ class FragileBitRefinement(Algorithm):
             fragile_type (FragileType, optional): The Fragile bits can be either
                 calculated in cartesian or polar coordinates. In the first, the values
                 of value_threshold denote to x and y axis, in the case of polar coordinates,
-                the values denote to radius and angle. Defaults to FragileType.cartesian.
+                the values denote to radius and angle. Defaults to FragileType.polar.
         """
         super().__init__(value_threshold=value_threshold, fragile_type=fragile_type, callbacks=callbacks)
 
