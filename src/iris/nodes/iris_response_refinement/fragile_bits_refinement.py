@@ -64,15 +64,15 @@ class FragileBitRefinement(Algorithm):
             if self.params.fragile_type == FragileType.cartesian:
                 mask_value_real = (
                     np.logical_and(
-                        np.abs(np.real(iris_response)) >= self.params.value_threshold[0],
-                        np.abs(np.real(iris_response)) <= self.params.value_threshold[1],
+                        np.abs(iris_response.real) >= self.params.value_threshold[0],
+                        np.abs(iris_response.real) <= self.params.value_threshold[1],
                     )
                     * iris_mask.real
                 )
                 mask_value_imag = (
                     np.logical_and(
-                        np.abs(np.imag(iris_response)) >= self.params.value_threshold[0],
-                        np.abs(np.imag(iris_response)) <= self.params.value_threshold[2],
+                        np.abs(iris_response.imag) >= self.params.value_threshold[0],
+                        np.abs(iris_response.imag) <= self.params.value_threshold[2],
                     )
                     * iris_mask.imag
                 )
