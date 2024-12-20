@@ -280,6 +280,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
                 "extrapolated_polygons",
                 "normalized_iris",
                 "iris_response",
+                "iris_response_refined",
                 "landmarks",
                 "iris_template",
                 "status",

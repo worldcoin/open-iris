@@ -267,13 +267,24 @@ pipeline:
         source_node: normalization
     callbacks:
 
+  - name: iris_response_refinement
+    algorithm:
+      class_name: iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement
+      params:
+        value_threshold:  [0.0001, 0.275, 0.08726646259971647]
+        fragile_type: "polar"
+    inputs:
+      - name: response
+        source_node: filter_bank
+    callbacks:
+
   - name: encoder
     algorithm:
       class_name: iris.IrisEncoder
       params: {}
     inputs:
       - name: response
-        source_node: filter_bank
+        source_node: iris_response_refinement
     callbacks:
       - class_name: iris.nodes.validators.object_validators.IsMaskTooSmallValidator
         params:
