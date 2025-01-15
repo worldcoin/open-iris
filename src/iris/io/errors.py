@@ -45,6 +45,20 @@ class PupilIrisPropertyEstimationError(Exception):
 
     pass
 
+class Pupil2IrisValidatorError_Dilation(Exception):
+    """IsMaskGoodValidator error class."""
+
+    pass
+
+class Pupil2IrisValidatorError_Constriction(Exception):
+    """IsMaskGoodValidator error class."""
+
+    pass
+
+class Pupil2IrisValidatorError_Offcenter(Exception):
+    """IsMaskGoodValidator error class."""
+
+    pass
 
 class GeometryEstimationError(Exception):
     """GeometryEstimation module Error class."""
@@ -122,3 +136,4 @@ class IRISPipelineError(Exception):
     """IRIS Pipeline module Error class."""
 
     pass
+

@@ -54,17 +54,18 @@ class Pupil2IrisPropertyValidator(Callback, Algorithm):
         Raises:
             E.PupilIrisPropertyEstimationError: Raised if result isn't without previously specified boundaries.
         """
-        if not (
-            self.params.min_allowed_diameter_ratio
-            <= val_arguments.pupil_to_iris_diameter_ratio
-            <= self.params.max_allowed_diameter_ratio
-        ):
-            raise E.PupilIrisPropertyEstimationError(
-                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is not within [{self.params.min_allowed_diameter_ratio}, {self.params.max_allowed_diameter_ratio}]."
+
+        if val_arguments.pupil_to_iris_diameter_ratio < self.params.min_allowed_diameter_ratio:
+            raise E.Pupil2IrisValidatorError_Constriction(
+                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is below min threshold {self.params.min_allowed_diameter_ratio}. Pupil is too constricted."
+            )
+        if val_arguments.pupil_to_iris_diameter_ratio > self.params.max_allowed_diameter_ratio:
+            raise E.Pupil2IrisValidatorError_Dilation(
+                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is above max threshold {self.params.max_allowed_diameter_ratio}. Pupil is too dilated."
             )
         if val_arguments.pupil_to_iris_center_dist_ratio > self.params.max_allowed_center_dist_ratio:
-            raise E.PupilIrisPropertyEstimationError(
-                f"p2i_property={val_arguments.pupil_to_iris_center_dist_ratio} exceeds {self.params.max_allowed_center_dist_ratio}."
+            raise E.Pupil2IrisValidatorError_Offcenter(
+                f"p2i_property={val_arguments.pupil_to_iris_center_dist_ratio} exceeds {self.params.max_allowed_center_dist_ratio}. Pupil and iris are off-center."
             )
 
     def on_execute_end(self, result: PupilToIrisProperty) -> None:
@@ -408,3 +409,4 @@ class IsMaskTooSmallValidator(Callback, Algorithm):
             input_template (IrisTemplate): input IrisTemplate to be validated.
         """
         self.run(input_template)
+
