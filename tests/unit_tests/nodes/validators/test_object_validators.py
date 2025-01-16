@@ -57,21 +57,21 @@ def test_pupil_to_iris_property_validator(p2i_property: float) -> None:
 
 
 @pytest.mark.parametrize(
-    "p2i_property",
+    "p2i_property, expected_error",
     [
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.9, pupil_to_iris_center_dist_ratio=0.1),
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.19, pupil_to_iris_center_dist_ratio=0.1),
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.51, pupil_to_iris_center_dist_ratio=0.1),
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.2, pupil_to_iris_center_dist_ratio=0.8),
+        (PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.9, pupil_to_iris_center_dist_ratio=0.1), E.Pupil2IrisValidatorErrorDilation),
+        (PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.19, pupil_to_iris_center_dist_ratio=0.1), E.Pupil2IrisValidatorErrorConstriction),
+        (PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.51, pupil_to_iris_center_dist_ratio=0.1), E.Pupil2IrisValidatorErrorDilation),
+        (PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.2, pupil_to_iris_center_dist_ratio=0.8), E.Pupil2IrisValidatorErrorOffcenter),
     ],
     ids=["simple", "edge case: left boundary", "edge case: right boundary", "center distance too big"],
 )
-def test_pupil_to_iris_property_validator_raise_exception1(p2i_property: float) -> None:
+def test_pupil_to_iris_property_validator_raise_exception1(p2i_property: float, expected_error: Exception) -> None:
     validator = obj_v.Pupil2IrisPropertyValidator(
         min_allowed_diameter_ratio=0.2, max_allowed_diameter_ratio=0.5, max_allowed_center_dist_ratio=0.5
     )
 
-    with pytest.raises(E.PupilIrisPropertyEstimationError):
+    with pytest.raises(expected_error):
         validator(p2i_property)
 
 
