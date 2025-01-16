@@ -52,19 +52,21 @@ class Pupil2IrisPropertyValidator(Callback, Algorithm):
             p2i_property (PupilToIrisProperty): Computation result.
 
         Raises:
-            E.PupilIrisPropertyEstimationError: Raised if result isn't without previously specified boundaries.
+            E.Pupil2IrisValidatorErrorConstriction: Raised if pupil is constricted.
+            E.Pupil2IrisValidatorErrorDilation: Raised if pupil is dilated.
+            E.Pupil2IrisValidatorErrorOffcenter: Raised if pupil and iris are offcenter.
         """
 
         if val_arguments.pupil_to_iris_diameter_ratio < self.params.min_allowed_diameter_ratio:
-            raise E.Pupil2IrisValidatorError_Constriction(
+            raise E.Pupil2IrisValidatorErrorConstriction(
                 f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is below min threshold {self.params.min_allowed_diameter_ratio}. Pupil is too constricted."
             )
         if val_arguments.pupil_to_iris_diameter_ratio > self.params.max_allowed_diameter_ratio:
-            raise E.Pupil2IrisValidatorError_Dilation(
+            raise E.Pupil2IrisValidatorErrorDilation(
                 f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is above max threshold {self.params.max_allowed_diameter_ratio}. Pupil is too dilated."
             )
         if val_arguments.pupil_to_iris_center_dist_ratio > self.params.max_allowed_center_dist_ratio:
-            raise E.Pupil2IrisValidatorError_Offcenter(
+            raise E.Pupil2IrisValidatorErrorOffcenter(
                 f"p2i_property={val_arguments.pupil_to_iris_center_dist_ratio} exceeds {self.params.max_allowed_center_dist_ratio}. Pupil and iris are off-center."
             )
 

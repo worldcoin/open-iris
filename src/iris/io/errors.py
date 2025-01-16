@@ -45,18 +45,18 @@ class PupilIrisPropertyEstimationError(Exception):
 
     pass
 
-class Pupil2IrisValidatorError_Dilation(Exception):
-    """IsMaskGoodValidator error class."""
+class Pupil2IrisValidatorErrorDilation(Exception):
+    """Pupil2IrisValidatorErrorDilation error class."""
 
     pass
 
-class Pupil2IrisValidatorError_Constriction(Exception):
-    """IsMaskGoodValidator error class."""
+class Pupil2IrisValidatorErrorConstriction(Exception):
+    """Pupil2IrisValidatorErrorConstriction error class."""
 
     pass
 
-class Pupil2IrisValidatorError_Offcenter(Exception):
-    """IsMaskGoodValidator error class."""
+class Pupil2IrisValidatorErrorOffcenter(Exception):
+    """Pupil2IrisValidatorErrorOffcenter error class."""
 
     pass
 
