@@ -1,11 +1,11 @@
-from typing import List, Literal, Optional
+from typing import List, Optional
 
 import numpy as np
 from pydantic import confloat
 
 from iris.io.dataclasses import IrisTemplate
-from iris.nodes.matcher.utils import hamming_distance
 from iris.nodes.matcher.hamming_distance_matcher_interface import Matcher
+from iris.nodes.matcher.utils import hamming_distance
 
 
 class HammingDistanceMatcher(Matcher):
@@ -26,7 +26,7 @@ class HammingDistanceMatcher(Matcher):
 
         normalise: bool
         nm_dist: confloat(ge=0, le=1, strict=True)
-        nm_type: Literal["linear", "sqrt"]
+        separate_half_matching: bool
         weights: Optional[List[np.ndarray]]
 
     __parameters_type__ = Parameters
@@ -34,20 +34,26 @@ class HammingDistanceMatcher(Matcher):
     def __init__(
         self,
         rotation_shift: int = 15,
-        normalise: bool = False,
+        normalise: bool = True,
         nm_dist: confloat(ge=0, le=1, strict=True) = 0.45,
-        nm_type: Literal["linear", "sqrt"] = "sqrt",
+        separate_half_matching: bool = True,
         weights: Optional[List[np.ndarray]] = None,
     ) -> None:
         """Assign parameters.
 
         Args:
             rotation_shift (int): rotations allowed in matching, experessed in iris code columns. Defaults to 15.
-            nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to None.
+            normalise (bool = False): Flag to normalize HD. Defaults to True.
+            nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
+            separate_half_matching (bool): separate the upper and lower halves for matching. Defaults to True.
             weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.
         """
         super().__init__(
-            rotation_shift=rotation_shift, normalise=normalise, nm_dist=nm_dist, nm_type=nm_type, weights=weights
+            rotation_shift=rotation_shift,
+            normalise=normalise,
+            nm_dist=nm_dist,
+            separate_half_matching=separate_half_matching,
+            weights=weights,
         )
 
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
@@ -66,7 +72,7 @@ class HammingDistanceMatcher(Matcher):
             self.params.rotation_shift,
             self.params.normalise,
             self.params.nm_dist,
-            self.params.nm_type,
+            self.params.separate_half_matching,
             self.params.weights,
         )
 
