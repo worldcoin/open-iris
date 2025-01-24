@@ -66,7 +66,9 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
     error = __get_error(call_trace=call_trace)
 
     segmap = call_trace["segmentation"]
-    geometry_mask, noise_mask = (None, None) if call_trace["segmentation_binarization"] is None else call_trace["segmentation_binarization"]
+    geometry_mask, noise_mask = (
+        (None, None) if call_trace["segmentation_binarization"] is None else call_trace["segmentation_binarization"]
+    )
     extrapolated_polygons = call_trace["geometry_estimation"]
     normalized_iris = call_trace["normalization"]
     iris_response = call_trace["filter_bank"]

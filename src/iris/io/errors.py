@@ -45,20 +45,24 @@ class PupilIrisPropertyEstimationError(Exception):
 
     pass
 
+
 class Pupil2IrisValidatorErrorDilation(Exception):
     """Pupil2IrisValidatorErrorDilation error class."""
 
     pass
+
 
 class Pupil2IrisValidatorErrorConstriction(Exception):
     """Pupil2IrisValidatorErrorConstriction error class."""
 
     pass
 
+
 class Pupil2IrisValidatorErrorOffcenter(Exception):
     """Pupil2IrisValidatorErrorOffcenter error class."""
 
     pass
+
 
 class GeometryEstimationError(Exception):
     """GeometryEstimation module Error class."""
@@ -136,4 +140,3 @@ class IRISPipelineError(Exception):
     """IRIS Pipeline module Error class."""
 
     pass
-

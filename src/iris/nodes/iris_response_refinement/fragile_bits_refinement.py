@@ -46,6 +46,7 @@ class FragileBitRefinement(Algorithm):
                 calculated in cartesian or polar coordinates. In the first, the values
                 of value_threshold denote to x and y axis, in the case of polar coordinates,
                 the values denote to radius and angle. Defaults to FragileType.polar.
+            callbacks(List[Callback]): List of callbacks. Defaults to [].
         """
         super().__init__(value_threshold=value_threshold, fragile_type=fragile_type, callbacks=callbacks)
 

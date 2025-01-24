@@ -1,9 +1,10 @@
 import abc
 from typing import Any, List
 
+from pydantic import conint
+
 from iris.io.class_configs import ImmutableModel
 from iris.io.dataclasses import IrisTemplate
-from pydantic import conint
 
 
 class Matcher(abc.ABC):
