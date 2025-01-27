@@ -10,12 +10,12 @@ def normalized_HD(irisbitcount: int, maskbitcount: float, nm_dist: float) -> flo
     """Perform normalized HD calculation.
 
     Args:
-        irisbitcount (int): nonmatched iriscode bit count.
-        maskbitcount (int): common maskcode bit count.
-        nm_dist (float): nonmatch distance used for normalized HD.
+        irisbitcount (int): Nonmatched iriscode bit count.
+        maskbitcount (int): Common maskcode bit count.
+        nm_dist (float): Nonmatch distance used for normalized HD.
 
     Returns:
-        float: normalized Hamming distance.
+        float: Normalized Hamming distance.
     """
     norm_HD = max(0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * (0.00005 * maskbitcount + 0.5))
     return norm_HD
@@ -27,10 +27,10 @@ def get_bitcounts(template_probe: IrisTemplate, template_gallery: IrisTemplate, 
     Args:
         template_probe (IrisTemplate): Iris template from probe.
         template_gallery (IrisTemplate): Iris template from gallery.
-        shift (int): _description_
+        shift (int): Rotation shift (in columns)
 
     Returns:
-        np.ndarray: bitcounts in iris and mask codes.
+        np.ndarray: Bitcounts in iris and mask codes.
     """
     irisbits = [
         np.roll(probe_code, shift, axis=1) != gallery_code
@@ -52,13 +52,13 @@ def count_nonmatchbits(
     """Count nonmatch bits for Hammming distance.
 
     Args:
-        irisbits (np.ndarray): nonmatch irisbits.
-        maskbits (np.ndarray): common maskbits.
-        half_width (Optional[np.ndarray] = None): list of half of code width. Optional paremeter for scoring the upper and lower halves separately. Defaults to None.
-        weights (Optional[np.ndarray] = None): list of weights table. Optional paremeter for weighted HD. Defaults to None.
+        irisbits (np.ndarray): Nonmatch irisbits.
+        maskbits (np.ndarray): Common maskbits.
+        half_width (Optional[np.ndarray] = None): List of half of code width. Optional paremeter for scoring the upper and lower halves separately. Defaults to None.
+        weights (Optional[np.ndarray] = None): List of weights table. Optional paremeter for weighted HD. Defaults to None.
 
     Returns:
-        Tuple[int, int]: total nonmatch iriscode bit count and common maskcode bit count, could be a list for top and bottom iris separately.
+        Tuple[int, int]: Total nonmatch iriscode bit count and common maskcode bit count, could be a list for top and bottom iris separately.
     """
     if weights:
         irisbitcount = [np.sum((x & y) * z, axis=0) / z.sum() for x, y, z in zip(irisbits, maskbits, weights)]
@@ -98,7 +98,7 @@ def simple_hamming_distance(
         norm_mean (float): Peak of the non-match distribution. Defaults to 0.45.
 
     Returns:
-        Tuple[float, int]: miminum Hamming distance and corresonding rotation shift.
+        Tuple[float, int]: Miminum Hamming distance and corresonding rotation shift.
     """
     for probe_code, gallery_code in zip(template_probe.iris_codes, template_gallery.iris_codes):
         if probe_code.shape != gallery_code.shape:
@@ -140,14 +140,17 @@ def hamming_distance(
     Args:
         template_probe (IrisTemplate): Iris template from probe.
         template_gallery (IrisTemplate): Iris template from gallery.
-        rotation_shift (int): rotation allowed in matching, converted to columns.
-        normalise (bool): Flag to normalize HD. Defaults to False.
-        nm_dist (float): nonmatch mean distance for normalized HD. Defaults to 0.45.
-        separate_half_matching (bool): separate the upper and lower halves for matching. Defaults to False.
-        weights (Optional[List[np.ndarray]]= None): list of weights table. Optional paremeter for weighted HD. Defaults to None.
+        rotation_shift (int): Rotation allowed in matching, converted to columns.
+        normalise (bool, optional): Flag to normalize HD. Defaults to False.
+        nm_dist (float, optional): Nonmatch mean distance for normalized HD. Defaults to 0.45.
+        separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to False.
+        weights (Optional[List[np.ndarray]], optional): List of weights table. Optional paremeter for weighted HD. Defaults to None.
+
+    Raises:
+        MatcherError: If probe and gallery iris codes are of different sizes or number of columns of iris codes is not even or If weights (when defined) and iris codes are of different sizes.
 
     Returns:
-        Tuple[float, int]: miminum Hamming distance and corresonding rotation shift.
+        Tuple[float, int]: Miminum Hamming distance and corresonding rotation shift.
     """
     half_codewidth = []
 

@@ -6,7 +6,7 @@ from iris.nodes.matcher.utils import simple_hamming_distance
 
 
 class SimpleHammingDistanceMatcher(Matcher):
-    """Hamming distance Matcher, without the bells and whistles.
+    """Simple Hamming distance Matcher without the bells and whistles.
 
     Algorithm steps:
        1) Calculate counts of nonmatch irisbits (IB_Counts) in common unmasked region and the counts of common maskbits (MB_Counts) in common unmasked region.
@@ -17,7 +17,7 @@ class SimpleHammingDistanceMatcher(Matcher):
     """
 
     class Parameters(Matcher.Parameters):
-        """IrisMatcherParameters parameters."""
+        """SimpleHammingDistanceMatcher parameters."""
 
         normalise: bool
         norm_mean: confloat(ge=0, le=1)
@@ -33,9 +33,9 @@ class SimpleHammingDistanceMatcher(Matcher):
         """Assign parameters.
 
         Args:
-            rotation_shift (int = 15): rotation allowed in matching, converted to columns. Defaults to 15.
-            normalise (bool = False): Flag to normalize HD. Defaults to False.
-            norm_mean (float = 0.45): Peak of the non-match distribution. Defaults to 0.45.
+            rotation_shift (int, optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
+            normalise (bool, optional): Flag to normalize HD. Defaults to False.
+            norm_mean (float, optional): Peak of the non-match distribution. Defaults to 0.45.
         """
         super().__init__(rotation_shift=rotation_shift, normalise=normalise, norm_mean=norm_mean)
 
@@ -47,7 +47,7 @@ class SimpleHammingDistanceMatcher(Matcher):
             template_gallery (IrisTemplate): Iris template from gallery.
 
         Returns:
-            float: matching distance.
+            float: Matching distance.
         """
         score, _ = simple_hamming_distance(
             template_probe=template_probe,

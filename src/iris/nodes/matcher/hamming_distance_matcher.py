@@ -9,7 +9,7 @@ from iris.nodes.matcher.utils import hamming_distance
 
 
 class HammingDistanceMatcher(Matcher):
-    """Hamming distance Matcher.
+    """Hamming distance Matcher with additional optional features.
 
     Algorithm steps:
        1) Calculate counts of nonmatch irisbits (IB_Counts) in common unmasked region and the counts of common maskbits (MB_Counts) in common unmasked region for both upper and lower half of iris, respectively.
@@ -22,7 +22,7 @@ class HammingDistanceMatcher(Matcher):
     """
 
     class Parameters(Matcher.Parameters):
-        """IrisMatcherParameters parameters."""
+        """HammingDistanceMatcher parameters."""
 
         normalise: bool
         nm_dist: confloat(ge=0, le=1, strict=True)
@@ -42,11 +42,11 @@ class HammingDistanceMatcher(Matcher):
         """Assign parameters.
 
         Args:
-            rotation_shift (int): rotations allowed in matching, experessed in iris code columns. Defaults to 15.
-            normalise (bool = False): Flag to normalize HD. Defaults to True.
-            nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
-            separate_half_matching (bool): separate the upper and lower halves for matching. Defaults to True.
-            weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.
+            rotation_shift (int): Rotation shifts allowed in matching (in columns). Defaults to 15.
+            normalise (bool, optional): Flag to normalize HD. Defaults to True.
+            nm_dist (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
+            separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to True.
+            weights (Optional[List[np.ndarray]], optional): list of weights table. Optional paremeter for weighted HD. Defaults to None.
         """
         super().__init__(
             rotation_shift=rotation_shift,

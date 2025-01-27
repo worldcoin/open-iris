@@ -24,7 +24,7 @@ class FragileBitRefinement(Algorithm):
     """
 
     class Parameters(Algorithm.Parameters):
-        """RegularProbeSchema parameters."""
+        """FragileBitRefinement parameters."""
 
         value_threshold: Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)]
         fragile_type: FragileType
