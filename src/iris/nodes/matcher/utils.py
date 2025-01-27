@@ -6,7 +6,7 @@ from iris.io.dataclasses import IrisTemplate
 from iris.io.errors import MatcherError
 
 
-def normalized_HD(irisbitcount: int, maskbitcount: float, nm_dist: float) -> float:
+def normalized_HD(irisbitcount: int, maskbitcount: int, nm_dist: float) -> float:
     """Perform normalized HD calculation.
 
     Args:
@@ -17,6 +17,8 @@ def normalized_HD(irisbitcount: int, maskbitcount: float, nm_dist: float) -> flo
     Returns:
         float: Normalized Hamming distance.
     """
+
+    # Linear approximation to replace the previous sqrt-based normalization term.
     norm_HD = max(0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * (0.00005 * maskbitcount + 0.5))
     return norm_HD
 
