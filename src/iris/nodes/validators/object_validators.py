@@ -56,7 +56,6 @@ class Pupil2IrisPropertyValidator(Callback, Algorithm):
             E.Pupil2IrisValidatorErrorDilation: Raised if pupil is dilated.
             E.Pupil2IrisValidatorErrorOffcenter: Raised if pupil and iris are offcenter.
         """
-
         if val_arguments.pupil_to_iris_diameter_ratio < self.params.min_allowed_diameter_ratio:
             raise E.Pupil2IrisValidatorErrorConstriction(
                 f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is below min threshold {self.params.min_allowed_diameter_ratio}. Pupil is too constricted."
@@ -411,4 +410,3 @@ class IsMaskTooSmallValidator(Callback, Algorithm):
             input_template (IrisTemplate): input IrisTemplate to be validated.
         """
         self.run(input_template)
-

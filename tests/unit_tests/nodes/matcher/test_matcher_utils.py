@@ -10,7 +10,7 @@ from iris.nodes.matcher.utils import hamming_distance
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_type, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, separate_half_matching, expected_result",
     [
         (
             IrisTemplate(
@@ -26,7 +26,7 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             False,
             None,
-            None,
+            False,
             (0, 0),
         ),
         (
@@ -43,7 +43,7 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             False,
             None,
-            None,
+            False,
             (0.25, -1),
         ),
         (
@@ -60,7 +60,7 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             False,
             None,
-            None,
+            True,
             (1, 0),
         ),
         (
@@ -77,7 +77,7 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             False,
             None,
-            None,
+            True,
             (0.8, -1),
         ),
         (
@@ -94,7 +94,7 @@ from iris.nodes.matcher.utils import hamming_distance
             0,
             False,
             None,
-            None,
+            False,
             (1, 0),
         ),
         (
@@ -111,8 +111,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0, 0),
+            False,
+            (0.22482000000000002, 0),
         ),
         (
             IrisTemplate(
@@ -128,8 +128,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0.2867006838144548, -1),
+            True,
+            (0.34997, -1),
         ),
         (
             IrisTemplate(
@@ -145,8 +145,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (1, 0),
+            True,
+            (0.7251650000000001, 0),
         ),
         (
             IrisTemplate(
@@ -162,25 +162,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0.7703179042939132, -1),
-        ),
-        (
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            IrisTemplate(
-                iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
-                mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            1,
-            True,
-            0.45,
-            "linear",
-            (0.7645670365077234, -1),
+            False,
+            (0.6250875, -1),
         ),
         (
             IrisTemplate(
@@ -196,8 +179,8 @@ from iris.nodes.matcher.utils import hamming_distance
             -1,
             True,
             0.45,
-            "sqrt",
-            (1, 0),
+            False,
+            (0.7251375, 0),
         ),
         (
             IrisTemplate(
@@ -213,25 +196,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0.7703179042939132, -1),
-        ),
-        (
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            IrisTemplate(
-                iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
-                mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            1,
             True,
-            0.45,
-            "linear",
-            (0.7645670365077234, -1),
+            (0.6250645, -1),
         ),
         (
             IrisTemplate(
@@ -247,8 +213,8 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0.6349365679618759, 0),
+            True,
+            (0.5041829166666667, 0),
         ),
         (
             IrisTemplate(
@@ -264,26 +230,24 @@ from iris.nodes.matcher.utils import hamming_distance
             1,
             True,
             0.45,
-            "sqrt",
-            (0.48484617125293383, -1),
+            False,
+            (0.475005, -1),
         ),
     ],
     ids=[
         "genuine0",
         "genuine1",
-        "imposter0",
-        "impostor1",
+        "imposter0, half matching",
+        "impostor1, half matching",
         "impostor2",
         "genuine0_norm",
-        "genuine1_norm",
-        "imposter0_norm",
-        "impostor1_norm with sqrt nm_type ",
-        "impostor1_norm with linear nm_type ",
+        "genuine1_norm, half matching",
+        "imposter0_norm, half matching",
+        "impostor1_norm, half matching",
         "impostor2_norm",
-        "impostor3_norm with sqrt type",
-        "impostor3_norm with linear type",
-        "impostor4_lowerhalfnoinfo_norm",
-        "impostor5_upperhalfnoinfo_norm",
+        "impostor2_norm, half matching",
+        "impostor3_lowerhalfnoinfo_norm, half matching",
+        "impostor3_upperhalfnoinfo_norm",
     ],
 )
 def test_hamming_distance(
@@ -292,16 +256,18 @@ def test_hamming_distance(
     rotation_shift: int,
     normalise: bool,
     nm_dist: float,
-    nm_type: str,
+    separate_half_matching: bool,
     expected_result: Tuple[float, ...],
 ) -> None:
-    result = hamming_distance(template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_type)
+    result = hamming_distance(
+        template_probe, template_gallery, rotation_shift, normalise, nm_dist, separate_half_matching
+    )
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_type, weights, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, separate_half_matching, weights, expected_result",
     [
         (
             IrisTemplate(
@@ -317,7 +283,7 @@ def test_hamming_distance(
             1,
             False,
             None,
-            None,
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0, 0),
         ),
@@ -335,7 +301,7 @@ def test_hamming_distance(
             1,
             False,
             None,
-            None,
+            True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.14285714285714285, -1),
         ),
@@ -353,7 +319,7 @@ def test_hamming_distance(
             1,
             False,
             None,
-            None,
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (1, 0),
         ),
@@ -371,7 +337,7 @@ def test_hamming_distance(
             1,
             False,
             None,
-            None,
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (0.8888888888888888, -1),
         ),
@@ -389,7 +355,7 @@ def test_hamming_distance(
             0,
             False,
             None,
-            None,
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
             (1, 0),
         ),
@@ -407,9 +373,9 @@ def test_hamming_distance(
             1,
             True,
             0.45,
-            "sqrt",
+            True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0, 0),
+            (0.22496602040816327, 0),
         ),
         (
             IrisTemplate(
@@ -425,27 +391,9 @@ def test_hamming_distance(
             1,
             True,
             0.45,
-            "sqrt",
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.22967674843904062, -1),
-        ),
-        (
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [False, True]]), np.array([[True, True], [True, False]])],
-                mask_codes=[np.array([[True, False], [True, False]]), np.array([[False, True], [False, True]])],
-                iris_code_version="v2.1",
-            ),
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [True, False]]), np.array([[True, True], [True, True]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            1,
-            True,
-            0.45,
-            "linear",
-            [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.23281720292127467, -1),
+            (0.2964132142857143, -1),
         ),
         (
             IrisTemplate(
@@ -461,27 +409,9 @@ def test_hamming_distance(
             1,
             True,
             0.45,
-            "sqrt",
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.8512211593818028, 0),
-        ),
-        (
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            IrisTemplate(
-                iris_codes=[np.array([[False, False], [False, True]]), np.array([[False, False], [False, False]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            1,
-            True,
-            0.45,
-            "linear",
-            [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.8571428571428571, 0),
+            (0.6536121428571429, 0),
         ),
         (
             IrisTemplate(
@@ -497,27 +427,9 @@ def test_hamming_distance(
             1,
             True,
             0.45,
-            "sqrt",
+            False,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.8020834362167217, -1),
-        ),
-        (
-            IrisTemplate(
-                iris_codes=[np.array([[True, True], [True, True]]), np.array([[True, True], [True, True]])],
-                mask_codes=[np.array([[True, True], [True, True]]), np.array([[True, False], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            IrisTemplate(
-                iris_codes=[np.array([[False, False], [True, False]]), np.array([[False, True], [False, False]])],
-                mask_codes=[np.array([[True, False], [False, True]]), np.array([[True, True], [True, True]])],
-                iris_code_version="v2.1",
-            ),
-            1,
-            True,
-            0.45,
-            "linear",
-            [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.8011224867405204, -1),
+            (0.6694726587301587, -1),
         ),
         (
             IrisTemplate(
@@ -533,9 +445,9 @@ def test_hamming_distance(
             -1,
             True,
             0.45,
-            "sqrt",
+            True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (1, 0),
+            (0.7250332142857143, 0),
         ),
         (
             IrisTemplate(
@@ -563,26 +475,23 @@ def test_hamming_distance(
             -1,
             True,
             0.45,
-            "sqrt",
+            True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1, 4, 2], [1, 2, 5, 4]])],
-            (1, 0),
+            (0.7250260935198822, 0),
         ),
     ],
     ids=[
         "genuine0",
-        "genuine1",
+        "genuine1, half matching",
         "imposter0",
         "impostor1",
         "impostor2",
-        "genuine0_norm",
+        "genuine0_norm, half matching",
         "genuine1_norm",
-        "imposter0_norm with nm_type sqrt",
-        "imposter0_norm with nm_type linear",
-        "impostor1_norm with nm_type sqrt",
-        "impostor1_norm with nm_type linear",
-        "impostor2_norm with nm_type sqrt",
-        "impostor2_norm with nm_type linear",
-        "impostor3_norm different size",
+        "imposter0_norm",
+        "impostor1_norm",
+        "impostor2_norm, half matching",
+        "impostor3_norm different size, half matching",
     ],
 )
 def test_hamming_distance_with_weights(
@@ -591,12 +500,13 @@ def test_hamming_distance_with_weights(
     rotation_shift: int,
     normalise: bool,
     nm_dist: float,
-    nm_type: str,
+    separate_half_matching: bool,
     weights: np.ndarray,
     expected_result: Tuple[float, ...],
 ) -> None:
-    result = hamming_distance(template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_type, weights)
-
+    result = hamming_distance(
+        template_probe, template_gallery, rotation_shift, normalise, nm_dist, separate_half_matching, weights
+    )
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
 

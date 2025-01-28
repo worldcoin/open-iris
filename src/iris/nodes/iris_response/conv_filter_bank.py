@@ -159,7 +159,7 @@ class ConvFilterBank(Algorithm):
                 # Perform convolution at [i,j] probed pixel position.
                 iris_response[i][j] = (iris_patch * img_filter.kernel_values).sum() / non_padded_k_rows / k_cols
                 mask_response[i][j] = 0 if iris_response[i][j] == 0 else (mask_patch.sum() / non_padded_k_rows / k_cols)
-        
+
         iris_response.real = iris_response.real / img_filter.kernel_norm.real
         iris_response.imag = iris_response.imag / img_filter.kernel_norm.imag
         mask_response.imag = mask_response.real

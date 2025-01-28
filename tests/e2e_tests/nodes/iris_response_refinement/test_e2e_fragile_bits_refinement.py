@@ -1,6 +1,6 @@
 import os
 import pickle
-from typing import Any, Literal, Tuple
+from typing import Any, Tuple
 
 import numpy as np
 import pytest

@@ -18,16 +18,16 @@ def load_mock_pickle(name: str) -> Any:
 
 
 @pytest.mark.parametrize(
-    "rotation_shift,normalise,nm_dist,weights,expected_result",
+    "rotation_shift,normalise,nm_dist,separate_half_matching,weights,expected_result",
     [
-        pytest.param(10, False, 0.45, None, 0.0),
-        pytest.param(15, False, 0.45, None, 0.0),
-        pytest.param(10, True, 0.45, None, 0.0123),
-        pytest.param(15, True, 0.45, None, 0.0123),
-        pytest.param(10, False, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(15, False, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, True, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
-        pytest.param(15, True, 0.45, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0492),
+        pytest.param(10, False, 0.45, True, None, 0.0),
+        pytest.param(15, False, 0.45, False, None, 0.0),
+        pytest.param(10, True, 0.45, True, None, 0.0347),
+        pytest.param(15, True, 0.45, False, None, 0),
+        pytest.param(10, False, 0.45, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(15, False, 0.45, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(10, True, 0.45, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
+        pytest.param(15, True, 0.45, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
     ],
     ids=[
         "regular1",
@@ -42,8 +42,9 @@ def load_mock_pickle(name: str) -> Any:
 )
 def test_e2e_iris_matcher(
     rotation_shift: int,
-    normalise: bool, 
+    normalise: bool,
     nm_dist: float,
+    separate_half_matching: bool,
     weights: Optional[List[np.ndarray]],
     expected_result: float,
 ) -> None:
@@ -54,6 +55,7 @@ def test_e2e_iris_matcher(
         rotation_shift=rotation_shift,
         normalise=normalise,
         nm_dist=nm_dist,
+        separate_half_matching=separate_half_matching,
         weights=weights,
     )
     result = matcher.run(first_template, second_template)
