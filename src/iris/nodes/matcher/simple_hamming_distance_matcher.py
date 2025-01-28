@@ -21,6 +21,7 @@ class SimpleHammingDistanceMatcher(Matcher):
 
         normalise: bool
         norm_mean: confloat(ge=0, le=1)
+        norm_gradient: float
 
     __parameters_type__ = Parameters
 
@@ -29,6 +30,7 @@ class SimpleHammingDistanceMatcher(Matcher):
         rotation_shift: int = 15,
         normalise: bool = False,
         norm_mean: float = 0.45,
+        norm_gradient: float = 0.00005,
     ) -> None:
         """Assign parameters.
 
@@ -36,6 +38,7 @@ class SimpleHammingDistanceMatcher(Matcher):
             rotation_shift (int, optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
             normalise (bool, optional): Flag to normalize HD. Defaults to False.
             norm_mean (float, optional): Peak of the non-match distribution. Defaults to 0.45.
+            nm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
         """
         super().__init__(rotation_shift=rotation_shift, normalise=normalise, norm_mean=norm_mean)
 
@@ -55,5 +58,6 @@ class SimpleHammingDistanceMatcher(Matcher):
             rotation_shift=self.params.rotation_shift,
             normalise=self.params.normalise,
             norm_mean=self.params.norm_mean,
+            norm_gradient=self.params.norm_gradient,
         )
         return score

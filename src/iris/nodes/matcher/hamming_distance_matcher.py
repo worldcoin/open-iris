@@ -26,6 +26,7 @@ class HammingDistanceMatcher(Matcher):
 
         normalise: bool
         nm_dist: confloat(ge=0, le=1, strict=True)
+        nm_gradient: float
         separate_half_matching: bool
         weights: Optional[List[np.ndarray]]
 
@@ -36,6 +37,7 @@ class HammingDistanceMatcher(Matcher):
         rotation_shift: int = 15,
         normalise: bool = True,
         nm_dist: confloat(ge=0, le=1, strict=True) = 0.45,
+        nm_gradient: float = 0.00005,
         separate_half_matching: bool = True,
         weights: Optional[List[np.ndarray]] = None,
     ) -> None:
@@ -45,6 +47,7 @@ class HammingDistanceMatcher(Matcher):
             rotation_shift (int): Rotation shifts allowed in matching (in columns). Defaults to 15.
             normalise (bool, optional): Flag to normalize HD. Defaults to True.
             nm_dist (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
+            nm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
             separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to True.
             weights (Optional[List[np.ndarray]], optional): list of weights table. Optional paremeter for weighted HD. Defaults to None.
         """
@@ -52,6 +55,7 @@ class HammingDistanceMatcher(Matcher):
             rotation_shift=rotation_shift,
             normalise=normalise,
             nm_dist=nm_dist,
+            nm_gradient=nm_gradient,
             separate_half_matching=separate_half_matching,
             weights=weights,
         )
@@ -72,6 +76,7 @@ class HammingDistanceMatcher(Matcher):
             self.params.rotation_shift,
             self.params.normalise,
             self.params.nm_dist,
+            self.params.nm_gradient,
             self.params.separate_half_matching,
             self.params.weights,
         )

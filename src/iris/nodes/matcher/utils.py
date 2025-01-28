@@ -6,20 +6,21 @@ from iris.io.dataclasses import IrisTemplate
 from iris.io.errors import MatcherError
 
 
-def normalized_HD(irisbitcount: int, maskbitcount: int, nm_dist: float) -> float:
+def normalized_HD(irisbitcount: int, maskbitcount: int, nm_dist: float, nm_gradient: float) -> float:
     """Perform normalized HD calculation.
 
     Args:
         irisbitcount (int): Nonmatched iriscode bit count.
         maskbitcount (int): Common maskcode bit count.
         nm_dist (float): Nonmatch distance used for normalized HD.
+        nm_gradient (float): Gradient for linear approximation of normalization term.
 
     Returns:
         float: Normalized Hamming distance.
     """
 
     # Linear approximation to replace the previous sqrt-based normalization term.
-    norm_HD = max(0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * (0.00005 * maskbitcount + 0.5))
+    norm_HD = max(0, nm_dist - (nm_dist - irisbitcount / maskbitcount) * (nm_gradient * maskbitcount + 0.5))
     return norm_HD
 
 
@@ -89,6 +90,7 @@ def simple_hamming_distance(
     rotation_shift: int = 15,
     normalise: bool = False,
     norm_mean: float = 0.45,
+    nm_gradient: float = 0.00005,    
 ) -> Tuple[float, int]:
     """Compute Hamming distance, without bells and whistles.
 
@@ -98,6 +100,7 @@ def simple_hamming_distance(
         rotation_shift (int): Rotations allowed in matching, in columns. Defaults to 15.
         normalise (bool): Flag to normalize HD. Defaults to False.
         norm_mean (float): Peak of the non-match distribution. Defaults to 0.45.
+        nm_gradient (float): Gradient for linear approximation of normalization term. Defaults to 0.00005.
 
     Returns:
         Tuple[float, int]: Miminum Hamming distance and corresonding rotation shift.
@@ -116,7 +119,7 @@ def simple_hamming_distance(
             continue
 
         current_dist = (
-            normalized_HD(totalirisbitcount, totalmaskbitcount, norm_mean)
+            normalized_HD(totalirisbitcount, totalmaskbitcount, norm_mean, nm_gradient)
             if normalise
             else totalirisbitcount / totalmaskbitcount
         )
@@ -134,6 +137,7 @@ def hamming_distance(
     rotation_shift: int,
     normalise: bool = False,
     nm_dist: float = 0.45,
+    nm_gradient: float = 0.00005,
     separate_half_matching: bool = False,
     weights: Optional[List[np.ndarray]] = None,
 ) -> Tuple[float, int]:
@@ -145,6 +149,7 @@ def hamming_distance(
         rotation_shift (int): Rotation allowed in matching, converted to columns.
         normalise (bool, optional): Flag to normalize HD. Defaults to False.
         nm_dist (float, optional): Nonmatch mean distance for normalized HD. Defaults to 0.45.
+        nm_gradient (float): Gradient for linear approximation of normalization term. Defaults to 0.00005.
         separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to False.
         weights (Optional[List[np.ndarray]], optional): List of weights table. Optional paremeter for weighted HD. Defaults to None.
 
@@ -180,15 +185,15 @@ def hamming_distance(
             continue
 
         if normalise:
-            normdist = normalized_HD(totalirisbitcount.sum(), totalmaskbitcountsum, nm_dist)
+            normdist = normalized_HD(totalirisbitcount.sum(), totalmaskbitcountsum, nm_dist, nm_gradient)
             if separate_half_matching:
                 normdist0 = (
-                    normalized_HD(totalirisbitcount[0], totalmaskbitcount[0], nm_dist)
+                    normalized_HD(totalirisbitcount[0], totalmaskbitcount[0], nm_dist, nm_gradient)
                     if totalmaskbitcount[0] > 0
                     else nm_dist
                 )
                 normdist1 = (
-                    normalized_HD(totalirisbitcount[1], totalmaskbitcount[1], nm_dist)
+                    normalized_HD(totalirisbitcount[1], totalmaskbitcount[1], nm_dist, nm_gradient)
                     if totalmaskbitcount[0] > 0
                     else nm_dist
                 )
