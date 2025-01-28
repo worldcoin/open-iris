@@ -38,9 +38,11 @@ class SimpleHammingDistanceMatcher(Matcher):
             rotation_shift (int, optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
             normalise (bool, optional): Flag to normalize HD. Defaults to False.
             norm_mean (float, optional): Peak of the non-match distribution. Defaults to 0.45.
-            nm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
+            norm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
         """
-        super().__init__(rotation_shift=rotation_shift, normalise=normalise, norm_mean=norm_mean)
+        super().__init__(
+            rotation_shift=rotation_shift, normalise=normalise, norm_mean=norm_mean, norm_gradient=norm_gradient
+        )
 
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
         """Match iris templates using Hamming distance.

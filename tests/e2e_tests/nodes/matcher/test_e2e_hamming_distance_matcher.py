@@ -18,16 +18,18 @@ def load_mock_pickle(name: str) -> Any:
 
 
 @pytest.mark.parametrize(
-    "rotation_shift,normalise,nm_dist,separate_half_matching,weights,expected_result",
+    "rotation_shift,normalise,norm_mean,norm_gradient,separate_half_matching,weights,expected_result",
     [
-        pytest.param(10, False, 0.45, True, None, 0.0),
-        pytest.param(15, False, 0.45, False, None, 0.0),
-        pytest.param(10, True, 0.45, True, None, 0.0347),
-        pytest.param(15, True, 0.45, False, None, 0),
-        pytest.param(10, False, 0.45, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(15, False, 0.45, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, True, 0.45, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
-        pytest.param(15, True, 0.45, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
+        pytest.param(10, False, 0.45, 0.00005, True, None, 0.0),
+        pytest.param(15, False, 0.45, 0.00005, False, None, 0.0),
+        pytest.param(10, True, 0.45, 0.00005, True, None, 0.0347),
+        pytest.param(15, True, 0.45, 0.00005, False, None, 0),
+        pytest.param(10, False, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(15, False, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(10, True, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
+        pytest.param(15, True, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.225),
+        pytest.param(10, True, 0.45, 0.001, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.2245),
+        pytest.param(15, True, 0.45, 0.00008, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.2249),
     ],
     ids=[
         "regular1",
@@ -38,12 +40,15 @@ def load_mock_pickle(name: str) -> Any:
         "regular_weighted2",
         "regular_normalizedweighted1",
         "regular_normalizedweighted2",
+        "regular_normalizedweighted1_normgradient1",
+        "regular_normalizedweighted2_normgradient2",
     ],
 )
 def test_e2e_iris_matcher(
     rotation_shift: int,
     normalise: bool,
-    nm_dist: float,
+    norm_mean: float,
+    norm_gradient: float,
     separate_half_matching: bool,
     weights: Optional[List[np.ndarray]],
     expected_result: float,
@@ -54,7 +59,8 @@ def test_e2e_iris_matcher(
     matcher = HammingDistanceMatcher(
         rotation_shift=rotation_shift,
         normalise=normalise,
-        nm_dist=nm_dist,
+        norm_mean=norm_mean,
+        norm_gradient=norm_gradient,
         separate_half_matching=separate_half_matching,
         weights=weights,
     )

@@ -10,7 +10,7 @@ from iris.nodes.matcher.utils import hamming_distance
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_gradient, separate_half_matching, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, norm_mean, norm_gradient, separate_half_matching, expected_result",
     [
         (
             IrisTemplate(
@@ -268,20 +268,20 @@ def test_hamming_distance(
     template_gallery: IrisTemplate,
     rotation_shift: int,
     normalise: bool,
-    nm_dist: float,
-    nm_gradient: float,
+    norm_mean: float,
+    norm_gradient: float,
     separate_half_matching: bool,
     expected_result: Tuple[float, ...],
 ) -> None:
     result = hamming_distance(
-        template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_gradient, separate_half_matching
+        template_probe, template_gallery, rotation_shift, normalise, norm_mean, norm_gradient, separate_half_matching
     )
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_gradient, separate_half_matching, weights, expected_result",
+    "template_probe, template_gallery, rotation_shift, normalise, norm_mean, norm_gradient, separate_half_matching, weights, expected_result",
     [
         (
             IrisTemplate(
@@ -524,21 +524,28 @@ def test_hamming_distance_with_weights(
     template_gallery: IrisTemplate,
     rotation_shift: int,
     normalise: bool,
-    nm_dist: float,
-    nm_gradient: float,
+    norm_mean: float,
+    norm_gradient: float,
     separate_half_matching: bool,
     weights: np.ndarray,
     expected_result: Tuple[float, ...],
 ) -> None:
     result = hamming_distance(
-        template_probe, template_gallery, rotation_shift, normalise, nm_dist, nm_gradient, separate_half_matching, weights
+        template_probe,
+        template_gallery,
+        rotation_shift,
+        normalise,
+        norm_mean,
+        norm_gradient,
+        separate_half_matching,
+        weights,
     )
     assert math.isclose(result[0], expected_result[0], rel_tol=1e-05, abs_tol=1e-05)
     assert result[1] == expected_result[1]
 
 
 @pytest.mark.parametrize(
-    "template_probe, template_gallery, rotation_shift, nm_dist, nm_gradient",
+    "template_probe, template_gallery, rotation_shift, norm_mean, norm_gradient",
     [
         (
             IrisTemplate(
@@ -592,8 +599,8 @@ def test_hamming_distance_raise_exception(
     template_probe: IrisTemplate,
     template_gallery: IrisTemplate,
     rotation_shift: int,
-    nm_dist: float,
-    nm_gradient: float,
+    norm_mean: float,
+    norm_gradient: float,
 ) -> None:
     with pytest.raises((MatcherError)):
-        _ = hamming_distance(template_probe, template_gallery, rotation_shift, nm_dist, nm_gradient)
+        _ = hamming_distance(template_probe, template_gallery, rotation_shift, norm_mean, norm_gradient)
