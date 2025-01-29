@@ -64,8 +64,8 @@ def count_nonmatchbits(
         Tuple[int, int]: Total nonmatch iriscode bit count and common maskcode bit count, could be a list for top and bottom iris separately.
     """
     if weights:
-        irisbitcount = [np.sum((x & y) * z, axis=0) / z.sum() for x, y, z in zip(irisbits, maskbits, weights)]
-        maskbitcount = [np.sum(y * z, axis=0) / z.sum() for y, z in zip(maskbits, weights)]
+        irisbitcount = [np.sum((x & y) * z, axis=0) / z.sum() * z.size for x, y, z in zip(irisbits, maskbits, weights)]
+        maskbitcount = [np.sum(y * z, axis=0) / z.sum() * z.size for y, z in zip(maskbits, weights)]
     else:
         irisbitcount = [np.sum(x & y, axis=0) for x, y in zip(irisbits, maskbits)]
         maskbitcount = [np.sum(y, axis=0) for y in maskbits]
