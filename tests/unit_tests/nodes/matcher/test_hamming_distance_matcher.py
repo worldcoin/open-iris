@@ -26,7 +26,7 @@ from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
 )
 def test_iris_matcher_raises_an_exception1(
     rotation_shift: int,
-    norm_mean: bool,
+    norm_mean: float,
 ) -> None:
     with pytest.raises(ValidationError):
         _ = HammingDistanceMatcher(rotation_shift=rotation_shift, norm_mean=norm_mean)

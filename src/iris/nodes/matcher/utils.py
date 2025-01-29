@@ -89,7 +89,7 @@ def simple_hamming_distance(
     template_gallery: IrisTemplate,
     rotation_shift: int = 15,
     normalise: bool = False,
-    nm_mean: float = 0.45,
+    norm_mean: float = 0.45,
     norm_gradient: float = 0.00005,
 ) -> Tuple[float, int]:
     """Compute Hamming distance, without bells and whistles.
@@ -99,7 +99,7 @@ def simple_hamming_distance(
         template_gallery (IrisTemplate): Iris template from gallery.
         rotation_shift (int): Rotations allowed in matching, in columns. Defaults to 15.
         normalise (bool): Flag to normalize HD. Defaults to False.
-        nm_mean (float): Peak of the non-match distribution. Defaults to 0.45.
+        norm_mean (float): Peak of the non-match distribution. Defaults to 0.45.
         norm_gradient (float): Gradient for linear approximation of normalization term. Defaults to 0.00005.
 
     Returns:
@@ -119,7 +119,7 @@ def simple_hamming_distance(
             continue
 
         current_dist = (
-            normalized_HD(totalirisbitcount, totalmaskbitcount, nm_mean, norm_gradient)
+            normalized_HD(totalirisbitcount, totalmaskbitcount, norm_mean, norm_gradient)
             if normalise
             else totalirisbitcount / totalmaskbitcount
         )
