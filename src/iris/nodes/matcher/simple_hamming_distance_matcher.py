@@ -1,4 +1,4 @@
-from pydantic import confloat
+from pydantic import confloat, conint
 
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.matcher.hamming_distance_matcher_interface import Matcher
@@ -19,25 +19,34 @@ class SimpleHammingDistanceMatcher(Matcher):
     class Parameters(Matcher.Parameters):
         """SimpleHammingDistanceMatcher parameters."""
 
+        rotation_shift: conint(ge=0, strict=True)
         normalise: bool
-        norm_mean: confloat(ge=0, le=1)
+        norm_mean: confloat(ge=0, le=1, strict=True)
+        norm_gradient: float
 
     __parameters_type__ = Parameters
 
     def __init__(
         self,
-        rotation_shift: int = 15,
+        rotation_shift: conint(ge=0, strict=True) = 15,
         normalise: bool = False,
-        norm_mean: float = 0.45,
+        norm_mean: confloat(ge=0, le=1, strict=True) = 0.45,
+        norm_gradient: float = 0.00005,
     ) -> None:
         """Assign parameters.
 
         Args:
-            rotation_shift (int, optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
+            rotation_shift (Optional[conint(ge=0, strict=True)], optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
             normalise (bool, optional): Flag to normalize HD. Defaults to False.
-            norm_mean (float, optional): Peak of the non-match distribution. Defaults to 0.45.
+            norm_mean (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
+            norm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
         """
-        super().__init__(rotation_shift=rotation_shift, normalise=normalise, norm_mean=norm_mean)
+        super().__init__(
+            rotation_shift=rotation_shift,
+            normalise=normalise,
+            norm_mean=norm_mean,
+            norm_gradient=norm_gradient,
+        )
 
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
         """Match iris templates using Hamming distance.
@@ -55,5 +64,6 @@ class SimpleHammingDistanceMatcher(Matcher):
             rotation_shift=self.params.rotation_shift,
             normalise=self.params.normalise,
             norm_mean=self.params.norm_mean,
+            norm_gradient=self.params.norm_gradient,
         )
         return score
