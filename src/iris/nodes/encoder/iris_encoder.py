@@ -48,10 +48,12 @@ class IrisEncoder(Algorithm):
         mask_codes: List[np.ndarray] = []
 
         for iris_response, mask_response in zip(response.iris_responses, response.mask_responses):
-            mask_code = mask_response >= self.params.mask_threshold
 
             iris_code = np.stack([iris_response.real > 0, iris_response.imag > 0], axis=-1)
-            mask_code = np.stack([mask_code, mask_code], axis=-1)
+            mask_code = np.stack(
+                [mask_response.real >= self.params.mask_threshold, mask_response.imag >= self.params.mask_threshold],
+                axis=-1,
+            )
 
             iris_codes.append(iris_code)
             mask_codes.append(mask_code)

@@ -402,6 +402,32 @@ class Offgaze(ImmutableModel):
         return Offgaze(score=data)
 
 
+class Sharpness(ImmutableModel):
+    """Data holder for Sharpness score."""
+
+    score: float = Field(..., ge=0.0)
+
+    def serialize(self) -> float:
+        """Serialize Sharpness object.
+
+        Returns:
+            float: Serialized object.
+        """
+        return self.score
+
+    @staticmethod
+    def deserialize(data: float) -> Sharpness:
+        """Deserialize Sharpness object.
+
+        Args:
+            data (float): Serialized object to float.
+
+        Returns:
+            Sharpness: Deserialized object.
+        """
+        return Sharpness(score=data)
+
+
 class PupilToIrisProperty(ImmutableModel):
     """Data holder for pupil-ro-iris ratios."""
 

@@ -66,10 +66,13 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
     error = __get_error(call_trace=call_trace)
 
     segmap = call_trace["segmentation"]
-    geometry_mask, noise_mask = (None, None) if call_trace["segmentation_binarization"] is None else call_trace["segmentation_binarization"]
+    geometry_mask, noise_mask = (
+        (None, None) if call_trace["segmentation_binarization"] is None else call_trace["segmentation_binarization"]
+    )
     extrapolated_polygons = call_trace["geometry_estimation"]
     normalized_iris = call_trace["normalization"]
     iris_response = call_trace["filter_bank"]
+    iris_response_refined = call_trace["iris_response_refinement"]
 
     return {
         "iris_template": iris_template,
@@ -82,6 +85,7 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
         "extrapolated_polygons": __safe_serialize(extrapolated_polygons),
         "normalized_iris": __safe_serialize(normalized_iris),
         "iris_response": __safe_serialize(iris_response),
+        "iris_response_refined": __safe_serialize(iris_response_refined),
         "error": error,
     }
 
@@ -130,6 +134,7 @@ def __get_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
         "occlusion90": __safe_serialize(call_trace["occlusion90_calculator"]),
         "occlusion30": __safe_serialize(call_trace["occlusion30_calculator"]),
         "iris_bbox": __safe_serialize(call_trace["bounding_box_estimation"]),
+        "sharpness_score": __safe_serialize(call_trace["sharpness_estimation"]),
     }
 
 

@@ -35,6 +35,7 @@ class IRISPipeline(Algorithm):
             iris.nodes.validators.object_validators.OffgazeValidator,
             iris.nodes.validators.object_validators.OcclusionValidator,
             iris.nodes.validators.object_validators.IsPupilInsideIrisValidator,
+            iris.nodes.validators.object_validators.SharpnessValidator,
             iris.nodes.validators.object_validators.IsMaskTooSmallValidator,
             iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator,
             iris.nodes.validators.cross_object_validators.ExtrapolatedPolygonsInsideImageValidator,

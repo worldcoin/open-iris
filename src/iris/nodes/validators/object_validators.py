@@ -6,7 +6,7 @@ from pydantic import Field
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty
+from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty, Sharpness
 from iris.utils.math import polygon_length
 
 
@@ -52,19 +52,21 @@ class Pupil2IrisPropertyValidator(Callback, Algorithm):
             p2i_property (PupilToIrisProperty): Computation result.
 
         Raises:
-            E.PupilIrisPropertyEstimationError: Raised if result isn't without previously specified boundaries.
+            E.Pupil2IrisValidatorErrorConstriction: Raised if pupil is constricted.
+            E.Pupil2IrisValidatorErrorDilation: Raised if pupil is dilated.
+            E.Pupil2IrisValidatorErrorOffcenter: Raised if pupil and iris are offcenter.
         """
-        if not (
-            self.params.min_allowed_diameter_ratio
-            <= val_arguments.pupil_to_iris_diameter_ratio
-            <= self.params.max_allowed_diameter_ratio
-        ):
-            raise E.PupilIrisPropertyEstimationError(
-                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is not within [{self.params.min_allowed_diameter_ratio}, {self.params.max_allowed_diameter_ratio}]."
+        if val_arguments.pupil_to_iris_diameter_ratio < self.params.min_allowed_diameter_ratio:
+            raise E.Pupil2IrisValidatorErrorConstriction(
+                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is below min threshold {self.params.min_allowed_diameter_ratio}. Pupil is too constricted."
+            )
+        if val_arguments.pupil_to_iris_diameter_ratio > self.params.max_allowed_diameter_ratio:
+            raise E.Pupil2IrisValidatorErrorDilation(
+                f"p2i_property={val_arguments.pupil_to_iris_diameter_ratio} is above max threshold {self.params.max_allowed_diameter_ratio}. Pupil is too dilated."
             )
         if val_arguments.pupil_to_iris_center_dist_ratio > self.params.max_allowed_center_dist_ratio:
-            raise E.PupilIrisPropertyEstimationError(
-                f"p2i_property={val_arguments.pupil_to_iris_center_dist_ratio} exceeds {self.params.max_allowed_center_dist_ratio}."
+            raise E.Pupil2IrisValidatorErrorOffcenter(
+                f"p2i_property={val_arguments.pupil_to_iris_center_dist_ratio} exceeds {self.params.max_allowed_center_dist_ratio}. Pupil and iris are off-center."
             )
 
     def on_execute_end(self, result: PupilToIrisProperty) -> None:
@@ -316,13 +318,58 @@ class PolygonsLengthValidator(Callback, Algorithm):
         self.run(input_polygons)
 
 
+class SharpnessValidator(Callback, Algorithm):
+    """Validate that the normalized image is not too blurry.
+
+    Raises:
+        E.SharpnessEstimationError: If the sharpness score is below threshold.
+    """
+
+    class Parameters(Algorithm.Parameters):
+        """Parameters class for SharpnessValidator objects."""
+
+        min_sharpness: float = Field(..., ge=0.0)
+
+    __parameters_type__ = Parameters
+
+    def __init__(self, min_sharpness: float = 0.0) -> None:
+        """Assign parameters.
+
+        Args:
+            min_sharpness (float): Minimum sharpness score. Sharpness computation min threshold that allows further sample processing. Defaults to 0.0 (by default every check will result in success).
+        """
+        super().__init__(min_sharpness=min_sharpness)
+
+    def run(self, val_arguments: Sharpness) -> None:
+        """Validate of sharpness estimation algorithm.
+
+        Args:
+            val_arguments (Sharpness): Computed result.
+
+        Raises:
+            E.SharpnessEstimationError: Raised if the sharpness score is below the desired threshold.
+        """
+        if val_arguments.score < self.params.min_sharpness:
+            raise E.SharpnessEstimationError(
+                f"sharpness={val_arguments.score} < min_sharpness={self.params.min_sharpness}"
+            )
+
+    def on_execute_end(self, result: Sharpness) -> None:
+        """Wrap for validate method so that validator can be used as a Callback.
+
+        Args:
+            result (Sharpness): Sharpness resulted from computations.
+        """
+        self.run(result)
+
+
 class IsMaskTooSmallValidator(Callback, Algorithm):
     """Validate that the masked part of the IrisTemplate is small enough.
 
     The larger the mask, the less reliable information is available to create a robust identity.
 
     Raises:
-        E.EncoderError: If the total number of non-masked bits is below threshold.
+        E.MaskTooSmallError: If the total number of non-masked bits is below threshold.
     """
 
     class Parameters(Algorithm.Parameters):
@@ -347,12 +394,12 @@ class IsMaskTooSmallValidator(Callback, Algorithm):
             val_arguments (IrisTemplate): IrisTemplate to be validated.
 
         Raises:
-            E.EncoderError: Raised if the total mask codes size is below the desired threshold.
+            E.MaskTooSmallError: Raised if the total mask codes size is below the desired threshold.
         """
         maskcodes_size = np.sum(val_arguments.mask_codes)
 
         if maskcodes_size < self.params.min_maskcodes_size:
-            raise E.EncoderError(
+            raise E.MaskTooSmallError(
                 f"Valid mask codes size is too small: Got {maskcodes_size} px, min {self.params.min_maskcodes_size} px."
             )
 

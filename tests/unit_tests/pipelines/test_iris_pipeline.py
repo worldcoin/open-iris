@@ -280,6 +280,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
                 "extrapolated_polygons",
                 "normalized_iris",
                 "iris_response",
+                "iris_response_refined",
                 "landmarks",
                 "iris_template",
                 "status",
@@ -594,6 +595,7 @@ def test_instanciate_node(
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OffgazeValidator,
+                    iris.nodes.validators.object_validators.SharpnessValidator,
                     iris.nodes.validators.object_validators.PolygonsLengthValidator,
                 ],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,

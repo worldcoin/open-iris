@@ -46,6 +46,24 @@ class PupilIrisPropertyEstimationError(Exception):
     pass
 
 
+class Pupil2IrisValidatorErrorDilation(Exception):
+    """Pupil2IrisValidatorErrorDilation error class."""
+
+    pass
+
+
+class Pupil2IrisValidatorErrorConstriction(Exception):
+    """Pupil2IrisValidatorErrorConstriction error class."""
+
+    pass
+
+
+class Pupil2IrisValidatorErrorOffcenter(Exception):
+    """Pupil2IrisValidatorErrorOffcenter error class."""
+
+    pass
+
+
 class GeometryEstimationError(Exception):
     """GeometryEstimation module Error class."""
 
@@ -96,6 +114,18 @@ class IsPupilInsideIrisValidatorError(Exception):
 
 class VectorizationError(Exception):
     """Vectorization module Error class."""
+
+    pass
+
+
+class SharpnessEstimationError(Exception):
+    """SharpnessEstimation Error class."""
+
+    pass
+
+
+class MaskTooSmallError(Exception):
+    """Mask is too small Error class."""
 
     pass
 
