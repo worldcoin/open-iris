@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.vectorization package" href="iris.nodes.vectorization.html" /><link rel="prev" title="iris.nodes.segmentation package" href="iris.nodes.segmentation.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.validators package - iris v1.1.1</title>
+        <title>iris.nodes.validators package - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -183,7 +183,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -207,7 +207,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -416,7 +416,7 @@
 <p>The larger the mask, the less reliable information is available to create a robust identity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>E.EncoderError</strong> – If the total number of non-masked bits is below threshold.</p>
+<dd class="field-odd"><p><strong>E.MaskTooSmallError</strong> – If the total number of non-masked bits is below threshold.</p>
 </dd>
 </dl>
 <dl class="py class">
@@ -451,7 +451,7 @@
 <dd class="field-odd"><p><strong>val_arguments</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><em>IrisTemplate</em></a>) – IrisTemplate to be validated.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>E.EncoderError</strong> – Raised if the total mask codes size is below the desired threshold.</p>
+<dd class="field-even"><p><strong>E.MaskTooSmallError</strong> – Raised if the total mask codes size is below the desired threshold.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -699,7 +699,60 @@
 <dd class="field-odd"><p><strong>p2i_property</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.PupilToIrisProperty" title="iris.io.dataclasses.PupilToIrisProperty"><em>PupilToIrisProperty</em></a>) – Computation result.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>E.PupilIrisPropertyEstimationError</strong> – Raised if result isn’t without previously specified boundaries.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>E.Pupil2IrisValidatorErrorConstriction</strong> – Raised if pupil is constricted.</p></li>
+<li><p><strong>E.Pupil2IrisValidatorErrorDilation</strong> – Raised if pupil is dilated.</p></li>
+<li><p><strong>E.Pupil2IrisValidatorErrorOffcenter</strong> – Raised if pupil and iris are offcenter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.validators.object_validators.SharpnessValidator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.validators.object_validators.</span></span><span class="sig-name descname"><span class="pre">SharpnessValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_sharpness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/validators/object_validators.html#SharpnessValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.validators.object_validators.SharpnessValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callback</span></code></a>, <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Validate that the normalized image is not too blurry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>E.SharpnessEstimationError</strong> – If the sharpness score is below threshold.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.validators.object_validators.SharpnessValidator.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sharpness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/validators/object_validators.html#SharpnessValidator.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.validators.object_validators.SharpnessValidator.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Parameters class for SharpnessValidator objects.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.validators.object_validators.SharpnessValidator.Parameters.min_sharpness">
+<span class="sig-name descname"><span class="pre">min_sharpness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.validators.object_validators.SharpnessValidator.Parameters.min_sharpness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.validators.object_validators.SharpnessValidator.on_execute_end">
+<span class="sig-name descname"><span class="pre">on_execute_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><span class="pre">Sharpness</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/iris/nodes/validators/object_validators.html#SharpnessValidator.on_execute_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.validators.object_validators.SharpnessValidator.on_execute_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap for validate method so that validator can be used as a Callback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><em>Sharpness</em></a>) – Sharpness resulted from computations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.validators.object_validators.SharpnessValidator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val_arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><span class="pre">Sharpness</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/iris/nodes/validators/object_validators.html#SharpnessValidator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.validators.object_validators.SharpnessValidator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate of sharpness estimation algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val_arguments</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><em>Sharpness</em></a>) – Computed result.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>E.SharpnessEstimationError</strong> – Raised if the sharpness score is below the desired threshold.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -844,6 +897,15 @@
 <li><a class="reference internal" href="#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator.run"><code class="docutils literal notranslate"><span class="pre">Pupil2IrisPropertyValidator.run()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#iris.nodes.validators.object_validators.SharpnessValidator"><code class="docutils literal notranslate"><span class="pre">SharpnessValidator</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.validators.object_validators.SharpnessValidator.Parameters"><code class="docutils literal notranslate"><span class="pre">SharpnessValidator.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.validators.object_validators.SharpnessValidator.Parameters.min_sharpness"><code class="docutils literal notranslate"><span class="pre">SharpnessValidator.Parameters.min_sharpness</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.validators.object_validators.SharpnessValidator.on_execute_end"><code class="docutils literal notranslate"><span class="pre">SharpnessValidator.on_execute_end()</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.validators.object_validators.SharpnessValidator.run"><code class="docutils literal notranslate"><span class="pre">SharpnessValidator.run()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-iris.nodes.validators">Module contents</a></li>
@@ -858,7 +920,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

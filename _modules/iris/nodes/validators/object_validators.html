@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.validators.object_validators - iris v1.1.1</title>
+        <title>iris.nodes.validators.object_validators - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +206,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -306,7 +306,7 @@
 <span class="kn">import</span> <span class="nn">iris.io.errors</span> <span class="k">as</span> <span class="nn">E</span>
 <span class="kn">from</span> <span class="nn">iris.callbacks.callback_interface</span> <span class="kn">import</span> <span class="n">Callback</span>
 <span class="kn">from</span> <span class="nn">iris.io.class_configs</span> <span class="kn">import</span> <span class="n">Algorithm</span>
-<span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">EyeOcclusion</span><span class="p">,</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">Offgaze</span><span class="p">,</span> <span class="n">PupilToIrisProperty</span>
+<span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">EyeOcclusion</span><span class="p">,</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">Offgaze</span><span class="p">,</span> <span class="n">PupilToIrisProperty</span><span class="p">,</span> <span class="n">Sharpness</span>
 <span class="kn">from</span> <span class="nn">iris.utils.math</span> <span class="kn">import</span> <span class="n">polygon_length</span>
 
 
@@ -352,19 +352,21 @@
 <span class="sd">            p2i_property (PupilToIrisProperty): Computation result.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            E.PupilIrisPropertyEstimationError: Raised if result isn&#39;t without previously specified boundaries.</span>
+<span class="sd">            E.Pupil2IrisValidatorErrorConstriction: Raised if pupil is constricted.</span>
+<span class="sd">            E.Pupil2IrisValidatorErrorDilation: Raised if pupil is dilated.</span>
+<span class="sd">            E.Pupil2IrisValidatorErrorOffcenter: Raised if pupil and iris are offcenter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span>
-            <span class="o">&lt;=</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span>
-            <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span>
-        <span class="p">):</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">PupilIrisPropertyEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is not within [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">].&quot;</span>
+        <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorConstriction</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is below min threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too constricted.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorDilation</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is above max threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too dilated.&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">PupilIrisPropertyEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorOffcenter</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="si">}</span><span class="s2">. Pupil and iris are off-center.&quot;</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pupil2IrisPropertyValidator.on_execute_end"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator.on_execute_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">PupilToIrisProperty</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -616,13 +618,58 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_polygons</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="SharpnessValidator"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator">[docs]</a><span class="k">class</span> <span class="nc">SharpnessValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the normalized image is not too blurry.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        E.SharpnessEstimationError: If the sharpness score is below threshold.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SharpnessValidator.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for SharpnessValidator objects.&quot;&quot;&quot;</span>
+
+        <span class="n">min_sharpness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
+
+    <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_sharpness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            min_sharpness (float): Minimum sharpness score. Sharpness computation min threshold that allows further sample processing. Defaults to 0.0 (by default every check will result in success).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_sharpness</span><span class="o">=</span><span class="n">min_sharpness</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SharpnessValidator.run"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">Sharpness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate of sharpness estimation algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val_arguments (Sharpness): Computed result.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            E.SharpnessEstimationError: Raised if the sharpness score is below the desired threshold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_sharpness</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">SharpnessEstimationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;sharpness=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2"> &lt; min_sharpness=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_sharpness</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SharpnessValidator.on_execute_end"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.on_execute_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Sharpness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            result (Sharpness): Sharpness resulted from computations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div></div>
+
+
 <div class="viewcode-block" id="IsMaskTooSmallValidator"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator">[docs]</a><span class="k">class</span> <span class="nc">IsMaskTooSmallValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the masked part of the IrisTemplate is small enough.</span>
 
 <span class="sd">    The larger the mask, the less reliable information is available to create a robust identity.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        E.EncoderError: If the total number of non-masked bits is below threshold.</span>
+<span class="sd">        E.MaskTooSmallError: If the total number of non-masked bits is below threshold.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="IsMaskTooSmallValidator.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
@@ -647,12 +694,12 @@
 <span class="sd">            val_arguments (IrisTemplate): IrisTemplate to be validated.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            E.EncoderError: Raised if the total mask codes size is below the desired threshold.</span>
+<span class="sd">            E.MaskTooSmallError: Raised if the total mask codes size is below the desired threshold.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maskcodes_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">maskcodes_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_maskcodes_size</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">EncoderError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">MaskTooSmallError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Valid mask codes size is too small: Got </span><span class="si">{</span><span class="n">maskcodes_size</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_maskcodes_size</span><span class="si">}</span><span class="s2"> px.&quot;</span>
             <span class="p">)</span></div>
 
@@ -695,7 +742,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=4e2eecee"></script>

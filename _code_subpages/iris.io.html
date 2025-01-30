@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes package" href="iris.nodes.html" /><link rel="prev" title="iris.callbacks package" href="iris.callbacks.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.io package - iris v1.1.1</title>
+        <title>iris.io package - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -183,7 +183,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -207,7 +207,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -1413,6 +1413,49 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.io.dataclasses.Sharpness">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.dataclasses.</span></span><span class="sig-name descname"><span class="pre">Sharpness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#Sharpness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.Sharpness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iris.io.class_configs.ImmutableModel" title="iris.io.class_configs.ImmutableModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImmutableModel</span></code></a></p>
+<p>Data holder for Sharpness score.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.io.dataclasses.Sharpness.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><span class="pre">Sharpness</span></a></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#Sharpness.deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.Sharpness.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserialize Sharpness object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>float</em>) – Serialized object to float.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Deserialized object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness">Sharpness</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.io.dataclasses.Sharpness.score">
+<span class="sig-name descname"><span class="pre">score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.io.dataclasses.Sharpness.score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.io.dataclasses.Sharpness.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#Sharpness.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.Sharpness.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize Sharpness object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Serialized object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-iris.io.errors">
 <span id="iris-io-errors-module"></span><h2>iris.io.errors module<a class="headerlink" href="#module-iris.io.errors" title="Permalink to this heading">¶</a></h2>
@@ -1501,6 +1544,13 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.MaskTooSmallError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">MaskTooSmallError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#MaskTooSmallError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.MaskTooSmallError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Mask is too small Error class.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="iris.io.errors.MatcherError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">MatcherError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#MatcherError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.MatcherError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -1536,10 +1586,38 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.Pupil2IrisValidatorErrorConstriction">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">Pupil2IrisValidatorErrorConstriction</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#Pupil2IrisValidatorErrorConstriction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.Pupil2IrisValidatorErrorConstriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Pupil2IrisValidatorErrorConstriction error class.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.Pupil2IrisValidatorErrorDilation">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">Pupil2IrisValidatorErrorDilation</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#Pupil2IrisValidatorErrorDilation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.Pupil2IrisValidatorErrorDilation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Pupil2IrisValidatorErrorDilation error class.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.Pupil2IrisValidatorErrorOffcenter">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">Pupil2IrisValidatorErrorOffcenter</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#Pupil2IrisValidatorErrorOffcenter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.Pupil2IrisValidatorErrorOffcenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Pupil2IrisValidatorErrorOffcenter error class.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="iris.io.errors.PupilIrisPropertyEstimationError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">PupilIrisPropertyEstimationError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#PupilIrisPropertyEstimationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.PupilIrisPropertyEstimationError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>PupilIrisPropertyEstimation module Error class.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.SharpnessEstimationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">SharpnessEstimationError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#SharpnessEstimationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.SharpnessEstimationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>SharpnessEstimation Error class.</p>
 </dd></dl>
 
 <dl class="py exception">
@@ -2025,6 +2103,12 @@ and if all of their element have the same shape one by one.</p>
 <li><a class="reference internal" href="#iris.io.dataclasses.SegmentationMap.width"><code class="docutils literal notranslate"><span class="pre">SegmentationMap.width</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#iris.io.dataclasses.Sharpness"><code class="docutils literal notranslate"><span class="pre">Sharpness</span></code></a><ul>
+<li><a class="reference internal" href="#iris.io.dataclasses.Sharpness.deserialize"><code class="docutils literal notranslate"><span class="pre">Sharpness.deserialize()</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.dataclasses.Sharpness.score"><code class="docutils literal notranslate"><span class="pre">Sharpness.score</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.dataclasses.Sharpness.serialize"><code class="docutils literal notranslate"><span class="pre">Sharpness.serialize()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-iris.io.errors">iris.io.errors module</a><ul>
@@ -2040,12 +2124,17 @@ and if all of their element have the same shape one by one.</p>
 <li><a class="reference internal" href="#iris.io.errors.ImageFilterError"><code class="docutils literal notranslate"><span class="pre">ImageFilterError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.IsPupilInsideIrisValidatorError"><code class="docutils literal notranslate"><span class="pre">IsPupilInsideIrisValidatorError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.LandmarkEstimationError"><code class="docutils literal notranslate"><span class="pre">LandmarkEstimationError</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.MaskTooSmallError"><code class="docutils literal notranslate"><span class="pre">MaskTooSmallError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.MatcherError"><code class="docutils literal notranslate"><span class="pre">MatcherError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.NormalizationError"><code class="docutils literal notranslate"><span class="pre">NormalizationError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.OcclusionError"><code class="docutils literal notranslate"><span class="pre">OcclusionError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.OffgazeEstimationError"><code class="docutils literal notranslate"><span class="pre">OffgazeEstimationError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.ProbeSchemaError"><code class="docutils literal notranslate"><span class="pre">ProbeSchemaError</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.Pupil2IrisValidatorErrorConstriction"><code class="docutils literal notranslate"><span class="pre">Pupil2IrisValidatorErrorConstriction</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.Pupil2IrisValidatorErrorDilation"><code class="docutils literal notranslate"><span class="pre">Pupil2IrisValidatorErrorDilation</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.Pupil2IrisValidatorErrorOffcenter"><code class="docutils literal notranslate"><span class="pre">Pupil2IrisValidatorErrorOffcenter</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.PupilIrisPropertyEstimationError"><code class="docutils literal notranslate"><span class="pre">PupilIrisPropertyEstimationError</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.SharpnessEstimationError"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimationError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.VectorizationError"><code class="docutils literal notranslate"><span class="pre">VectorizationError</span></code></a></li>
 </ul>
 </li>
@@ -2078,7 +2167,7 @@ and if all of their element have the same shape one by one.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
