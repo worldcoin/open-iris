@@ -1,0 +1,290 @@
+metadata:
+  pipeline_name: iris_pipeline
+  iris_version: 1.1.1
+
+pipeline:
+  - name: segmentation
+    algorithm:
+      class_name: iris.YOLOSAMSegmentation
+      params: {
+            model_path: "assets/sam_pretrained/Focal_model.pt",
+            model_type: "vit_h",
+            # model_path: "../Finetuned-SAM/checkpoints/focal_casia_multi_cls_correct_split/gamma_2.0/model.pt",
+            # model_type: "vit_b",
+            # yolo_model_path: "../yolo_det/iris-yolo/casia-multi-corrected-medium/weights/best.pt",
+            yolo_model_path: "assets/yolo_pretrained/best.pt",
+            input_num_channels: 3,
+            conf_thresh: 0.1, # confidence threshold for yolo 
+            iou_thresh: 0.7, # iou threshold for yolo
+            max_det: 10 # maximum number of detections
+      }
+    inputs:
+      - name: image
+        source_node: input
+    callbacks:
+
+  - name: segmentation_binarization
+    algorithm:
+      class_name: iris.MultilabelSegmentationBinarization
+      params: {}
+    inputs:
+      - name: segmentation_map
+        source_node: segmentation
+    callbacks:
+
+  - name: vectorization
+    algorithm:
+      class_name: iris.ContouringAlgorithm
+      params: {}
+    inputs:
+      - name: geometry_mask
+        source_node: segmentation_binarization
+        index: 0
+    callbacks:
+
+  - name: specular_reflection_detection
+    algorithm:
+      class_name: iris.SpecularReflectionDetection
+      params: {}
+    inputs:
+      - name: ir_image
+        source_node: input
+    callbacks:
+
+  - name: interpolation
+    algorithm:
+      class_name: iris.ContourInterpolation
+      params: {}
+    inputs:
+      - name: polygons
+        source_node: vectorization
+    callbacks:
+
+  - name: distance_filter
+    algorithm:
+      class_name: iris.ContourPointNoiseEyeballDistanceFilter
+      params: {}
+    inputs:
+      - name: polygons
+        source_node: interpolation
+      - name: geometry_mask
+        source_node: segmentation_binarization
+        index: 1
+    callbacks:
+
+  - name: eye_orientation
+    algorithm:
+      class_name: iris.MomentOfArea
+      params: {}
+    inputs:
+      - name: geometries
+        source_node: distance_filter
+    callbacks:
+
+  - name: eye_center_estimation
+    algorithm:
+      class_name: iris.BisectorsMethod
+      params: {}
+    inputs:
+      - name: geometries
+        source_node: distance_filter
+    callbacks:
+
+  - name: eye_centers_inside_image_validator
+    algorithm:
+      class_name: iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator
+      params:
+        min_distance_to_border: 0.0
+    inputs:
+      - name: ir_image
+        source_node: input
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+
+  - name: smoothing
+    algorithm:
+      class_name: iris.Smoothing
+      params: {}
+    inputs:
+      - name: polygons
+        source_node: distance_filter
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+
+  - name: geometry_estimation
+    algorithm:
+      class_name: iris.FusionExtrapolation
+      params:
+        circle_extrapolation:
+          class_name: iris.LinearExtrapolation
+          params:
+            dphi: 0.703125
+        ellipse_fit:
+          class_name: iris.LSQEllipseFitWithRefinement
+          params:
+            dphi: 0.703125
+        algorithm_switch_std_threshold: 3.5
+    inputs:
+      - name: input_polygons
+        source_node: smoothing
+      - name: eye_center
+        source_node: eye_center_estimation
+    callbacks:
+
+  - name: pupil_to_iris_property_estimation
+    algorithm:
+      class_name: iris.PupilIrisPropertyCalculator
+      params:
+        min_iris_diameter: 50
+    inputs:
+      - name: geometries
+        source_node: geometry_estimation
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator
+        params:
+          min_allowed_diameter_ratio: 0.1
+          max_allowed_diameter_ratio: 0.7
+          max_allowed_center_dist_ratio: 0.9
+
+  - name: offgaze_estimation
+    algorithm:
+      class_name: iris.EccentricityOffgazeEstimation
+      params: {}
+    inputs:
+      - name: geometries
+        source_node: geometry_estimation
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.OffgazeValidator
+        params:
+          max_allowed_offgaze: 0.8
+
+  - name: occlusion90_calculator
+    algorithm:
+      class_name: iris.OcclusionCalculator
+      params:
+        quantile_angle: 90.0
+    inputs:
+      - name: noise_mask
+        source_node: segmentation_binarization
+        index: 1
+      - name: extrapolated_polygons
+        source_node: geometry_estimation
+      - name: eye_orientation
+        source_node: eye_orientation
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.OcclusionValidator
+        params:
+          min_allowed_occlusion: 0.25
+
+  - name: occlusion30_calculator
+    algorithm:
+      class_name: iris.OcclusionCalculator
+      params:
+        quantile_angle: 30.0
+    inputs:
+      - name: noise_mask
+        source_node: segmentation_binarization
+        index: 1
+      - name: extrapolated_polygons
+        source_node: geometry_estimation
+      - name: eye_orientation
+        source_node: eye_orientation
+      - name: eye_centers
+        source_node: eye_center_estimation
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.OcclusionValidator
+        params:
+          min_allowed_occlusion: 0.3
+
+  - name: noise_masks_aggregation
+    algorithm:
+      class_name: iris.NoiseMaskUnion
+      params: {}
+    inputs:
+      - name: elements
+        source_node:
+          - name: segmentation_binarization
+            index: 1
+          - name: specular_reflection_detection
+    callbacks:
+
+  - name: normalization
+    algorithm:
+      class_name: iris.LinearNormalization
+      params: {}
+    inputs:
+      - name: image
+        source_node: input
+      - name: noise_mask
+        source_node: noise_masks_aggregation
+      - name: extrapolated_contours
+        source_node: geometry_estimation
+      - name: eye_orientation
+        source_node: eye_orientation
+    callbacks:
+
+  - name: filter_bank
+    algorithm:
+      class_name: iris.ConvFilterBank
+      params:
+        filters:
+          - class_name: iris.GaborFilter
+            params:
+              kernel_size: [41, 21]
+              sigma_phi: 7
+              sigma_rho: 6.13
+              theta_degrees: 90.0
+              lambda_phi: 28.0
+              dc_correction: True
+              to_fixpoints: True
+          - class_name: iris.GaborFilter
+            params:
+              kernel_size: [17, 21]
+              sigma_phi: 2
+              sigma_rho: 5.86
+              theta_degrees: 90.0
+              lambda_phi: 8
+              dc_correction: True
+              to_fixpoints: True
+        probe_schemas:
+          - class_name: iris.RegularProbeSchema
+            params:
+              n_rows: 16
+              n_cols: 256
+          - class_name: iris.RegularProbeSchema
+            params:
+              n_rows: 16
+              n_cols: 256
+    inputs:
+      - name: normalization_output
+        source_node: normalization
+    callbacks:
+
+  - name: encoder
+    algorithm:
+      class_name: iris.IrisEncoder
+      params: {}
+    inputs:
+      - name: response
+        source_node: filter_bank
+    callbacks:
+      - class_name: iris.nodes.validators.object_validators.IsMaskTooSmallValidator
+        params:
+          min_maskcodes_size: 4096
+
+  - name: bounding_box_estimation
+    algorithm:
+      class_name: iris.IrisBBoxCalculator
+      params: {}
+    inputs:
+      - name: ir_image
+        source_node: input
+      - name: geometry_polygons
+        source_node: geometry_estimation
+    callbacks:
