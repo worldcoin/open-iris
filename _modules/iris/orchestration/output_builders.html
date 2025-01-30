@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.orchestration.output_builders - iris v1.1.1</title>
+        <title>iris.orchestration.output_builders - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +206,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -366,10 +366,13 @@
     <span class="n">error</span> <span class="o">=</span> <span class="n">__get_error</span><span class="p">(</span><span class="n">call_trace</span><span class="o">=</span><span class="n">call_trace</span><span class="p">)</span>
 
     <span class="n">segmap</span> <span class="o">=</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;segmentation&quot;</span><span class="p">]</span>
-    <span class="n">geometry_mask</span><span class="p">,</span> <span class="n">noise_mask</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">]</span>
+    <span class="n">geometry_mask</span><span class="p">,</span> <span class="n">noise_mask</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="n">extrapolated_polygons</span> <span class="o">=</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;geometry_estimation&quot;</span><span class="p">]</span>
     <span class="n">normalized_iris</span> <span class="o">=</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;normalization&quot;</span><span class="p">]</span>
     <span class="n">iris_response</span> <span class="o">=</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;filter_bank&quot;</span><span class="p">]</span>
+    <span class="n">iris_response_refined</span> <span class="o">=</span> <span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;iris_response_refinement&quot;</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;iris_template&quot;</span><span class="p">:</span> <span class="n">iris_template</span><span class="p">,</span>
@@ -382,6 +385,7 @@
         <span class="s2">&quot;extrapolated_polygons&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">extrapolated_polygons</span><span class="p">),</span>
         <span class="s2">&quot;normalized_iris&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">normalized_iris</span><span class="p">),</span>
         <span class="s2">&quot;iris_response&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">iris_response</span><span class="p">),</span>
+        <span class="s2">&quot;iris_response_refined&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">iris_response_refined</span><span class="p">),</span>
         <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
     <span class="p">}</span></div>
 
@@ -430,6 +434,7 @@
         <span class="s2">&quot;occlusion90&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;occlusion90_calculator&quot;</span><span class="p">]),</span>
         <span class="s2">&quot;occlusion30&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;occlusion30_calculator&quot;</span><span class="p">]),</span>
         <span class="s2">&quot;iris_bbox&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;bounding_box_estimation&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;sharpness_score&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="p">[</span><span class="s2">&quot;sharpness_estimation&quot;</span><span class="p">]),</span>
     <span class="p">}</span>
 
 
@@ -502,7 +507,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>

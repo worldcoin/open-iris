@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.matcher package" href="iris.nodes.matcher.html" /><link rel="prev" title="iris.nodes.iris_response.probe_schemas package" href="iris.nodes.iris_response.probe_schemas.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.iris_response_refinement package - iris v1.1.1</title>
+        <title>iris.nodes.iris_response_refinement package - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -183,7 +183,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -207,7 +207,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -313,37 +313,37 @@
 <span id="iris-nodes-iris-response-refinement-fragile-bits-refinement-module"></span><h2>iris.nodes.iris_response_refinement.fragile_bits_refinement module<a class="headerlink" href="#module-iris.nodes.iris_response_refinement.fragile_bits_refinement" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.iris_response_refinement.fragile_bits_refinement.</span></span><span class="sig-name descname"><span class="pre">FragileBitRefinement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragile_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cartesian'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polar'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'polar'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.iris_response_refinement.fragile_bits_refinement.</span></span><span class="sig-name descname"><span class="pre">FragileBitRefinement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragile_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType" title="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType"><span class="pre">FragileType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">FragileType.polar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
-<p>Refining mask by masking out fragile bits.</p>
+<p>Calculate fragile bits for mask.</p>
 <dl class="simple">
-<dt>Algorithm:</dt><dd><p>Thresholding by the given parameter value_threshold at each bit, set the corresponding mask response to 0 if iris response is below the threshold.</p>
+<dt>Algorithm:</dt><dd><p>Thresholding by the given parameter value_threshold at each bit, set the corresponding mask response to 0 if iris response is outside the thresholds.</p>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragile_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cartesian'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polar'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragile_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType" title="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType"><span class="pre">FragileType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
-<p>RegularProbeSchema parameters.</p>
+<p>FragileBitRefinement parameters.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.fragile_type">
-<span class="sig-name descname"><span class="pre">fragile_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cartesian'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polar'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.fragile_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fragile_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType" title="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType"><span class="pre">FragileType</span></a></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.fragile_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.value_threshold">
-<span class="sig-name descname"><span class="pre">value_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.value_threshold" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">value_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedFloatValue</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters.value_threshold" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_filter_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.run" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileBitRefinement.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate refined IrisFilterResponse.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>iris_filter_response</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><em>IrisFilterResponse</em></a>) – Filter bank response.</p>
+<dd class="field-odd"><p><strong>response</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><em>IrisFilterResponse</em></a>) – Filter bank response</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Filter bank response.</p>
@@ -353,6 +353,23 @@
 </dd>
 </dl>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.iris_response_refinement.fragile_bits_refinement.</span></span><span class="sig-name descname"><span class="pre">FragileType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/iris_response_refinement/fragile_bits_refinement.html#FragileType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Makes wrapper for params.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.cartesian">
+<span class="sig-name descname"><span class="pre">cartesian</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cartesian'</span></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.cartesian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.polar">
+<span class="sig-name descname"><span class="pre">polar</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'polar'</span></em><a class="headerlink" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.polar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -429,6 +446,11 @@
 <li><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.run"><code class="docutils literal notranslate"><span class="pre">FragileBitRefinement.run()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType"><code class="docutils literal notranslate"><span class="pre">FragileType</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.cartesian"><code class="docutils literal notranslate"><span class="pre">FragileType.cartesian</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType.polar"><code class="docutils literal notranslate"><span class="pre">FragileType.polar</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-iris.nodes.iris_response_refinement">Module contents</a></li>
@@ -443,7 +465,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

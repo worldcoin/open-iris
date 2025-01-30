@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.io.dataclasses - iris v1.1.1</title>
+        <title>iris.io.dataclasses - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -182,7 +182,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +206,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -702,6 +702,32 @@
         <span class="k">return</span> <span class="n">Offgaze</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="Sharpness"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness">[docs]</a><span class="k">class</span> <span class="nc">Sharpness</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for Sharpness score.&quot;&quot;&quot;</span>
+
+    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Sharpness.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize Sharpness object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Serialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
+
+<div class="viewcode-block" id="Sharpness.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sharpness</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize Sharpness object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (float): Serialized object to float.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Sharpness: Deserialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Sharpness</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
 <div class="viewcode-block" id="PupilToIrisProperty"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty">[docs]</a><span class="k">class</span> <span class="nc">PupilToIrisProperty</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for pupil-ro-iris ratios.&quot;&quot;&quot;</span>
 
@@ -1027,7 +1053,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>

@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.geometry_estimation package" href="iris.nodes.geometry_estimation.html" /><link rel="prev" title="iris.nodes.encoder package" href="iris.nodes.encoder.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.nodes.eye_properties_estimation package - iris v1.1.1</title>
+        <title>iris.nodes.eye_properties_estimation package - iris v1.2.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -183,7 +183,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.1.1</div></a>
+      <a href="../index.html"><div class="brand">iris v1.2.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -207,7 +207,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.1.1</span>
+  <span class="sidebar-brand-text">iris v1.2.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -729,6 +729,55 @@ min_iris_diameter (float): threshold of iris diameter, below which the iris is t
 </dd></dl>
 
 </section>
+<section id="module-iris.nodes.eye_properties_estimation.sharpness_estimation">
+<span id="iris-nodes-eye-properties-estimation-sharpness-estimation-module"></span><h2>iris.nodes.eye_properties_estimation.sharpness_estimation module<a class="headerlink" href="#module-iris.nodes.eye_properties_estimation.sharpness_estimation" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.eye_properties_estimation.sharpness_estimation.</span></span><span class="sig-name descname"><span class="pre">SharpnessEstimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lap_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">erosion_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(29,</span> <span class="pre">15)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/sharpness_estimation.html#SharpnessEstimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Calculate sharpness of the normalized iris.</p>
+<p>The goal of this algorithm is to calculate the sharpness of the normalized iris using the variance of Laplacian.</p>
+<p>LIMITATIONS:</p>
+<p>This method may be biased against dark images with inadequate lighting.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lap_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedIntValue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">erosion_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ConstrainedIntValue</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ConstrainedIntValue</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/sharpness_estimation.html#SharpnessEstimation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Parameters class for SharpnessEstimation objects.</p>
+<p>lap_ksize (int): Laplacian kernel size, must be odd integer no larger than 31.
+erosion_ksize (Tuple[int, int]): Mask erosion kernel size, must be odd integers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.erosion_ksize">
+<span class="sig-name descname"><span class="pre">erosion_ksize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.erosion_ksize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.lap_ksize">
+<span class="sig-name descname"><span class="pre">lap_ksize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.lap_ksize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normalization_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NormalizedIris" title="iris.io.dataclasses.NormalizedIris"><span class="pre">NormalizedIris</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness"><span class="pre">Sharpness</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/sharpness_estimation.html#SharpnessEstimation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate sharpness of the normalized iris.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>normalization_output</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.NormalizedIris" title="iris.io.dataclasses.NormalizedIris"><em>NormalizedIris</em></a>) – Normalized iris.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sharpness object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness" title="iris.io.dataclasses.Sharpness">Sharpness</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-iris.nodes.eye_properties_estimation">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.eye_properties_estimation" title="Permalink to this heading">¶</a></h2>
 </section>
@@ -868,6 +917,18 @@ min_iris_diameter (float): threshold of iris diameter, below which the iris is t
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-iris.nodes.eye_properties_estimation.sharpness_estimation">iris.nodes.eye_properties_estimation.sharpness_estimation module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimation</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimation.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.erosion_ksize"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimation.Parameters.erosion_ksize</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters.lap_ksize"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimation.Parameters.lap_ksize</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.run"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimation.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-iris.nodes.eye_properties_estimation">Module contents</a></li>
 </ul>
 </li>
@@ -880,7 +941,7 @@ min_iris_diameter (float): threshold of iris diameter, below which the iris is t
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7a812f30"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4c8675c2"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
