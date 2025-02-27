@@ -2,12 +2,12 @@ from typing import Collection, List, Tuple
 
 import cv2
 import numpy as np
-from pydantic import Field, validator
+from pydantic import PositiveInt, validator
 
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import (
+from iris.nodes.normalization.utils import (
     correct_orientation,
     generate_iris_mask,
     get_pixel_or_default,
@@ -29,11 +29,11 @@ class PerspectiveNormalization(Algorithm):
     class Parameters(Algorithm.Parameters):
         """Parameters class for PerspectiveNormalization."""
 
-        res_in_phi: int = Field(..., gt=0)
-        res_in_r: int = Field(..., gt=0)
-        skip_boundary_points: int = Field(..., gt=0)
+        res_in_phi: PositiveInt
+        res_in_r: PositiveInt
+        skip_boundary_points: PositiveInt
         intermediate_radiuses: Collection[float]
-        oversat_threshold: int = Field(..., gt=0)
+        oversat_threshold: PositiveInt
 
         @validator("intermediate_radiuses")
         def check_intermediate_radiuses(cls: type, v: Collection[float]) -> Collection[float]:
@@ -62,22 +62,22 @@ class PerspectiveNormalization(Algorithm):
 
     def __init__(
         self,
-        res_in_phi: int = 1024,
-        res_in_r: int = 128,
-        skip_boundary_points: int = 10,
+        res_in_phi: PositiveInt = 1024,
+        res_in_r: PositiveInt = 128,
+        skip_boundary_points: PositiveInt = 10,
         intermediate_radiuses: Collection[float] = np.linspace(0.0, 1.0, 10),
-        oversat_threshold: int = 254,
+        oversat_threshold: PositiveInt = 254,
     ) -> None:
         """Assign parameters.
 
         Args:
-            res_in_phi (int): Normalized image phi resolution. Defaults to 1024.
-            res_in_r (int): Normalized image r resolution. Defaults to 128.
-            skip_boundary_points (int, optional): Take every nth point from estimated boundaries when generating correspondences.
+            res_in_phi (PositiveInt): Normalized image phi resolution. Defaults to 1024.
+            res_in_r (PositiveInt): Normalized image r resolution. Defaults to 128.
+            skip_boundary_points (PositiveInt, optional): Take every nth point from estimated boundaries when generating correspondences.
                 Defaults to 10.
             intermediate_radiuses (t.Iterable[float], optional): Intermediate rings radiuses used to generate additional points for estimating transformations.
                 Defaults to np.linspace(0.0, 1.0, 10).
-            oversat_threshold (int, optional): threshold for masking over-satuated pixels. Defaults to 254.
+            oversat_threshold (PositiveInt, optional): threshold for masking over-satuated pixels. Defaults to 254.
         """
         super().__init__(
             res_in_phi=res_in_phi,
