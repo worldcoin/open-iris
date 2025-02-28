@@ -5,8 +5,8 @@ from typing import Any
 import numpy as np
 import pytest
 
-from iris.nodes.normalization.common import getgrids
 from iris.nodes.normalization.nonlinear_normalization import NonlinearNormalization
+from iris.nodes.normalization.utils import getgrids
 
 
 def load_mock_pickle(name: str) -> Any:
