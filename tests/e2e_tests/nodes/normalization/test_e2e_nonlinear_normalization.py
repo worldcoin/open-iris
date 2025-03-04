@@ -10,7 +10,7 @@ from iris.nodes.normalization.utils import getgrids
 
 
 def load_mock_pickle(name: str) -> Any:
-    testdir = os.path.join(os.path.dirname(__file__), "mocks", "nonlinear_normalization")
+    testdir = os.path.join(os.path.dirname(__file__), "mocks")
 
     mock_path = os.path.join(testdir, f"{name}.pickle")
 
@@ -41,7 +41,7 @@ def test_e2e_perspective_normalization_nonlinear(algorithm: NonlinearNormalizati
     eye_orientation = load_mock_pickle("eye_orientation")
     extrapolated_polygons = load_mock_pickle("extrapolated_polygons")
 
-    e2e_expected_result = load_mock_pickle("e2e_expected_result")
+    e2e_expected_result = load_mock_pickle("e2e_expected_result_nonlinear")
 
     result = algorithm(ir_image, noise_mask, extrapolated_polygons, eye_orientation)
 
