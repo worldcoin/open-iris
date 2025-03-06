@@ -1,7 +1,6 @@
 from typing import Tuple, Union
 
 import numpy as np
-from pydantic import NonNegativeInt
 
 from iris.io.dataclasses import GeometryPolygons
 from iris.utils import common
@@ -48,23 +47,6 @@ def correct_orientation(
     iris_points = np.roll(iris_points, num_rotations, axis=0)
 
     return pupil_points, iris_points
-
-
-def getgrids(res_in_r: NonNegativeInt, p2i_ratio: NonNegativeInt) -> np.ndarray:
-    """Generate radius grids for nonlinear normalization based on p2i_ratio (pupil_to_iris ratio).
-
-    Args:
-        res_in_r (NonNegativeInt): Normalized image r resolution.
-        p2i_ratio (NonNegativeInt): pupil_to_iris ratio, range in [0,100]
-
-    Returns:
-        np.ndarray: nonlinear sampling grids for normalization
-    """
-    p = [np.square(x) for x in np.arange(28, max(74 - p2i_ratio, p2i_ratio - 14), 1)]
-    q = p - p[0]
-    q = q / q[-1]
-    grids = np.interp(np.linspace(0, 1.0, res_in_r + 1), np.linspace(0, 1.0, len(q)), q)
-    return grids[0:-1] + np.diff(grids) / 2
 
 
 def get_pixel_or_default(
