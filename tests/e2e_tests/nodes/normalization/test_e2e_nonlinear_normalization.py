@@ -17,32 +17,23 @@ def load_mock_pickle(name: str) -> Any:
 
 
 @pytest.mark.parametrize(
-    "res_in_r, method",
+    "res_in_r, method, expected_grids_filename",
     [
-        (100, NonlinearType.default),
-        (100, NonlinearType.wyatt),
+        (100, NonlinearType.default, "nonlinear_grids_default"),
+        (100, NonlinearType.wyatt, "nonlinear_grids_wyatt"),
     ],
-    ids=["default", "wyatt"],
+    ids=["default_grids", "wyatt_grids"],
 )
-def test_getgrids(res_in_r, method) -> None:
+def test_getgrids(res_in_r: int, method: NonlinearType, expected_grids_filename: str) -> None:
     algorithm = NonlinearNormalization(res_in_r=res_in_r, method=method)
-    grids30, grids49, grids70 = load_mock_pickle("nonlinear_grids_default")
-    results30 = algorithm._getgrids(100, 30, NonlinearType.default)
-    results49 = algorithm._getgrids(100, 49, NonlinearType.default)
-    results70 = algorithm._getgrids(120, 70, NonlinearType.default)
+    grids30, grids49, grids70 = load_mock_pickle(expected_grids_filename)
+    results30 = algorithm._getgrids(100, 30, method)
+    results49 = algorithm._getgrids(100, 49, method)
+    results70 = algorithm._getgrids(120, 70, method)
 
     np.testing.assert_equal(results30, grids30)
     np.testing.assert_equal(results49, grids49)
     np.testing.assert_equal(results70, grids70)
-
-    grids30_wyatt, grids49_wyatt, grids70_wyatt = load_mock_pickle("nonlinear_grids_wyatt")
-    results30 = algorithm._getgrids(100, 30, NonlinearType.wyatt)
-    results49 = algorithm._getgrids(100, 49, NonlinearType.wyatt)
-    results70 = algorithm._getgrids(120, 70, NonlinearType.wyatt)
-
-    np.testing.assert_equal(results30, grids30_wyatt)
-    np.testing.assert_equal(results49, grids49_wyatt)
-    np.testing.assert_equal(results70, grids70_wyatt)
 
 
 @pytest.mark.parametrize(
@@ -53,7 +44,7 @@ def test_getgrids(res_in_r, method) -> None:
     ],
     ids=["default", "wyatt"],
 )
-def test_e2e_normalization_nonlinear(res_in_r, method, expected_filename) -> None:
+def test_e2e_normalization_nonlinear(res_in_r: int, method: NonlinearType, expected_filename: str) -> None:
     algorithm = NonlinearNormalization(res_in_r=res_in_r, method=method)
     ir_image = load_mock_pickle("ir_image")
     noise_mask = load_mock_pickle("noise_mask")

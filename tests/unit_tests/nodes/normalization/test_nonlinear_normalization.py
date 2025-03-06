@@ -48,7 +48,7 @@ def test_constructor_raises_exception(wrong_param: dict) -> None:
         "test2",
     ],
 )
-def test_generate_correspondences(res_in_r, method, expected_correspondences) -> None:
+def test_generate_correspondences(res_in_r: int, method: NonlinearType, expected_correspondences: np.array) -> None:
     algorithm = NonlinearNormalization(
         res_in_r=res_in_r,
         method=method,
