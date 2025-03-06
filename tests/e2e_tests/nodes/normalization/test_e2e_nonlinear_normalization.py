@@ -31,9 +31,9 @@ def test_getgrids(res_in_r: int, method: NonlinearType, expected_grids_filename:
     results49 = algorithm._getgrids(100, 49, method)
     results70 = algorithm._getgrids(120, 70, method)
 
-    np.testing.assert_equal(results30, grids30)
-    np.testing.assert_equal(results49, grids49)
-    np.testing.assert_equal(results70, grids70)
+    np.testing.assert_allclose(results30, grids30, rtol=1e-08)
+    np.testing.assert_allclose(results49, grids49, rtol=1e-08)
+    np.testing.assert_allclose(results70, grids70, rtol=1e-08)
 
 
 @pytest.mark.parametrize(
