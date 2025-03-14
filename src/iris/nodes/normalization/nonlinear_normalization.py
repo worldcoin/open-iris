@@ -122,13 +122,14 @@ class NonlinearNormalization(Algorithm):
             return grids[:-1] + np.diff(grids) / 2  # Return midpoint values
 
         if method == NonlinearType.wyatt:
-            P_ref = 0.44
+            P_ref = 0.9
+            c = 1.08
             P_r = P_r100 / 100
             n = res_in_r + 1
 
             i_values = np.arange(1, n)
-            cos_theta_r = (i_values * (2 * (n - 1) * P_ref + i_values * (1 - P_ref))) / (
-                (n - 1) * (1 + P_ref) * ((n - 1) * P_ref + i_values * (1 - P_ref))
+            cos_theta_r = (i_values**c * (2 * (n - 1) ** c * P_ref + i_values**c * (1 - P_ref))) / (
+                (n - 1) ** c * (1 + P_ref) * ((n - 1) ** c * P_ref + i_values**c * (1 - P_ref))
             )
 
             coefficients = np.vstack(
@@ -141,8 +142,7 @@ class NonlinearNormalization(Algorithm):
 
             roots = np.array([np.roots(coeff) for coeff in coefficients])
             delta = np.array([r[r > 0][0] if np.any(r > 0) else 0 for r in roots])  # Take only the positive root
-            weight_factors = (i_values / res_in_r) ** 1.05 / (i_values / res_in_r)
-            return delta * weight_factors
+            return delta
 
     def _generate_correspondences(
         self, pupil_points: np.ndarray, iris_points: np.ndarray, p2i_ratio: float
