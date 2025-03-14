@@ -37,7 +37,7 @@ def test_constructor_raises_exception(wrong_param: dict) -> None:
             NonlinearType.wyatt,
             np.array(
                 [
-                    [[11, 5], [2, 11], [2, 0]],
+                    [[11, 5], [2, 10], [2, 0]],
                     [[15, 5], [0, 14], [0, -4]],
                 ]
             ),
