@@ -38,9 +38,15 @@ def mock_polygons_arcs_of_circle() -> GeometryPolygons:
 @pytest.mark.parametrize(
     "p2i_property",
     [
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.3, pupil_to_iris_center_dist_ratio=0.1),
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.2, pupil_to_iris_center_dist_ratio=0.5),
-        PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.5, pupil_to_iris_center_dist_ratio=0.0),
+        PupilToIrisProperty(
+            pupil_diameter=200, iris_diameter=600, pupil_to_iris_diameter_ratio=0.3, pupil_to_iris_center_dist_ratio=0.1
+        ),
+        PupilToIrisProperty(
+            pupil_diameter=200, iris_diameter=600, pupil_to_iris_diameter_ratio=0.2, pupil_to_iris_center_dist_ratio=0.5
+        ),
+        PupilToIrisProperty(
+            pupil_diameter=200, iris_diameter=600, pupil_to_iris_diameter_ratio=0.5, pupil_to_iris_center_dist_ratio=0.0
+        ),
     ],
     ids=["simple", "edge case: left boundary", "edge case: right boundary"],
 )
@@ -60,19 +66,39 @@ def test_pupil_to_iris_property_validator(p2i_property: float) -> None:
     "p2i_property, expected_error",
     [
         (
-            PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.9, pupil_to_iris_center_dist_ratio=0.1),
+            PupilToIrisProperty(
+                pupil_diameter=200,
+                iris_diameter=600,
+                pupil_to_iris_diameter_ratio=0.9,
+                pupil_to_iris_center_dist_ratio=0.1,
+            ),
             E.Pupil2IrisValidatorErrorDilation,
         ),
         (
-            PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.19, pupil_to_iris_center_dist_ratio=0.1),
+            PupilToIrisProperty(
+                pupil_diameter=200,
+                iris_diameter=600,
+                pupil_to_iris_diameter_ratio=0.19,
+                pupil_to_iris_center_dist_ratio=0.1,
+            ),
             E.Pupil2IrisValidatorErrorConstriction,
         ),
         (
-            PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.51, pupil_to_iris_center_dist_ratio=0.1),
+            PupilToIrisProperty(
+                pupil_diameter=200,
+                iris_diameter=600,
+                pupil_to_iris_diameter_ratio=0.51,
+                pupil_to_iris_center_dist_ratio=0.1,
+            ),
             E.Pupil2IrisValidatorErrorDilation,
         ),
         (
-            PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.2, pupil_to_iris_center_dist_ratio=0.8),
+            PupilToIrisProperty(
+                pupil_diameter=200,
+                iris_diameter=600,
+                pupil_to_iris_diameter_ratio=0.2,
+                pupil_to_iris_center_dist_ratio=0.8,
+            ),
             E.Pupil2IrisValidatorErrorOffcenter,
         ),
     ],

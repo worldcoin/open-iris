@@ -431,6 +431,8 @@ class Sharpness(ImmutableModel):
 class PupilToIrisProperty(ImmutableModel):
     """Data holder for pupil-ro-iris ratios."""
 
+    pupil_diameter: float = Field(..., gt=0)
+    iris_diameter: float = Field(..., gt=0)
     pupil_to_iris_diameter_ratio: float = Field(..., gt=0, lt=1)
     pupil_to_iris_center_dist_ratio: float = Field(..., ge=0, lt=1)
 

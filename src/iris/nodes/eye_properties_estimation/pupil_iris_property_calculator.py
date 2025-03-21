@@ -73,6 +73,8 @@ class PupilIrisPropertyCalculator(Algorithm):
             raise PupilIrisPropertyEstimationError("Pupil center is outside iris!")
 
         return PupilToIrisProperty(
+            pupil_diameter=pupil_diameter,
+            iris_diameter=iris_diameter,
             pupil_to_iris_diameter_ratio=pupil_diameter / iris_diameter,
             pupil_to_iris_center_dist_ratio=eye_centers.center_distance * 2 / iris_diameter,
         )
