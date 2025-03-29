@@ -99,6 +99,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         model_path: str,
         input_num_channels: Literal[1, 3] = 3,
         callbacks: List[Callback] = [],
+        segmap_output_tensor_name: str = "output",  # based on polygraphy result of "polygraphy inspect model ..." command
     ) -> None:
         """Assign parameters.
 
@@ -109,7 +110,17 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         """
         self.engine = self._load_engine(model_path)
 
-        segmap_output_shape = self.engine.get_binding_shape(1)
+        if TRT_V10_3:
+            # Verify required output tentsor name exist and get shape
+            try:
+                self.segmap_output_tensor_name = segmap_output_tensor_name
+                segmap_output_shape = self.engine.get_tensor_shape(self.segmap_output_tensor_name)
+            except Exception as e:  # Catch broader errors during tensor lookup
+                raise ValueError(
+                    f"Could not find/access expected segmap output tensor in the engine. Original error: {e}"
+                )
+        else:
+            segmap_output_shape = self.engine.get_binding_shape(1)
         inputs, outputs, bindings, stream = self._allocate_buffers(self.engine)
         context = self.engine.create_execution_context()
         pagelocked_buffer = inputs[0].host
