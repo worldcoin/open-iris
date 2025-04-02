@@ -100,6 +100,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         input_num_channels: Literal[1, 3] = 3,
         callbacks: List[Callback] = [],
         segmap_output_tensor_name: str = "output",  # based on polygraphy result of "polygraphy inspect model ..." command
+        segmap_input_tensor_name: str = "input",  # based on polygraphy result of "polygraphy inspect model ..." command
     ) -> None:
         """Assign parameters.
 
@@ -109,6 +110,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
         self.engine = self._load_engine(model_path)
+        self.segmap_input_tensor_name = segmap_input_tensor_name
 
         if TRT_V10_3:
             # Verify required output tentsor name exist and get shape
@@ -170,7 +172,10 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         Returns:
             np.ndarray: Preprocessed image.
         """
-        input_height, input_width = self.params.engine.get_binding_shape(0)[2:4]
+        if TRT_V10_3:
+            input_height, input_width = self.params.engine.get_tensor_shape(self.segmap_input_tensor_name)[2:4]
+        else:
+            input_height, input_width = self.params.engine.get_binding_shape(0)[2:4]
 
         nn_input = self.preprocess(image, (input_width, input_height), self.params.input_num_channels)
 
@@ -281,6 +286,10 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
                 inputs.append(HostDeviceMem(host_mem, device_mem))
             else:
                 outputs.append((tensor_name, HostDeviceMem(host_mem, device_mem)))
+
+        # On TensorRT v10.x the outputs is a list of tuples, we extract second element of the tuple
+        # which is the host and device information.
+        outputs = [o[1] for o in outputs]
 
         return inputs, outputs, bindings, stream
 
