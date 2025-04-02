@@ -1,7 +1,7 @@
 import abc
 from copy import deepcopy
-from typing import Any, List
 from functools import cached_property
+from typing import Any, List
 
 import pydantic
 from pydantic import Extra

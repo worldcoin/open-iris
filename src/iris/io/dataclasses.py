@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Literal, Tuple, Union
 from functools import cached_property
+from typing import Any, Dict, List, Literal, Tuple, Union
 
 import numpy as np
 from pydantic import Field, NonNegativeInt, root_validator, validator
