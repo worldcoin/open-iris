@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>iris.pipelines.iris_pipeline - iris v1.2.0</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>iris.pipelines.iris_pipeline - iris v1.3.0</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     
     
 
@@ -91,19 +91,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -144,7 +131,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -182,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.2.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.3.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -206,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.2.0</span>
+  <span class="sidebar-brand-text">iris v1.3.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -298,33 +285,33 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.pipelines.iris_pipeline</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pydoc</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydoc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">validator</span>
 
-<span class="kn">import</span> <span class="nn">iris</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">import</span> <span class="nn">iris.nodes.validators.cross_object_validators</span>
-<span class="kn">import</span> <span class="nn">iris.nodes.validators.object_validators</span>
-<span class="kn">from</span> <span class="nn">iris.callbacks.pipeline_trace</span> <span class="kn">import</span> <span class="n">NodeResultsWriter</span><span class="p">,</span> <span class="n">PipelineCallTraceStorage</span><span class="p">,</span> <span class="n">PipelineCallTraceStorageError</span>
-<span class="kn">from</span> <span class="nn">iris.io.class_configs</span> <span class="kn">import</span> <span class="n">Algorithm</span>
-<span class="kn">from</span> <span class="nn">iris.io.dataclasses</span> <span class="kn">import</span> <span class="n">IRImage</span>
-<span class="kn">from</span> <span class="nn">iris.io.errors</span> <span class="kn">import</span> <span class="n">IRISPipelineError</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.error_managers</span> <span class="kn">import</span> <span class="n">store_error_manager</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.output_builders</span> <span class="kn">import</span> <span class="n">build_orb_output</span><span class="p">,</span> <span class="n">build_simple_debugging_output</span><span class="p">,</span> <span class="n">build_simple_orb_output</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.pipeline_dataclasses</span> <span class="kn">import</span> <span class="n">PipelineClass</span><span class="p">,</span> <span class="n">PipelineMetadata</span><span class="p">,</span> <span class="n">PipelineNode</span>
-<span class="kn">from</span> <span class="nn">iris.orchestration.validators</span> <span class="kn">import</span> <span class="n">pipeline_config_duplicate_node_name_check</span>
-<span class="kn">from</span> <span class="nn">iris.utils.base64_encoding</span> <span class="kn">import</span> <span class="n">base64_decode_str</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">iris</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">iris.nodes.validators.cross_object_validators</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">iris.nodes.validators.object_validators</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.callbacks.pipeline_trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">NodeResultsWriter</span><span class="p">,</span> <span class="n">PipelineCallTraceStorage</span><span class="p">,</span> <span class="n">PipelineCallTraceStorageError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.class_configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Algorithm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">IRImage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">IRISPipelineError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.error_managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">store_error_manager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.output_builders</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_orb_output</span><span class="p">,</span> <span class="n">build_simple_debugging_output</span><span class="p">,</span> <span class="n">build_simple_orb_output</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.pipeline_dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineClass</span><span class="p">,</span> <span class="n">PipelineMetadata</span><span class="p">,</span> <span class="n">PipelineNode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline_config_duplicate_node_name_check</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.base64_encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base64_decode_str</span>
 
 
-<div class="viewcode-block" id="IRISPipeline"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline">[docs]</a><span class="k">class</span> <span class="nc">IRISPipeline</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="IRISPipeline"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IRISPipeline</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a fully configurable iris recognition pipeline.&quot;&quot;&quot;</span>
 
     <span class="n">DEBUGGING_ENVIRONMENT</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
@@ -349,7 +336,7 @@
         <span class="n">call_trace_initialiser</span><span class="o">=</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">initialise</span><span class="p">,</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="IRISPipeline.Parameters"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.Parameters">[docs]</a>    <span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="IRISPipeline.Parameters"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.Parameters">[docs]</a>    <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;IRISPipeline parameters, all derived from the input `config`.&quot;&quot;&quot;</span>
 
         <span class="n">metadata</span><span class="p">:</span> <span class="n">PipelineMetadata</span>
@@ -361,7 +348,7 @@
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
@@ -378,13 +365,29 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">deserialized_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">config</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">deserialized_config</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pipeline_coherency</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pipeline_coherency</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanciate_nodes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">call_trace_initialiser</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">pipeline_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
 
-<div class="viewcode-block" id="IRISPipeline.estimate"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.estimate">[docs]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_side</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="IRISPipeline.update_config"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.update_config">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the pipeline configuration based on the provided base64-encoded string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (str): Base64-encoded string of the new configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">decoded_config_str</span> <span class="o">=</span> <span class="n">base64_decode_str</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">config_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span><span class="n">decoded_config_str</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parameters_type__</span><span class="p">(</span><span class="o">**</span><span class="n">config_dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pipeline_coherency</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanciate_nodes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">call_trace_initialiser</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">pipeline_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IRISPipeline.estimate"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.estimate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_side</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap the `run` method to match the Orb system AI models call interface.</span>
 
 <span class="sd">        Args:</span>
@@ -396,7 +399,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_data</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="n">eye_side</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IRISPipeline.run"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_side</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="IRISPipeline.run"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_side</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate template.</span>
 
 <span class="sd">        Args:</span>
@@ -443,7 +446,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">pipeline_output_builder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_init_pipeline_tracing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PipelineCallTraceStorage</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_init_pipeline_tracing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PipelineCallTraceStorage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instantiate mechanisms for intermediate results tracing.</span>
 
 <span class="sd">        Returns:</span>
@@ -456,7 +459,7 @@
 
         <span class="k">return</span> <span class="n">call_trace</span>
 
-<div class="viewcode-block" id="IRISPipeline.instanciate_nodes"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">instanciate_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">]:</span>
+<div class="viewcode-block" id="IRISPipeline.instanciate_nodes"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_nodes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">instanciate_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a list of PipelineNode, return the associated instanciated nodes.</span>
 
 <span class="sd">        NOTE: All nodes of type listed in self.env.disabled_qa will be filtered out. This allows one config file to be used in various QA standards levels.</span>
@@ -476,7 +479,7 @@
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">node_name</span><span class="p">:</span> <span class="n">node</span> <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">disabled_qa</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">nodes</span></div>
 
-<div class="viewcode-block" id="IRISPipeline.instanciate_pipeline"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">instanciate_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]:</span>
+<div class="viewcode-block" id="IRISPipeline.instanciate_pipeline"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_pipeline">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">instanciate_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a list of PipelineNodes, crawl the parameters and instanciate the PipelineClass available.</span>
 
 <span class="sd">        Returns:</span>
@@ -499,7 +502,7 @@
             <span class="n">instanciated_pipeline</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">instanciated_pipeline</span></div>
 
-<div class="viewcode-block" id="IRISPipeline.instanciate_node"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_node">[docs]</a>    <span class="k">def</span> <span class="nf">instanciate_node</span><span class="p">(</span>
+<div class="viewcode-block" id="IRISPipeline.instanciate_node"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_node">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">instanciate_node</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">node_class</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">algorithm_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PipelineClass</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Algorithm</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instanciate an Algorithm from its class, kwargs and optional Callbacks.</span>
@@ -522,7 +525,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanciate_class</span><span class="p">(</span><span class="n">node_class</span><span class="p">,</span> <span class="n">algorithm_params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IRISPipeline.instanciate_class"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_class">[docs]</a>    <span class="k">def</span> <span class="nf">instanciate_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="IRISPipeline.instanciate_class"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.instanciate_class">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">instanciate_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instanciate a class from its string definition and its kwargs.</span>
 
 <span class="sd">        This function relies on pydoc.locate, a safe way to instanciate a class from its string definition, which itself relies on pydoc.safe_import.</span>
@@ -544,14 +547,17 @@
 
         <span class="k">return</span> <span class="n">object_class</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_check_pipeline_coherency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_pipeline_coherency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the pipeline configuration coherency.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (Parameters): Pipeline parameters.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            IRISPipelineError: Raised if a node&#39;s inputs are not declared beforehands</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parent_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">INPUT_KEY_NAME</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">input_node</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
                     <span class="k">for</span> <span class="n">input_element</span> <span class="ow">in</span> <span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span><span class="p">:</span>
@@ -569,7 +575,7 @@
             <span class="n">parent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="IRISPipeline.load_config"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.load_config">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the input configuration string into a dictionary for deserialisation. If no config is given, load the default config.</span>
 
 <span class="sd">        Args:</span>
@@ -599,7 +605,7 @@
         <span class="k">return</span> <span class="n">deserialized_config</span></div>
 
 <div class="viewcode-block" id="IRISPipeline.load_from_config"><a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.load_from_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load_from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">IRISPipeline</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">IRISPipeline</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given an iris config string in base64, initialise an IRISPipeline with config this config.</span>
 
 <span class="sd">        Args:</span>
@@ -654,9 +660,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=4c8675c2"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3d533f9b"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>
