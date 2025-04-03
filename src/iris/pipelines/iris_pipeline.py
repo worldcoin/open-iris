@@ -91,7 +91,8 @@ class IRISPipeline(Algorithm):
             config (str): Base64-encoded string of the new configuration.
         """
         decoded_config_str = base64_decode_str(config)
-        self.params = self.__parameters_type__(**self.load_config(decoded_config_str))
+        config_dict = self.load_config(decoded_config_str)
+        self.params = self.__parameters_type__(**config_dict)
         self._check_pipeline_coherency()
 
         self.nodes = self.instanciate_nodes()
