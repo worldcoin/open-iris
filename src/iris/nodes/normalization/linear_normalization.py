@@ -4,7 +4,7 @@ from pydantic import PositiveInt
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeOrientation, GeometryPolygons, IRImage, NoiseMask, NormalizedIris
 from iris.io.errors import NormalizationError
-from iris.nodes.normalization.common import correct_orientation, generate_iris_mask, normalize_all, to_uint8
+from iris.nodes.normalization.utils import correct_orientation, generate_iris_mask, normalize_all, to_uint8
 
 
 class LinearNormalization(Algorithm):

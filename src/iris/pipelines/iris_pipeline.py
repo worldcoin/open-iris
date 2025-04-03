@@ -78,9 +78,25 @@ class IRISPipeline(Algorithm):
         """
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(**deserialized_config)
-        self._check_pipeline_coherency()
+        self._check_pipeline_coherency(self.params)
 
         self.env = env
+        self.nodes = self.instanciate_nodes()
+        self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
+
+    def update_config(self, config: str) -> None:
+        """Update the pipeline configuration based on the provided base64-encoded string.
+
+        Args:
+            config (str): Base64-encoded string of the new configuration.
+        """
+        decoded_config_str = base64_decode_str(config)
+        config_dict = self.load_config(decoded_config_str)
+
+        params = self.__parameters_type__(**config_dict)
+        self._check_pipeline_coherency(params)
+        self.params = params
+
         self.nodes = self.instanciate_nodes()
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
 
@@ -244,14 +260,17 @@ class IRISPipeline(Algorithm):
 
         return object_class(**kwargs)
 
-    def _check_pipeline_coherency(self) -> None:
+    def _check_pipeline_coherency(self, params: Parameters) -> None:
         """Check the pipeline configuration coherency.
+
+        Args:
+            params (Parameters): Pipeline parameters.
 
         Raises:
             IRISPipelineError: Raised if a node's inputs are not declared beforehands
         """
         parent_names = [PipelineCallTraceStorage.INPUT_KEY_NAME]
-        for node in self.params.pipeline:
+        for node in params.pipeline:
             for input_node in node.inputs:
                 if isinstance(input_node.source_node, (tuple, list)):
                     for input_element in input_node.source_node:

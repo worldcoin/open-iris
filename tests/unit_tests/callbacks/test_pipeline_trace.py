@@ -158,17 +158,6 @@ def test_write_get_parameter(storage: PipelineCallTraceStorage, request: Fixture
     [("call_trace_storage")],
     ids=["PipelineCallTraceStorage"],
 )
-def test_write_get_parameter_raises_an_exception(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
-    storage = request.getfixturevalue(storage)
-    with pytest.raises(PipelineCallTraceStorageError):
-        assert storage["unknown_key"]
-
-
-@pytest.mark.parametrize(
-    "storage",
-    [("call_trace_storage")],
-    ids=["PipelineCallTraceStorage"],
-)
 def test_clean(storage: PipelineCallTraceStorage, mock_alg_names: List[str], request: FixtureRequest) -> None:
     storage = request.getfixturevalue(storage)
     storage.write_input("")

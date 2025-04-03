@@ -1,5 +1,6 @@
 import abc
 from copy import deepcopy
+from functools import cached_property
 from typing import Any, List
 
 import pydantic
@@ -19,6 +20,7 @@ class ImmutableModel(pydantic.BaseModel):
         validate_all = True
         smart_union = True
         extra = Extra.forbid
+        keep_untouched = (cached_property,)
 
     def serialize(self) -> Any:
         """Serialize the object. By defaults, this method raises a RuntimeError to notify the user that the method wasn't implemented.

@@ -3,7 +3,7 @@ from typing import Tuple
 import numpy as np
 import pytest
 
-from iris.nodes.normalization.common import correct_orientation, interpolate_pixel_intensity, to_uint8
+from iris.nodes.normalization.utils import correct_orientation, interpolate_pixel_intensity, to_uint8
 from tests.unit_tests.utils import generate_arc
 
 
