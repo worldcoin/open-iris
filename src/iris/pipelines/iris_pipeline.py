@@ -84,6 +84,19 @@ class IRISPipeline(Algorithm):
         self.nodes = self.instanciate_nodes()
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
 
+    def update_config(self, config: str) -> None:
+        """Update the pipeline configuration based on the provided base64-encoded string.
+
+        Args:
+            config (str): Base64-encoded string of the new configuration.
+        """
+        decoded_config_str = base64_decode_str(config)
+        self.params = self.__parameters_type__(**self.load_config(decoded_config_str))
+        self._check_pipeline_coherency()
+
+        self.nodes = self.instanciate_nodes()
+        self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
+
     def estimate(self, img_data: np.ndarray, eye_side: Literal["left", "right"]) -> Any:
         """Wrap the `run` method to match the Orb system AI models call interface.
 
