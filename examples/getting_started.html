@@ -5,11 +5,11 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Configuring custom pipeline tutorial" href="custom_pipeline.html" /><link rel="prev" title="Running inference" href="../quickstart/running_inference.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
-        <title>Getting started tutorial - iris v1.2.0</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=387cc868" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>Getting started tutorial - iris v1.3.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
     
     
 
@@ -92,19 +92,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -145,7 +132,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -183,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.2.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.3.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -207,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.2.0</span>
+  <span class="sidebar-brand-text">iris v1.3.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -315,12 +302,12 @@
 <section id="running-the-irispipeline-inference">
 <h2>1. Running the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> inference<a class="headerlink" href="#running-the-irispipeline-inference" title="Permalink to this heading">¶</a></h2>
 <p>Load IR image with <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code> package.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
 <span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./sample_ir_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">iris</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">iris</span>
 <span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -356,7 +343,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <section id="configuring-irispipeline-environment">
 <h2>1. Configuring <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> environment<a class="headerlink" href="#configuring-irispipeline-environment" title="Permalink to this heading">¶</a></h2>
 <p>Before diving deeper into how exactly one can modify error handling or return behaviour let’s first investigate what are <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> instantiation parameters. The <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>’s <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method presents as follow.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
@@ -373,7 +360,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <li><p><code class="docutils literal notranslate"><span class="pre">env:</span> <span class="pre">Environment</span></code> - refers to <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> environment that manages error handling and return behaviour of the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>.</p></li>
 </ol>
 <p>From that we can see that in order to modify error handling or return behaviour we have to introduce our own <code class="docutils literal notranslate"><span class="pre">Environment</span></code> object when creating the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object. The <code class="docutils literal notranslate"><span class="pre">Environment</span></code> object is defined as follow.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Environment</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
     <span class="n">call_trace_initialiser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]],</span> <span class="n">PipelineCallTraceStorage</span><span class="p">]</span>
     <span class="n">pipeline_output_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">PipelineCallTraceStorage</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
     <span class="n">error_manager</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">PipelineCallTraceStorage</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
@@ -425,7 +412,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <p>Having that done, we can use it’s method by either providing <code class="docutils literal notranslate"><span class="pre">iris</span></code> package specific dataclasses or their serialized versions.</p>
 <p><em>NOTE</em>: Available by default <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>’s <code class="docutils literal notranslate"><span class="pre">Environment</span></code> return serialized version of <code class="docutils literal notranslate"><span class="pre">iris</span></code> dataclasses objects. That behaviour can be changed by creating and specifying as the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> parameter your own custom <code class="docutils literal notranslate"><span class="pre">Environment</span></code> class object (see Section 2 for more details how to do that).</p>
 <p>Below you can find a bunch of exemplary <code class="docutils literal notranslate"><span class="pre">iris_visualizer</span></code> plotting methods calls.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="n">canvas</span> <span class="o">=</span> <span class="n">iris_visualizer</span><span class="o">.</span><span class="n">plot_ir_image</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -509,9 +496,9 @@ There are several methods that wraps <code class="docutils literal notranslate">
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4c8675c2"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3d533f9b"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>
