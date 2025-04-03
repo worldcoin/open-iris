@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import cached_property
 from typing import Any, Dict, List, Literal, Tuple, Union
 
 import numpy as np
@@ -264,7 +265,7 @@ class GeometryPolygons(ImmutableModel):
     _is_list_of_points = validator("*", allow_reuse=True)(v.is_list_of_points)
     _convert_dtype = validator("*", allow_reuse=True)(v.to_dtype_float32)
 
-    @property
+    @cached_property
     def pupil_diameter(self) -> float:
         """Return pupil diameter.
 
@@ -273,7 +274,7 @@ class GeometryPolygons(ImmutableModel):
         """
         return estimate_diameter(self.pupil_array)
 
-    @property
+    @cached_property
     def iris_diameter(self) -> float:
         """Return iris diameter.
 

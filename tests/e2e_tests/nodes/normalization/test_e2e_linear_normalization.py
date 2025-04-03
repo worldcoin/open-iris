@@ -4,6 +4,7 @@ from typing import Any
 
 import numpy as np
 import pytest
+
 from iris.nodes.normalization.linear_normalization import LinearNormalization
 
 
