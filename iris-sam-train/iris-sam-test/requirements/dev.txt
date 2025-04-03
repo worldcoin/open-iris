@@ -1,0 +1,13 @@
+black
+coverage
+furo
+isort
+jupyterlab
+nb-clean
+pre-commit
+pydocstyle[toml]
+pytest
+python-dotenv
+ruff
+sphinx
+twine
