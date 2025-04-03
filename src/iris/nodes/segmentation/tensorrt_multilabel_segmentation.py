@@ -14,6 +14,8 @@ from iris.callbacks.callback_interface import Callback
 from iris.io.dataclasses import IRImage, SegmentationMap
 from iris.nodes.segmentation.multilabel_segmentation_interface import MultilabelSemanticSegmentationInterface
 
+TRT_V10_3 = "10.3" in trt.__version__
+
 
 class HostDeviceMem:
     """Class representing host memory."""
@@ -56,6 +58,8 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
         engine: trt.tensorrt.ICudaEngine
         input_num_channels: Literal[1, 3]
+        segmap_input_tensor_name: str
+        segmap_output_tensor_name: str
         segmap_output_shape: trt.tensorrt.Dims
         inputs: List[HostDeviceMem]
         outputs: List[HostDeviceMem]
@@ -79,6 +83,8 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.engine".
             input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
+            segmap_input_tensor_name: str , Name of segmap input tensor name. Defaults to "input".
+            segmap_output_tensor_name: str, Name of segmap output tensor name. Defaults to "output".
 
         Returns:
             TensorRTMultilabelSegmentation: TensorRTMultilabelSegmentation object.
@@ -97,6 +103,8 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         model_path: str,
         input_num_channels: Literal[1, 3] = 3,
         callbacks: List[Callback] = [],
+        segmap_input_tensor_name: str = "input",  # based on polygraphy result of "polygraphy inspect model ..." command
+        segmap_output_tensor_name: str = "output",  # based on polygraphy result of "polygraphy inspect model ..." command
     ) -> None:
         """Assign parameters.
 
@@ -107,7 +115,16 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         """
         engine = self._load_engine(model_path)
 
-        segmap_output_shape = engine.get_binding_shape(1)
+        if TRT_V10_3:
+            # Verify required output tentsor name exist and get shape
+            try:
+                segmap_output_shape = engine.get_tensor_shape(segmap_output_tensor_name)
+            except Exception as e:  # Catch broader errors during tensor lookup
+                raise ValueError(
+                    f"Could not find/access expected segmap output tensor in the engine. Original error: {e}"
+                )
+        else:
+            segmap_output_shape = engine.get_binding_shape(1)
         inputs, outputs, bindings, stream = self._allocate_buffers(engine)
         context = engine.create_execution_context()
         pagelocked_buffer = inputs[0].host
@@ -115,6 +132,8 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         super().__init__(
             engine=engine,
             input_num_channels=input_num_channels,
+            segmap_input_tensor_name=segmap_input_tensor_name,
+            segmap_output_tensor_name=segmap_output_tensor_name,
             segmap_output_shape=segmap_output_shape,
             inputs=inputs,
             outputs=outputs,
@@ -157,7 +176,10 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         Returns:
             np.ndarray: Preprocessed image.
         """
-        input_height, input_width = self.params.engine.get_binding_shape(0)[2:4]
+        if TRT_V10_3:
+            input_height, input_width = self.params.engine.get_tensor_shape(self.params.segmap_input_tensor_name)[2:4]
+        else:
+            input_height, input_width = self.params.engine.get_binding_shape(0)[2:4]
 
         nn_input = self.preprocess(image, (input_width, input_height), self.params.input_num_channels)
 
@@ -205,6 +227,9 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         return engine
 
     def _allocate_buffers(self, engine: trt.tensorrt.ICudaEngine) -> Tuple[list, list, list, pycuda._driver.Stream]:
+        return self._allocate_buffers_v10(engine) if TRT_V10_3 else self._allocate_buffers_v8(engine)
+
+    def _allocate_buffers_v8(self, engine: trt.tensorrt.ICudaEngine) -> Tuple[list, list, list, pycuda._driver.Stream]:
         """Allocates all buffers needed to perform inference.
 
         Args:
@@ -238,6 +263,37 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
         return inputs, outputs, bindings, stream
 
+    def _allocate_buffers_v10(self, engine: trt.tensorrt.ICudaEngine) -> Tuple[list, list, list, pycuda._driver.Stream]:
+        inputs = []
+        outputs = []
+        bindings = []
+        stream = cuda.Stream()
+
+        for i in range(engine.num_io_tensors):
+            tensor_name = engine.get_tensor_name(i)
+            size = trt.volume(engine.get_tensor_shape(tensor_name))
+            engine_dtype = engine.get_tensor_dtype(tensor_name)
+            dtype = trt.nptype(engine_dtype)
+
+            # Allocate host and device buffers
+            host_mem = cuda.pagelocked_empty(size, dtype)
+            device_mem = cuda.mem_alloc(host_mem.nbytes)
+
+            # Append the device buffer to device bindings.
+            bindings.append(int(device_mem))
+
+            # Append to the appropriate list.
+            if engine.get_tensor_mode(tensor_name) == trt.TensorIOMode.INPUT:
+                inputs.append(HostDeviceMem(host_mem, device_mem))
+            else:
+                outputs.append((tensor_name, HostDeviceMem(host_mem, device_mem)))
+
+        # On TensorRT v10.x the outputs is a list of tuples, we extract second element of the tuple
+        # which is the host and device information.
+        outputs = [o[1] for o in outputs]
+
+        return inputs, outputs, bindings, stream
+
     def _run_engine(
         self,
         context: trt.tensorrt.IExecutionContext,
@@ -262,7 +318,12 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         [cuda.memcpy_htod_async(inp.device, inp.host, stream) for inp in inputs]
 
         # Run inference
-        context.execute_async_v2(bindings=bindings, stream_handle=stream.handle)
+        if TRT_V10_3:
+            for i in range(len(bindings)):
+                context.set_tensor_address(self.params.engine.get_tensor_name(i), bindings[i])
+            context.execute_async_v3(stream_handle=stream.handle)
+        else:
+            context.execute_async_v2(bindings=bindings, stream_handle=stream.handle)
 
         # Transfer predictions back from GPU
         [cuda.memcpy_dtoh_async(out.host, out.device, stream) for out in outputs]
