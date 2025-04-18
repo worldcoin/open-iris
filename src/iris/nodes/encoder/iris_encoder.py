@@ -26,11 +26,11 @@ class IrisEncoder(Algorithm):
 
     __parameters_type__ = Parameters
 
-    def __init__(self, mask_threshold: float = 0.9, callbacks: List[Callback] = []) -> None:
+    def __init__(self, mask_threshold: float = 0.93, callbacks: List[Callback] = []) -> None:
         """Assign parameters.
 
         Args:
-            mask_threshold (float): threshold to binarize mask_responses, in the range of [0,1]. Defaults to 0.9.
+            mask_threshold (float): threshold to binarize mask_responses, in the range of [0,1]. Defaults to 0.93.
             callbacks (List[Callback]): callbacks list. Defaults to [].
         """
         super().__init__(mask_threshold=mask_threshold, callbacks=callbacks)
@@ -48,7 +48,6 @@ class IrisEncoder(Algorithm):
         mask_codes: List[np.ndarray] = []
 
         for iris_response, mask_response in zip(response.iris_responses, response.mask_responses):
-
             iris_code = np.stack([iris_response.real > 0, iris_response.imag > 0], axis=-1)
             mask_code = np.stack(
                 [mask_response.real >= self.params.mask_threshold, mask_response.imag >= self.params.mask_threshold],

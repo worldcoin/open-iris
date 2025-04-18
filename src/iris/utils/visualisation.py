@@ -389,7 +389,7 @@ class IRISVisualizer:
         iris_filter_response: Union[iris_dc.IrisFilterResponse, Dict[str, List[np.ndarray]]],
         space: Literal["cartesian", "polar"] = "cartesian",
         plot_mask: bool = True,
-        mask_threshold: float = 0.9,
+        mask_threshold: float = 0.93,
         vlim: float = 1e-3,
         ax: Optional[matplotlib.axes._axes.Axes] = None,
     ) -> Canvas:
@@ -399,7 +399,7 @@ class IRISVisualizer:
             iris_filter_response (Union[iris_dc.IrisFilterResponse, Dict[str, List[np.ndarray]]]): iris filter response to visualise.
             space (Literal["cartesian", "polar"], optional): Wether to plot the response in cartesian or polar coordinates. Defaults to cartesian.
             plot_mask (bool, optional): Wether to overlay the mask response in transparency. Defaults to True.
-            mask_threshold (float, optional): Wether to overlay the mask in transparency. Defaults to 0.9.
+            mask_threshold (float, optional): Wether to overlay the mask in transparency. Defaults to 0.93.
             vlim (float, optional): The maximal value displayed in real, imaginary and amplitude graphs. Defaults to 1e-3
             ax (Optional[matplotlib.axes._axes.Axes]): ax to plot the figure at. Defaults to None.
 
@@ -525,7 +525,7 @@ class IRISVisualizer:
                         array=mask_code[:, :, 1],
                         target_shape=normalized_iris.normalized_image.shape[::-1],
                     )
-                    mask_resized[mask_resized > 0.9] = np.nan
+                    mask_resized[mask_resized > 0.93] = np.nan
                     axs[2 * i + j].imshow(mask_resized, alpha=0.8, cmap="gray", vmin=0, vmax=1)
 
         return fig, axs
