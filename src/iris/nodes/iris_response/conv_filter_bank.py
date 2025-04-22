@@ -152,17 +152,19 @@ class ConvFilterBank(Algorithm):
                 rbot = min(r_probe + p_rows + 1, i_rows - 1)
                 iris_patch = padded_iris[rtop:rbot, c_probe : c_probe + k_cols]
                 mask_patch = padded_mask[rtop:rbot, c_probe : c_probe + k_cols]
+                ktop = p_rows - iris_patch.shape[0] // 2
+                filter_patch = img_filter.kernel_values[ktop : ktop + iris_patch.shape[0], :]
 
                 # Perform convolution at [i,j] probed pixel position.
-                ktop = p_rows - iris_patch.shape[0] // 2
-                iris_response[i][j] = (
-                    (iris_patch * img_filter.kernel_values[ktop : ktop + iris_patch.shape[0], :]).sum()
-                    / iris_patch.shape[0]
-                    / k_cols
-                )
-                mask_response[i][j] = (
-                    0 if iris_response[i][j] == 0 else (mask_patch.sum() / iris_patch.shape[0] / k_cols)
-                )
+                iris_response[i][j] = (iris_patch * filter_patch).sum() / iris_patch.shape[0] / k_cols
+                if iris_response[i][j] == 0:
+                    mask_response[i][j] = 0
+                else:
+                    mask_response[i][j] = (
+                        1
+                        if mask_patch.all()
+                        else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
+                    )
 
         iris_response.real = iris_response.real / img_filter.kernel_norm.real
         iris_response.imag = iris_response.imag / img_filter.kernel_norm.imag
