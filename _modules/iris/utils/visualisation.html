@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.utils.visualisation - iris v1.4.0</title>
+        <title>iris.utils.visualisation - iris v1.5.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.4.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.4.0</span>
+  <span class="sidebar-brand-text">iris v1.5.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -676,7 +676,7 @@
         <span class="n">iris_filter_response</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">iris_dc</span><span class="o">.</span><span class="n">IrisFilterResponse</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]],</span>
         <span class="n">space</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="s2">&quot;polar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">,</span>
         <span class="n">plot_mask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">mask_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">mask_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.93</span><span class="p">,</span>
         <span class="n">vlim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Canvas</span><span class="p">:</span>
@@ -686,7 +686,7 @@
 <span class="sd">            iris_filter_response (Union[iris_dc.IrisFilterResponse, Dict[str, List[np.ndarray]]]): iris filter response to visualise.</span>
 <span class="sd">            space (Literal[&quot;cartesian&quot;, &quot;polar&quot;], optional): Wether to plot the response in cartesian or polar coordinates. Defaults to cartesian.</span>
 <span class="sd">            plot_mask (bool, optional): Wether to overlay the mask response in transparency. Defaults to True.</span>
-<span class="sd">            mask_threshold (float, optional): Wether to overlay the mask in transparency. Defaults to 0.9.</span>
+<span class="sd">            mask_threshold (float, optional): Wether to overlay the mask in transparency. Defaults to 0.93.</span>
 <span class="sd">            vlim (float, optional): The maximal value displayed in real, imaginary and amplitude graphs. Defaults to 1e-3</span>
 <span class="sd">            ax (Optional[matplotlib.axes._axes.Axes]): ax to plot the figure at. Defaults to None.</span>
 
@@ -812,7 +812,7 @@
                         <span class="n">array</span><span class="o">=</span><span class="n">mask_code</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span>
                         <span class="n">target_shape</span><span class="o">=</span><span class="n">normalized_iris</span><span class="o">.</span><span class="n">normalized_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                     <span class="p">)</span>
-                    <span class="n">mask_resized</span><span class="p">[</span><span class="n">mask_resized</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="n">mask_resized</span><span class="p">[</span><span class="n">mask_resized</span> <span class="o">&gt;</span> <span class="mf">0.93</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                     <span class="n">axs</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask_resized</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span></div>
@@ -936,7 +936,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b308ce55"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
