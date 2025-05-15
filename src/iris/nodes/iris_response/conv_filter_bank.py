@@ -48,6 +48,7 @@ class ConvFilterBank(Algorithm):
         filters: List[ImageFilter]
         probe_schemas: List[ProbeSchema]
         iris_code_version: str
+        maskisduplicated: bool
 
         # Validators
         _are_lengths_equal = root_validator(pre=True, allow_reuse=True)(are_lengths_equal("probe_schemas", "filters"))
@@ -59,6 +60,7 @@ class ConvFilterBank(Algorithm):
     def __init__(
         self,
         iris_code_version: str = "v0.1",
+        maskisduplicated: bool = True,
         filters: List[ImageFilter] = [
             GaborFilter(
                 kernel_size=(41, 21),
@@ -88,10 +90,11 @@ class ConvFilterBank(Algorithm):
 
         Args:
             iris_code_version (str): Iris code version. Defaults to "v0.1".
+            maskisduplicated (bool): If True, the mask is duplicated for both real and imaginary parts. Defaults to True.
             filters (List[ImageFilter]): List of image filters.
             probe_schemas (List[ProbeSchema]): List of corresponding probe schemas.
         """
-        super().__init__(filters=filters, probe_schemas=probe_schemas, iris_code_version=iris_code_version)
+        super().__init__(iris_code_version=iris_code_version, maskisduplicated=maskisduplicated, filters=filters, probe_schemas=probe_schemas)
 
     def run(self, normalization_output: NormalizedIris) -> IrisFilterResponse:
         """Apply filters to a normalized iris image.
@@ -157,17 +160,18 @@ class ConvFilterBank(Algorithm):
 
                 # Perform convolution at [i,j] probed pixel position.
                 iris_response[i][j] = (iris_patch * filter_patch).sum() / iris_patch.shape[0] / k_cols
-                if iris_response[i][j] == 0:
+                if iris_response[i][j] == 0:   
                     mask_response[i][j] = 0
                 else:
-                    mask_response[i][j] = (
-                        1
-                        if mask_patch.all()
-                        else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
-                    )
+                    if self.params.maskisduplicated:
+                        val = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
+                        mask_response[i][j] = np.complex64(val + 1j * val)
+                    else:
+                        val_real = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].real).sum() / np.abs(filter_patch.real).sum()
+                        val_imag = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
+                        mask_response[i][j] = np.complex64(val_real + 1j * val_imag)
 
         iris_response.real = iris_response.real / img_filter.kernel_norm.real
         iris_response.imag = iris_response.imag / img_filter.kernel_norm.imag
-        mask_response.imag = mask_response.real
 
         return iris_response, mask_response
