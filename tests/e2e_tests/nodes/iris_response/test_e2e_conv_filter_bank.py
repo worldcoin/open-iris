@@ -57,7 +57,7 @@ def third_schema() -> ProbeSchema:
     return RegularProbeSchema(n_rows=60, n_cols=125)
 
 
-def test_computed_responses_maskisduplicated(
+def test_computed_responses(
     first_filter: ImageFilter,
     second_filter: ImageFilter,
     third_filter: ImageFilter,
@@ -81,71 +81,38 @@ def test_computed_responses_maskisduplicated(
     assert np.allclose(expected_result.mask_responses[2], result.mask_responses[2], rtol=1e-05, atol=1e-07)
     assert result.iris_code_version == "v0.1"
 
-def test_computed_responses(
-    first_filter: ImageFilter,
-    second_filter: ImageFilter,
-    third_filter: ImageFilter,
-    first_schema: ProbeSchema,
-    second_schema: ProbeSchema,
-    third_schema: ProbeSchema,
-) -> None:
-    expected_result = load_mock_pickle("e2e_expected_result_masknotduplicated")
-
-    filterbank = ConvFilterBank(
-        filters=[first_filter, second_filter, third_filter],
-        probe_schemas=[first_schema, second_schema, third_schema],
-        maskisduplicated=False,
-    )
-    result = filterbank(normalization_output=load_mock_pickle("normalized_iris"))
-
-    assert np.allclose(expected_result.iris_responses[0], result.iris_responses[0], rtol=1e-05, atol=1e-07)
-    assert np.allclose(expected_result.iris_responses[1], result.iris_responses[1], rtol=1e-05, atol=1e-07)
-    assert np.allclose(expected_result.iris_responses[2], result.iris_responses[2], rtol=1e-05, atol=1e-07)
-    assert np.allclose(expected_result.mask_responses[0], result.mask_responses[0], rtol=1e-05, atol=1e-07)
-    assert np.allclose(expected_result.mask_responses[1], result.mask_responses[1], rtol=1e-05, atol=1e-07)
-    assert np.allclose(expected_result.mask_responses[2], result.mask_responses[2], rtol=1e-05, atol=1e-07)
-    assert result.iris_code_version == "v0.1"
 
 @pytest.mark.parametrize(
-    "filters, probe_schemas, maskisduplicated",
+    "filters,probe_schemas",
     [
         pytest.param(
             ["first_filter"],
             ["first_schema"],
-            True,
         ),
         pytest.param(
             ["first_filter", "first_filter"],
             ["first_schema", "second_schema"],
-            True,
         ),
         pytest.param(
             ["first_filter", "second_filter"],
             ["first_schema", "first_schema"],
-            True,
-        ),
-        pytest.param(
-            ["first_filter", "second_filter"],
-            ["first_schema", "first_schema"],
-            True,
         ),
         pytest.param(
             ["first_filter", "second_filter", "third_filter"],
             ["first_schema", "second_schema", "third_schema"],
-            False,
         ),
     ],
-    ids=["regular1", "regular2", "regular2_0", "regular3", "regular4"],
+    ids=["regular1", "regular2", "regular3", "regular4"],
 )
 def test_convfilterbank_constructor(
-    filters: List[ImageFilter], probe_schemas: List[ProbeSchema], maskisduplicated: bool, request: FixtureRequest
+    filters: List[ImageFilter], probe_schemas: List[ProbeSchema], request: FixtureRequest
 ) -> None:
     loaded_filters = [request.getfixturevalue(img_filter) for img_filter in filters]
     loaded_probe_schemas = [request.getfixturevalue(probe_schema) for probe_schema in probe_schemas]
 
     assert len(filters) == len(probe_schemas)
 
-    filterbank = ConvFilterBank(filters=loaded_filters, probe_schemas=loaded_probe_schemas, maskisduplicated=maskisduplicated)
+    filterbank = ConvFilterBank(filters=loaded_filters, probe_schemas=loaded_probe_schemas)
     filter_responses = filterbank(normalization_output=load_mock_pickle("normalized_iris"))
 
     for i_iris_response, i_mask_response in zip(filter_responses.iris_responses, filter_responses.mask_responses):

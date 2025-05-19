@@ -234,7 +234,6 @@ pipeline:
     algorithm:
       class_name: iris.ConvFilterBank
       params:
-        maskisduplicated: False
         filters:
           - class_name: iris.GaborFilter
             params:
@@ -274,7 +273,6 @@ pipeline:
       params:
         value_threshold:  [0.0001, 0.275, 0.08726646259971647]
         fragile_type: "polar"
-        maskisduplicated: False
     inputs:
       - name: response
         source_node: filter_bank
