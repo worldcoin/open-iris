@@ -349,6 +349,9 @@ class IRISPipeline(Algorithm):
 
         return self.env.pipeline_output_builder(self.call_trace)
 
+    def get_aggregated_results(self, node_name: str) -> Any:
+        return self.call_trace.get_aggregated(node_name)
+
     def _init_pipeline_tracing(self) -> PipelineCallTraceStorage:
         """Instantiate mechanisms for intermediate results tracing.
 

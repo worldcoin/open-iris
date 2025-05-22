@@ -303,29 +303,3 @@ pipeline:
       - name: geometry_polygons
         source_node: geometry_estimation
     callbacks:
-
-  - name: template_aggregation
-    algorithm:
-      class_name: iris.nodes.combiner.iris_template_combiner.IrisTemplateCombiner
-      params:
-        consistency_threshold: 0.1
-        mask_threshold: 0.1
-        use_fragile_bits: True
-        fragile_bit_threshold: 0.1
-    inputs:
-      - name: templates
-        source_node: encoder
-    callbacks:
-
-
-# aggregators:
-#   - name: templates_combination
-#     algorithm:
-#       class_name: iris.TemplateCombination
-#       params: {}
-#     inputs:
-#       - name: templates
-#         source_node: encoder
-#     callbacks:
-#   - name: aggregator2
-#   ...

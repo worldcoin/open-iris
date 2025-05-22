@@ -6,7 +6,9 @@ import cv2
 import numpy as np
 import pytest
 
+from iris.io.dataclasses import IrisTemplate
 from iris.pipelines.iris_pipeline import IRISPipeline
+from iris.pipelines.multiframe_aggregation import MultiframeAggregation
 from tests.e2e_tests.utils import compare_debug_pipeline_outputs, compare_iris_pipeline_outputs
 
 
@@ -48,3 +50,34 @@ def test_e2e_debug_pipeline(ir_image: np.ndarray, expected_debug_pipeline_output
     computed_pipeline_output = iris_pipeline(img_data=ir_image, eye_side="right")
 
     compare_debug_pipeline_outputs(computed_pipeline_output, expected_debug_pipeline_output)
+
+
+def test_multiframe_aggregation_on_encoder(ir_image: np.ndarray):
+    """E2E test: run IRISPipeline multiple times, aggregate encoder outputs, and check aggregation."""
+    # Use the default config and debugging environment to ensure aggregation is enabled for encoder
+    iris_pipeline = IRISPipeline(env=IRISPipeline.DEBUGGING_ENVIRONMENT)
+
+    # Run the pipeline multiple times (simulate multiple frames)
+    n_runs = 3
+    for _ in range(n_runs):
+        iris_pipeline.run(img_data=ir_image, eye_side="right")
+
+    # Collect all encoder outputs (IrisTemplate objects)
+    encoder_templates = iris_pipeline.get_aggregated_results("encoder")
+    assert len(encoder_templates) == n_runs
+    assert all(isinstance(t, IrisTemplate) for t in encoder_templates)
+
+    # Aggregate using MultiframeAggregation (majority_vote strategy)
+    aggregator = MultiframeAggregation(strategy="majority_vote")
+    combined_template, weights = aggregator(encoder_templates)
+
+    # Check that the combined template is an IrisTemplate and weights are returned
+    assert isinstance(combined_template, IrisTemplate)
+    assert isinstance(weights, list)
+    assert len(weights) == len(combined_template.iris_codes)
+    # Optionally, check that the combined template shape matches the input templates
+    for t in encoder_templates:
+        for c1, c2 in zip(t.iris_codes, combined_template.iris_codes):
+            assert c1.shape == c2.shape
+        for m1, m2 in zip(t.mask_codes, combined_template.mask_codes):
+            assert m1.shape == m2.shape
