@@ -55,3 +55,4 @@ class PipelineNode(ImmutableModel):
     inputs: List[PipelineInput]
     callbacks: Optional[List[PipelineClass]]
     seed: Optional[str] = None
+    aggregate: Optional[bool] = False
