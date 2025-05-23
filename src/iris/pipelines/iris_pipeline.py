@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import pydoc
 import traceback
-from typing import Any, Callable, Dict, List, Literal, Optional, Union
+from typing import Any, Callable, Dict, Iterable, List, Literal, Optional, Union
 
 import numpy as np
 import yaml
@@ -24,6 +24,43 @@ from iris.orchestration.validators import pipeline_config_duplicate_node_name_ch
 from iris.utils.base64_encoding import base64_decode_str
 
 
+class MultiRunPipelineCallTraceStorage(PipelineCallTraceStorage):
+    def __init__(self, results_names: Iterable[str], aggregate_nodes: Iterable[str]):
+        super().__init__(results_names=results_names)
+        self._multi_run_storage = {name: [] for name in aggregate_nodes}
+
+    def write(self, result_name: str, result: Any) -> None:
+        if result_name in self._multi_run_storage:
+            self._multi_run_storage[result_name].append(result)
+        super().write(result_name, result)
+
+    def get_aggregated(self, result_name: str) -> List[Any]:
+        return self._multi_run_storage[result_name]
+
+    def clean_session(self) -> None:
+        self.clean()
+        for k in self._multi_run_storage:
+            self._multi_run_storage[k] = []
+
+    @classmethod
+    def initialise(cls, nodes: Dict[str, Algorithm], pipeline_nodes: List[PipelineNode]) -> PipelineCallTraceStorage:
+        """Instantiate mechanisms for intermediate results tracing.
+
+        Args:
+            nodes (Dict[str, Algorithm]): Mapping between nodes names and the corresponding instanciated nodes.
+
+        Returns:
+            PipelineCallTraceStorage: Pipeline intermediate and final results storage.
+        """
+        aggregate_nodes = [n.name for n in pipeline_nodes if getattr(n, "aggregate", False)]
+        call_trace = cls(results_names=nodes.keys(), aggregate_nodes=aggregate_nodes)
+
+        for algorithm_name, algorithm_object in nodes.items():
+            algorithm_object._callbacks.append(NodeResultsWriter(call_trace, algorithm_name))
+
+        return call_trace
+
+
 class IRISPipeline(Algorithm):
     """Implementation of a fully configurable iris recognition pipeline."""
 
@@ -40,13 +77,13 @@ class IRISPipeline(Algorithm):
             iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator,
             iris.nodes.validators.cross_object_validators.ExtrapolatedPolygonsInsideImageValidator,
         ],
-        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+        call_trace_initialiser=MultiRunPipelineCallTraceStorage.initialise,
     )
 
     ORB_ENVIRONMENT = Environment(
         pipeline_output_builder=build_orb_output,
         error_manager=store_error_manager,
-        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+        call_trace_initialiser=MultiRunPipelineCallTraceStorage.initialise,
     )
 
     class Parameters(Algorithm.Parameters):
@@ -67,7 +104,7 @@ class IRISPipeline(Algorithm):
         env: Environment = Environment(
             pipeline_output_builder=build_simple_orb_output,
             error_manager=store_error_manager,
-            call_trace_initialiser=PipelineCallTraceStorage.initialise,
+            call_trace_initialiser=MultiRunPipelineCallTraceStorage.initialise,
         ),
     ) -> None:
         """Initialise IRISPipeline.
@@ -83,6 +120,9 @@ class IRISPipeline(Algorithm):
         self.env = env
         self.nodes = self.instanciate_nodes()
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
+
+    def _is_multi_run_pipeline(self) -> bool:
+        return isinstance(self.call_trace, MultiRunPipelineCallTraceStorage)
 
     def update_config(self, config: str) -> None:
         """Update the pipeline configuration based on the provided base64-encoded string.
@@ -158,6 +198,9 @@ class IRISPipeline(Algorithm):
                 break
 
         return self.env.pipeline_output_builder(self.call_trace)
+
+    def get_aggregated_results(self, node_name: str) -> Any:
+        return self.call_trace.get_aggregated(node_name)
 
     def _init_pipeline_tracing(self) -> PipelineCallTraceStorage:
         """Instantiate mechanisms for intermediate results tracing.
@@ -300,7 +343,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if config is None or config == "":
+        if config is None or not config:
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):

@@ -1,0 +1,11 @@
+metadata:
+  name: iris_multiframe_aggregation
+  version: 1.5.0
+
+aggregation:
+  strategy: majority_vote
+  parameters:
+    consistency_threshold: 0.75
+    mask_threshold: 0.01
+    use_fragile_bits: true
+    fragile_bit_threshold: 0.4

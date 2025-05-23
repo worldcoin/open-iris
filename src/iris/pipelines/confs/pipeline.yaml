@@ -281,6 +281,7 @@ pipeline:
     callbacks:
 
   - name: encoder
+    aggregate: True
     algorithm:
       class_name: iris.IrisEncoder
       params: {}
