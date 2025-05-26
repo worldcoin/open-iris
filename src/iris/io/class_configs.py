@@ -1,7 +1,8 @@
 import abc
+import pydoc
 from copy import deepcopy
 from functools import cached_property
-from typing import Any, List
+from typing import Any, Dict, List
 
 import pydantic
 from pydantic import Extra
@@ -94,3 +95,18 @@ class Algorithm(abc.ABC):
             Any: Return value by concrate implementation of the `run` method.
         """
         raise NotImplementedError(f"{self.__class__.__name__}.run method not implemented!")
+
+    @classmethod
+    def from_name(cls, class_name: str, kwargs: Dict[str, Any]) -> Any:
+        """Instanciate an Algorithm from the class name and kwargs.
+
+        Args:
+            class_name (str): name of the class.
+            algorithm_params (Dict[str, Any]): Algorithm's kwargs.
+            callbacks (Optional[List[Callback]]): list of callbacks.
+        """
+        object_class = pydoc.locate(class_name)
+        if object_class is None:
+            raise ValueError(f"Could not locate class {class_name}")
+
+        return object_class(**kwargs)
