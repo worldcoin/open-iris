@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import pydoc
 import traceback
-from typing import Any, Callable, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
 import yaml
@@ -13,7 +13,7 @@ import iris  # noqa: F401
 import iris.nodes.validators.cross_object_validators
 import iris.nodes.validators.object_validators
 from iris.callbacks.pipeline_trace import NodeResultsWriter, PipelineCallTraceStorage, PipelineCallTraceStorageError
-from iris.io.class_configs import Algorithm
+from iris.io.class_configs import Algorithm, instantiate_class_from_name
 from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
@@ -205,11 +205,11 @@ class IRISPipeline(Algorithm):
                 if isinstance(param_value, (tuple, list)):
                     for i, value in enumerate(param_value):
                         if isinstance(value, PipelineClass):
-                            current_node.algorithm.params[param_name][i] = self.instanciate_class(
+                            current_node.algorithm.params[param_name][i] = instantiate_class_from_name(
                                 class_name=value.class_name, kwargs=value.params
                             )
                 elif isinstance(param_value, PipelineClass):
-                    current_node.algorithm.params[param_name] = self.instanciate_class(
+                    current_node.algorithm.params[param_name] = instantiate_class_from_name(
                         class_name=param_value.class_name, kwargs=param_value.params
                     )
             instanciated_pipeline.append(current_node)
@@ -231,34 +231,12 @@ class IRISPipeline(Algorithm):
             Algorithm: instanciated node.
         """
         if callbacks is not None and len(callbacks):
-            instanciated_callbacks = [self.instanciate_class(cb.class_name, cb.params) for cb in callbacks]
+            instanciated_callbacks = [instantiate_class_from_name(cb.class_name, cb.params) for cb in callbacks]
             instanciated_callbacks = [cb for cb in instanciated_callbacks if type(cb) not in self.env.disabled_qa]
 
             algorithm_params = {**algorithm_params, **{"callbacks": instanciated_callbacks}}
 
-        return self.instanciate_class(node_class, algorithm_params)
-
-    def instanciate_class(self, class_name: str, kwargs: Dict[str, Any]) -> Callable:
-        """Instanciate a class from its string definition and its kwargs.
-
-        This function relies on pydoc.locate, a safe way to instanciate a class from its string definition, which itself relies on pydoc.safe_import.
-
-        Args:
-            class_name (str): name of the class.
-            kwargs (Dict): kwargs to pass to the class at instanciation time
-
-        Returns:
-            Callable: the instanciated class
-
-        Raises:
-            IRISPipelineError: Raised if the class cannot be located.
-        """
-        object_class = pydoc.locate(class_name)
-
-        if object_class is None:
-            raise IRISPipelineError(f"Could not locate class {class_name}")
-
-        return object_class(**kwargs)
+        return instantiate_class_from_name(node_class, algorithm_params)
 
     def _check_pipeline_coherency(self, params: Parameters) -> None:
         """Check the pipeline configuration coherency.
@@ -300,7 +278,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if config is None or config == "":
+        if config is None or not config:
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):
