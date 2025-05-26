@@ -124,8 +124,6 @@ def test_from_name_instantiates_non_algorithm_class():
         def __init__(self, bar):
             self.bar = bar
 
-    import sys
-
     current_module = sys.modules[__name__]
     setattr(current_module, "NonAlgorithm", NonAlgorithm)
 
