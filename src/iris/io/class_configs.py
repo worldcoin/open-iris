@@ -96,26 +96,6 @@ class Algorithm(abc.ABC):
         """
         raise NotImplementedError(f"{self.__class__.__name__}.run method not implemented!")
 
-    @classmethod
-    def from_name(cls, class_name: str, kwargs: Dict[str, Any]) -> Any:
-        """Instantiate a class from its fully qualified name and keyword arguments.
-
-        Args:
-            class_name (str): Fully qualified name of the class to instantiate.
-            kwargs (Dict[str, Any]): Keyword arguments to pass to the class constructor.
-
-        Returns:
-            Any: An instance of the located class.
-
-        Raises:
-            ValueError: If the class cannot be located by name.
-        """
-        object_class = pydoc.locate(class_name)
-        if object_class is None:
-            raise ValueError(f"Could not locate class {class_name}")
-
-        return object_class(**kwargs)
-
 
 def instantiate_class_from_name(class_name: str, kwargs: Dict[str, Any]) -> Any:
     """Instantiate a class from its fully qualified name and keyword arguments.
