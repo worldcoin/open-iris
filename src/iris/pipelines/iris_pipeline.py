@@ -231,11 +231,8 @@ class IRISPipeline(Algorithm):
             Algorithm: instanciated node.
         """
         if callbacks is not None and len(callbacks):
-            instanciated_callbacks = [
-                Algorithm.from_name(cb.class_name, cb.params)
-                for cb in callbacks
-                if type(cb) not in self.env.disabled_qa
-            ]
+            instanciated_callbacks = [Algorithm.from_name(cb.class_name, cb.params) for cb in callbacks]
+            instanciated_callbacks = [cb for cb in instanciated_callbacks if type(cb) not in self.env.disabled_qa]
 
             algorithm_params = {**algorithm_params, **{"callbacks": instanciated_callbacks}}
 

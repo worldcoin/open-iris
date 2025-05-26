@@ -98,12 +98,17 @@ class Algorithm(abc.ABC):
 
     @classmethod
     def from_name(cls, class_name: str, kwargs: Dict[str, Any]) -> Any:
-        """Instanciate an Algorithm from the class name and kwargs.
+        """Instantiate a class from its fully qualified name and keyword arguments.
 
         Args:
-            class_name (str): name of the class.
-            algorithm_params (Dict[str, Any]): Algorithm's kwargs.
-            callbacks (Optional[List[Callback]]): list of callbacks.
+            class_name (str): Fully qualified name of the class to instantiate.
+            kwargs (Dict[str, Any]): Keyword arguments to pass to the class constructor.
+
+        Returns:
+            Any: An instance of the located class.
+
+        Raises:
+            ValueError: If the class cannot be located by name.
         """
         object_class = pydoc.locate(class_name)
         if object_class is None:

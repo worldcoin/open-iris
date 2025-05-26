@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Dict
 
 import pytest
@@ -96,3 +97,44 @@ def test_parametrized_model_validation_hook_raising_an_error() -> None:
         _ = mock_model.execute()
 
     assert str(err.value) == MockDummyValidationAlgorithm.ERROR_MSG
+
+
+def test_from_name_instantiates_algorithm_subclass():
+    class DummyAlgorithm(Algorithm):
+        class Parameters(Algorithm.Parameters):
+            foo: int
+
+        __parameters_type__ = Parameters
+
+        def run(self):
+            return self.params.foo
+
+    # Register DummyAlgorithm in the module namespace for pydoc.locate
+    current_module = sys.modules[__name__]
+    setattr(current_module, "DummyAlgorithm", DummyAlgorithm)
+
+    # Should instantiate and run correctly
+    instance = Algorithm.from_name(f"{__name__}.DummyAlgorithm", {"foo": 42})
+    assert isinstance(instance, DummyAlgorithm)
+    assert instance.run() == 42
+
+
+def test_from_name_instantiates_non_algorithm_class():
+    class NonAlgorithm:
+        def __init__(self, bar):
+            self.bar = bar
+
+    import sys
+
+    current_module = sys.modules[__name__]
+    setattr(current_module, "NonAlgorithm", NonAlgorithm)
+
+    instance = Algorithm.from_name(f"{__name__}.NonAlgorithm", {"bar": "baz"})
+    assert isinstance(instance, NonAlgorithm)
+    assert instance.bar == "baz"
+
+
+def test_from_name_raises_on_missing_class():
+    with pytest.raises(ValueError) as excinfo:
+        Algorithm.from_name("nonexistent.module.ClassName", {})
+    assert "Could not locate class" in str(excinfo.value)
