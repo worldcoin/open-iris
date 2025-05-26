@@ -13,7 +13,7 @@ import iris  # noqa: F401
 import iris.nodes.validators.cross_object_validators
 import iris.nodes.validators.object_validators
 from iris.callbacks.pipeline_trace import NodeResultsWriter, PipelineCallTraceStorage, PipelineCallTraceStorageError
-from iris.io.class_configs import Algorithm
+from iris.io.class_configs import Algorithm, instantiate_class_from_name
 from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
@@ -205,11 +205,11 @@ class IRISPipeline(Algorithm):
                 if isinstance(param_value, (tuple, list)):
                     for i, value in enumerate(param_value):
                         if isinstance(value, PipelineClass):
-                            current_node.algorithm.params[param_name][i] = Algorithm.from_name(
+                            current_node.algorithm.params[param_name][i] = instantiate_class_from_name(
                                 class_name=value.class_name, kwargs=value.params
                             )
                 elif isinstance(param_value, PipelineClass):
-                    current_node.algorithm.params[param_name] = Algorithm.from_name(
+                    current_node.algorithm.params[param_name] = instantiate_class_from_name(
                         class_name=param_value.class_name, kwargs=param_value.params
                     )
             instanciated_pipeline.append(current_node)
@@ -231,12 +231,12 @@ class IRISPipeline(Algorithm):
             Algorithm: instanciated node.
         """
         if callbacks is not None and len(callbacks):
-            instanciated_callbacks = [Algorithm.from_name(cb.class_name, cb.params) for cb in callbacks]
+            instanciated_callbacks = [instantiate_class_from_name(cb.class_name, cb.params) for cb in callbacks]
             instanciated_callbacks = [cb for cb in instanciated_callbacks if type(cb) not in self.env.disabled_qa]
 
             algorithm_params = {**algorithm_params, **{"callbacks": instanciated_callbacks}}
 
-        return Algorithm.from_name(node_class, algorithm_params)
+        return instantiate_class_from_name(node_class, algorithm_params)
 
     def _check_pipeline_coherency(self, params: Parameters) -> None:
         """Check the pipeline configuration coherency.
