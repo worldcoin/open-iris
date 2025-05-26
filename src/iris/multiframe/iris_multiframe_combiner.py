@@ -204,14 +204,14 @@ class MajorityVoteCombiner(Algorithm):
 
         # Create combined mask code
         # A bit is considered valid if enough templates have it as valid
-        combined_mask_code = ((valid_mask_counts / num_templates) >= self.mask_threshold).astype(bool)
+        combined_mask_code = ((valid_mask_counts / num_templates) >= self.params.mask_threshold).astype(bool)
 
         # Create weight matrix based on consistency
         # More consistent bits get higher weights
         weight = np.where(
-            consistency >= self.consistency_threshold,
+            consistency >= self.params.consistency_threshold,
             consistency,
-            self.fragile_bit_threshold if self.use_fragile_bits else 0,
+            self.params.fragile_bit_threshold if self.params.use_fragile_bits else 0,
         )
 
         return combined_iris_code, combined_mask_code, weight

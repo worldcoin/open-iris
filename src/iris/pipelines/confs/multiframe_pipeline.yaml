@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.6.0
+  iris_version: 1.6.1
 
 pipeline:
   - name: segmentation
@@ -303,12 +303,32 @@ pipeline:
         source_node: geometry_estimation
     callbacks:
 
-
 templates_aggregation:
-  algorithm:
-    class_name: iris.multiframe.iris_multiframe_combiner.MajorityVoteCombiner
-    params:
-      consistency_threshold: 0.75
-      mask_threshold: 0.5
-      use_fragile_bits: True
-      fragile_bit_threshold: 0.4
+  metadata:
+    iris_version: 1.6.1
+    pipeline_name: templates_aggregation
+
+  pipeline:
+    - name: templates_aggregation
+      algorithm:
+        class_name: iris.multiframe.iris_multiframe_combiner.MajorityVoteCombiner
+        params:
+          consistency_threshold: 0.75
+          mask_threshold: 0.5
+          use_fragile_bits: True
+          fragile_bit_threshold: 0.4
+      inputs:
+        - name: templates
+          source_node: input
+
+# templates_aggregation:
+#   metadata:
+#     iris_version: 1.6.1
+
+#   algorithm:
+#     class_name: iris.multiframe.iris_multiframe_combiner.MajorityVoteCombiner
+#     params:
+#       consistency_threshold: 0.75
+#       mask_threshold: 0.5
+#       use_fragile_bits: True
+#       fragile_bit_threshold: 0.4
