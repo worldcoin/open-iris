@@ -25,7 +25,7 @@ from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate
 
 
-class MajorityVoteCombiner(Algorithm):
+class MajorityVoteAggregation(Algorithm):
     """
     Class for combining multiple iris templates from the same user.
 
@@ -100,9 +100,6 @@ class MajorityVoteCombiner(Algorithm):
             weights = [np.ones_like(code) for code in templates[0].iris_codes]
             return templates[0], weights
 
-        # Check that all templates have the same structure
-        self._validate_templates(templates)
-
         # Get the number of wavelets (filter responses)
         num_wavelets = len(templates[0].iris_codes)
 
@@ -134,33 +131,6 @@ class MajorityVoteCombiner(Algorithm):
         )
 
         return combined_template, weights
-
-    def _validate_templates(self, templates: List[IrisTemplate]) -> None:
-        """
-        Validate that all templates have the same structure.
-
-        Args:
-            templates: List of IrisTemplate objects
-
-        Raises:
-            ValueError: If templates have different structures
-        """
-        # Check iris code version
-        if not all(t.iris_code_version == templates[0].iris_code_version for t in templates):
-            raise ValueError("Templates have different iris code versions")
-
-        # Check number of wavelets
-        if not all(len(t.iris_codes) == len(templates[0].iris_codes) for t in templates):
-            raise ValueError("Templates have different numbers of wavelets")
-
-        # Check dimensions of iris codes and mask codes
-        for wavelet_idx in range(len(templates[0].iris_codes)):
-            shape = templates[0].iris_codes[wavelet_idx].shape
-            if not all(t.iris_codes[wavelet_idx].shape == shape for t in templates):
-                raise ValueError(f"Iris codes for wavelet {wavelet_idx} have different shapes")
-
-            if not all(t.mask_codes[wavelet_idx].shape == shape for t in templates):
-                raise ValueError(f"Mask codes for wavelet {wavelet_idx} have different shapes")
 
     def _combine_wavelet_codes(
         self, iris_codes: List[np.ndarray], mask_codes: List[np.ndarray]

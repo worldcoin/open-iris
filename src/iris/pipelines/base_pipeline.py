@@ -1,6 +1,8 @@
 import abc
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 
+import yaml
+
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm, instantiate_class_from_name
 from iris.orchestration.environment import Environment
@@ -8,6 +10,31 @@ from iris.orchestration.pipeline_dataclasses import PipelineNode
 
 InputType = TypeVar("InputType")
 OutputType = TypeVar("OutputType")
+
+
+def load_yaml_config(config: Optional[str], default_path: str) -> Dict[str, Any]:
+    """Load a YAML configuration from a file or a string.
+
+    Args:
+        config (Optional[str]): YAML string or None for default config.
+        default_path (str): Path to the default YAML file.
+
+    Raises:
+        ValueError: If the configuration is not a YAML-formatted string or None.
+
+    Returns:
+        Dict[str, Any]: Deserialized config dict.
+    """
+    if config is None or config == "":  # noqa
+        with open(default_path, "r") as f:
+            return yaml.safe_load(f)
+    elif isinstance(config, str):
+        try:
+            return yaml.safe_load(config)
+        except (yaml.YAMLError, yaml.parser.ParserError):
+            raise ValueError("Requires a YAML-formatted configuration string. Please check the format")
+    else:
+        raise ValueError("Requires a YAML-formatted configuration string. Please check the type")
 
 
 class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
@@ -162,8 +189,6 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         """
         instanciated_pipeline = []
         for node in self.params.pipeline:
-            if node.name == "eye_centers_inside_image_validator":
-                print(node)
             current_node = node
             # Iterate over all algorithm parameters for the node and instantiate them if needed
             for param_name, param_value in node.algorithm.params.items():

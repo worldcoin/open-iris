@@ -311,7 +311,7 @@ templates_aggregation:
   pipeline:
     - name: templates_aggregation
       algorithm:
-        class_name: iris.multiframe.iris_multiframe_combiner.MajorityVoteCombiner
+        class_name: iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation
         params:
           consistency_threshold: 0.75
           mask_threshold: 0.5
@@ -320,6 +320,9 @@ templates_aggregation:
       inputs:
         - name: templates
           source_node: input
+      callbacks:
+        - class_name: iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible
+          params: {}
 
 # templates_aggregation:
 #   metadata:

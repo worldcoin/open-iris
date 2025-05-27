@@ -140,3 +140,9 @@ class IRISPipelineError(Exception):
     """IRIS Pipeline module Error class."""
 
     pass
+
+
+class TemplateAggregationCompatibilityError(Exception):
+    """Template aggregation compatibility validation Error class."""
+
+    pass

@@ -127,11 +127,11 @@ def test_pipeline_sanity_check_fails(config: Dict[str, Any]):
         ),
         (
             "test:\n  - a: 1\n - b: ",
-            pytest.raises(IRISPipelineError),
+            pytest.raises(ValueError),
         ),
         (
             {"not": ["a", "str"]},
-            pytest.raises(IRISPipelineError),
+            pytest.raises(ValueError),
         ),
     ],
     ids=[

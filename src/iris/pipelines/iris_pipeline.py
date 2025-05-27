@@ -6,7 +6,6 @@ import traceback
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
-import yaml
 from pydantic import validator
 
 import iris  # noqa: F401
@@ -15,13 +14,12 @@ import iris.nodes.validators.object_validators
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage, PipelineCallTraceStorageError
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IRImage
-from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output, build_simple_orb_output
 from iris.orchestration.pipeline_dataclasses import PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
-from iris.pipelines.base_pipeline import BasePipeline
+from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
 
@@ -141,20 +139,9 @@ class IRISPipeline(BasePipeline):
         Returns:
             Dict[str, Any]: Deserialized config dict.
         """
-        if config is None or not config:
-            with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
-                deserialized_config = yaml.safe_load(f)
-        elif isinstance(config, str):
-            try:
-                deserialized_config = yaml.safe_load(config)
-            except yaml.parser.ParserError:
-                raise IRISPipelineError(
-                    "IRISPipeline requires a YAML-formatted configuration string. Please check the format"
-                )
-        else:
-            raise IRISPipelineError(
-                "IRISPipeline requires a YAML-formatted configuration string. Please check the type"
-            )
+        deserialized_config = load_yaml_config(
+            config, os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml")
+        )
         return deserialized_config
 
     @classmethod
