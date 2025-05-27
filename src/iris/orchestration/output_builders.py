@@ -6,6 +6,54 @@ from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import ImmutableModel
 
 
+def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Build the output for the Orb.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call results storage.
+
+    Returns:
+        Dict[str, Any]: {
+        "iris_template": (Optional[IrisTemplate]) the iris template object if the pipeline succeeded,
+        "weights": (Optional[np.array]) the aggregation weights array if the pipeline succeeded,
+        "error": (Optional[Dict]) the error dict if the pipeline returned an error,
+        "metadata": (Dict) the metadata dict,
+        }.
+    """
+    metadata = __get_multiframe_aggregation_metadata(call_trace=call_trace)
+    error = __get_error(call_trace=call_trace)
+    iris_template, weight = call_trace["templates_aggregation"]
+
+    output = {
+        "error": error,
+        "iris_template": iris_template,
+        "weights": weight,
+        "metadata": metadata,
+    }
+
+    return output
+
+
+def build_aggregation_multiframe_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Build the output for the Orb.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call results storage.
+
+    Returns:
+        Dict[str, Any]: {
+        "iris_template": (Optional[IrisTemplate]) the iris template object if the pipeline succeeded,
+        "weights": (Optional[np.array]) the aggregation weights array if the pipeline succeeded,
+        "error": (Optional[Dict]) the error dict if the pipeline returned an error,
+        "metadata": (Dict) the metadata dict,
+        }.
+    """
+    output = build_simple_multiframe_aggregation_output(call_trace)
+    output["iris_template"] = __safe_serialize(output["iris_template"])
+    output["weights"] = __safe_serialize(output["weights"])
+    return output
+
+
 def build_simple_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
     """Build the output for the Orb.
 
@@ -175,3 +223,20 @@ def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]
         }
 
     return error
+
+
+def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Produce metadata output from a call_trace.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call trace.
+
+    Returns:
+        Dict[str, Any]: Metadata dictionary.
+    """
+    templates = call_trace.get_input()
+
+    return {
+        "iris_version": __version__,
+        "templates_count": len(templates),
+    }

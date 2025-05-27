@@ -488,7 +488,9 @@ def test_instanciate_node(
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\n\npipeline: []"
     iris_pipeline = IRISPipeline(config=config, env=env)
 
-    node = iris_pipeline.instanciate_node(node_class=node_class, algorithm_params=algorithm_params, callbacks=callbacks)
+    node = iris_pipeline._instanciate_node(
+        node_class=node_class, algorithm_params=algorithm_params, callbacks=callbacks
+    )
 
     # Check if the created node has the right type
     assert isinstance(node, eval(node_class))
@@ -623,7 +625,7 @@ def test_instanciate_nodes(
 
     iris_pipeline = IRISPipeline(config=config, env=env)
 
-    nodes = iris_pipeline.instanciate_nodes()
+    nodes = iris_pipeline._instanciate_nodes()
 
     for computed_node, expected_node in zip(nodes.values(), expected_built_pipeline):
         assert isinstance(computed_node, type(expected_node))
