@@ -134,7 +134,7 @@ IRIS_PIPE_ORB_OUTPUT_SPEC = [
 IRIS_PIPE_DEBUG_OUTPUT_SPEC = [
     OutputFieldSpec(key="iris_template", extractor=lambda ct: ct.get("encoder"), safe_serialize=False),
     OutputFieldSpec(key="metadata", extractor=__get_iris_pipeline_metadata, safe_serialize=False),
-    OutputFieldSpec(key="segmentation_map", extractor=lambda ct: ct["segmentation"], safe_serialize=True),
+    OutputFieldSpec(key="segmentation_map", extractor=lambda ct: ct.get("segmentation"), safe_serialize=True),
     OutputFieldSpec(
         key="segmentation_binarization",
         extractor=lambda ct: {
