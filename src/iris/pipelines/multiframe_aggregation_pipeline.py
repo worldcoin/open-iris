@@ -110,7 +110,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = config
         else:
             # config is a YAML string or None: load from the default multiframe_pipeline.yaml
-            default_path = os.path.join(os.path.dirname(__file__), "confs", "multiframe_pipeline.yaml")
+            default_path = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
             raw = load_yaml_config(config, default_path)
 
         # 2) If they asked for the whole dict, just return it
