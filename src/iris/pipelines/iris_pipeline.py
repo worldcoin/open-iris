@@ -278,7 +278,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if config is None or not config:
+        if config is None or config == "":
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):
