@@ -15,7 +15,10 @@ from iris.io.class_configs import Algorithm
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
-from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output
+from iris.orchestration.output_builders import (
+    build_iris_pipeline_orb_output,
+    build_simple_iris_pipeline_debugging_output,
+)
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
 from iris.utils.base64_encoding import base64_encode_str
@@ -192,7 +195,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -201,7 +204,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -210,7 +213,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -219,7 +222,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -247,7 +250,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -258,7 +261,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_simple_debugging_output,
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -268,7 +271,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_simple_debugging_output,
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -362,7 +365,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -374,7 +377,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.IsPupilInsideIrisValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -395,7 +398,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [{"min_iris_length": 300, "min_pupil_length": 300}, {"min_iris_length": 400, "min_pupil_length": 400}],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.IsPupilInsideIrisValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -407,7 +410,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.PolygonsLengthValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -428,7 +431,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [{"min_iris_length": 300, "min_pupil_length": 300}],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OcclusionValidator,
@@ -452,7 +455,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OcclusionValidator,
@@ -512,7 +515,7 @@ def test_instanciate_node(
             [],
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -555,7 +558,7 @@ def test_instanciate_node(
                 ),
             ],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -591,7 +594,7 @@ def test_instanciate_node(
                 iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation(dphi=142.857, callbacks=[]),
             ],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OffgazeValidator,

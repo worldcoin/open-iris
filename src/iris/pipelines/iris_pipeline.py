@@ -18,7 +18,11 @@ from iris.io.dataclasses import IRImage
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output, build_simple_orb_output
+from iris.orchestration.output_builders import (
+    build_iris_pipeline_orb_output,
+    build_simple_iris_pipeline_debugging_output,
+    build_simple_iris_pipeline_orb_output,
+)
 from iris.orchestration.pipeline_dataclasses import PipelineClass, PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
 from iris.utils.base64_encoding import base64_decode_str
@@ -28,7 +32,7 @@ class IRISPipeline(Algorithm):
     """Implementation of a fully configurable iris recognition pipeline."""
 
     DEBUGGING_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_simple_debugging_output,
+        pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
         error_manager=store_error_manager,
         disabled_qa=[
             iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator,
@@ -44,7 +48,7 @@ class IRISPipeline(Algorithm):
     )
 
     ORB_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_orb_output,
+        pipeline_output_builder=build_iris_pipeline_orb_output,
         error_manager=store_error_manager,
         call_trace_initialiser=PipelineCallTraceStorage.initialise,
     )
@@ -65,7 +69,7 @@ class IRISPipeline(Algorithm):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_simple_orb_output,
+            pipeline_output_builder=build_simple_iris_pipeline_orb_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
@@ -278,7 +282,7 @@ class IRISPipeline(Algorithm):
         Returns:
             Dict[str, Any]: Configuration as a dictionary.
         """
-        if config is None or config == "":
+        if config is None or config == "":  # noqa
             with open(os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml"), "r") as f:
                 deserialized_config = yaml.safe_load(f)
         elif isinstance(config, str):
