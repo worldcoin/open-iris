@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 import pytest
 from _pytest.fixtures import FixtureRequest
 
-from iris.callbacks.pipeline_trace import NodeResultsWriter, PipelineCallTraceStorage, PipelineCallTraceStorageError
+from iris.callbacks.pipeline_trace import NodeResultsWriter, PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm
 from iris.nodes.eye_properties_estimation.occlusion_calculator import OcclusionCalculator
 from iris.nodes.validators.object_validators import OcclusionValidator
@@ -151,6 +151,23 @@ def test_write_get_parameter(storage: PipelineCallTraceStorage, request: Fixture
     assert storage["alg2"] is None
     assert storage["alg3"] is None
     assert storage["alg4"] == mock_result
+
+
+@pytest.mark.parametrize(
+    "storage",
+    [("call_trace_storage")],
+    ids=["PipelineCallTraceStorage"],
+)
+def test_get_method_returns_none_for_missing_key(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
+    """Test that PipelineCallTraceStorage.get() returns None for missing keys."""
+    storage = request.getfixturevalue(storage)
+    storage.write("alg1", "some_value")
+
+    # Test that existing key returns the value
+    assert storage.get("alg1") == "some_value"
+
+    # Test that missing key returns None
+    assert storage.get("nonexistent_key") is None
 
 
 @pytest.mark.parametrize(

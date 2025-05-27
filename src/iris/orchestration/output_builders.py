@@ -80,14 +80,14 @@ def __get_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage) -> Dict[s
         "iris_version": __version__,
         "image_size": (ir_image.width, ir_image.height),
         "eye_side": ir_image.eye_side,
-        "eye_centers": __safe_serialize(call_trace["eye_center_estimation"]),
-        "pupil_to_iris_property": __safe_serialize(call_trace["pupil_to_iris_property_estimation"]),
-        "offgaze_score": __safe_serialize(call_trace["offgaze_estimation"]),
-        "eye_orientation": __safe_serialize(call_trace["eye_orientation"]),
-        "occlusion90": __safe_serialize(call_trace["occlusion90_calculator"]),
-        "occlusion30": __safe_serialize(call_trace["occlusion30_calculator"]),
-        "iris_bbox": __safe_serialize(call_trace["bounding_box_estimation"]),
-        "sharpness_score": __safe_serialize(call_trace["sharpness_estimation"]),
+        "eye_centers": __safe_serialize(call_trace.get("eye_center_estimation")),
+        "pupil_to_iris_property": __safe_serialize(call_trace.get("pupil_to_iris_property_estimation")),
+        "offgaze_score": __safe_serialize(call_trace.get("offgaze_estimation")),
+        "eye_orientation": __safe_serialize(call_trace.get("eye_orientation")),
+        "occlusion90": __safe_serialize(call_trace.get("occlusion90_calculator")),
+        "occlusion30": __safe_serialize(call_trace.get("occlusion30_calculator")),
+        "iris_bbox": __safe_serialize(call_trace.get("bounding_box_estimation")),
+        "sharpness_score": __safe_serialize(call_trace.get("sharpness_estimation")),
     }
 
 
@@ -120,34 +120,36 @@ def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]
 # Simple ORB output: raw iris_template, error info, and metadata
 IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
-    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct["encoder"], safe_serialize=False),
+    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct.get("encoder"), safe_serialize=False),
     OutputFieldSpec(key="metadata", extractor=__get_iris_pipeline_metadata, safe_serialize=False),
 ]
 
 IRIS_PIPE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
-    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct["encoder"], safe_serialize=True),
+    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct.get("encoder"), safe_serialize=True),
     OutputFieldSpec(key="metadata", extractor=__get_iris_pipeline_metadata, safe_serialize=False),
 ]
 
 # Debugging output: includes various intermediate pipeline results
 IRIS_PIPE_DEBUG_OUTPUT_SPEC = [
-    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct["encoder"], safe_serialize=False),
+    OutputFieldSpec(key="iris_template", extractor=lambda ct: ct.get("encoder"), safe_serialize=False),
     OutputFieldSpec(key="metadata", extractor=__get_iris_pipeline_metadata, safe_serialize=False),
     OutputFieldSpec(key="segmentation_map", extractor=lambda ct: ct["segmentation"], safe_serialize=True),
     OutputFieldSpec(
         key="segmentation_binarization",
         extractor=lambda ct: {
-            "geometry": None if ct["segmentation_binarization"] is None else ct["segmentation_binarization"][0],
-            "noise": None if ct["segmentation_binarization"] is None else ct["segmentation_binarization"][1],
+            "geometry": None if ct.get("segmentation_binarization") is None else ct.get("segmentation_binarization")[0],
+            "noise": None if ct.get("segmentation_binarization") is None else ct.get("segmentation_binarization")[1],
         },
         safe_serialize=True,
     ),
-    OutputFieldSpec(key="extrapolated_polygons", extractor=lambda ct: ct["geometry_estimation"], safe_serialize=True),
-    OutputFieldSpec(key="normalized_iris", extractor=lambda ct: ct["normalization"], safe_serialize=True),
-    OutputFieldSpec(key="iris_response", extractor=lambda ct: ct["filter_bank"], safe_serialize=True),
     OutputFieldSpec(
-        key="iris_response_refined", extractor=lambda ct: ct["iris_response_refinement"], safe_serialize=True
+        key="extrapolated_polygons", extractor=lambda ct: ct.get("geometry_estimation"), safe_serialize=True
+    ),
+    OutputFieldSpec(key="normalized_iris", extractor=lambda ct: ct.get("normalization"), safe_serialize=True),
+    OutputFieldSpec(key="iris_response", extractor=lambda ct: ct.get("filter_bank"), safe_serialize=True),
+    OutputFieldSpec(
+        key="iris_response_refined", extractor=lambda ct: ct.get("iris_response_refinement"), safe_serialize=True
     ),
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
 ]
@@ -179,5 +181,5 @@ def build_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -
     """
     output = build_simple_iris_pipeline_debugging_output(call_trace)
     # Safe-serialize the iris_template on top of the existing output
-    output["iris_template"] = __safe_serialize(output["iris_template"])
+    output["iris_template"] = __safe_serialize(output.get("iris_template"))
     return output
