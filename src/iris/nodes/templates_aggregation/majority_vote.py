@@ -20,8 +20,6 @@ from pydantic import Field
 
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-
-# Try to import from open-iris, but provide mock class if not available
 from iris.io.dataclasses import IrisTemplate
 
 
@@ -55,10 +53,10 @@ class MajorityVoteAggregation(Algorithm):
         Initialize the IrisTemplateCombiner.
 
         Args:
-            consistency_threshold: Threshold for considering a bit consistent across templates
-            mask_threshold: Threshold for considering a mask bit valid in the combined template
-            use_fragile_bits: Whether to use fragile bits information
-            fragile_bit_threshold: Threshold for identifying fragile bits
+            consistency_threshold (float): Threshold for considering a bit consistent across templates
+            mask_threshold (float): Threshold for considering a mask bit valid in the combined template
+            use_fragile_bits (bool): Whether to use fragile bits information
+            fragile_bit_threshold (float): Threshold for identifying fragile bits
         """
         super().__init__(
             consistency_threshold=consistency_threshold,
@@ -73,11 +71,11 @@ class MajorityVoteAggregation(Algorithm):
         Combine multiple iris templates from the same user.
 
         Args:
-            templates: List of IrisTemplate objects from the same user
+            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
 
         Returns:
-            combined_template: Combined IrisTemplate
-            weights: Weight matrix reflecting bit reliability
+            combined_template (IrisTemplate): Combined IrisTemplate
+            weights (np.ndarray): Weight matrix reflecting bit reliability
         """
         return self.combine_templates(templates)
 
@@ -86,11 +84,11 @@ class MajorityVoteAggregation(Algorithm):
         Combine multiple iris templates from the same user.
 
         Args:
-            templates: List of IrisTemplate objects from the same user
+            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
 
         Returns:
-            combined_template: Combined IrisTemplate
-            weights: Weight matrix reflecting bit reliability
+            combined_template (IrisTemplate): Combined IrisTemplate
+            weights (np.ndarray): Weight matrix reflecting bit reliability
         """
         if not templates:
             raise ValueError("No templates provided for combination")
@@ -139,13 +137,13 @@ class MajorityVoteAggregation(Algorithm):
         Combine iris codes and mask codes for a single wavelet.
 
         Args:
-            iris_codes: List of iris codes for a single wavelet from multiple templates
-            mask_codes: List of mask codes for a single wavelet from multiple templates
+            iris_codes (List[np.ndarray]): List of iris codes for a single wavelet from multiple templates
+            mask_codes (List[np.ndarray]): List of mask codes for a single wavelet from multiple templates
 
         Returns:
-            combined_iris_code: Combined iris code for this wavelet
-            combined_mask_code: Combined mask code for this wavelet
-            weight: Weight matrix reflecting bit reliability
+            combined_iris_code (np.ndarray): Combined iris code for this wavelet
+            combined_mask_code (np.ndarray): Combined mask code for this wavelet
+            weight (np.ndarray): Weight matrix reflecting bit reliability
         """
         num_templates = len(iris_codes)
         shape = iris_codes[0].shape

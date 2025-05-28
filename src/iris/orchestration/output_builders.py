@@ -118,7 +118,7 @@ def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]
 
 
 def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Produce metadata output from a call_trace.
+    """Produce multiframe aggregation metadata output from a call_trace.
 
     Args:
         call_trace (PipelineCallTraceStorage): Pipeline call trace.
@@ -178,10 +178,18 @@ IRIS_PIPE_DEBUG_OUTPUT_SPEC = [
 MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
-        key="iris_template", extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0], safe_serialize=True
+        key="iris_template",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=True,
     ),
     OutputFieldSpec(
-        key="weights", extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1], safe_serialize=True
+        key="weights",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=True,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
 ]
@@ -189,10 +197,18 @@ MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
 MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
-        key="iris_template", extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0], safe_serialize=False
+        key="iris_template",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=False,
     ),
     OutputFieldSpec(
-        key="weights", extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1], safe_serialize=False
+        key="weights",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=False,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
 ]

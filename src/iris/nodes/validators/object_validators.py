@@ -428,31 +428,29 @@ class AreTemplatesAggregationCompatible(Callback, Algorithm):
         Raises:
             E.TemplateAggregationCompatibilityError: Raised if the templates are not compatible for aggregation.
         """
-        templates = val_arguments
-
-        if not templates:
+        if not val_arguments:
             raise E.TemplateAggregationCompatibilityError("No templates provided for validation")
 
-        if len(templates) == 1:
+        if len(val_arguments) == 1:
             return  # Single template is always compatible
 
         # Check iris code version
-        if not all(t.iris_code_version == templates[0].iris_code_version for t in templates):
+        if not all(t.iris_code_version == val_arguments[0].iris_code_version for t in val_arguments):
             raise E.TemplateAggregationCompatibilityError("Templates have different iris code versions")
 
         # Check number of wavelets
-        if not all(len(t.iris_codes) == len(templates[0].iris_codes) for t in templates):
+        if not all(len(t.iris_codes) == len(val_arguments[0].iris_codes) for t in val_arguments):
             raise E.TemplateAggregationCompatibilityError("Templates have different numbers of wavelets")
 
         # Check dimensions of iris codes and mask codes
-        for wavelet_idx in range(len(templates[0].iris_codes)):
-            shape = templates[0].iris_codes[wavelet_idx].shape
-            if not all(t.iris_codes[wavelet_idx].shape == shape for t in templates):
+        for wavelet_idx in range(len(val_arguments[0].iris_codes)):
+            shape = val_arguments[0].iris_codes[wavelet_idx].shape
+            if not all(t.iris_codes[wavelet_idx].shape == shape for t in val_arguments):
                 raise E.TemplateAggregationCompatibilityError(
                     f"Iris codes for wavelet {wavelet_idx} have different shapes"
                 )
 
-            if not all(t.mask_codes[wavelet_idx].shape == shape for t in templates):
+            if not all(t.mask_codes[wavelet_idx].shape == shape for t in val_arguments):
                 raise E.TemplateAggregationCompatibilityError(
                     f"Mask codes for wavelet {wavelet_idx} have different shapes"
                 )
