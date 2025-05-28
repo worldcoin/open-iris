@@ -1,4 +1,5 @@
 import abc
+import os
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import yaml
@@ -12,33 +13,34 @@ InputType = TypeVar("InputType")
 OutputType = TypeVar("OutputType")
 
 
-def load_yaml_config(config: Optional[str], default_path: str) -> Dict[str, Any]:
-    """Load a YAML configuration from a file or a string.
-
-    If config is None or empty, the default configuration is loaded from the default_path.
-    If config is a string, it is parsed as a YAML string.
-    If config is a dict, it is returned as is.
+def load_yaml_config(config: Optional[str]) -> Dict[str, Any]:
+    """
+    Loads YAML config from a YAML string or a path to a YAML file.
 
     Args:
-        config (Optional[str]): YAML string or None for default config.
-        default_path (str): Path to the default YAML file.
-
-    Raises:
-        ValueError: If the configuration is not a YAML-formatted string or None.
+        config: YAML string or path to YAML file.
 
     Returns:
         Dict[str, Any]: Deserialized config dict.
+
+    Raises:
+        ValueError: If config is None, not a string, or can't be parsed.
     """
-    if config is None or config == "":  # noqa
-        with open(default_path, "r") as f:
+    if config is None:
+        raise ValueError("No configuration provided.")
+
+    if not isinstance(config, str):
+        raise ValueError("Config must be a YAML string or a path to a YAML file.")
+
+    # Check if it's a path to a file
+    if os.path.isfile(config):
+        with open(config, "r") as f:
             return yaml.safe_load(f)
-    elif isinstance(config, str):
+    else:
         try:
             return yaml.safe_load(config)
         except (yaml.YAMLError, yaml.parser.ParserError):
-            raise ValueError("Requires a YAML-formatted configuration string. Please check the format")
-    else:
-        raise ValueError("Requires a YAML-formatted configuration string. Please check the type")
+            raise ValueError("Provided string is not valid YAML or a valid path to a YAML file.")
 
 
 class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):

@@ -6,13 +6,13 @@ import traceback
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
-from pydantic import validator
+from pydantic import Extra, validator
 
 import iris  # noqa: F401
 import iris.nodes.validators.cross_object_validators
 import iris.nodes.validators.object_validators
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage, PipelineCallTraceStorageError
-from iris.io.class_configs import Algorithm
+from iris.io.class_configs import Algorithm, ImmutableModel
 from iris.io.dataclasses import IRImage
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
@@ -62,6 +62,9 @@ class IRISPipeline(BasePipeline):
 
         metadata: PipelineMetadata
         pipeline: List[PipelineNode]
+
+        class Config(ImmutableModel.Config):
+            extra = Extra.ignore
 
         _config_duplicate_node_name_check = validator("pipeline", allow_reuse=True)(
             pipeline_config_duplicate_node_name_check
@@ -145,7 +148,9 @@ class IRISPipeline(BasePipeline):
         Returns:
             Dict[str, Any]: Deserialized config dict.
         """
-        deserialized_config = load_yaml_config(config, cls.DEFAULT_PIPELINE_CFG_PATH)
+        if config is None or config == "":  # noqa
+            config = cls.DEFAULT_PIPELINE_CFG_PATH
+        deserialized_config = load_yaml_config(config)
         return deserialized_config
 
     @classmethod

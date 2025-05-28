@@ -112,7 +112,9 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = config
         else:
             # config is a YAML string or None: load from the default multiframe_pipeline.yaml
-            raw = load_yaml_config(config, cls.DEFAULT_PIPELINE_CFG_PATH)
+            if config is None or config == "":  # noqa
+                config = cls.DEFAULT_PIPELINE_CFG_PATH
+            raw = load_yaml_config(config)
 
         # 2) If they asked for the whole dict, just return it
         if not keyword:

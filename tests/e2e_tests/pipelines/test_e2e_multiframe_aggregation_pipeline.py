@@ -1,11 +1,19 @@
+import os
+
+import cv2
 import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import IrisTemplate
 from iris.orchestration.environment import Environment
-from iris.orchestration.error_managers import store_error_manager
-from iris.orchestration.output_builders import build_simple_multiframe_aggregation_output
+from iris.orchestration.error_managers import raise_error_manager, store_error_manager
+from iris.orchestration.output_builders import (
+    build_simple_iris_pipeline_debugging_output,
+    build_simple_multiframe_aggregation_output,
+)
+from iris.pipelines.base_pipeline import load_yaml_config
+from iris.pipelines.iris_pipeline import IRISPipeline
 from iris.pipelines.multiframe_aggregation_pipeline import MultiframeAggregationPipeline
 
 
@@ -115,6 +123,76 @@ def composite_iris_config():
             ],
         },
     }
+
+
+@pytest.fixture
+def ir_image() -> np.ndarray:
+    ir_image_path = os.path.join(os.path.dirname(__file__), "mocks", "inputs", "anonymized.png")
+    img_data = cv2.imread(ir_image_path, cv2.IMREAD_GRAYSCALE)
+    return img_data
+
+
+class TestIRISPipelineWithAggregation:
+    """End-to-end tests for iris pipeline with aggregation functionality."""
+
+    @pytest.mark.parametrize(
+        "iris_env,aggregation_env",
+        [
+            # Standard predefined environments
+            (IRISPipeline.ORB_ENVIRONMENT, MultiframeAggregationPipeline.ORB_ENVIRONMENT),
+            #
+            (
+                Environment(
+                    pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+                    error_manager=raise_error_manager,
+                    call_trace_initialiser=PipelineCallTraceStorage.initialise,
+                ),
+                Environment(
+                    pipeline_output_builder=build_simple_multiframe_aggregation_output,
+                    error_manager=raise_error_manager,
+                    call_trace_initialiser=PipelineCallTraceStorage.initialise,
+                ),
+            ),
+        ],
+        ids=[
+            "iris_orb_aggregation_orb",
+            "iris_simple_aggregation_simple",
+        ],
+    )
+    def test_iris_pipeline_with_aggregation(self, ir_image, iris_env, aggregation_env):
+        """Test the iris pipeline with aggregation using different environment combinations."""
+        combined_config = load_yaml_config(MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH)
+
+        aggregation_pipeline = MultiframeAggregationPipeline(
+            config=combined_config, subconfig_key="templates_aggregation", env=aggregation_env
+        )
+
+        iris_pipeline = IRISPipeline(config=combined_config, env=iris_env)
+        iris_templates = []
+        for _ in range(3):
+            iris_pipeline_output = iris_pipeline(img_data=ir_image, eye_side="right")
+            if iris_env == IRISPipeline.ORB_ENVIRONMENT:
+                template = IrisTemplate.deserialize(iris_pipeline_output["iris_template"])
+            else:
+                template = iris_pipeline_output["iris_template"]
+            iris_templates.append(template)
+
+        aggregation_pipeline_output = aggregation_pipeline.run(iris_templates)
+        if aggregation_env == MultiframeAggregationPipeline.ORB_ENVIRONMENT:
+            aggregated_template = IrisTemplate.deserialize(aggregation_pipeline_output["iris_template"])
+        else:
+            aggregated_template = aggregation_pipeline_output["iris_template"]
+        assert aggregation_pipeline_output["error"] is None
+        assert aggregation_pipeline_output["iris_template"] is not None
+        assert aggregation_pipeline_output["metadata"] is not None
+        assert aggregation_pipeline_output["weights"] is not None
+
+        assert all(
+            np.array_equal(
+                iris_templates[0].iris_codes[i] * iris_templates[0].mask_codes[i], aggregated_template.iris_codes[i]
+            )
+            for i in range(len(iris_templates[0].iris_codes))
+        )
 
 
 class TestMultiframeAggregationPipeline:
