@@ -33,6 +33,8 @@ class IRISPipeline(BasePipeline):
     Inherits shared logic from BasePipeline and implements input/output specifics.
     """
 
+    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml")
+
     DEBUGGING_ENVIRONMENT = Environment(
         pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
         error_manager=store_error_manager,
@@ -134,8 +136,8 @@ class IRISPipeline(BasePipeline):
             self.env.error_manager(self.call_trace, error)
             return False
 
-    @staticmethod
-    def load_config(config: Optional[str]) -> Dict[str, Any]:
+    @classmethod
+    def load_config(cls, config: Optional[str]) -> Dict[str, Any]:
         """
         Load and deserialize the pipeline configuration.
         Args:
@@ -143,9 +145,7 @@ class IRISPipeline(BasePipeline):
         Returns:
             Dict[str, Any]: Deserialized config dict.
         """
-        deserialized_config = load_yaml_config(
-            config, os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml")
-        )
+        deserialized_config = load_yaml_config(config, cls.DEFAULT_PIPELINE_CFG_PATH)
         return deserialized_config
 
     @classmethod

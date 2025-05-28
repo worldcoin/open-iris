@@ -15,6 +15,10 @@ OutputType = TypeVar("OutputType")
 def load_yaml_config(config: Optional[str], default_path: str) -> Dict[str, Any]:
     """Load a YAML configuration from a file or a string.
 
+    If config is None or empty, the default configuration is loaded from the default_path.
+    If config is a string, it is parsed as a YAML string.
+    If config is a dict, it is returned as is.
+
     Args:
         config (Optional[str]): YAML string or None for default config.
         default_path (str): Path to the default YAML file.
@@ -139,7 +143,7 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
             node (PipelineNode): The node where the error occurred.
             error (Exception): The exception raised during node execution.
         Returns:
-            bool: True if the error was skipped, False otherwise.
+            bool: True if the error should be skipped, False otherwise.
         """
         self.env.error_manager(self.call_trace, error)
         return False

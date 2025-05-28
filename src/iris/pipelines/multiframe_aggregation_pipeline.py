@@ -18,16 +18,14 @@ from iris.orchestration.validators import pipeline_config_duplicate_node_name_ch
 from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
-DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH = os.path.join(
-    os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml"
-)
-
 
 class MultiframeAggregationPipeline(BasePipeline):
     """
     Pipeline for multiframe iris template aggregation.
     Inherits shared logic from BasePipeline and implements input/output specifics.
     """
+
+    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
 
     ORB_ENVIRONMENT = Environment(
         pipeline_output_builder=build_aggregation_multiframe_orb_output,
@@ -90,9 +88,9 @@ class MultiframeAggregationPipeline(BasePipeline):
         """
         return self.env.pipeline_output_builder(self.call_trace)
 
-    @staticmethod
+    @classmethod
     def load_config(
-        config: Union[Dict[str, Any], Optional[str]], keyword: str = "templates_aggregation"
+        cls, config: Union[Dict[str, Any], Optional[str]], keyword: str = "templates_aggregation"
     ) -> Dict[str, Any]:
         """
         Load and deserialize the pipeline configuration (for multiframe aggregation).
@@ -114,7 +112,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = config
         else:
             # config is a YAML string or None: load from the default multiframe_pipeline.yaml
-            raw = load_yaml_config(config, DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH)
+            raw = load_yaml_config(config, cls.DEFAULT_PIPELINE_CFG_PATH)
 
         # 2) If they asked for the whole dict, just return it
         if not keyword:

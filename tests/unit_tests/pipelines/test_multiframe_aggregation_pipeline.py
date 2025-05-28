@@ -8,10 +8,7 @@ from iris.io.dataclasses import IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import build_simple_multiframe_aggregation_output
-from iris.pipelines.multiframe_aggregation_pipeline import (
-    DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH,
-    MultiframeAggregationPipeline,
-)
+from iris.pipelines.multiframe_aggregation_pipeline import DEFAULT_PIPELINE_CFG_PATH, MultiframeAggregationPipeline
 
 
 @pytest.fixture
@@ -225,7 +222,7 @@ class TestMultiframeAggregationPipeline:
             mock_load_yaml.assert_called_once()
             call_args = mock_load_yaml.call_args[0]
             assert call_args[0] == yaml_string
-            assert DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH in call_args[1]
+            assert DEFAULT_PIPELINE_CFG_PATH in call_args[1]
 
     def test_load_config_with_empty_keyword(self):
         """Test load_config with empty keyword (standalone config)."""
