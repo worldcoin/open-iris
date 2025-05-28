@@ -1,6 +1,8 @@
 import traceback
 from typing import Any, Dict, Optional
 
+import numpy as np
+
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import ImmutableModel
@@ -22,7 +24,13 @@ def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStor
     """
     metadata = __get_multiframe_aggregation_metadata(call_trace=call_trace)
     error = __get_error(call_trace=call_trace)
-    iris_template, weight = call_trace["templates_aggregation"]
+
+    # Handle the case where the pipeline failed and templates_aggregation is None
+    aggregation_result = call_trace["templates_aggregation"]
+    if aggregation_result is not None:
+        iris_template, weight = aggregation_result
+    else:
+        iris_template, weight = None, None
 
     output = {
         "error": error,
@@ -138,17 +146,17 @@ def build_simple_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[
     }
 
 
-def __safe_serialize(object: Optional[ImmutableModel]) -> Optional[Dict[str, Any]]:
+def __safe_serialize(object: Optional[Any]) -> Optional[Any]:
     """Serialize an object.
 
     Args:
-        object (Optional[ImmutableModel]): Object to be serialized.
+        object (Optional[Any]): Object to be serialized.
 
     Raises:
         NotImplementedError: Raised if object is not serializable.
 
     Returns:
-        Optional[Dict[str, Any]]: Serialized object.
+        Optional[Any]: Serialized object.
     """
     if object is None:
         return None
@@ -156,6 +164,8 @@ def __safe_serialize(object: Optional[ImmutableModel]) -> Optional[Dict[str, Any
         return object.serialize()
     elif isinstance(object, (list, tuple)):
         return [__safe_serialize(sub_object) for sub_object in object]
+    elif isinstance(object, np.ndarray):
+        return object.tolist()
     else:
         raise NotImplementedError(f"Object of type {type(object)} is not serializable.")
 

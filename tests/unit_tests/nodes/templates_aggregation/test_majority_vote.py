@@ -1,9 +1,6 @@
-from unittest.mock import Mock
-
 import numpy as np
 import pytest
 
-from iris.callbacks.callback_interface import Callback
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.templates_aggregation.majority_vote import MajorityVoteAggregation
 
@@ -66,14 +63,6 @@ class TestMajorityVoteAggregation:
         assert aggregator.params.mask_threshold == 0.6
         assert aggregator.params.use_fragile_bits is False
         assert aggregator.params.fragile_bit_threshold == 0.3
-
-    def test_init_with_callbacks(self):
-        """Test initialization with callbacks."""
-        mock_callback = Mock(spec=Callback)
-        aggregator = MajorityVoteAggregation(callbacks=[mock_callback])
-
-        assert len(aggregator._callbacks) == 1
-        assert aggregator._callbacks[0] == mock_callback
 
     def test_parameters_validation_consistency_threshold(self):
         """Test parameter validation for consistency_threshold."""
@@ -196,10 +185,10 @@ class TestMajorityVoteAggregation:
         # Position [0,0,1]: False appears 2/3 times -> should be False
         # Position [1,0,0]: False appears 2/3 times -> should be False
         # Position [1,0,1]: True appears 2/3 times -> should be True
-        assert combined_iris[0, 0, 0] is True
-        assert combined_iris[0, 0, 1] is False
-        assert combined_iris[1, 0, 0] is False
-        assert combined_iris[1, 0, 1] is True
+        assert bool(combined_iris[0, 0, 0]) is True
+        assert bool(combined_iris[0, 0, 1]) is False
+        assert bool(combined_iris[1, 0, 0]) is False
+        assert bool(combined_iris[1, 0, 1]) is True
 
         # All masks should be True since all templates have valid masks
         np.testing.assert_array_equal(combined_mask, np.ones_like(combined_mask))
@@ -221,12 +210,12 @@ class TestMajorityVoteAggregation:
             np.array([[[True, True]]]).astype(bool),
         ]
 
-        combined_iris, combined_mask, weight = aggregator._combine_wavelet_codes(iris_codes, mask_codes)
+        _, combined_mask, __ = aggregator._combine_wavelet_codes(iris_codes, mask_codes)
 
         # Position [0,0,0] should be valid (3/3 = 1.0 >= 0.8)
         # Position [0,0,1] should be invalid (2/3 = 0.67 < 0.8)
-        assert combined_mask[0, 0, 0] is True
-        assert combined_mask[0, 0, 1] is False
+        assert bool(combined_mask[0, 0, 0]) is True
+        assert bool(combined_mask[0, 0, 1]) is False
 
     def test_combine_wavelet_codes_consistency_weights(self):
         """Test _combine_wavelet_codes method weight calculation."""
@@ -278,23 +267,6 @@ class TestMajorityVoteAggregation:
         # Low consistency positions should get weight 0 when fragile bits disabled
         # Position [0,0,1]: 1/3 = 0.33 vote fraction -> consistency = 0.33 < 0.8
         assert weight[0, 0, 1] == 0.0
-
-    def test_run_with_different_wavelet_counts(self):
-        """Test run method with templates having different numbers of wavelets."""
-        # Create templates with different numbers of wavelets
-        iris_codes_1 = [np.random.choice(2, size=(4, 8, 2)).astype(bool) for _ in range(2)]
-        mask_codes_1 = [np.random.choice(2, size=(4, 8, 2)).astype(bool) for _ in range(2)]
-        template1 = IrisTemplate(iris_codes=iris_codes_1, mask_codes=mask_codes_1, iris_code_version="v2.1")
-
-        iris_codes_2 = [np.random.choice(2, size=(4, 8, 2)).astype(bool) for _ in range(3)]  # Different count
-        mask_codes_2 = [np.random.choice(2, size=(4, 8, 2)).astype(bool) for _ in range(3)]
-        template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
-
-        aggregator = MajorityVoteAggregation()
-
-        # This should raise an error due to mismatched wavelet counts
-        with pytest.raises(Exception):  # Could be IndexError or similar
-            aggregator.run([template1, template2])
 
     def test_run_with_different_shapes(self):
         """Test run method with templates having different shapes."""

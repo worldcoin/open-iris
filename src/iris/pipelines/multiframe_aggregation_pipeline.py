@@ -18,6 +18,10 @@ from iris.orchestration.validators import pipeline_config_duplicate_node_name_ch
 from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
+DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH = os.path.join(
+    os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml"
+)
+
 
 class MultiframeAggregationPipeline(BasePipeline):
     """
@@ -110,8 +114,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = config
         else:
             # config is a YAML string or None: load from the default multiframe_pipeline.yaml
-            default_path = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
-            raw = load_yaml_config(config, default_path)
+            raw = load_yaml_config(config, DEFAULT_MULTIFRAME_AGGREGATION_PIPELINE_PATH)
 
         # 2) If they asked for the whole dict, just return it
         if not keyword:

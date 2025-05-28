@@ -46,7 +46,7 @@ class MajorityVoteAggregation(Algorithm):
     def __init__(
         self,
         consistency_threshold: float = 0.75,
-        mask_threshold: float = 0.5,
+        mask_threshold: float = 0.01,
         use_fragile_bits: bool = True,
         fragile_bit_threshold: float = 0.4,
         callbacks: List[Callback] = [],
