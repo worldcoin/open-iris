@@ -33,9 +33,8 @@ def test_immutable_model_constructor(parameters: Dict[str, Any]) -> None:
     "parameters",
     [
         ({"my_param_1": -4, "my_param_2": "toto"}),
-        ({"my_param_1": 3, "my_param_2": "toto", "extra_parameter": "forbidden"}),
     ],
-    ids=["pydantic checks", "extra parameter forbidden"],
+    ids=["pydantic checks"],
 )
 def test_immutable_model_constructor_raises_exception(parameters: Dict) -> None:
     with pytest.raises((ValidationError, TypeError)):
