@@ -6,13 +6,13 @@ import traceback
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
-from pydantic import Extra, validator
+from pydantic import validator
 
 import iris  # noqa: F401
 import iris.nodes.validators.cross_object_validators
 import iris.nodes.validators.object_validators
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage, PipelineCallTraceStorageError
-from iris.io.class_configs import Algorithm, ImmutableModel
+from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IRImage
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
@@ -62,9 +62,6 @@ class IRISPipeline(BasePipeline):
 
         metadata: PipelineMetadata
         pipeline: List[PipelineNode]
-
-        class Config(ImmutableModel.Config):
-            extra = Extra.ignore
 
         _config_duplicate_node_name_check = validator("pipeline", allow_reuse=True)(
             pipeline_config_duplicate_node_name_check
