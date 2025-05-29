@@ -2,6 +2,8 @@ import traceback
 from collections.abc import Mapping
 from typing import Any, Dict, List, Optional
 
+import numpy as np
+
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import ImmutableModel, OutputFieldSpec
@@ -43,17 +45,17 @@ def _build_from_spec(call_trace: PipelineCallTraceStorage, spec: List[OutputFiel
     return output
 
 
-def __safe_serialize(object: Optional[ImmutableModel]) -> Optional[Dict[str, Any]]:
+def __safe_serialize(object: Optional[Any]) -> Optional[Any]:
     """Serialize an object.
 
     Args:
-        object (Optional[ImmutableModel]): Object to be serialized.
+        object (Optional[Any]): Object to be serialized.
 
     Raises:
         NotImplementedError: Raised if object is not serializable.
 
     Returns:
-        Optional[Dict[str, Any]]: Serialized object.
+        Optional[Any]: Serialized object.
     """
     if object is None:
         return None
@@ -61,6 +63,8 @@ def __safe_serialize(object: Optional[ImmutableModel]) -> Optional[Dict[str, Any
         return object.serialize()
     elif isinstance(object, (list, tuple)):
         return [__safe_serialize(sub_object) for sub_object in object]
+    elif isinstance(object, np.ndarray):
+        return object.tolist()
     else:
         raise NotImplementedError(f"Object of type {type(object)} is not serializable.")
 
@@ -113,6 +117,23 @@ def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]
     return error
 
 
+def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Produce multiframe aggregation metadata output from a call_trace.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call trace.
+
+    Returns:
+        Dict[str, Any]: Metadata dictionary.
+    """
+    templates = call_trace.get_input()
+
+    return {
+        "iris_version": __version__,
+        "templates_count": len(templates),
+    }
+
+
 # =============================================================================
 # Specs for different output variants
 # =============================================================================
@@ -154,6 +175,44 @@ IRIS_PIPE_DEBUG_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
 ]
 
+MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
+    OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
+    OutputFieldSpec(
+        key="iris_template",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=True,
+    ),
+    OutputFieldSpec(
+        key="weights",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=True,
+    ),
+    OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
+]
+
+MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
+    OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
+    OutputFieldSpec(
+        key="iris_template",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=False,
+    ),
+    OutputFieldSpec(
+        key="weights",
+        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        if ct.get("templates_aggregation") is not None
+        else None,
+        safe_serialize=False,
+    ),
+    OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
+]
+
 # =============================================================================
 # Builder functions leveraging the generic engine
 # =============================================================================
@@ -180,6 +239,15 @@ def build_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -
     the iris_template is also safely serialized.
     """
     output = build_simple_iris_pipeline_debugging_output(call_trace)
-    # Safe-serialize the iris_template on top of the existing output
     output["iris_template"] = __safe_serialize(output.get("iris_template"))
     return output
+
+
+def build_aggregation_multiframe_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct multiframe aggregation ORB output with safe serialization."""
+    return _build_from_spec(call_trace, MULTIFRAME_AGG_ORB_OUTPUT_SPEC)
+
+
+def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct simple multiframe aggregation output (raw values)."""
+    return _build_from_spec(call_trace, MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC)

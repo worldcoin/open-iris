@@ -20,7 +20,7 @@ class ImmutableModel(pydantic.BaseModel):
         allow_mutation = False
         validate_all = True
         smart_union = True
-        extra = Extra.forbid
+        extra = Extra.ignore
         keep_untouched = (cached_property,)
 
     def serialize(self) -> Any:
