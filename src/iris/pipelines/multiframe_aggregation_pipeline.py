@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import validator
 
+from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate
@@ -26,6 +27,7 @@ class MultiframeAggregationPipeline(BasePipeline):
     """
 
     DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
+    PACKAGE_VERSION = __version__
 
     ORB_ENVIRONMENT = Environment(
         pipeline_output_builder=build_aggregation_multiframe_orb_output,

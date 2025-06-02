@@ -11,6 +11,7 @@ from pydantic import validator
 import iris  # noqa: F401
 import iris.nodes.validators.cross_object_validators
 import iris.nodes.validators.object_validators
+from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage, PipelineCallTraceStorageError
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IRImage
@@ -22,7 +23,7 @@ from iris.orchestration.output_builders import (
     build_simple_iris_pipeline_orb_output,
 )
 from iris.orchestration.pipeline_dataclasses import PipelineMetadata, PipelineNode
-from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
+from iris.orchestration.validators import pipeline_config_duplicate_node_name_check, pipeline_metadata_version_check
 from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
@@ -34,6 +35,7 @@ class IRISPipeline(BasePipeline):
     """
 
     DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "pipeline.yaml")
+    PACKAGE_VERSION = __version__
 
     DEBUGGING_ENVIRONMENT = Environment(
         pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
@@ -66,6 +68,13 @@ class IRISPipeline(BasePipeline):
         _config_duplicate_node_name_check = validator("pipeline", allow_reuse=True)(
             pipeline_config_duplicate_node_name_check
         )
+
+        @validator("metadata", allow_reuse=True)
+        def _version_check(cls, v, values, **kwargs):
+            # support dynamic subclassing
+            pipeline_cls = getattr(cls, "__outer_class__", IRISPipeline)  # assigned in BasePipeline.__init_subclass__
+            pipeline_metadata_version_check(cls, v.iris_version, values, expected_version=pipeline_cls.PACKAGE_VERSION)
+            return v
 
     __parameters_type__ = Parameters
 
