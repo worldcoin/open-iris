@@ -67,6 +67,18 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         self.nodes = self._instanciate_nodes()
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
 
+    def estimate(self, pipeline_input: InputType, *args: Any, **kwargs: Any) -> OutputType:
+        """Wrap the `run` method to match the Orb system AI models call interface.
+
+        Args:
+            pipeline_input (InputType): Input to the pipeline (type defined by subclass).
+            *args (Any): Optional positional arguments for extensibility.
+            **kwargs (Any): Optional keyword arguments for extensibility.
+        Returns:
+            OutputType: Output from the pipeline (type defined by subclass).
+        """
+        return self.run(pipeline_input, *args, **kwargs)
+
     def run(self, pipeline_input: InputType, *args: Any, **kwargs: Any) -> OutputType:
         """
         Main pipeline execution loop. Handles input, node execution, and output.
