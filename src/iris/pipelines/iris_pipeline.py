@@ -87,7 +87,33 @@ class IRISPipeline(BasePipeline):
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(deserialized_config, env)
 
+    def estimate(self, img_data: np.ndarray, eye_side: Literal["left", "right"], *args, **kwargs) -> Any:
+        """Wrap the `run` method to match the Orb system AI models call interface.
+
+        Args:
+            img_data (np.ndarray): Input image data.
+            eye_side (Literal["left", "right"]): Eye side.
+            *args: Optional positional arguments for extensibility.
+            **kwargs: Optional keyword arguments for extensibility.
+
+        Returns:
+            Any: Output created by builder specified in environment.pipeline_output_builder.
+        """
+        return self.run(img_data, eye_side, *args, **kwargs)
+
     def run(self, img_data: np.ndarray, eye_side: Literal["left", "right"], *args, **kwargs) -> Any:
+        """
+        Wrap the `run` method to match the Orb system AI models call interface.
+
+        Args:
+            img_data (np.ndarray): Input Infrared image data.
+            eye_side (Literal["left", "right"]): Eye side.
+            *args: Optional positional arguments for extensibility.
+            **kwargs: Optional keyword arguments for extensibility.
+
+        Returns:
+            Any: Output created by builder specified in environment.pipeline_output_builder.
+        """
         pipeline_input = {"img_data": img_data, "eye_side": eye_side}
         return super().run(pipeline_input, *args, **kwargs)
 
