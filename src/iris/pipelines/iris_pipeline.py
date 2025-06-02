@@ -99,7 +99,7 @@ class IRISPipeline(BasePipeline):
         Returns:
             Any: Output created by builder specified in environment.pipeline_output_builder.
         """
-        return super().estimate(img_data, eye_side, *args, **kwargs)
+        return self.run(img_data, eye_side, *args, **kwargs)
 
     def run(self, img_data: np.ndarray, eye_side: Literal["left", "right"], *args, **kwargs) -> Any:
         """

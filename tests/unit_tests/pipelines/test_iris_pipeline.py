@@ -1,6 +1,7 @@
 import os
 from contextlib import nullcontext as does_not_raise
 from typing import Any, Dict, List, Optional
+from unittest.mock import Mock
 
 import cv2
 import numpy as np
@@ -22,6 +23,11 @@ from iris.orchestration.output_builders import (
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
 from iris.utils.base64_encoding import base64_encode_str
+from tests.e2e_tests.utils import (
+    compare_debug_pipeline_outputs,
+    compare_iris_pipeline_outputs,
+    compare_simple_pipeline_outputs,
+)
 
 
 @pytest.fixture
@@ -660,3 +666,103 @@ def test_load_from_config(config: Dict[str, str], expected_pipeline_name: str) -
         assert res["agent"].params.metadata.pipeline_name == expected_pipeline_name
     else:
         assert res["agent"] is None
+
+
+@pytest.mark.parametrize(
+    "env,comparison_func",
+    [
+        (
+            Environment(
+                pipeline_output_builder=build_iris_pipeline_orb_output,
+                error_manager=store_error_manager,
+                call_trace_initialiser=PipelineCallTraceStorage.initialise,
+            ),
+            compare_iris_pipeline_outputs,
+        ),
+        (
+            Environment(
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+                error_manager=store_error_manager,
+                call_trace_initialiser=PipelineCallTraceStorage.initialise,
+            ),
+            compare_debug_pipeline_outputs,
+        ),
+    ],
+    ids=["orb_output_builder", "debugging_output_builder"],
+)
+def test_estimate_and_run_produce_same_output(ir_image: np.ndarray, env: Environment, comparison_func):
+    """Test that estimate() and run() methods produce identical outputs for IRISPipeline."""
+    # Create pipeline instance
+    iris_pipeline = IRISPipeline(env=env)
+
+    # Test with left eye
+    estimate_result_left = iris_pipeline.estimate(ir_image, eye_side="left")
+    run_result_left = iris_pipeline.run(ir_image, eye_side="left")
+
+    # Assert that both methods produce the same output for left eye
+    comparison_func(estimate_result_left, run_result_left)
+
+    # Test with right eye
+    estimate_result_right = iris_pipeline.estimate(ir_image, eye_side="right")
+    run_result_right = iris_pipeline.run(ir_image, eye_side="right")
+
+    # Assert that both methods produce the same output for right eye
+    comparison_func(estimate_result_right, run_result_right)
+
+
+def test_estimate_and_run_with_additional_args(ir_image: np.ndarray):
+    """Test that estimate() and run() produce same output with additional args and kwargs."""
+    # Create pipeline instance with debugging environment for more predictable output
+    env = Environment(
+        pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+        error_manager=store_error_manager,
+        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+    )
+    iris_pipeline = IRISPipeline(env=env)
+
+    # Test with additional arguments (though IRISPipeline doesn't use them, they should be passed through)
+    extra_arg = "extra_positional"
+    extra_kwarg = {"extra": "keyword"}
+
+    estimate_result = iris_pipeline.estimate(ir_image, "left", extra_arg, extra_param=extra_kwarg)
+    run_result = iris_pipeline.run(ir_image, "left", extra_arg, extra_param=extra_kwarg)
+
+    # Assert that both methods produce the same output
+    compare_debug_pipeline_outputs(estimate_result, run_result)
+
+
+def test_estimate_calls_run_internally(ir_image: np.ndarray):
+    """Test that estimate() method internally calls run() method."""
+    # Create pipeline instance
+    iris_pipeline = IRISPipeline()
+
+    # Mock the run method to verify it's called by estimate
+    original_run = iris_pipeline.run
+    iris_pipeline.run = Mock(return_value={"mocked": "result"})
+
+    # Call estimate
+    result = iris_pipeline.estimate(ir_image, "left", "arg1", kwarg1="value1")
+
+    # Verify run was called with the same arguments
+    iris_pipeline.run.assert_called_once_with(ir_image, "left", "arg1", kwarg1="value1")
+    assert result == {"mocked": "result"}
+
+    # Restore original run method
+    iris_pipeline.run = original_run
+
+
+def test_estimate_run_equivalence_with_call_method(ir_image: np.ndarray):
+    """Test that estimate(), run(), and __call__() all produce the same output."""
+    # Create pipeline instance with orb output builder (default)
+    iris_pipeline = IRISPipeline()
+
+    # Get results from all three methods
+    estimate_result = iris_pipeline.estimate(ir_image, eye_side="left")
+    run_result = iris_pipeline.run(ir_image, eye_side="left")
+    call_result = iris_pipeline(ir_image, eye_side="left")
+
+    # All three should produce identical results
+    # Default IRISPipeline uses build_simple_iris_pipeline_orb_output, so we need compare_simple_pipeline_outputs
+    compare_simple_pipeline_outputs(estimate_result, run_result)
+    compare_simple_pipeline_outputs(run_result, call_result)
+    compare_simple_pipeline_outputs(estimate_result, call_result)
