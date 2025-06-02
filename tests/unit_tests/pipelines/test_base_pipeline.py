@@ -34,6 +34,8 @@ def custom_test_output_builder(call_trace: PipelineCallTraceStorage) -> Dict[str
 class ConcretePipeline(BasePipeline[Dict[str, Any], Dict[str, Any]]):
     """Concrete implementation of BasePipeline for testing purposes."""
 
+    PACKAGE_VERSION = "1.0.0"
+
     class Parameters(BasePipeline.Parameters):
         """Parameters class for ConcretePipeline."""
 
@@ -134,3 +136,102 @@ class TestBasePipeline:
             run_result = pipeline.run(test_input)
 
             assert estimate_result == run_result, f"Mismatch on iteration {i}"
+
+    def test_valid_package_version_passes(self):
+        """Test that a valid PACKAGE_VERSION allows class creation."""
+
+        class ValidPipeline(BasePipeline):
+            PACKAGE_VERSION = "1.0.0"
+
+            def _handle_input(self, pipeline_input, *args, **kwargs):
+                pass
+
+            def _handle_output(self, *args, **kwargs):
+                return None
+
+        # Should not raise any exception
+        assert ValidPipeline.PACKAGE_VERSION == "1.0.0"
+
+    def test_missing_package_version_raises_error(self):
+        """Test that missing PACKAGE_VERSION raises TypeError on class creation."""
+
+        with pytest.raises(TypeError) as exc_info:
+
+            class InvalidPipeline(BasePipeline):
+                # Missing PACKAGE_VERSION
+                def _handle_input(self, pipeline_input, *args, **kwargs):
+                    pass
+
+                def _handle_output(self, *args, **kwargs):
+                    return None
+
+        error_message = str(exc_info.value)
+        assert "InvalidPipeline must define a non-empty string PACKAGE_VERSION class attribute" in error_message
+
+    def test_empty_string_package_version_raises_error(self):
+        """Test that empty string PACKAGE_VERSION raises TypeError."""
+
+        with pytest.raises(TypeError) as exc_info:
+
+            class InvalidPipeline(BasePipeline):
+                PACKAGE_VERSION = ""  # Empty string
+
+                def _handle_input(self, pipeline_input, *args, **kwargs):
+                    pass
+
+                def _handle_output(self, *args, **kwargs):
+                    return None
+
+        error_message = str(exc_info.value)
+        assert "InvalidPipeline must define a non-empty string PACKAGE_VERSION class attribute" in error_message
+
+    def test_none_package_version_raises_error(self):
+        """Test that None PACKAGE_VERSION raises TypeError."""
+
+        with pytest.raises(TypeError) as exc_info:
+
+            class InvalidPipeline(BasePipeline):
+                PACKAGE_VERSION = None
+
+                def _handle_input(self, pipeline_input, *args, **kwargs):
+                    pass
+
+                def _handle_output(self, *args, **kwargs):
+                    return None
+
+        error_message = str(exc_info.value)
+        assert "InvalidPipeline must define a non-empty string PACKAGE_VERSION class attribute" in error_message
+
+    @pytest.mark.parametrize(
+        "invalid_version",
+        [
+            123,
+            None,
+            [],
+            {},
+            object(),
+        ],
+        ids=[
+            "integer",
+            "none",
+            "list",
+            "dict",
+            "object",
+        ],
+    )
+    def test_various_invalid_package_versions_raise_error(self, invalid_version):
+        """Test that various invalid PACKAGE_VERSION types raise TypeError."""
+
+        with pytest.raises(TypeError) as exc_info:
+
+            class InvalidPipeline(BasePipeline):
+                PACKAGE_VERSION = invalid_version
+
+                def _handle_input(self, pipeline_input, *args, **kwargs):
+                    pass
+
+                def _handle_output(self, *args, **kwargs):
+                    return None
+
+        error_message = str(exc_info.value)
+        assert "InvalidPipeline must define a non-empty string PACKAGE_VERSION class attribute" in error_message

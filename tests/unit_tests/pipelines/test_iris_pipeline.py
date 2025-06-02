@@ -765,3 +765,128 @@ def test_estimate_run_equivalence_with_call_method(ir_image: np.ndarray):
     compare_simple_pipeline_outputs(estimate_result, run_result)
     compare_simple_pipeline_outputs(run_result, call_result)
     compare_simple_pipeline_outputs(estimate_result, call_result)
+
+
+def test_iris_pipeline_has_correct_package_version():
+    """Test that IRISPipeline has the correct PACKAGE_VERSION."""
+    assert hasattr(IRISPipeline, "PACKAGE_VERSION")
+    assert IRISPipeline.PACKAGE_VERSION == __version__
+    assert isinstance(IRISPipeline.PACKAGE_VERSION, str)
+    assert len(IRISPipeline.PACKAGE_VERSION) > 0
+
+
+def test_correct_version_passes_validation():
+    """Test that correct version passes validation during pipeline creation."""
+    config = {
+        "metadata": {
+            "pipeline_name": "test_pipeline",
+            "iris_version": __version__,  # Correct version
+        },
+        "pipeline": [],
+    }
+
+    # Should not raise any exception
+    pipeline = IRISPipeline(config=config)
+    assert pipeline.params.metadata.iris_version == __version__
+
+
+def test_wrong_version_raises_error():
+    """Test that wrong version raises error during pipeline creation."""
+    config = {
+        "metadata": {
+            "pipeline_name": "test_pipeline",
+            "iris_version": "999.0.0",  # Wrong version
+        },
+        "pipeline": [],
+    }
+
+    with pytest.raises(IRISPipelineError) as exc_info:
+        IRISPipeline(config=config)
+
+    error_message = str(exc_info.value)
+    assert "Wrong config version" in error_message
+    assert __version__ in error_message
+    assert "999.0.0" in error_message
+
+
+def test_version_validator_returns_metadata_on_success():
+    """Test that version validator returns metadata object when validation passes."""
+    # Create a mock metadata object
+    mock_metadata = Mock()
+    mock_metadata.iris_version = __version__
+
+    # The validator should return the metadata object unchanged
+    result = IRISPipeline.Parameters._version_check(mock_metadata, {})
+    assert result == mock_metadata
+
+
+def test_custom_pipeline_with_different_version():
+    """Test that custom pipeline with different PACKAGE_VERSION is created correctly."""
+
+    class CustomPipeline(IRISPipeline):
+        PACKAGE_VERSION = "2.0.0"
+
+    # Verify that the custom pipeline has its own version
+    assert CustomPipeline.PACKAGE_VERSION == "2.0.0"
+    assert CustomPipeline.PACKAGE_VERSION != IRISPipeline.PACKAGE_VERSION
+
+
+def test_custom_pipeline_without_package_version_uses_parent():
+    """Test that custom pipeline without PACKAGE_VERSION uses parent's version."""
+
+    class CustomPipelineWithoutVersion(IRISPipeline):
+        # Deliberately not setting PACKAGE_VERSION
+        pass
+
+    # Should inherit from parent IRISPipeline
+    assert CustomPipelineWithoutVersion.PACKAGE_VERSION == IRISPipeline.PACKAGE_VERSION
+    assert CustomPipelineWithoutVersion.PACKAGE_VERSION == __version__
+
+
+@pytest.mark.parametrize(
+    "input_version,expected_version,should_pass",
+    [
+        ("1.0.0", "1.0.0", True),
+        ("2.5.1", "2.5.1", True),
+        ("1.0.0", "2.0.0", False),
+        ("1.6.1", "2.0.0", False),
+        ("0.1.0-alpha", "0.1.0-alpha", True),
+    ],
+    ids=[
+        "matching_basic_semver",
+        "matching_different_version",
+        "mismatched_major",
+        "mismatched_specific",
+        "matching_alpha_version",
+    ],
+)
+def test_version_validation_behavior(input_version, expected_version, should_pass):
+    """Test version validation behavior with various version combinations."""
+
+    class CustomPipeline(IRISPipeline):
+        PACKAGE_VERSION = expected_version
+
+    config = {
+        "metadata": {
+            "pipeline_name": "custom_pipeline",
+            "iris_version": input_version,
+        },
+        "pipeline": [],
+    }
+
+    if should_pass:
+        # Should create pipeline without error
+        try:
+            pipeline = CustomPipeline(config=config)
+            assert pipeline.params.metadata.iris_version == input_version
+        except IRISPipelineError:
+            pytest.fail(f"Expected version {input_version} to match {expected_version}")
+    else:
+        # Should raise version mismatch error
+        with pytest.raises(IRISPipelineError) as exc_info:
+            CustomPipeline(config=config)
+
+        error_message = str(exc_info.value)
+        assert "Wrong config version" in error_message
+        assert expected_version in error_message
+        assert input_version in error_message

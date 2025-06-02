@@ -50,6 +50,8 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
     Subclasses should implement input/output specifics via _handle_input and _handle_output.
     """
 
+    PACKAGE_VERSION: str
+
     def __init__(
         self,
         config: Dict[str, Any],
@@ -66,6 +68,13 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         self._check_pipeline_coherency(self.params)
         self.nodes = self._instanciate_nodes()
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
+
+    def __init_subclass__(cls) -> None:
+        super().__init_subclass__()
+        if not hasattr(cls, "PACKAGE_VERSION") or not isinstance(cls.PACKAGE_VERSION, str) or not cls.PACKAGE_VERSION:
+            raise TypeError(f"{cls.__name__} must define a non-empty string PACKAGE_VERSION class attribute.")
+        if hasattr(cls, "Parameters"):
+            cls.Parameters.__outer_class__ = cls
 
     def estimate(self, pipeline_input: InputType, *args: Any, **kwargs: Any) -> OutputType:
         """Wrap the `run` method to match the Orb system AI models call interface.
