@@ -762,7 +762,6 @@ def test_estimate_run_equivalence_with_call_method(ir_image: np.ndarray):
     call_result = iris_pipeline(ir_image, eye_side="left")
 
     # All three should produce identical results
-    # Default IRISPipeline uses build_simple_iris_pipeline_orb_output, so we need compare_simple_pipeline_outputs
     compare_simple_pipeline_outputs(estimate_result, run_result)
     compare_simple_pipeline_outputs(run_result, call_result)
     compare_simple_pipeline_outputs(estimate_result, call_result)
