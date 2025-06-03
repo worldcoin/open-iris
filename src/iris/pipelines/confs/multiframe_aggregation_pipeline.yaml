@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.6.1
+  iris_version: 1.7.0
 
 pipeline:
   - name: segmentation
@@ -305,7 +305,7 @@ pipeline:
 
 templates_aggregation:
   metadata:
-    iris_version: 1.6.1
+    iris_version: 1.7.0
     pipeline_name: templates_aggregation
 
   pipeline:
@@ -314,7 +314,7 @@ templates_aggregation:
         class_name: iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation
         params:
           consistency_threshold: 0.75
-          mask_threshold: 0.5
+          mask_threshold: 0.01
           use_fragile_bits: True
           fragile_bit_threshold: 0.4
       inputs:
