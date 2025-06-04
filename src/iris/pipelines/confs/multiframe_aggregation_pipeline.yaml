@@ -302,3 +302,24 @@ pipeline:
       - name: geometry_polygons
         source_node: geometry_estimation
     callbacks:
+
+templates_aggregation:
+  metadata:
+    iris_version: 1.7.0
+    pipeline_name: templates_aggregation
+
+  pipeline:
+    - name: templates_aggregation
+      algorithm:
+        class_name: iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation
+        params:
+          consistency_threshold: 0.75
+          mask_threshold: 0.5
+          use_inconsistent_bits: True
+          inconsistent_bit_threshold: 0.4
+      inputs:
+        - name: templates
+          source_node: input
+      callbacks:
+        - class_name: iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible
+          params: {}

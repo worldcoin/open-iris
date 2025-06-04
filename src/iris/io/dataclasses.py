@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import Any, Dict, List, Literal, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Tuple, Union
 
 import numpy as np
-from pydantic import Field, NonNegativeInt, root_validator, validator
+from pydantic import BaseModel, Field, NonNegativeInt, root_validator, validator
 
+from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
 from iris.utils.base64_encoding import base64_decode_array, base64_encode_array
@@ -722,3 +723,18 @@ class EyeOcclusion(ImmutableModel):
             EyeOcclusion: Deserialized object.
         """
         return EyeOcclusion(visible_fraction=data)
+
+
+class OutputFieldSpec(BaseModel):
+    """
+    Specification for a single output field in the pipeline result.
+
+    Attributes:
+        key (str): The name of the field in the output dictionary.
+        extractor (Callable[[PipelineCallTraceStorage], Any]): A function that takes a PipelineCallTraceStorage and returns the raw value.
+        safe_serialize (bool): If True, apply __safe_serialize to the extracted value before returning it.
+    """
+
+    key: str
+    extractor: Callable[[PipelineCallTraceStorage], Any]
+    safe_serialize: bool = False

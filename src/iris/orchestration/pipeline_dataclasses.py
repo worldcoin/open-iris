@@ -2,10 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional, Tuple, Union
 
-from pydantic import validator
-
 from iris.io.class_configs import ImmutableModel
-from iris.orchestration.validators import pipeline_metadata_version_check
 
 
 class PipelineMetadata(ImmutableModel):
@@ -13,8 +10,6 @@ class PipelineMetadata(ImmutableModel):
 
     pipeline_name: str
     iris_version: str
-
-    _version_check = validator("iris_version", allow_reuse=True)(pipeline_metadata_version_check)
 
 
 class PipelineValue(ImmutableModel):

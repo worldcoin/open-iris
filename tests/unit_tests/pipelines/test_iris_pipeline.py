@@ -1,6 +1,7 @@
 import os
 from contextlib import nullcontext as does_not_raise
 from typing import Any, Dict, List, Optional
+from unittest.mock import Mock
 
 import cv2
 import numpy as np
@@ -15,10 +16,18 @@ from iris.io.class_configs import Algorithm
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
-from iris.orchestration.output_builders import build_orb_output, build_simple_debugging_output
+from iris.orchestration.output_builders import (
+    build_iris_pipeline_orb_output,
+    build_simple_iris_pipeline_debugging_output,
+)
 from iris.orchestration.pipeline_dataclasses import PipelineClass
 from iris.pipelines.iris_pipeline import IRISPipeline
 from iris.utils.base64_encoding import base64_encode_str
+from tests.e2e_tests.utils import (
+    compare_debug_pipeline_outputs,
+    compare_iris_pipeline_outputs,
+    compare_simple_pipeline_outputs,
+)
 
 
 @pytest.fixture
@@ -127,11 +136,11 @@ def test_pipeline_sanity_check_fails(config: Dict[str, Any]):
         ),
         (
             "test:\n  - a: 1\n - b: ",
-            pytest.raises(IRISPipelineError),
+            pytest.raises(ValueError),
         ),
         (
             {"not": ["a", "str"]},
-            pytest.raises(IRISPipelineError),
+            pytest.raises(ValueError),
         ),
     ],
     ids=[
@@ -192,7 +201,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -201,7 +210,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -210,7 +219,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -219,7 +228,7 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -247,7 +256,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -258,7 +267,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "fake_ir_image",
             Environment(
-                pipeline_output_builder=build_simple_debugging_output,
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -268,7 +277,7 @@ def test_error_manager(input: str, env: Environment, expectation, request: Fixtu
         (
             "ir_image",
             Environment(
-                pipeline_output_builder=build_simple_debugging_output,
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -362,7 +371,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -374,7 +383,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.IsPupilInsideIrisValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -395,7 +404,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [{"min_iris_length": 300, "min_pupil_length": 300}, {"min_iris_length": 400, "min_pupil_length": 400}],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.IsPupilInsideIrisValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -407,7 +416,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             None,
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[iris.nodes.validators.object_validators.PolygonsLengthValidator],
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
@@ -428,7 +437,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [{"min_iris_length": 300, "min_pupil_length": 300}],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OcclusionValidator,
@@ -452,7 +461,7 @@ def test_call_trace_clearance(ir_image: np.ndarray) -> None:
             ],
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OcclusionValidator,
@@ -488,7 +497,9 @@ def test_instanciate_node(
     config = f"metadata:\n  pipeline_name: iris_pipeline\n  iris_version: {__version__}\n\npipeline: []"
     iris_pipeline = IRISPipeline(config=config, env=env)
 
-    node = iris_pipeline.instanciate_node(node_class=node_class, algorithm_params=algorithm_params, callbacks=callbacks)
+    node = iris_pipeline._instanciate_node(
+        node_class=node_class, algorithm_params=algorithm_params, callbacks=callbacks
+    )
 
     # Check if the created node has the right type
     assert isinstance(node, eval(node_class))
@@ -512,7 +523,7 @@ def test_instanciate_node(
             [],
             [],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -555,7 +566,7 @@ def test_instanciate_node(
                 ),
             ],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
@@ -591,7 +602,7 @@ def test_instanciate_node(
                 iris.nodes.geometry_estimation.linear_extrapolation.LinearExtrapolation(dphi=142.857, callbacks=[]),
             ],
             Environment(
-                pipeline_output_builder=build_orb_output,
+                pipeline_output_builder=build_iris_pipeline_orb_output,
                 error_manager=raise_error_manager,
                 disabled_qa=[
                     iris.nodes.validators.object_validators.OffgazeValidator,
@@ -623,7 +634,7 @@ def test_instanciate_nodes(
 
     iris_pipeline = IRISPipeline(config=config, env=env)
 
-    nodes = iris_pipeline.instanciate_nodes()
+    nodes = iris_pipeline._instanciate_nodes()
 
     for computed_node, expected_node in zip(nodes.values(), expected_built_pipeline):
         assert isinstance(computed_node, type(expected_node))
@@ -655,3 +666,227 @@ def test_load_from_config(config: Dict[str, str], expected_pipeline_name: str) -
         assert res["agent"].params.metadata.pipeline_name == expected_pipeline_name
     else:
         assert res["agent"] is None
+
+
+@pytest.mark.parametrize(
+    "env,comparison_func",
+    [
+        (
+            Environment(
+                pipeline_output_builder=build_iris_pipeline_orb_output,
+                error_manager=store_error_manager,
+                call_trace_initialiser=PipelineCallTraceStorage.initialise,
+            ),
+            compare_iris_pipeline_outputs,
+        ),
+        (
+            Environment(
+                pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+                error_manager=store_error_manager,
+                call_trace_initialiser=PipelineCallTraceStorage.initialise,
+            ),
+            compare_debug_pipeline_outputs,
+        ),
+    ],
+    ids=["orb_output_builder", "debugging_output_builder"],
+)
+def test_estimate_and_run_produce_same_output(ir_image: np.ndarray, env: Environment, comparison_func):
+    """Test that estimate() and run() methods produce identical outputs for IRISPipeline."""
+    # Create pipeline instance
+    iris_pipeline = IRISPipeline(env=env)
+
+    # Test with left eye
+    estimate_result_left = iris_pipeline.estimate(ir_image, eye_side="left")
+    run_result_left = iris_pipeline.run(ir_image, eye_side="left")
+
+    # Assert that both methods produce the same output for left eye
+    comparison_func(estimate_result_left, run_result_left)
+
+    # Test with right eye
+    estimate_result_right = iris_pipeline.estimate(ir_image, eye_side="right")
+    run_result_right = iris_pipeline.run(ir_image, eye_side="right")
+
+    # Assert that both methods produce the same output for right eye
+    comparison_func(estimate_result_right, run_result_right)
+
+
+def test_estimate_and_run_with_additional_args(ir_image: np.ndarray):
+    """Test that estimate() and run() produce same output with additional args and kwargs."""
+    # Create pipeline instance with debugging environment for more predictable output
+    env = Environment(
+        pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+        error_manager=store_error_manager,
+        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+    )
+    iris_pipeline = IRISPipeline(env=env)
+
+    # Test with additional arguments (though IRISPipeline doesn't use them, they should be passed through)
+    extra_arg = "extra_positional"
+    extra_kwarg = {"extra": "keyword"}
+
+    estimate_result = iris_pipeline.estimate(ir_image, "left", extra_arg, extra_param=extra_kwarg)
+    run_result = iris_pipeline.run(ir_image, "left", extra_arg, extra_param=extra_kwarg)
+
+    # Assert that both methods produce the same output
+    compare_debug_pipeline_outputs(estimate_result, run_result)
+
+
+def test_estimate_calls_run_internally(ir_image: np.ndarray):
+    """Test that estimate() method internally calls run() method."""
+    # Create pipeline instance
+    iris_pipeline = IRISPipeline()
+
+    # Mock the run method to verify it's called by estimate
+    original_run = iris_pipeline.run
+    iris_pipeline.run = Mock(return_value={"mocked": "result"})
+
+    # Call estimate
+    result = iris_pipeline.estimate(ir_image, "left", "arg1", kwarg1="value1")
+
+    # Verify run was called with the same arguments
+    iris_pipeline.run.assert_called_once_with(ir_image, "left", "arg1", kwarg1="value1")
+    assert result == {"mocked": "result"}
+
+    # Restore original run method
+    iris_pipeline.run = original_run
+
+
+def test_estimate_run_equivalence_with_call_method(ir_image: np.ndarray):
+    """Test that estimate(), run(), and __call__() all produce the same output."""
+    # Create pipeline instance with orb output builder (default)
+    iris_pipeline = IRISPipeline()
+
+    # Get results from all three methods
+    estimate_result = iris_pipeline.estimate(ir_image, eye_side="left")
+    run_result = iris_pipeline.run(ir_image, eye_side="left")
+    call_result = iris_pipeline(ir_image, eye_side="left")
+
+    # All three should produce identical results
+    compare_simple_pipeline_outputs(estimate_result, run_result)
+    compare_simple_pipeline_outputs(run_result, call_result)
+    compare_simple_pipeline_outputs(estimate_result, call_result)
+
+
+def test_iris_pipeline_has_correct_package_version():
+    """Test that IRISPipeline has the correct PACKAGE_VERSION."""
+    assert hasattr(IRISPipeline, "PACKAGE_VERSION")
+    assert IRISPipeline.PACKAGE_VERSION == __version__
+    assert isinstance(IRISPipeline.PACKAGE_VERSION, str)
+    assert len(IRISPipeline.PACKAGE_VERSION) > 0
+
+
+def test_correct_version_passes_validation():
+    """Test that correct version passes validation during pipeline creation."""
+    config = {
+        "metadata": {
+            "pipeline_name": "test_pipeline",
+            "iris_version": __version__,  # Correct version
+        },
+        "pipeline": [],
+    }
+
+    # Should not raise any exception
+    pipeline = IRISPipeline(config=config)
+    assert pipeline.params.metadata.iris_version == __version__
+
+
+def test_wrong_version_raises_error():
+    """Test that wrong version raises error during pipeline creation."""
+    config = {
+        "metadata": {
+            "pipeline_name": "test_pipeline",
+            "iris_version": "999.0.0",  # Wrong version
+        },
+        "pipeline": [],
+    }
+
+    with pytest.raises(IRISPipelineError) as exc_info:
+        IRISPipeline(config=config)
+
+    error_message = str(exc_info.value)
+    assert "Wrong config version" in error_message
+    assert __version__ in error_message
+    assert "999.0.0" in error_message
+
+
+def test_version_validator_returns_metadata_on_success():
+    """Test that version validator returns metadata object when validation passes."""
+    # Create a mock metadata object
+    mock_metadata = Mock()
+    mock_metadata.iris_version = __version__
+
+    # The validator should return the metadata object unchanged
+    result = IRISPipeline.Parameters._version_check(mock_metadata, {})
+    assert result == mock_metadata
+
+
+def test_custom_pipeline_with_different_version():
+    """Test that custom pipeline with different PACKAGE_VERSION is created correctly."""
+
+    class CustomPipeline(IRISPipeline):
+        PACKAGE_VERSION = "2.0.0"
+
+    # Verify that the custom pipeline has its own version
+    assert CustomPipeline.PACKAGE_VERSION == "2.0.0"
+    assert CustomPipeline.PACKAGE_VERSION != IRISPipeline.PACKAGE_VERSION
+
+
+def test_custom_pipeline_without_package_version_uses_parent():
+    """Test that custom pipeline without PACKAGE_VERSION uses parent's version."""
+
+    class CustomPipelineWithoutVersion(IRISPipeline):
+        # Deliberately not setting PACKAGE_VERSION
+        pass
+
+    # Should inherit from parent IRISPipeline
+    assert CustomPipelineWithoutVersion.PACKAGE_VERSION == IRISPipeline.PACKAGE_VERSION
+    assert CustomPipelineWithoutVersion.PACKAGE_VERSION == __version__
+
+
+@pytest.mark.parametrize(
+    "input_version,expected_version,should_pass",
+    [
+        ("1.0.0", "1.0.0", True),
+        ("2.5.1", "2.5.1", True),
+        ("1.0.0", "2.0.0", False),
+        ("1.6.1", "2.0.0", False),
+        ("0.1.0-alpha", "0.1.0-alpha", True),
+    ],
+    ids=[
+        "matching_basic_semver",
+        "matching_different_version",
+        "mismatched_major",
+        "mismatched_specific",
+        "matching_alpha_version",
+    ],
+)
+def test_version_validation_behavior(input_version, expected_version, should_pass):
+    """Test version validation behavior with various version combinations."""
+
+    class CustomPipeline(IRISPipeline):
+        PACKAGE_VERSION = expected_version
+
+    config = {
+        "metadata": {
+            "pipeline_name": "custom_pipeline",
+            "iris_version": input_version,
+        },
+        "pipeline": [],
+    }
+
+    if should_pass:
+        # Should create pipeline without error
+        try:
+            pipeline = CustomPipeline(config=config)
+            assert pipeline.params.metadata.iris_version == input_version
+        except IRISPipelineError:
+            pytest.fail(f"Expected version {input_version} to match {expected_version}")
+    else:
+        # Should raise version mismatch error
+        with pytest.raises(IRISPipelineError) as exc_info:
+            CustomPipeline(config=config)
+
+        error_message = str(exc_info.value)
+        assert "Wrong config version" in error_message
+        assert expected_version in error_message
+        assert input_version in error_message
