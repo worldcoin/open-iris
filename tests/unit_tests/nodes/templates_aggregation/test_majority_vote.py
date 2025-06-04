@@ -50,19 +50,19 @@ class TestMajorityVoteAggregation:
 
         assert aggregator.params.consistency_threshold == 0.75
         assert aggregator.params.mask_threshold == 0.01
-        assert aggregator.params.use_fragile_bits is True
-        assert aggregator.params.fragile_bit_threshold == 0.4
+        assert aggregator.params.use_inconsistent_bits is True
+        assert aggregator.params.inconsistent_bit_threshold == 0.4
 
     def test_init_custom_parameters(self):
         """Test initialization with custom parameters."""
         aggregator = MajorityVoteAggregation(
-            consistency_threshold=0.8, mask_threshold=0.6, use_fragile_bits=False, fragile_bit_threshold=0.3
+            consistency_threshold=0.8, mask_threshold=0.6, use_inconsistent_bits=False, inconsistent_bit_threshold=0.3
         )
 
         assert aggregator.params.consistency_threshold == 0.8
         assert aggregator.params.mask_threshold == 0.6
-        assert aggregator.params.use_fragile_bits is False
-        assert aggregator.params.fragile_bit_threshold == 0.3
+        assert aggregator.params.use_inconsistent_bits is False
+        assert aggregator.params.inconsistent_bit_threshold == 0.3
 
     def test_parameters_validation_consistency_threshold(self):
         """Test parameter validation for consistency_threshold."""
@@ -92,19 +92,19 @@ class TestMajorityVoteAggregation:
         with pytest.raises(Exception):  # Pydantic validation error
             MajorityVoteAggregation(mask_threshold=1.1)
 
-    def test_parameters_validation_fragile_bit_threshold(self):
-        """Test parameter validation for fragile_bit_threshold."""
+    def test_parameters_validation_inconsistent_bit_threshold(self):
+        """Test parameter validation for inconsistent_bit_threshold."""
         # Valid values
-        MajorityVoteAggregation(fragile_bit_threshold=0.0)
-        MajorityVoteAggregation(fragile_bit_threshold=1.0)
-        MajorityVoteAggregation(fragile_bit_threshold=0.5)
+        MajorityVoteAggregation(inconsistent_bit_threshold=0.0)
+        MajorityVoteAggregation(inconsistent_bit_threshold=1.0)
+        MajorityVoteAggregation(inconsistent_bit_threshold=0.5)
 
         # Invalid values should raise validation error
         with pytest.raises(Exception):  # Pydantic validation error
-            MajorityVoteAggregation(fragile_bit_threshold=-0.1)
+            MajorityVoteAggregation(inconsistent_bit_threshold=-0.1)
 
         with pytest.raises(Exception):  # Pydantic validation error
-            MajorityVoteAggregation(fragile_bit_threshold=1.1)
+            MajorityVoteAggregation(inconsistent_bit_threshold=1.1)
 
     def test_run_empty_templates_list(self):
         """Test run method with empty templates list."""
@@ -131,7 +131,7 @@ class TestMajorityVoteAggregation:
     def test_run_multiple_templates(self, simple_templates):
         """Test run method with multiple templates."""
         aggregator = MajorityVoteAggregation(
-            consistency_threshold=0.5, mask_threshold=0.5, use_fragile_bits=True, fragile_bit_threshold=0.3
+            consistency_threshold=0.5, mask_threshold=0.5, use_inconsistent_bits=True, inconsistent_bit_threshold=0.3
         )
 
         combined_template, weights = aggregator.run(simple_templates)
@@ -162,7 +162,7 @@ class TestMajorityVoteAggregation:
     def test_combine_wavelet_codes_majority_voting(self):
         """Test _combine_wavelet_codes method with known patterns."""
         aggregator = MajorityVoteAggregation(
-            consistency_threshold=0.5, mask_threshold=0.5, use_fragile_bits=True, fragile_bit_threshold=0.3
+            consistency_threshold=0.5, mask_threshold=0.5, use_inconsistent_bits=True, inconsistent_bit_threshold=0.3
         )
 
         # Create test data where majority voting is clear
@@ -220,7 +220,7 @@ class TestMajorityVoteAggregation:
     def test_combine_wavelet_codes_consistency_weights(self):
         """Test _combine_wavelet_codes method weight calculation."""
         aggregator = MajorityVoteAggregation(
-            consistency_threshold=0.6, use_fragile_bits=True, fragile_bit_threshold=0.3
+            consistency_threshold=0.6, use_inconsistent_bits=True, inconsistent_bit_threshold=0.3
         )
 
         # Create data with different consistency levels
@@ -243,12 +243,12 @@ class TestMajorityVoteAggregation:
         assert weight[0, 0, 0] >= aggregator.params.consistency_threshold
 
         # Position [0,0,1]: 1/3 = 0.33 vote fraction -> consistency = |0.33 - 0.5| * 2 = 0.33
-        # Should get fragile bit weight (< consistency_threshold)
-        assert weight[0, 0, 1] == aggregator.params.fragile_bit_threshold
+        # Should get inconsistent bit weight (< consistency_threshold)
+        assert weight[0, 0, 1] == aggregator.params.inconsistent_bit_threshold
 
-    def test_combine_wavelet_codes_no_fragile_bits(self):
-        """Test _combine_wavelet_codes method with fragile bits disabled."""
-        aggregator = MajorityVoteAggregation(consistency_threshold=0.8, use_fragile_bits=False)
+    def test_combine_wavelet_codes_no_inconsistent_bits(self):
+        """Test _combine_wavelet_codes method with inconsistent bits disabled."""
+        aggregator = MajorityVoteAggregation(consistency_threshold=0.8, use_inconsistent_bits=False)
 
         iris_codes = [
             np.array([[[True, False]]]).astype(bool),
@@ -264,7 +264,7 @@ class TestMajorityVoteAggregation:
 
         combined_iris, combined_mask, weight = aggregator._combine_wavelet_codes(iris_codes, mask_codes)
 
-        # Low consistency positions should get weight 0 when fragile bits disabled
+        # Low consistency positions should get weight 0 when inconsistent bits disabled
         # Position [0,0,1]: 1/3 = 0.33 vote fraction -> consistency = 0.33 < 0.8
         assert weight[0, 0, 1] == 0.0
 

@@ -7,7 +7,7 @@ from the same user to enhance recognition performance.
 The algorithm combines:
 1. Selective Bits Fusion - Using the most reliable bits
 2. Majority Voting with Weight Templates - For consistent bits
-3. Fragile Bit Analysis - To utilize the pattern of fragile bits
+3. Inconsistent Bit Analysis - To utilize the pattern of inconsistent bits
 
 Author: Rostyslav Shevchenko
 Date: May 22, 2025
@@ -27,7 +27,7 @@ class MajorityVoteAggregation(Algorithm):
     """
     Class for combining multiple iris templates from the same user.
 
-    The algorithm identifies consistent and fragile bits across templates,
+    The algorithm identifies consistent and inconsistent bits across templates,
     uses majority voting for consistent bits, creates a weight template to
     reflect bit reliability, and generates a combined mask representing
     consensus of valid regions.
@@ -36,8 +36,8 @@ class MajorityVoteAggregation(Algorithm):
     class Parameters(Algorithm.Parameters):
         consistency_threshold: float = Field(default=0.75, ge=0.0, le=1.0)
         mask_threshold: float = Field(default=0.01, ge=0.0, le=1.0)
-        use_fragile_bits: bool = Field(default=True)
-        fragile_bit_threshold: float = Field(default=0.4, ge=0.0, le=1.0)
+        use_inconsistent_bits: bool = Field(default=True)
+        inconsistent_bit_threshold: float = Field(default=0.4, ge=0.0, le=1.0)
 
     __parameters_type__ = Parameters
 
@@ -45,8 +45,8 @@ class MajorityVoteAggregation(Algorithm):
         self,
         consistency_threshold: float = 0.75,
         mask_threshold: float = 0.01,
-        use_fragile_bits: bool = True,
-        fragile_bit_threshold: float = 0.4,
+        use_inconsistent_bits: bool = True,
+        inconsistent_bit_threshold: float = 0.4,
         callbacks: List[Callback] = [],
     ):
         """
@@ -55,14 +55,14 @@ class MajorityVoteAggregation(Algorithm):
         Args:
             consistency_threshold (float): Threshold for considering a bit consistent across templates
             mask_threshold (float): Threshold for considering a mask bit valid in the combined template
-            use_fragile_bits (bool): Whether to use fragile bits information
-            fragile_bit_threshold (float): Threshold for identifying fragile bits
+            use_inconsistent_bits (bool): Whether to use inconsistent bits information
+            inconsistent_bit_threshold (float): Threshold for identifying inconsistent bits
         """
         super().__init__(
             consistency_threshold=consistency_threshold,
             mask_threshold=mask_threshold,
-            use_fragile_bits=use_fragile_bits,
-            fragile_bit_threshold=fragile_bit_threshold,
+            use_inconsistent_bits=use_inconsistent_bits,
+            inconsistent_bit_threshold=inconsistent_bit_threshold,
             callbacks=callbacks,
         )
 
@@ -163,6 +163,9 @@ class MajorityVoteAggregation(Algorithm):
         # Calculate the fraction of votes for each bit
         vote_fractions = vote_counts / np.maximum(valid_mask_counts, 1)
 
+        # Fraction of templates in which the bit is valid
+        valid_mask_fraction = valid_mask_counts / num_templates
+
         # Calculate consistency (how far from 0.5 the vote fraction is)
         # Values close to 0 or 1 are more consistent, values close to 0.5 are less consistent
         consistency = np.abs(vote_fractions - 0.5) * 2  # Scale to [0, 1]
@@ -179,7 +182,10 @@ class MajorityVoteAggregation(Algorithm):
         weight = np.where(
             consistency >= self.params.consistency_threshold,
             consistency,
-            self.params.fragile_bit_threshold if self.params.use_fragile_bits else 0,
+            self.params.inconsistent_bit_threshold if self.params.use_inconsistent_bits else 0,
         )
+
+        # take into account the fraction of templates in which the bit is valid
+        weight = weight * valid_mask_fraction
 
         return combined_iris_code, combined_mask_code, weight
