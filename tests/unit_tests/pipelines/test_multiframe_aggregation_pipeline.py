@@ -38,8 +38,8 @@ def mock_config():
                     "params": {
                         "consistency_threshold": 0.75,
                         "mask_threshold": 0.5,
-                        "use_fragile_bits": True,
-                        "fragile_bit_threshold": 0.4,
+                        "use_inconsistent_bits": True,
+                        "inconsistent_bit_threshold": 0.4,
                     },
                 },
                 "inputs": [{"name": "templates", "source_node": "input"}],
@@ -65,8 +65,8 @@ def mock_full_config():
                         "params": {
                             "consistency_threshold": 0.75,
                             "mask_threshold": 0.5,
-                            "use_fragile_bits": True,
-                            "fragile_bit_threshold": 0.4,
+                            "use_inconsistent_bits": True,
+                            "inconsistent_bit_threshold": 0.4,
                         },
                     },
                     "inputs": [{"name": "templates", "source_node": "input"}],

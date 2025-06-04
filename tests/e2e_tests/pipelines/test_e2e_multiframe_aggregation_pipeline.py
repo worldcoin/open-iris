@@ -76,8 +76,8 @@ def standalone_aggregation_config():
                     "params": {
                         "consistency_threshold": 0.6,
                         "mask_threshold": 0.3,
-                        "use_fragile_bits": True,
-                        "fragile_bit_threshold": 0.2,
+                        "use_inconsistent_bits": True,
+                        "inconsistent_bit_threshold": 0.2,
                     },
                 },
                 "inputs": [{"name": "templates", "source_node": "input"}],
@@ -108,8 +108,8 @@ def composite_iris_config():
                         "params": {
                             "consistency_threshold": 0.6,
                             "mask_threshold": 0.3,
-                            "use_fragile_bits": True,
-                            "fragile_bit_threshold": 0.2,
+                            "use_inconsistent_bits": True,
+                            "inconsistent_bit_threshold": 0.2,
                         },
                     },
                     "inputs": [{"name": "templates", "source_node": "input"}],
@@ -403,8 +403,8 @@ class TestMultiframeAggregationPipeline:
                         "params": {
                             "consistency_threshold": 0.9,  # High threshold
                             "mask_threshold": 0.1,  # Low threshold
-                            "use_fragile_bits": False,  # Disabled
-                            "fragile_bit_threshold": 0.0,
+                            "use_inconsistent_bits": False,  # Disabled
+                            "inconsistent_bit_threshold": 0.0,
                         },
                     },
                     "inputs": [{"name": "templates", "source_node": "input"}],
