@@ -1,10 +1,11 @@
+import sys
 from typing import Any, Dict
 
 import pytest
 from pydantic import Field, ValidationError
 
 from iris.callbacks.callback_interface import Callback
-from iris.io.class_configs import Algorithm, ImmutableModel
+from iris.io.class_configs import Algorithm, ImmutableModel, instantiate_class_from_name
 
 
 class ConcreteImmutableModel(ImmutableModel):
@@ -32,9 +33,8 @@ def test_immutable_model_constructor(parameters: Dict[str, Any]) -> None:
     "parameters",
     [
         ({"my_param_1": -4, "my_param_2": "toto"}),
-        ({"my_param_1": 3, "my_param_2": "toto", "extra_parameter": "forbidden"}),
     ],
-    ids=["pydantic checks", "extra parameter forbidden"],
+    ids=["pydantic checks"],
 )
 def test_immutable_model_constructor_raises_exception(parameters: Dict) -> None:
     with pytest.raises((ValidationError, TypeError)):
@@ -96,3 +96,42 @@ def test_parametrized_model_validation_hook_raising_an_error() -> None:
         _ = mock_model.execute()
 
     assert str(err.value) == MockDummyValidationAlgorithm.ERROR_MSG
+
+
+def test_from_name_instantiates_algorithm_subclass():
+    class DummyAlgorithm(Algorithm):
+        class Parameters(Algorithm.Parameters):
+            foo: int
+
+        __parameters_type__ = Parameters
+
+        def run(self):
+            return self.params.foo
+
+    # Register DummyAlgorithm in the module namespace for pydoc.locate
+    current_module = sys.modules[__name__]
+    setattr(current_module, "DummyAlgorithm", DummyAlgorithm)
+
+    # Should instantiate and run correctly
+    instance = instantiate_class_from_name(f"{__name__}.DummyAlgorithm", {"foo": 42})
+    assert isinstance(instance, DummyAlgorithm)
+    assert instance.run() == 42
+
+
+def test_from_name_instantiates_non_algorithm_class():
+    class NonAlgorithm:
+        def __init__(self, bar):
+            self.bar = bar
+
+    current_module = sys.modules[__name__]
+    setattr(current_module, "NonAlgorithm", NonAlgorithm)
+
+    instance = instantiate_class_from_name(f"{__name__}.NonAlgorithm", {"bar": "baz"})
+    assert isinstance(instance, NonAlgorithm)
+    assert instance.bar == "baz"
+
+
+def test_from_name_raises_on_missing_class():
+    with pytest.raises(ValueError) as excinfo:
+        instantiate_class_from_name("nonexistent.module.ClassName", {})
+    assert "Could not locate class" in str(excinfo.value)

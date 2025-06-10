@@ -103,8 +103,12 @@ def compare_simple_pipeline_template_output(iris_template_1: Dict[str, Any], iri
         iris_template_1 (Dict[str, Any]): pipeline's iris template output 1.
         iris_template_2 (Dict[str, Any]): pipeline's iris template output 2.
     """
-    assert np.all([ic1 == ic2 for ic1, ic2 in zip(iris_template_2.iris_codes, iris_template_1.iris_codes)])
-    assert np.all([ic1 == ic2 for ic1, ic2 in zip(iris_template_2.mask_codes, iris_template_1.mask_codes)])
+    assert np.all(
+        [np.array_equal(ic1, ic2) for ic1, ic2 in zip(iris_template_2.iris_codes, iris_template_1.iris_codes)]
+    )
+    assert np.all(
+        [np.array_equal(ic1, ic2) for ic1, ic2 in zip(iris_template_2.mask_codes, iris_template_1.mask_codes)]
+    )
     assert iris_template_2.iris_code_version == iris_template_1.iris_code_version
 
 
