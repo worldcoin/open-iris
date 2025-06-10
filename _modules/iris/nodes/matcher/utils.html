@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.nodes.matcher.utils - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.nodes.matcher.utils - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -293,7 +294,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MatcherError</span>
 
 
-<div class="viewcode-block" id="normalized_HD"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.normalized_HD">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">normalized_HD</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maskbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">norm_gradient</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="normalized_HD">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.normalized_HD">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalized_HD</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maskbitcount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">norm_gradient</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform normalized HD calculation.</span>
 
 <span class="sd">    Args:</span>
@@ -311,7 +314,10 @@
     <span class="k">return</span> <span class="n">norm_HD</span></div>
 
 
-<div class="viewcode-block" id="get_bitcounts"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.get_bitcounts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_bitcounts</span><span class="p">(</span><span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="get_bitcounts">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.get_bitcounts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_bitcounts</span><span class="p">(</span><span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get bitcounts in iris and mask codes.</span>
 
 <span class="sd">    Args:</span>
@@ -333,7 +339,10 @@
     <span class="k">return</span> <span class="n">irisbits</span><span class="p">,</span> <span class="n">maskbits</span></div>
 
 
-<div class="viewcode-block" id="count_nonmatchbits"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.count_nonmatchbits">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">count_nonmatchbits</span><span class="p">(</span>
+
+<div class="viewcode-block" id="count_nonmatchbits">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.count_nonmatchbits">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_nonmatchbits</span><span class="p">(</span>
     <span class="n">irisbits</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">maskbits</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">half_width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -371,7 +380,10 @@
     <span class="k">return</span> <span class="n">totalirisbitcount</span><span class="p">,</span> <span class="n">totalmaskbitcount</span></div>
 
 
-<div class="viewcode-block" id="simple_hamming_distance"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.simple_hamming_distance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">simple_hamming_distance</span><span class="p">(</span>
+
+<div class="viewcode-block" id="simple_hamming_distance">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.simple_hamming_distance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_hamming_distance</span><span class="p">(</span>
     <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
@@ -418,7 +430,10 @@
     <span class="k">return</span> <span class="n">best_dist</span><span class="p">,</span> <span class="n">rot_shift</span></div>
 
 
-<div class="viewcode-block" id="hamming_distance"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.hamming_distance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">hamming_distance</span><span class="p">(</span>
+
+<div class="viewcode-block" id="hamming_distance">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.hamming_distance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hamming_distance</span><span class="p">(</span>
     <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -500,6 +515,7 @@
             <span class="n">match_rot</span> <span class="o">=</span> <span class="n">current_shift</span>
 
     <span class="k">return</span> <span class="n">match_dist</span><span class="p">,</span> <span class="n">match_rot</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -532,9 +548,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

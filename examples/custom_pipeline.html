@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Matching entities tutorial" href="matching_entities.html" /><link rel="prev" title="Getting started tutorial" href="getting_started.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>Configuring custom pipeline tutorial - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Configuring custom pipeline tutorial - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -292,7 +293,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="configuring-custom-pipeline-tutorial">
-<h1><em>Configuring custom pipeline</em> tutorial<a class="headerlink" href="#configuring-custom-pipeline-tutorial" title="Permalink to this heading">¶</a></h1>
+<h1><em>Configuring custom pipeline</em> tutorial<a class="headerlink" href="#configuring-custom-pipeline-tutorial" title="Link to this heading">¶</a></h1>
 <p>This subpage will walk you through you the steps you have to take to configure your custom <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>. From it you will learn how to:</p>
 <ul class="simple">
 <li><p>Configure <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> algorithms parameters.</p></li>
@@ -300,7 +301,7 @@
 <li><p>Implement your own node with <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> class and introduce them into <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> graph.</p></li>
 </ul>
 <section id="configure-irispipeline-algorithms-parameters">
-<h2>1. Configure <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> algorithms parameters.<a class="headerlink" href="#configure-irispipeline-algorithms-parameters" title="Permalink to this heading">¶</a></h2>
+<h2>1. Configure <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> algorithms parameters.<a class="headerlink" href="#configure-irispipeline-algorithms-parameters" title="Link to this heading">¶</a></h2>
 <p>To create the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object with modified <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> parameters, we have to understand a few things about <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> orchestration system.</p>
 <p>When the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> pipeline is created with default parameters, it’s graph is parsed from a default YAML file that is available in <code class="docutils literal notranslate"><span class="pre">/src/iris/pipelines/confs/pipeline.yaml</span></code> YAML file. The content of that file presents as follow.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">metadata</span><span class="p">:</span>
@@ -808,7 +809,7 @@
 <p>Perfect! We’ve just learned how to modify <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> algorithms parameters. Now, let’s have a look how to modify <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> node connections.</p>
 </section>
 <section id="configure-irispipeline-graph">
-<h2>2. Configure <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> graph.<a class="headerlink" href="#configure-irispipeline-graph" title="Permalink to this heading">¶</a></h2>
+<h2>2. Configure <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> graph.<a class="headerlink" href="#configure-irispipeline-graph" title="Link to this heading">¶</a></h2>
 <p>As described in previous section to define connection between nodes, we utilize <code class="docutils literal notranslate"><span class="pre">inputs</span></code> key within our YAML file or dictionary. Similar to previous tutorial, let’s start with instantiating a default <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> and then modify “artificially” for demonstration purposes connections between <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> (<code class="docutils literal notranslate"><span class="pre">iris.ContourPointNoiseEyeballDistanceFilter</span></code>), <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> (<code class="docutils literal notranslate"><span class="pre">iris.Smoothing</span></code>) and <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> (<code class="docutils literal notranslate"><span class="pre">iris.FusionExtrapolation</span></code>) nodes.</p>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node, responsible for refinement of vectorized iris and pupil points is taking as an input the output of <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> nodes, which btw is also doing refinement of vectorized iris and pupil points but of course a different one. The output of <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node is later passed to final <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> node as an input. Within commented section below user can follow that connection. Now, in this example let’s imagine we want to bypass <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node and perform <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> based on the output of <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> node while still keeping <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node.</p>
 <p>First let’s instantiate <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> with default configuration and see nodes connected to <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> node.</p>
@@ -1254,7 +1255,7 @@
 <p>Perfect! Now, we can see that <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> will use the output of <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> node as an input. Last but not least, before concluding this tutorial, we have to learn how to implement our own custom nodes that can be plugged to <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>.</p>
 </section>
 <section id="implement-your-own-node-with-algorithm-class-and-introduce-them-into-irispipeline-graph">
-<h2>3. Implement your own node with <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> class and introduce them into <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> graph.<a class="headerlink" href="#implement-your-own-node-with-algorithm-class-and-introduce-them-into-irispipeline-graph" title="Permalink to this heading">¶</a></h2>
+<h2>3. Implement your own node with <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> class and introduce them into <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> graph.<a class="headerlink" href="#implement-your-own-node-with-algorithm-class-and-introduce-them-into-irispipeline-graph" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> class is an abstract class that is a base class for every node and <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> in the <code class="docutils literal notranslate"><span class="pre">iris</span></code> packages. It’s defined as follow:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Algorithm</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of every node of the iris recognition pipeline.&quot;&quot;&quot;</span>
@@ -1393,9 +1394,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

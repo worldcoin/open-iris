@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.eye_properties_estimation package" href="iris.nodes.eye_properties_estimation.html" /><link rel="prev" title="iris.nodes.binarization package" href="iris.nodes.binarization.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.nodes.encoder package - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.nodes.encoder package - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -292,15 +293,15 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="iris-nodes-encoder-package">
-<h1>iris.nodes.encoder package<a class="headerlink" href="#iris-nodes-encoder-package" title="Permalink to this heading">¶</a></h1>
+<h1>iris.nodes.encoder package<a class="headerlink" href="#iris-nodes-encoder-package" title="Link to this heading">¶</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
 <section id="module-iris.nodes.encoder.iris_encoder">
-<span id="iris-nodes-encoder-iris-encoder-module"></span><h2>iris.nodes.encoder.iris_encoder module<a class="headerlink" href="#module-iris.nodes.encoder.iris_encoder" title="Permalink to this heading">¶</a></h2>
+<span id="iris-nodes-encoder-iris-encoder-module"></span><h2>iris.nodes.encoder.iris_encoder module<a class="headerlink" href="#module-iris.nodes.encoder.iris_encoder" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.nodes.encoder.iris_encoder.IrisEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.encoder.iris_encoder.</span></span><span class="sig-name descname"><span class="pre">IrisEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.93</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.encoder.iris_encoder.</span></span><span class="sig-name descname"><span class="pre">IrisEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.93</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
 <p>Binarize IrisFilterResponse to generate iris code using Daugman’s method.</p>
 <dl class="simple">
@@ -314,19 +315,19 @@
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
 <p>IrisEncoder parameters.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters.mask_threshold">
-<span class="sig-name descname"><span class="pre">mask_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters.mask_threshold" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">mask_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.Parameters.mask_threshold" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.nodes.encoder.iris_encoder.IrisEncoder.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.run" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisFilterResponse" title="iris.io.dataclasses.IrisFilterResponse"><span class="pre">IrisFilterResponse</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/encoder/iris_encoder.html#IrisEncoder.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.encoder.iris_encoder.IrisEncoder.run" title="Link to this definition">¶</a></dt>
 <dd><p>Encode iris code and mask code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -345,7 +346,7 @@
 
 </section>
 <section id="module-iris.nodes.encoder">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.encoder" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.encoder" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -429,9 +430,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.io.dataclasses - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.io.dataclasses - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -288,18 +289,21 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">NonNegativeInt</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">NonNegativeInt</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.callbacks.pipeline_trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineCallTraceStorage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">validators</span> <span class="k">as</span> <span class="n">v</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.class_configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImmutableModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.base64_encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base64_decode_array</span><span class="p">,</span> <span class="n">base64_encode_array</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">estimate_diameter</span>
 
 
-<div class="viewcode-block" id="IRImage"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IRImage</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<div class="viewcode-block" id="IRImage">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IRImage</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for input IR image.&quot;&quot;&quot;</span>
 
     <span class="n">img_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -323,7 +327,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<div class="viewcode-block" id="IRImage.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="IRImage.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize IRImage object.</span>
 
 <span class="sd">        Returns:</span>
@@ -331,7 +337,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IRImage.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IRImage.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IRImage.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">IRImage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize IRImage object.</span>
 
@@ -341,10 +350,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            IRImage: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">IRImage</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">IRImage</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="SegmentationMap"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SegmentationMap</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SegmentationMap">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SegmentationMap</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the segmentation models predictions.&quot;&quot;&quot;</span>
 
     <span class="n">predictions</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -414,7 +427,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index2class</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">index2class</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">predictions</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SegmentationMap.index_of"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.index_of">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">index_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="SegmentationMap.index_of">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.index_of">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get class index based on its name.</span>
 
 <span class="sd">        Args:</span>
@@ -432,7 +447,10 @@
 
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index for the `</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">` not found&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SegmentationMap.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="SegmentationMap.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize SegmentationMap object.</span>
 
 <span class="sd">        Returns:</span>
@@ -440,7 +458,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SegmentationMap.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="SegmentationMap.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.SegmentationMap.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SegmentationMap</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize SegmentationMap object.</span>
 
@@ -450,10 +471,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            SegmentationMap: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SegmentationMap</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">SegmentationMap</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="GeometryMask"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeometryMask</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GeometryMask">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryMask</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the geometry raster.&quot;&quot;&quot;</span>
 
     <span class="n">pupil_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -492,7 +517,9 @@
 
         <span class="k">return</span> <span class="n">binary_maps</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GeometryMask.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="GeometryMask.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize GeometryMask object.</span>
 
 <span class="sd">        Returns:</span>
@@ -500,7 +527,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GeometryMask.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="GeometryMask.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryMask.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">GeometryMask</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize GeometryMask object.</span>
 
@@ -510,10 +540,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            GeometryMask: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">GeometryMask</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">GeometryMask</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="NoiseMask"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NoiseMask</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NoiseMask">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NoiseMask</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the refined geometry masks.&quot;&quot;&quot;</span>
 
     <span class="n">mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -521,7 +555,9 @@
     <span class="n">_is_mask_2D</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_array_n_dimensions</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
     <span class="n">_is_binary</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_binary</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NoiseMask.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="NoiseMask.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize NoiseMask object.</span>
 
 <span class="sd">        Returns:</span>
@@ -529,7 +565,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NoiseMask.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="NoiseMask.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NoiseMask.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NoiseMask</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize NoiseMask object.</span>
 
@@ -539,10 +578,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            NoiseMask: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">NoiseMask</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">NoiseMask</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="GeometryPolygons"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeometryPolygons</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GeometryPolygons">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryPolygons</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the refined geometry polygons. Input np.ndarrays are mandatorily converted to np.float32 dtype for compatibility with some downstream tasks such as MomentsOfArea.&quot;&quot;&quot;</span>
 
     <span class="n">pupil_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -570,7 +613,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">estimate_diameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_array</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GeometryPolygons.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="GeometryPolygons.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize GeometryPolygons object.</span>
 
 <span class="sd">        Returns:</span>
@@ -578,7 +623,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;pupil&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span> <span class="s2">&quot;iris&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="s2">&quot;eyeball&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eyeball_array</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="GeometryPolygons.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="GeometryPolygons.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.GeometryPolygons.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize GeometryPolygons object.</span>
 
@@ -590,15 +638,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pupil_array&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pupil&quot;</span><span class="p">],</span> <span class="s2">&quot;iris_array&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;iris&quot;</span><span class="p">],</span> <span class="s2">&quot;eyeball_array&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;eyeball&quot;</span><span class="p">]}</span>
 
-        <span class="k">return</span> <span class="n">GeometryPolygons</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">GeometryPolygons</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="EyeOrientation"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeOrientation</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeOrientation">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeOrientation</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the eye orientation. The angle must be comprised between -pi/2 (included) and pi/2 (excluded).&quot;&quot;&quot;</span>
 
     <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EyeOrientation.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="EyeOrientation.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize EyeOrientation object.</span>
 
 <span class="sd">        Returns:</span>
@@ -606,7 +660,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span></div>
 
-<div class="viewcode-block" id="EyeOrientation.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="EyeOrientation.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOrientation.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeOrientation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize EyeOrientation object.</span>
 
@@ -616,10 +673,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            EyeOrientation: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">EyeOrientation</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">EyeOrientation</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="EyeCenters"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeCenters</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeCenters">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeCenters</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for eye&#39;s centers.&quot;&quot;&quot;</span>
 
     <span class="n">pupil_x</span><span class="p">:</span> <span class="nb">float</span>
@@ -636,7 +697,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pupil_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iris_y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pupil_y</span><span class="p">])</span>
 
-<div class="viewcode-block" id="EyeCenters.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<div class="viewcode-block" id="EyeCenters.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize EyeCenters object.</span>
 
 <span class="sd">        Returns:</span>
@@ -644,7 +707,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;iris_center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iris_y</span><span class="p">),</span> <span class="s2">&quot;pupil_center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pupil_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pupil_y</span><span class="p">)}</span></div>
 
-<div class="viewcode-block" id="EyeCenters.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="EyeCenters.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeCenters.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">EyeCenters</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize EyeCenters object.</span>
 
@@ -661,15 +727,21 @@
             <span class="s2">&quot;iris_y&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;iris_center&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">EyeCenters</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">EyeCenters</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Offgaze"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Offgaze</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Offgaze">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Offgaze</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for offgaze score.&quot;&quot;&quot;</span>
 
     <span class="n">score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Offgaze.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Offgaze.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize Offgaze object.</span>
 
 <span class="sd">        Returns:</span>
@@ -677,7 +749,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
 
-<div class="viewcode-block" id="Offgaze.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Offgaze.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Offgaze.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Offgaze</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize Offgaze object.</span>
 
@@ -687,15 +762,21 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Offgaze: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Offgaze</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Offgaze</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Sharpness"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Sharpness</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sharpness">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Sharpness</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for Sharpness score.&quot;&quot;&quot;</span>
 
     <span class="n">score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Sharpness.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Sharpness.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize Sharpness object.</span>
 
 <span class="sd">        Returns:</span>
@@ -703,7 +784,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
 
-<div class="viewcode-block" id="Sharpness.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Sharpness.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Sharpness.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sharpness</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize Sharpness object.</span>
 
@@ -713,16 +797,22 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Sharpness: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Sharpness</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Sharpness</span><span class="p">(</span><span class="n">score</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PupilToIrisProperty"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PupilToIrisProperty</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PupilToIrisProperty">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PupilToIrisProperty</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for pupil-ro-iris ratios.&quot;&quot;&quot;</span>
 
     <span class="n">pupil_to_iris_diameter_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">pupil_to_iris_center_dist_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PupilToIrisProperty.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="PupilToIrisProperty.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize PupilToIrisProperty object.</span>
 
 <span class="sd">        Returns:</span>
@@ -730,7 +820,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PupilToIrisProperty.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="PupilToIrisProperty.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.PupilToIrisProperty.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PupilToIrisProperty</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize PupilToIrisProperty object.</span>
 
@@ -740,10 +833,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            PupilToIrisProperty: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">PupilToIrisProperty</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">PupilToIrisProperty</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Landmarks"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Landmarks</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Landmarks">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Landmarks</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for eye&#39;s landmarks.&quot;&quot;&quot;</span>
 
     <span class="n">pupil_landmarks</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -752,7 +849,9 @@
 
     <span class="n">_is_list_of_points</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_list_of_points</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Landmarks.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Landmarks.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize Landmarks object.</span>
 
 <span class="sd">        Returns:</span>
@@ -764,7 +863,10 @@
             <span class="s2">&quot;eyeball&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eyeball_landmarks</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="Landmarks.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="Landmarks.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.Landmarks.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Landmarks</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize Landmarks object.</span>
 
@@ -780,10 +882,14 @@
             <span class="s2">&quot;eyeball_landmarks&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;eyeball&quot;</span><span class="p">]),</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="n">Landmarks</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Landmarks</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="BoundingBox"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BoundingBox</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoundingBox">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoundingBox</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for eye&#39;s bounding box.&quot;&quot;&quot;</span>
 
     <span class="n">x_min</span><span class="p">:</span> <span class="nb">float</span>
@@ -793,7 +899,9 @@
 
     <span class="n">_is_valid_bbox</span> <span class="o">=</span> <span class="n">root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_valid_bbox</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BoundingBox.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="BoundingBox.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize BoundingBox object.</span>
 
 <span class="sd">        Returns:</span>
@@ -801,7 +909,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BoundingBox.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="BoundingBox.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.BoundingBox.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BoundingBox</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize BoundingBox object.</span>
 
@@ -811,10 +922,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            BoundingBox: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">BoundingBox</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="NormalizedIris"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NormalizedIris</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NormalizedIris">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NormalizedIris</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the normalized iris images.&quot;&quot;&quot;</span>
 
     <span class="n">normalized_image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
@@ -828,7 +943,9 @@
 
     <span class="n">_is_uint8</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;normalized_image&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_uint8</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NormalizedIris.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="NormalizedIris.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize NormalizedIris object.</span>
 
 <span class="sd">        Returns:</span>
@@ -836,7 +953,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NormalizedIris.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="NormalizedIris.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.NormalizedIris.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NormalizedIris</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize NormalizedIris object.</span>
 
@@ -846,10 +966,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            NormalizedIris: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">NormalizedIris</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">NormalizedIris</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="IrisFilterResponse"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IrisFilterResponse</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IrisFilterResponse">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IrisFilterResponse</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for filter bank response with associated mask.&quot;&quot;&quot;</span>
 
     <span class="n">iris_responses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
@@ -861,7 +985,9 @@
     <span class="p">)</span>
     <span class="n">_iris_code_version_check</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;iris_code_version&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">iris_code_version_check</span><span class="p">)</span>
 
-<div class="viewcode-block" id="IrisFilterResponse.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<div class="viewcode-block" id="IrisFilterResponse.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize IrisFilterResponse object.</span>
 
 <span class="sd">        Returns:</span>
@@ -869,7 +995,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IrisFilterResponse.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IrisFilterResponse.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisFilterResponse.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">IrisFilterResponse</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize IrisFilterResponse object.</span>
 
@@ -879,10 +1008,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            IrisFilterResponse: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">IrisFilterResponse</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">IrisFilterResponse</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="IrisTemplate"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IrisTemplate</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IrisTemplate">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IrisTemplate</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for final iris template with mask.&quot;&quot;&quot;</span>
 
     <span class="n">iris_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
@@ -895,7 +1028,9 @@
     <span class="n">_is_binary</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;iris_codes&quot;</span><span class="p">,</span> <span class="s2">&quot;mask_codes&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">is_binary</span><span class="p">)</span>
     <span class="n">_iris_code_version_check</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;iris_code_version&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">v</span><span class="o">.</span><span class="n">iris_code_version_check</span><span class="p">)</span>
 
-<div class="viewcode-block" id="IrisTemplate.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]:</span>
+<div class="viewcode-block" id="IrisTemplate.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize IrisTemplate object.</span>
 
 <span class="sd">        Returns:</span>
@@ -909,7 +1044,10 @@
             <span class="s2">&quot;iris_code_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iris_code_version</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="IrisTemplate.convert2old_format"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.convert2old_format">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">convert2old_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="IrisTemplate.convert2old_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.convert2old_format">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert2old_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an old tempalte format and the associated iris code version into an IrisTemplate object.</span>
 
 <span class="sd">        Returns:</span>
@@ -917,7 +1055,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">IrisTemplate</span><span class="o">.</span><span class="n">new_to_old_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">),</span> <span class="n">IrisTemplate</span><span class="o">.</span><span class="n">new_to_old_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="IrisTemplate.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IrisTemplate.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span>
         <span class="n">serialized_template</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisTemplate</span><span class="p">:</span>
@@ -936,7 +1077,10 @@
             <span class="n">iris_code_version</span><span class="o">=</span><span class="n">serialized_template</span><span class="p">[</span><span class="s2">&quot;iris_code_version&quot;</span><span class="p">],</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="IrisTemplate.convert_to_new_format"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.convert_to_new_format">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IrisTemplate.convert_to_new_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.convert_to_new_format">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">convert_to_new_format</span><span class="p">(</span><span class="n">iris_codes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mask_codes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_code_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisTemplate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an old template format and the associated iris code version into an IrisTemplate object.</span>
 
@@ -949,7 +1093,10 @@
             <span class="n">iris_code_version</span><span class="o">=</span><span class="n">iris_code_version</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="IrisTemplate.new_to_old_format"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.new_to_old_format">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IrisTemplate.new_to_old_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.new_to_old_format">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">new_to_old_format</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert new iris template format to old iris template format.</span>
 <span class="sd">            - New format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.</span>
@@ -969,7 +1116,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All codes must have the same shape to be converted to the old format.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IrisTemplate.old_to_new_format"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.old_to_new_format">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="IrisTemplate.old_to_new_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.IrisTemplate.old_to_new_format">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">old_to_new_format</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert old iris template format to new iris template format.</span>
 <span class="sd">            - Old format is a list of arrays, each of shape (height_i, width_i, 2). The length of the list is nb_wavelets.</span>
@@ -982,15 +1132,21 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: New format codes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">array</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="EyeOcclusion"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeOcclusion</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeOcclusion">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeOcclusion</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the eye occlusion.&quot;&quot;&quot;</span>
 
     <span class="n">visible_fraction</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EyeOcclusion.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="EyeOcclusion.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize EyeOcclusion object.</span>
 
 <span class="sd">        Returns:</span>
@@ -998,7 +1154,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible_fraction</span></div>
 
-<div class="viewcode-block" id="EyeOcclusion.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="EyeOcclusion.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeOcclusion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize EyeOcclusion object.</span>
 
@@ -1008,7 +1167,27 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            EyeOcclusion: Deserialized object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">EyeOcclusion</span><span class="p">(</span><span class="n">visible_fraction</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">EyeOcclusion</span><span class="p">(</span><span class="n">visible_fraction</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="OutputFieldSpec">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.OutputFieldSpec">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OutputFieldSpec</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specification for a single output field in the pipeline result.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        key (str): The name of the field in the output dictionary.</span>
+<span class="sd">        extractor (Callable[[PipelineCallTraceStorage], Any]): A function that takes a PipelineCallTraceStorage and returns the raw value.</span>
+<span class="sd">        safe_serialize (bool): If True, apply __safe_serialize to the extracted value before returning it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">extractor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">PipelineCallTraceStorage</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">safe_serialize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -1041,9 +1220,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>
