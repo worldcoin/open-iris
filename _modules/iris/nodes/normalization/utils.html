@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.nodes.normalization.utils - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.nodes.normalization.utils - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -293,7 +294,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">common</span>
 
 
-<div class="viewcode-block" id="generate_iris_mask"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.generate_iris_mask">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_iris_mask</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">noise_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="generate_iris_mask">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.generate_iris_mask">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_iris_mask</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">noise_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate iris mask by first finding the intersection region between extrapolated iris contours and eyeball contours. Then remove from the outputted mask those pixels for which noise_mask is equal to True.</span>
 
 <span class="sd">    Args:</span>
@@ -314,7 +317,10 @@
     <span class="k">return</span> <span class="n">iris_mask</span></div>
 
 
-<div class="viewcode-block" id="correct_orientation"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.correct_orientation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">correct_orientation</span><span class="p">(</span>
+
+<div class="viewcode-block" id="correct_orientation">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.correct_orientation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_orientation</span><span class="p">(</span>
     <span class="n">pupil_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_orientation</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct orientation by changing the starting angle in pupil and iris points&#39; arrays.</span>
@@ -336,7 +342,10 @@
     <span class="k">return</span> <span class="n">pupil_points</span><span class="p">,</span> <span class="n">iris_points</span></div>
 
 
-<div class="viewcode-block" id="get_pixel_or_default"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.get_pixel_or_default">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_pixel_or_default</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_pixel_or_default">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.get_pixel_or_default">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pixel_or_default</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pixel_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the value of a pixel in the image 2D array.</span>
@@ -355,7 +364,10 @@
     <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">w</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">h</span> <span class="k">else</span> <span class="n">default</span></div>
 
 
-<div class="viewcode-block" id="interpolate_pixel_intensity"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.interpolate_pixel_intensity">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">interpolate_pixel_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_coords</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+
+<div class="viewcode-block" id="interpolate_pixel_intensity">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.interpolate_pixel_intensity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">interpolate_pixel_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_coords</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform bilinear interpolation to estimate pixel intensity in a given location.</span>
 
 <span class="sd">    Args:</span>
@@ -423,7 +435,10 @@
     <span class="k">return</span> <span class="n">pixel_intensity</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="normalize_all"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.normalize_all">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_all</span><span class="p">(</span>
+
+<div class="viewcode-block" id="normalize_all">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.normalize_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_all</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">iris_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">src_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -457,7 +472,10 @@
     <span class="k">return</span> <span class="n">normalized_image</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span> <span class="n">normalized_mask</span></div>
 
 
-<div class="viewcode-block" id="to_uint8"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.to_uint8">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">to_uint8</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="to_uint8">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.to_uint8">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_uint8</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Map normalized image values from [0, 1] range to [0, 255] and cast dtype to np.uint8.</span>
 
 <span class="sd">    Args:</span>
@@ -470,6 +488,7 @@
     <span class="n">out_image</span> <span class="o">=</span> <span class="n">out_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out_image</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -502,9 +521,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

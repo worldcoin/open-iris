@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.callbacks.pipeline_trace - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.callbacks.pipeline_trace - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -294,13 +295,18 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.pipeline_dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineNode</span>
 
 
-<div class="viewcode-block" id="PipelineCallTraceStorageError"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorageError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PipelineCallTraceStorageError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="PipelineCallTraceStorageError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorageError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineCallTraceStorageError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;PipelineCallTraceStorage error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="PipelineCallTraceStorage"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PipelineCallTraceStorage</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineCallTraceStorage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A storage object for pipeline input, intermediate and final results.&quot;&quot;&quot;</span>
 
     <span class="n">INPUT_KEY_NAME</span> <span class="o">=</span> <span class="s2">&quot;input&quot;</span>
@@ -336,18 +342,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.get"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="PipelineCallTraceStorage.get">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get result_name result.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result_name (str): Result name.</span>
+<span class="sd">            default (Any): Default value to return if result_name is not found.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Any: Result object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">result_name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">result_name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.get_input"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get_input">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.get_input">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get_input">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return pipeline input.</span>
 
 <span class="sd">        Returns:</span>
@@ -355,7 +367,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">INPUT_KEY_NAME</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.get_error"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get_error">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.get_error">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.get_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return stored error.</span>
 
 <span class="sd">        Returns:</span>
@@ -363,7 +378,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">ERROR_KEY_NAME</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.write"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.write">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a result to a storage saved under the name `result_name`.</span>
 
 <span class="sd">        Args:</span>
@@ -372,7 +390,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">[</span><span class="n">result_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.write_input"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write_input">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.write_input">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write_input">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save `in_value` in storage.</span>
 
 <span class="sd">        Args:</span>
@@ -380,7 +401,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">[</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">INPUT_KEY_NAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_value</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.write_error"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write_error">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.write_error">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.write_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save `error` in storage.</span>
 
 <span class="sd">        Args:</span>
@@ -388,10 +412,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">[</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">ERROR_KEY_NAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span></div>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.clean"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.clean">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PipelineCallTraceStorage.clean">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.clean">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean storage by setting all result references to None.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">result_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">[</span><span class="n">result_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_init_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize storage (dict) with proper names and None values as results.</span>
@@ -408,7 +436,9 @@
 
         <span class="k">return</span> <span class="n">storage</span>
 
-<div class="viewcode-block" id="PipelineCallTraceStorage.initialise"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.initialise">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PipelineCallTraceStorage.initialise">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage.initialise">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">initialise</span><span class="p">(</span><span class="n">nodes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">],</span> <span class="n">pipeline_nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PipelineCallTraceStorage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instantiate mechanisms for intermediate results tracing.</span>
 
@@ -424,10 +454,14 @@
         <span class="k">for</span> <span class="n">algorithm_name</span><span class="p">,</span> <span class="n">algorithm_object</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">algorithm_object</span><span class="o">.</span><span class="n">_callbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NodeResultsWriter</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">algorithm_name</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">call_trace</span></div></div>
+        <span class="k">return</span> <span class="n">call_trace</span></div>
+</div>
 
 
-<div class="viewcode-block" id="NodeResultsWriter"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.NodeResultsWriter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NodeResultsWriter</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NodeResultsWriter">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.NodeResultsWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NodeResultsWriter</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A node call results writer Callback class.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace_storage_reference</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">,</span> <span class="n">result_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -440,13 +474,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_trace_storage_reference</span> <span class="o">=</span> <span class="n">trace_storage_reference</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span> <span class="o">=</span> <span class="n">result_name</span>
 
-<div class="viewcode-block" id="NodeResultsWriter.on_execute_end"><a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.NodeResultsWriter.on_execute_end">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="NodeResultsWriter.on_execute_end">
+<a class="viewcode-back" href="../../../_code_subpages/iris.callbacks.html#iris.callbacks.pipeline_trace.NodeResultsWriter.on_execute_end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write on node execution end.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (Any): Result of node call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_trace_storage_reference</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_trace_storage_reference</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_result_name</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -479,9 +517,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

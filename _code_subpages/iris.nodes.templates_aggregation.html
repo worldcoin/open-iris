@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.binarization package" href="iris.nodes.binarization.html" /><link rel="prev" title="iris.nodes package" href="iris.nodes.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.validators package" href="iris.nodes.validators.html" /><link rel="prev" title="iris.nodes.segmentation package" href="iris.nodes.segmentation.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.nodes.aggregation package - iris v1.7.0</title>
+        <title>iris.nodes.templates_aggregation package - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -225,7 +225,7 @@
 <li class="toctree-l3"><a class="reference internal" href="iris.callbacks.html">iris.callbacks package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html">iris.io package</a></li>
 <li class="toctree-l3 current has-children"><a class="reference internal" href="iris.nodes.html">iris.nodes package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of iris.nodes package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">iris.nodes.aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.aggregation.html">iris.nodes.aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.binarization.html">iris.nodes.binarization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.encoder.html">iris.nodes.encoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.eye_properties_estimation.html">iris.nodes.eye_properties_estimation package</a></li>
@@ -240,7 +240,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -272,7 +272,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/_code_subpages/iris.nodes.aggregation.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/_code_subpages/iris.nodes.templates_aggregation.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -292,34 +292,89 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="iris-nodes-aggregation-package">
-<h1>iris.nodes.aggregation package<a class="headerlink" href="#iris-nodes-aggregation-package" title="Link to this heading">¶</a></h1>
+          <section id="iris-nodes-templates-aggregation-package">
+<h1>iris.nodes.templates_aggregation package<a class="headerlink" href="#iris-nodes-templates-aggregation-package" title="Link to this heading">¶</a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-iris.nodes.aggregation.noise_mask_union">
-<span id="iris-nodes-aggregation-noise-mask-union-module"></span><h2>iris.nodes.aggregation.noise_mask_union module<a class="headerlink" href="#module-iris.nodes.aggregation.noise_mask_union" title="Link to this heading">¶</a></h2>
+<section id="module-iris.nodes.templates_aggregation.majority_vote">
+<span id="iris-nodes-templates-aggregation-majority-vote-module"></span><h2>iris.nodes.templates_aggregation.majority_vote module<a class="headerlink" href="#module-iris.nodes.templates_aggregation.majority_vote" title="Link to this heading">¶</a></h2>
+<p>Iris Template Combiner</p>
+<p>This module implements a hybrid approach for combining multiple iris templates
+from the same user to enhance recognition performance.</p>
+<p>The algorithm combines:
+1. Selective Bits Fusion - Using the most reliable bits
+2. Majority Voting with Weight Templates - For consistent bits
+3. Inconsistent Bit Analysis - To utilize the pattern of inconsistent bits</p>
+<p>Author: Rostyslav Shevchenko
+Date: May 22, 2025</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.aggregation.noise_mask_union.</span></span><span class="sig-name descname"><span class="pre">NoiseMaskUnion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/aggregation/noise_mask_union.html#NoiseMaskUnion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.templates_aggregation.majority_vote.</span></span><span class="sig-name descname"><span class="pre">MajorityVoteAggregation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consistency_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_inconsistent_bits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inconsistent_bit_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.callbacks.html#iris.callbacks.callback_interface.Callback" title="iris.callbacks.callback_interface.Callback"><span class="pre">Callback</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
-<p>Aggregate several NoiseMask into one by computing their union. I.E. For every bit of the NoiseMask, the output is an OR of the same bit across all NoiseMasks.</p>
+<p>Class for combining multiple iris templates from the same user.</p>
+<p>The algorithm identifies consistent and inconsistent bits across templates,
+uses majority voting for consistent bits, creates a weight template to
+reflect bit reliability, and generates a combined mask representing
+consensus of valid regions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consistency_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_inconsistent_bits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inconsistent_bit_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.consistency_threshold">
+<span class="sig-name descname"><span class="pre">consistency_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.consistency_threshold" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.inconsistent_bit_threshold">
+<span class="sig-name descname"><span class="pre">inconsistent_bit_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.inconsistent_bit_threshold" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.mask_threshold">
+<span class="sig-name descname"><span class="pre">mask_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.mask_threshold" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.use_inconsistent_bits">
+<span class="sig-name descname"><span class="pre">use_inconsistent_bits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.use_inconsistent_bits" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NoiseMask" title="iris.io.dataclasses.NoiseMask"><span class="pre">NoiseMask</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NoiseMask" title="iris.io.dataclasses.NoiseMask"><span class="pre">NoiseMask</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/aggregation/noise_mask_union.html#NoiseMaskUnion.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion.run" title="Link to this definition">¶</a></dt>
-<dd><p>Compute the union of a list of NoiseMask.</p>
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates">
+<span class="sig-name descname"><span class="pre">combine_templates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.combine_templates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates" title="Link to this definition">¶</a></dt>
+<dd><p>Combine multiple iris templates from the same user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>elements</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NoiseMask" title="iris.io.dataclasses.NoiseMask"><em>NoiseMask</em></a><em>]</em>) – input NoiseMasks.</p>
+<dd class="field-odd"><p><strong>templates</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><em>IrisTemplate</em></a><em>]</em>) – List of IrisTemplate objects from the same user</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – if not all NoiseMask.mask do not have the same shape.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined IrisTemplate
+weights (np.ndarray): Weight matrix reflecting bit reliability</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>aggregated NoiseMasks</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate">IrisTemplate</a>)</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.NoiseMask" title="iris.io.dataclasses.NoiseMask">NoiseMask</a></p>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run" title="Link to this definition">¶</a></dt>
+<dd><p>Combine multiple iris templates from the same user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>templates</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><em>IrisTemplate</em></a><em>]</em>) – List of IrisTemplate objects from the same user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined IrisTemplate
+weights (np.ndarray): Weight matrix reflecting bit reliability</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate">IrisTemplate</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -327,8 +382,8 @@
 </dd></dl>
 
 </section>
-<section id="module-iris.nodes.aggregation">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.aggregation" title="Link to this heading">¶</a></h2>
+<section id="module-iris.nodes.templates_aggregation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.nodes.templates_aggregation" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -337,23 +392,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="iris.nodes.binarization.html">
+          <a class="next-page" href="iris.nodes.validators.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">iris.nodes.binarization package</div>
+                <div class="title">iris.nodes.validators package</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="iris.nodes.html">
+          <a class="prev-page" href="iris.nodes.segmentation.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">iris.nodes package</div>
+                <div class="title">iris.nodes.segmentation package</div>
                 
               </div>
             </a>
@@ -387,16 +442,24 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">iris.nodes.aggregation package</a><ul>
+<li><a class="reference internal" href="#">iris.nodes.templates_aggregation package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-iris.nodes.aggregation.noise_mask_union">iris.nodes.aggregation.noise_mask_union module</a><ul>
-<li><a class="reference internal" href="#iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion"><code class="docutils literal notranslate"><span class="pre">NoiseMaskUnion</span></code></a><ul>
-<li><a class="reference internal" href="#iris.nodes.aggregation.noise_mask_union.NoiseMaskUnion.run"><code class="docutils literal notranslate"><span class="pre">NoiseMaskUnion.run()</span></code></a></li>
+<li><a class="reference internal" href="#module-iris.nodes.templates_aggregation.majority_vote">iris.nodes.templates_aggregation.majority_vote module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.consistency_threshold"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.Parameters.consistency_threshold</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.inconsistent_bit_threshold"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.Parameters.inconsistent_bit_threshold</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.mask_threshold"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.Parameters.mask_threshold</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.Parameters.use_inconsistent_bits"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.Parameters.use_inconsistent_bits</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.combine_templates()</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run"><code class="docutils literal notranslate"><span class="pre">MajorityVoteAggregation.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-iris.nodes.aggregation">Module contents</a></li>
+<li><a class="reference internal" href="#module-iris.nodes.templates_aggregation">Module contents</a></li>
 </ul>
 </li>
 </ul>

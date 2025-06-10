@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Configuring custom pipeline tutorial" href="custom_pipeline.html" /><link rel="prev" title="Running inference" href="../quickstart/running_inference.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>Getting started tutorial - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Getting started tutorial - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -292,7 +293,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="getting-started-tutorial">
-<h1><em>Getting started</em> tutorial<a class="headerlink" href="#getting-started-tutorial" title="Permalink to this heading">¶</a></h1>
+<h1><em>Getting started</em> tutorial<a class="headerlink" href="#getting-started-tutorial" title="Link to this heading">¶</a></h1>
 <p>This subpage will walk you through you the basics of usage <code class="docutils literal notranslate"><span class="pre">iris</span></code> package. From it you will learn how to:</p>
 <ul class="simple">
 <li><p>Perform an <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> inference call.</p></li>
@@ -300,7 +301,7 @@
 <li><p>Visualize <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> intermediate results.</p></li>
 </ul>
 <section id="running-the-irispipeline-inference">
-<h2>1. Running the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> inference<a class="headerlink" href="#running-the-irispipeline-inference" title="Permalink to this heading">¶</a></h2>
+<h2>1. Running the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> inference<a class="headerlink" href="#running-the-irispipeline-inference" title="Link to this heading">¶</a></h2>
 <p>Load IR image with <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code> package.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
 <span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./sample_ir_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
@@ -341,7 +342,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <p>Configuring pipelines error handling and which intermediate results are returned can be achieved through <code class="docutils literal notranslate"><span class="pre">Environment</span></code> parameter set when the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> is instantiate. To understand more about that subject please follow to the notebook’s next section - <em>2. Configuring ``IRISPipeline`` environment</em>.</p>
 </section>
 <section id="configuring-irispipeline-environment">
-<h2>1. Configuring <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> environment<a class="headerlink" href="#configuring-irispipeline-environment" title="Permalink to this heading">¶</a></h2>
+<h2>1. Configuring <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> environment<a class="headerlink" href="#configuring-irispipeline-environment" title="Link to this heading">¶</a></h2>
 <p>Before diving deeper into how exactly one can modify error handling or return behaviour let’s first investigate what are <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> instantiation parameters. The <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code>’s <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method presents as follow.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
@@ -400,7 +401,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <p>User can also create and introduce to <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> their own <code class="docutils literal notranslate"><span class="pre">Environment</span></code> variables as far as they fulfill <code class="docutils literal notranslate"><span class="pre">Environment</span></code> class variables typings. For examples, please checkout <code class="docutils literal notranslate"><span class="pre">iris.orchestration.output_builders</span></code> module.</p>
 </section>
 <section id="visualizing-intermediate-results">
-<h2>3. Visualizing intermediate results<a class="headerlink" href="#visualizing-intermediate-results" title="Permalink to this heading">¶</a></h2>
+<h2>3. Visualizing intermediate results<a class="headerlink" href="#visualizing-intermediate-results" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">iris</span></code> package provides also a useful module for plotting intermediate results - <code class="docutils literal notranslate"><span class="pre">iris.visualisation</span></code>. The main class of the module - <code class="docutils literal notranslate"><span class="pre">IRISVisualizer</span></code> - provides a bunch of plot functions that given appropriate intermediate result creates a ready to display <code class="docutils literal notranslate"><span class="pre">Canvas</span></code>. Definition of the <code class="docutils literal notranslate"><span class="pre">Canvas</span></code> type looks like follow.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Canvas</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span>
 </pre></div>
@@ -496,9 +497,9 @@ There are several methods that wraps <code class="docutils literal notranslate">
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

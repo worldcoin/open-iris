@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.io.class_configs - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.io.class_configs - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -286,9 +287,10 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.io.class_configs</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydoc</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Extra</span>
@@ -296,20 +298,27 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.callbacks.callback_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callback</span>
 
 
-<div class="viewcode-block" id="ImmutableModel"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ImmutableModel</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ImmutableModel">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImmutableModel</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Specifies configurations for validating classes which objects should be immutable.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ImmutableModel.Config"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.Config">[docs]</a>    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+<div class="viewcode-block" id="ImmutableModel.Config">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.Config">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Configuration options for classes which objects are meant to be immutable.&quot;&quot;&quot;</span>
 
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">allow_mutation</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">validate_all</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">smart_union</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">ignore</span>
         <span class="n">keep_untouched</span> <span class="o">=</span> <span class="p">(</span><span class="n">cached_property</span><span class="p">,)</span></div>
 
-<div class="viewcode-block" id="ImmutableModel.serialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.serialize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ImmutableModel.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize the object. By defaults, this method raises a RuntimeError to notify the user that the method wasn&#39;t implemented.</span>
 
 <span class="sd">        Raises:</span>
@@ -317,23 +326,33 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.serialize not implemented!&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ImmutableModel.deserialize"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.deserialize">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="ImmutableModel.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.ImmutableModel.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize the object. By defaults, this method raises a RuntimeError to notify the user that the method wasn&#39;t implemented.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            RuntimeError: Always.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.deserialize not implemented!&quot;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.deserialize not implemented!&quot;</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Algorithm"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Algorithm</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Algorithm">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Algorithm</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of every node of the iris recognition pipeline.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Algorithm.Parameters"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.Parameters">[docs]</a>    <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Algorithm.Parameters">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.Parameters">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default parameters.&quot;&quot;&quot;</span>
 
         <span class="k">pass</span></div>
+
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
@@ -355,7 +374,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Algorithm.execute"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="Algorithm.execute">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute method and wrapped with hooks if such are specified.</span>
 
 <span class="sd">        Returns:</span>
@@ -371,7 +392,10 @@
 
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="Algorithm.run"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Algorithm.run">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.Algorithm.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Implement method design pattern. Not overwritten by subclass will raise an error.</span>
 
 <span class="sd">        Raises:</span>
@@ -380,7 +404,31 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Any: Return value by concrate implementation of the `run` method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.run method not implemented!&quot;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.run method not implemented!&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="instantiate_class_from_name">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.class_configs.instantiate_class_from_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">instantiate_class_from_name</span><span class="p">(</span><span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate a class from its fully qualified name and keyword arguments.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        class_name (str): Fully qualified name of the class to instantiate.</span>
+<span class="sd">        kwargs (Dict[str, Any]): Keyword arguments to pass to the class constructor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: An instance of the located class.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the class cannot be located by name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">object_class</span> <span class="o">=</span> <span class="n">pydoc</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">object_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not locate class </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">object_class</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -413,9 +461,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

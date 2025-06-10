@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.nodes.normalization.perspective_normalization - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.nodes.normalization.perspective_normalization - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -303,7 +304,9 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="PerspectiveNormalization"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PerspectiveNormalization</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="PerspectiveNormalization">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerspectiveNormalization</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a normalization algorithm which uses perspective transformation to map image pixels.</span>
 
 <span class="sd">    Algorithm steps:</span>
@@ -313,7 +316,9 @@
 <span class="sd">        4) Map each normalized image pixel to original image pixel based on estimated perspective matrix and perform bilinear interpolation if necessary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PerspectiveNormalization.Parameters"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters">[docs]</a>    <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="PerspectiveNormalization.Parameters">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for PerspectiveNormalization.&quot;&quot;&quot;</span>
 
         <span class="n">res_in_phi</span><span class="p">:</span> <span class="n">PositiveInt</span>
@@ -322,7 +327,9 @@
         <span class="n">intermediate_radiuses</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
         <span class="n">oversat_threshold</span><span class="p">:</span> <span class="n">PositiveInt</span>
 
-<div class="viewcode-block" id="PerspectiveNormalization.Parameters.check_intermediate_radiuses"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters.check_intermediate_radiuses">[docs]</a>        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;intermediate_radiuses&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="PerspectiveNormalization.Parameters.check_intermediate_radiuses">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters.check_intermediate_radiuses">[docs]</a>
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;intermediate_radiuses&quot;</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">check_intermediate_radiuses</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Check intermediate_radiuses parameter.</span>
 
@@ -343,7 +350,9 @@
             <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid max value of intermediate_radiuses: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">v</span></div></div>
+            <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
@@ -374,7 +383,9 @@
             <span class="n">oversat_threshold</span><span class="o">=</span><span class="n">oversat_threshold</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="PerspectiveNormalization.run"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.run">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+<div class="viewcode-block" id="PerspectiveNormalization.run">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">IRImage</span><span class="p">,</span>
         <span class="n">noise_mask</span><span class="p">:</span> <span class="n">NoiseMask</span><span class="p">,</span>
@@ -416,6 +427,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_run_core</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">iris_mask</span><span class="p">,</span> <span class="n">src_points</span><span class="p">,</span> <span class="n">dst_points</span><span class="p">,</span> <span class="n">normalized_iris</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">normalized_iris</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run_core</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -574,7 +586,9 @@
 
         <span class="k">return</span> <span class="n">src_roi</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dst_roi</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PerspectiveNormalization.cartesian2homogeneous"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.cartesian2homogeneous">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PerspectiveNormalization.cartesian2homogeneous">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.cartesian2homogeneous">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cartesian2homogeneous</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert points in cartesian coordinates to homogeneous coordinates.</span>
 
@@ -593,7 +607,10 @@
 
         <span class="k">return</span> <span class="n">homogeneous_coords</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="PerspectiveNormalization.homogeneous2cartesian"><a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.homogeneous2cartesian">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="PerspectiveNormalization.homogeneous2cartesian">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.homogeneous2cartesian">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">homogeneous2cartesian</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert points in homogeneous coordinates to cartesian coordinates.</span>
 
@@ -606,7 +623,9 @@
         <span class="n">points</span> <span class="o">/=</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">points</span></div></div>
+        <span class="k">return</span> <span class="n">points</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -639,9 +658,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

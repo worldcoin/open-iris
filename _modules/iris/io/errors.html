@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.io.errors - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.io.errors - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -285,148 +286,229 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.io.errors</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="EncoderError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EncoderError">[docs]</a><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EncoderError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="EncoderError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EncoderError">[docs]</a>
+<span></span><span class="k">class</span><span class="w"> </span><span class="nc">EncoderError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encoder module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="EyeCentersEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeCentersEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeCentersEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeCentersEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeCentersEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeCentersEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EyeOrientationEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="EyeOrientationEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeOrientationEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeOrientationEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeOrientationEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeOrientationEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeOrientationEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EyeOrientationEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="OffgazeEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.OffgazeEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OffgazeEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OffgazeEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.OffgazeEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OffgazeEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;OffgazeEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BoundingBoxEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.BoundingBoxEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BoundingBoxEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoundingBoxEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.BoundingBoxEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoundingBoxEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BoundingBoxEstimationError module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="LandmarkEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.LandmarkEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LandmarkEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LandmarkEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.LandmarkEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LandmarkEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;LandmarkEstimationError module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="OcclusionError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.OcclusionError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OcclusionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OcclusionError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.OcclusionError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OcclusionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EyeOrientationEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="PupilIrisPropertyEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.PupilIrisPropertyEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PupilIrisPropertyEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PupilIrisPropertyEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.PupilIrisPropertyEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PupilIrisPropertyEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;PupilIrisPropertyEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="Pupil2IrisValidatorErrorDilation"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorDilation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorDilation</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Pupil2IrisValidatorErrorDilation">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorDilation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorDilation</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pupil2IrisValidatorErrorDilation error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="Pupil2IrisValidatorErrorConstriction"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorConstriction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorConstriction</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Pupil2IrisValidatorErrorConstriction">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorConstriction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorConstriction</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pupil2IrisValidatorErrorConstriction error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="Pupil2IrisValidatorErrorOffcenter"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorOffcenter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorOffcenter</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Pupil2IrisValidatorErrorOffcenter">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.Pupil2IrisValidatorErrorOffcenter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisValidatorErrorOffcenter</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pupil2IrisValidatorErrorOffcenter error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="GeometryEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.GeometryEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeometryEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GeometryEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.GeometryEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;GeometryEstimation module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="GeometryRefinementError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.GeometryRefinementError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeometryRefinementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GeometryRefinementError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.GeometryRefinementError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryRefinementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;GeometryRefinementError error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ImageFilterError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ImageFilterError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ImageFilterError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ImageFilterError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ImageFilterError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageFilterError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ImageFilter&#39;s base and subclasses error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ProbeSchemaError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ProbeSchemaError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProbeSchemaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ProbeSchemaError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ProbeSchemaError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProbeSchemaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ProbeSchema&#39;s base and subclasses error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="NormalizationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.NormalizationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NormalizationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NormalizationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.NormalizationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NormalizationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalization module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="EyeCentersInsideImageValidatorError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeCentersInsideImageValidatorError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EyeCentersInsideImageValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EyeCentersInsideImageValidatorError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.EyeCentersInsideImageValidatorError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EyeCentersInsideImageValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EyeCentersInsideImageValidatorError error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ExtrapolatedPolygonsInsideImageValidatorError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ExtrapolatedPolygonsInsideImageValidatorError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ExtrapolatedPolygonsInsideImageValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExtrapolatedPolygonsInsideImageValidatorError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.ExtrapolatedPolygonsInsideImageValidatorError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtrapolatedPolygonsInsideImageValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ExtrapolatedPolygonsInsideImageValidatorError error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="IsPupilInsideIrisValidatorError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.IsPupilInsideIrisValidatorError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IsPupilInsideIrisValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IsPupilInsideIrisValidatorError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.IsPupilInsideIrisValidatorError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IsPupilInsideIrisValidatorError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;IsPupilInsideIrisValidator error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="VectorizationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.VectorizationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">VectorizationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="VectorizationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.VectorizationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VectorizationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vectorization module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="SharpnessEstimationError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.SharpnessEstimationError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SharpnessEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SharpnessEstimationError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.SharpnessEstimationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SharpnessEstimationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SharpnessEstimation Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="MaskTooSmallError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.MaskTooSmallError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MaskTooSmallError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MaskTooSmallError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.MaskTooSmallError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MaskTooSmallError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mask is too small Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="MatcherError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.MatcherError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MatcherError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MatcherError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.MatcherError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MatcherError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Matcher module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="IRISPipelineError"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.IRISPipelineError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IRISPipelineError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IRISPipelineError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.IRISPipelineError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IRISPipelineError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;IRIS Pipeline module Error class.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TemplateAggregationCompatibilityError">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.errors.TemplateAggregationCompatibilityError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Template aggregation compatibility validation Error class.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -459,9 +541,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

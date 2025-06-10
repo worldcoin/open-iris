@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.nodes.iris_response.probe_schemas.regular_probe_schema - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.nodes.iris_response.probe_schemas.regular_probe_schema - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -294,10 +295,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.nodes.iris_response.probe_schemas.probe_schema_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProbeSchema</span>
 
 
-<div class="viewcode-block" id="RegularProbeSchema"><a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchema</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="p">):</span>
+<div class="viewcode-block" id="RegularProbeSchema">
+<a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchema</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Probe Schema for a regular Grid.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters"><a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters">[docs]</a>    <span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchemaParameters</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="o">.</span><span class="n">ProbeSchemaParameters</span><span class="p">):</span>
+<div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters">
+<a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchemaParameters</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="o">.</span><span class="n">ProbeSchemaParameters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;RegularProbeSchema parameters.&quot;&quot;&quot;</span>
 
         <span class="n">n_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -309,7 +314,9 @@
         <span class="p">]</span>
         <span class="n">image_shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">]]</span>
 
-<div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters.check_overlap"><a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters.check_overlap">[docs]</a>        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;boundary_rho&quot;</span><span class="p">,</span> <span class="s2">&quot;boundary_phi&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters.check_overlap">
+<a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters.check_overlap">[docs]</a>
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;boundary_rho&quot;</span><span class="p">,</span> <span class="s2">&quot;boundary_phi&quot;</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">check_overlap</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
             <span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]],</span>
@@ -334,7 +341,9 @@
                         <span class="sa">f</span><span class="s2">&quot;Offset for </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on left and right corner must be a sum smaller 1, otherwise, offsets overlap.&quot;</span>
                     <span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">v</span></div></div>
+            <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">RegularProbeSchemaParameters</span>
 
@@ -378,7 +387,9 @@
             <span class="n">image_shape</span><span class="o">=</span><span class="n">image_shape</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="RegularProbeSchema.generate_schema"><a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.generate_schema">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="RegularProbeSchema.generate_schema">
+<a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.generate_schema">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate rhos and phis.</span>
 
 <span class="sd">        Return:</span>
@@ -424,7 +435,10 @@
                 <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Choice for n_cols </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_cols</span><span class="si">}</span><span class="s2"> leads to interpolation errors&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">phis</span></div>
 
-<div class="viewcode-block" id="RegularProbeSchema.find_suitable_n_rows"><a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.find_suitable_n_rows">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RegularProbeSchema.find_suitable_n_rows">
+<a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.find_suitable_n_rows">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">find_suitable_n_rows</span><span class="p">(</span>
         <span class="n">row_min</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">row_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -472,7 +486,9 @@
             <span class="k">if</span> <span class="n">no_interpolation</span><span class="p">:</span>
                 <span class="n">suitable_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">suitable_values</span></div></div>
+        <span class="k">return</span> <span class="n">suitable_values</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -505,9 +521,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

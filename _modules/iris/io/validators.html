@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>iris.io.validators - iris v1.5.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>iris.io.validators - iris v1.7.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.5.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.5.0</span>
+  <span class="sidebar-brand-text">iris v1.7.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,6 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.matcher.html">iris.nodes.matcher package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -296,7 +297,9 @@
 <span class="c1"># ----- validators -----</span>
 
 
-<div class="viewcode-block" id="is_odd"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_odd">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_odd</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="is_odd">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_odd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_odd</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that kernel size are odd numbers.</span>
 
 <span class="sd">    Args:</span>
@@ -316,7 +319,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="is_uint8"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_uint8">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_uint8</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_uint8">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_uint8">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_uint8</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if np array contains only uint8 values.&quot;&quot;&quot;</span>
     <span class="n">values_check</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">values_check</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
@@ -324,7 +330,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="is_binary"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_binary">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_binary</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_binary">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_binary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_binary</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if array has only boolean values, i.e. is binary.</span>
 
 <span class="sd">    Args:</span>
@@ -344,7 +353,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="is_list_of_points"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_list_of_points">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_list_of_points</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_list_of_points">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_list_of_points">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_list_of_points</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if np.ndarray has shape (_, 2).</span>
 
 <span class="sd">    Args:</span>
@@ -364,7 +376,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="is_not_empty"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_empty">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_not_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="is_not_empty">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_empty">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_not_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that both inputs are not empty.</span>
 
 <span class="sd">    Args:</span>
@@ -384,7 +399,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="is_not_zero_sum"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_zero_sum">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_not_zero_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_not_zero_sum">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_zero_sum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_not_zero_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that both inputs are not empty.</span>
 
 <span class="sd">    Args:</span>
@@ -404,7 +422,10 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="are_all_positive"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_positive">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">are_all_positive</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="are_all_positive">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_positive">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_all_positive</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that all values are positive.</span>
 
 <span class="sd">    Args:</span>
@@ -427,14 +448,20 @@
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="iris_code_version_check"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.iris_code_version_check">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">iris_code_version_check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="iris_code_version_check">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.iris_code_version_check">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">iris_code_version_check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the version provided in the input config matches the current iris.__version__.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;v[\d]+\.[\d]+$&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong iris code version. Expected standard version nuber, received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span></div>
 
 
-<div class="viewcode-block" id="to_dtype_float32"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.to_dtype_float32">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">to_dtype_float32</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="to_dtype_float32">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.to_dtype_float32">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_dtype_float32</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert input np.ndarray to dtype np.float32.</span>
 
 <span class="sd">    Args:</span>
@@ -448,10 +475,13 @@
     <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
 
 
+
 <span class="c1"># ----- root_validators -----</span>
 
 
-<div class="viewcode-block" id="is_valid_bbox"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_valid_bbox">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_valid_bbox</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="is_valid_bbox">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_valid_bbox">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_bbox</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the bounding box is valid.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_min&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_max&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_min&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_max&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -462,10 +492,13 @@
     <span class="k">return</span> <span class="n">values</span></div>
 
 
+
 <span class="c1"># ----- parametrized validators -----</span>
 
 
-<div class="viewcode-block" id="is_array_n_dimensions"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_array_n_dimensions">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_array_n_dimensions</span><span class="p">(</span><span class="n">nb_dimensions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="is_array_n_dimensions">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_array_n_dimensions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_array_n_dimensions</span><span class="p">(</span><span class="n">nb_dimensions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if an array is n-dimensional.</span>
 
 <span class="sd">    Args:</span>
@@ -488,10 +521,13 @@
     <span class="k">return</span> <span class="n">validator</span></div>
 
 
+
 <span class="c1"># ----- parametrized root_validators -----</span>
 
 
-<div class="viewcode-block" id="are_lengths_equal"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_lengths_equal">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">are_lengths_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="are_lengths_equal">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_lengths_equal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_lengths_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if the two fields have the same length.</span>
 
 <span class="sd">    Args:</span>
@@ -515,7 +551,10 @@
     <span class="k">return</span> <span class="n">__root_validator</span></div>
 
 
-<div class="viewcode-block" id="are_shapes_equal"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_shapes_equal">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">are_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+
+<div class="viewcode-block" id="are_shapes_equal">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_shapes_equal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if the two fields have the same shape.</span>
 
 <span class="sd">    Args:</span>
@@ -535,7 +574,10 @@
     <span class="k">return</span> <span class="n">__root_validator</span></div>
 
 
-<div class="viewcode-block" id="are_all_shapes_equal"><a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_shapes_equal">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">are_all_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+
+<div class="viewcode-block" id="are_all_shapes_equal">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_shapes_equal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_all_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if two lists of array have the same shape per element.</span>
 
 <span class="sd">    This function creates a pydantic validator for two lists of np.ndarrays which checks if they have the same length,</span>
@@ -562,6 +604,7 @@
         <span class="k">return</span> <span class="n">values</span>
 
     <span class="k">return</span> <span class="n">__root_validator</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -594,9 +637,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2dd840c"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>
