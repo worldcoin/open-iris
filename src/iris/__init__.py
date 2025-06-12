@@ -75,6 +75,7 @@ from iris.nodes.normalization.linear_normalization import LinearNormalization
 from iris.nodes.normalization.nonlinear_normalization import NonlinearNormalization
 from iris.nodes.normalization.perspective_normalization import PerspectiveNormalization
 from iris.nodes.segmentation import MultilabelSegmentation
+from iris.nodes.templates_alignment import HammingDistanceBasedAlignment
 from iris.nodes.validators.cross_object_validators import (
     ExtrapolatedPolygonsInsideImageValidator,
     EyeCentersInsideImageValidator,
