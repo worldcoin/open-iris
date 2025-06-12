@@ -314,7 +314,9 @@ templates_aggregation:
         class_name: iris.nodes.templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment
         params:
           rotation_shift: 15
-          use_first_as_reference: true
+          use_first_as_reference: false
+          normalise: true
+          reference_selection_method: linear
       inputs:
         - name: templates
           source_node: input

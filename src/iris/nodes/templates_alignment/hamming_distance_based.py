@@ -15,6 +15,7 @@ Author: Rostyslav Shevchenko
 Date: 12 June 2025
 """
 
+from enum import Enum
 from typing import List
 
 import numpy as np
@@ -24,6 +25,14 @@ from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.matcher.utils import simple_hamming_distance
+
+
+class ReferenceSelectionMethod(str, Enum):
+    """Enumeration of reference selection methods."""
+
+    LINEAR = "linear"
+    MEAN_SQUARED = "mean_squared"
+    ROOT_MEAN_SQUARED = "root_mean_squared"
 
 
 class HammingDistanceBasedAlignment(Algorithm):
@@ -41,18 +50,23 @@ class HammingDistanceBasedAlignment(Algorithm):
             default=15, description="Maximum rotation shift allowed for alignment"
         )
         use_first_as_reference: bool = Field(
-            default=True,
-            description="Use first template as reference, otherwise use template with minimal sum of distances",
+            default=False,
+            description="Use first template as reference, otherwise use template with minimal distance aggregate",
         )
-        normalise: bool = Field(default=False, description="Whether to use normalized Hamming distance for alignment")
+        normalise: bool = Field(default=True, description="Whether to use normalized Hamming distance for alignment")
+        reference_selection_method: ReferenceSelectionMethod = Field(
+            default=ReferenceSelectionMethod.LINEAR,
+            description="Method for aggregating distances when selecting reference template",
+        )
 
     __parameters_type__ = Parameters
 
     def __init__(
         self,
         rotation_shift: int = 15,
-        use_first_as_reference: bool = True,
-        normalise: bool = False,
+        use_first_as_reference: bool = False,
+        normalise: bool = True,
+        reference_selection_method: ReferenceSelectionMethod = ReferenceSelectionMethod.LINEAR,
         callbacks: List[Callback] = [],
     ):
         """
@@ -60,14 +74,16 @@ class HammingDistanceBasedAlignment(Algorithm):
 
         Args:
             rotation_shift (int): Maximum rotation shift allowed for alignment. Defaults to 15.
-            use_first_as_reference (bool): Whether to use first template as reference. Defaults to True.
-            normalise (bool): Whether to use normalized Hamming distance for alignment. Defaults to False.
+            use_first_as_reference (bool): Whether to use first template as reference. Defaults to False.
+            normalise (bool): Whether to use normalized Hamming distance for alignment. Defaults to True.
+            reference_selection_method (ReferenceSelectionMethod): Method for distance aggregation when selecting reference template for alignment. Defaults to LINEAR.
             callbacks (List[Callback]): List of callback functions. Defaults to [].
         """
         super().__init__(
             rotation_shift=rotation_shift,
             use_first_as_reference=use_first_as_reference,
             normalise=normalise,
+            reference_selection_method=reference_selection_method,
             callbacks=callbacks,
         )
 
@@ -111,9 +127,33 @@ class HammingDistanceBasedAlignment(Algorithm):
 
         return aligned_templates
 
+    def _aggregate_distances(self, distances: List[float]) -> float:
+        """
+        Aggregate a list of distances using the configured method.
+
+        Args:
+            distances (List[float]): List of distances to aggregate
+
+        Returns:
+            float: Aggregated distance value
+        """
+        if not distances:
+            return 0.0
+
+        distances_array = np.array(distances)
+
+        if self.params.reference_selection_method == ReferenceSelectionMethod.LINEAR:
+            return float(np.sum(distances_array))
+        elif self.params.reference_selection_method == ReferenceSelectionMethod.MEAN_SQUARED:
+            return float(np.mean(distances_array**2))
+        elif self.params.reference_selection_method == ReferenceSelectionMethod.ROOT_MEAN_SQUARED:
+            return float(np.sqrt(np.mean(distances_array**2)))
+        else:
+            raise ValueError(f"Unknown reference selection method: {self.params.reference_selection_method}")
+
     def _find_best_reference(self, templates: List[IrisTemplate]) -> int:
         """
-        Find the template that has the minimum sum of distances to all other templates.
+        Find the template that has the minimum aggregated distance to all other templates.
 
         Args:
             templates (List[IrisTemplate]): List of templates
@@ -122,11 +162,11 @@ class HammingDistanceBasedAlignment(Algorithm):
             int: Index of the best reference template
         """
         n_templates = len(templates)
-        min_sum_distance = float("inf")
+        min_aggregated_distance = float("inf")
         best_reference_idx = 0
 
         for i in range(n_templates):
-            sum_distance = 0.0
+            distances = []
             for j in range(n_templates):
                 if i != j:
                     distance, _ = simple_hamming_distance(
@@ -135,10 +175,12 @@ class HammingDistanceBasedAlignment(Algorithm):
                         rotation_shift=self.params.rotation_shift,
                         normalise=self.params.normalise,
                     )
-                    sum_distance += distance
+                    distances.append(distance)
 
-            if sum_distance < min_sum_distance:
-                min_sum_distance = sum_distance
+            aggregated_distance = self._aggregate_distances(distances)
+
+            if aggregated_distance < min_aggregated_distance:
+                min_aggregated_distance = aggregated_distance
                 best_reference_idx = i
 
         return best_reference_idx

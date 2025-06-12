@@ -2,7 +2,10 @@ import numpy as np
 import pytest
 
 from iris.io.dataclasses import IrisTemplate
-from iris.nodes.templates_alignment.hamming_distance_based import HammingDistanceBasedAlignment
+from iris.nodes.templates_alignment.hamming_distance_based import (
+    HammingDistanceBasedAlignment,
+    ReferenceSelectionMethod,
+)
 
 
 class TestE2EHammingDistanceBasedAlignment:
@@ -46,14 +49,83 @@ class TestE2EHammingDistanceBasedAlignment:
 
         return [template1, template2, template3]
 
-    def test_e2e_alignment_default_parameters(self, sample_templates):
+    @pytest.fixture
+    def sample_templates_corrupted(self):
+        """Create sample iris templates with corruption for robustness testing."""
+        # Create realistic iris code dimensions (16, 256, 2)
+        np.random.seed(42)  # Fixed seed for reproducible corruption
+        template1 = IrisTemplate(
+            iris_codes=[
+                np.random.choice([True, False], size=(16, 256, 2)),
+                np.random.choice([True, False], size=(16, 256, 2)),
+            ],
+            mask_codes=[
+                np.random.choice([True, False], size=(16, 256, 2), p=[0.8, 0.2]),
+                np.random.choice([True, False], size=(16, 256, 2), p=[0.8, 0.2]),
+            ],
+            iris_code_version="v2.1",
+        )
+
+        # Create second template by rotating first template and adding 20% corruption
+        rotated_iris_codes = [np.roll(template1.iris_codes[0], 5, axis=1), np.roll(template1.iris_codes[1], 5, axis=1)]
+        rotated_mask_codes = [np.roll(template1.mask_codes[0], 5, axis=1), np.roll(template1.mask_codes[1], 5, axis=1)]
+
+        # Add 20% corruption to the rotated template
+        corrupted_iris_codes = []
+        corrupted_mask_codes = []
+
+        for iris_code, mask_code in zip(rotated_iris_codes, rotated_mask_codes):
+            # Create corruption mask (20% of bits)
+            corruption_mask = np.random.choice([True, False], size=iris_code.shape, p=[0.2, 0.8])
+
+            # Apply corruption by flipping bits
+            corrupted_iris = iris_code.copy()
+            corrupted_iris[corruption_mask] = ~corrupted_iris[corruption_mask]
+
+            # Mask corruption reduces validity in corrupted areas
+            corrupted_mask = mask_code.copy()
+            corrupted_mask[corruption_mask] = np.random.choice([True, False], p=[0.5, 0.5])
+
+            corrupted_iris_codes.append(corrupted_iris)
+            corrupted_mask_codes.append(corrupted_mask)
+
+        template2 = IrisTemplate(
+            iris_codes=corrupted_iris_codes,
+            mask_codes=corrupted_mask_codes,
+            iris_code_version="v2.1",
+        )
+
+        # Create third template with different pattern
+        template3 = IrisTemplate(
+            iris_codes=[
+                np.random.choice([True, False], size=(16, 256, 2)),
+                np.random.choice([True, False], size=(16, 256, 2)),
+            ],
+            mask_codes=[
+                np.random.choice([True, False], size=(16, 256, 2), p=[0.7, 0.3]),
+                np.random.choice([True, False], size=(16, 256, 2), p=[0.7, 0.3]),
+            ],
+            iris_code_version="v2.1",
+        )
+
+        return [template1, template2, template3]
+
+    @pytest.fixture(params=["clean", "corrupted"])
+    def template_set(self, request, sample_templates, sample_templates_corrupted):
+        """Parametrized fixture that provides both clean and corrupted template sets."""
+        if request.param == "clean":
+            return sample_templates
+        else:
+            return sample_templates_corrupted
+
+    def test_e2e_alignment_default_parameters(self, template_set):
         """Test end-to-end alignment with default parameters."""
         alignment = HammingDistanceBasedAlignment()
 
-        result = alignment.run(sample_templates)
+        result = alignment.run(template_set)
 
         # Check that we get the same number of templates back
-        assert len(result) == len(sample_templates)
+        assert len(result) == len(template_set)
 
         # Check that all templates have the same structure
         for template in result:
@@ -65,30 +137,30 @@ class TestE2EHammingDistanceBasedAlignment:
                 assert iris_code.shape == (16, 256, 2)
                 assert mask_code.shape == (16, 256, 2)
 
-    def test_e2e_alignment_first_as_reference(self, sample_templates):
+    def test_e2e_alignment_first_as_reference(self, template_set):
         """Test end-to-end alignment using first template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=True, rotation_shift=10)
 
-        result = alignment.run(sample_templates)
+        result = alignment.run(template_set)
 
         # First template should remain unchanged
-        for i in range(len(sample_templates[0].iris_codes)):
-            np.testing.assert_array_equal(result[0].iris_codes[i], sample_templates[0].iris_codes[i])
-            np.testing.assert_array_equal(result[0].mask_codes[i], sample_templates[0].mask_codes[i])
+        for i in range(len(template_set[0].iris_codes)):
+            np.testing.assert_array_equal(result[0].iris_codes[i], template_set[0].iris_codes[i])
+            np.testing.assert_array_equal(result[0].mask_codes[i], template_set[0].mask_codes[i])
 
-    def test_e2e_alignment_best_reference(self, sample_templates):
+    def test_e2e_alignment_best_reference(self, template_set):
         """Test end-to-end alignment using best template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=False, rotation_shift=15)
 
-        result = alignment.run(sample_templates)
+        result = alignment.run(template_set)
 
         # Check that alignment completed successfully
-        assert len(result) == len(sample_templates)
+        assert len(result) == len(template_set)
 
         # All templates should have consistent structure
         for template in result:
-            assert len(template.iris_codes) == len(sample_templates[0].iris_codes)
-            assert len(template.mask_codes) == len(sample_templates[0].mask_codes)
+            assert len(template.iris_codes) == len(template_set[0].iris_codes)
+            assert len(template.mask_codes) == len(template_set[0].mask_codes)
 
     def test_e2e_known_rotation_alignment(self):
         """Test alignment with known rotation offset."""
@@ -222,3 +294,36 @@ class TestE2EHammingDistanceBasedAlignment:
 
         # Verify that alignment parameter is correctly set
         assert alignment.params.normalise == normalise
+
+    @pytest.mark.parametrize(
+        "reference_method",
+        [
+            ReferenceSelectionMethod.LINEAR,
+            ReferenceSelectionMethod.MEAN_SQUARED,
+            ReferenceSelectionMethod.ROOT_MEAN_SQUARED,
+        ],
+    )
+    def test_e2e_reference_selection_methods(self, reference_method, template_set):
+        """Test alignment with different reference selection methods."""
+        # Create templates with known patterns from the fixture
+        base_template = template_set[0]
+        rotated_template1 = template_set[1]
+        rotated_template2 = template_set[2]
+
+        alignment = HammingDistanceBasedAlignment(
+            use_first_as_reference=False, reference_selection_method=reference_method, rotation_shift=10
+        )
+
+        result = alignment.run([base_template, rotated_template1, rotated_template2])
+
+        # Check that alignment completed successfully
+        assert len(result) == 3
+
+        # All templates should maintain their basic structure
+        for template in result:
+            assert template.iris_codes[0].shape == (16, 256, 2)
+            assert template.mask_codes[0].shape == (16, 256, 2)
+            assert template.iris_code_version == "v2.1"
+
+        # Verify that parameter is correctly set
+        assert alignment.params.reference_selection_method == reference_method
