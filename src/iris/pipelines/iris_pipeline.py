@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import pydoc
+import re
 import traceback
 from typing import Any, Dict, List, Literal, Optional, Union
 
@@ -206,3 +207,22 @@ class IRISPipeline(BasePipeline):
                 "traceback": "".join(traceback.format_tb(exception.__traceback__)),
             }
         return {"agent": iris_pipeline, "error": error}
+
+    def update_config(self, config: str) -> None:
+        """Update the pipeline configuration based on the provided base64-encoded string.
+
+        Args:
+            config (str): Base64-encoded string of the new configuration.
+        """
+        if not re.fullmatch(r"[A-Za-z0-9+/]*={0,2}", config):
+            raise ValueError("Invalid base64-encoded string")
+
+        decoded_config_str = base64_decode_str(config)
+        config_dict = self.load_config(decoded_config_str)
+
+        params = self.__parameters_type__(**config_dict)
+        self._check_pipeline_coherency(params)
+        self.params = params
+
+        self.nodes = self._instanciate_nodes()
+        self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)

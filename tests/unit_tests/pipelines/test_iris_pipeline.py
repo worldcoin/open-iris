@@ -1,10 +1,11 @@
 import os
 from contextlib import nullcontext as does_not_raise
 from typing import Any, Dict, List, Optional
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock, patch
 
 import cv2
 import numpy as np
+import onnxruntime as ort
 import pytest
 import yaml
 from _pytest.fixtures import FixtureRequest
@@ -841,6 +842,115 @@ def test_custom_pipeline_without_package_version_uses_parent():
     # Should inherit from parent IRISPipeline
     assert CustomPipelineWithoutVersion.PACKAGE_VERSION == IRISPipeline.PACKAGE_VERSION
     assert CustomPipelineWithoutVersion.PACKAGE_VERSION == __version__
+
+
+@pytest.mark.parametrize(
+    "config,expectation",
+    [
+        (
+            base64_encode_str(
+                f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: []"
+            ),
+            does_not_raise(),
+        ),
+        (
+            "invalid_base64_string!@#$",
+            pytest.raises(ValueError, match="Invalid base64-encoded string"),
+        ),
+        (
+            base64_encode_str("metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: 1.0.0\n\npipeline: []"),
+            pytest.raises(IRISPipelineError),
+        ),
+        (
+            base64_encode_str(
+                f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: [\n"
+                f"  {{\n    'name': 'segmentation',\n    'algorithm': {{\n"
+                f"      'class_name': 'iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation',\n"
+                f"      'params': {{'model_path': 'dummy.onnx'}},\n    }},\n    'inputs': [{{'name': 'image', 'source_node': 'input'}}],\n"
+                f"    'callbacks': [],\n    'seed': None,\n  }}\n]"
+            ),
+            does_not_raise(),
+        ),
+        (
+            base64_encode_str(load_config_str("incoherent_pipeline_1.yml")),
+            pytest.raises(IRISPipelineError),
+        ),
+        (
+            base64_encode_str(
+                f"metadata:\n  pipeline_name: v1.5.1_pipeline\n  iris_version: {__version__}\n\npipeline: [\n"
+                f"  {{\n    'name': 'segmentation',\n    'algorithm': {{\n"
+                f"      'class_name': 'iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation',\n"
+                f"      'params': {{'model_path': 'dummy.onnx'}},\n    }},\n    'inputs': [{{'name': 'image', 'source_node': 'input'}}],\n"
+                f"    'callbacks': [],\n    'seed': None,\n  }}\n]"
+            ),
+            does_not_raise(),
+        ),
+    ],
+    ids=[
+        "valid_empty_pipeline",
+        "invalid_base64",
+        "wrong_version",
+        "duplicate_node_names",
+        "incoherent_pipeline",
+        "valid_pipeline",
+    ],
+)
+def test_update_config(config: str, expectation):
+    """Test the update_config method with various configurations."""
+    pipeline = IRISPipeline()
+    with expectation:
+        mock_model = MagicMock()
+        mock_model.SerializeToString.return_value = b"dummy_model_data"
+        mock_session = MagicMock(spec=ort.InferenceSession)
+        with patch("onnx.load", return_value=mock_model), patch("onnx.checker.check_model"), patch(
+            "onnxruntime.InferenceSession", return_value=mock_session
+        ):
+            pipeline.update_config(config)
+            if isinstance(expectation, does_not_raise):
+                assert isinstance(pipeline.nodes, dict)
+                if config != "invalid_base64_string!@#$":
+                    assert pipeline.params.metadata.pipeline_name == "v1.5.1_pipeline"
+
+
+def test_update_config_preserves_environment():
+    """Test that update_config preserves the pipeline environment."""
+    env = Environment(
+        pipeline_output_builder=build_simple_iris_pipeline_debugging_output,
+        error_manager=store_error_manager,
+        call_trace_initialiser=PipelineCallTraceStorage.initialise,
+    )
+    pipeline = IRISPipeline(env=env)
+
+    # Update config
+    config = base64_encode_str(
+        f"metadata:\n  pipeline_name: test_pipeline\n  iris_version: {__version__}\n\npipeline: []"
+    )
+    pipeline.update_config(config)
+
+    # Verify environment is preserved
+    assert pipeline.env.pipeline_output_builder == build_simple_iris_pipeline_debugging_output
+    assert pipeline.env.error_manager == store_error_manager
+    assert pipeline.env.call_trace_initialiser == PipelineCallTraceStorage.initialise
+
+
+def test_update_config_reinitializes_nodes():
+    """Test that update_config properly reinitializes nodes and call trace."""
+    pipeline = IRISPipeline()
+
+    # Get initial state
+    initial_nodes = pipeline.nodes
+    initial_call_trace = pipeline.call_trace
+
+    # Update config
+    config = base64_encode_str(
+        f"metadata:\n  pipeline_name: test_pipeline\n  iris_version: {__version__}\n\npipeline: []"
+    )
+    pipeline.update_config(config)
+
+    # Verify nodes and call trace were reinitialized
+    assert pipeline.nodes is not initial_nodes
+    assert pipeline.call_trace is not initial_call_trace
+    assert isinstance(pipeline.nodes, dict)
 
 
 @pytest.mark.parametrize(
