@@ -2,21 +2,22 @@
 Hamming Distance-Based Template Alignment
 
 This module implements a hamming distance-based alignment algorithm that aligns
-a set of iris templates to a reference template by finding the optimal rotation
-offset that minimizes the hamming distance between each template and the reference.
+iris templates to a reference template by finding the optimal rotation offset
+that minimizes the hamming distance between each template and the reference.
 
 The algorithm:
-1. Uses the first template as a reference
-2. For each subsequent template, finds the best rotation offset that minimizes hamming distance
-3. Applies the rotation to align templates
-4. Returns the aligned templates
+1. Finds the best reference template using original distances
+2. For each template, finds the best rotation offset and aligns it to the reference
+3. Returns both aligned templates and the original pairwise distances (which are invariant to global rotation)
+
+Note: The pairwise distances are computed as the minimum Hamming distance over all possible rotations for each pair, so they are invariant to the global orientation of the templates. Thus, the distances before and after alignment are the same.
 
 Author: Rostyslav Shevchenko
 Date: 12 June 2025
 """
 
 from enum import Enum
-from typing import List
+from typing import Dict, List, Tuple
 
 import numpy as np
 from pydantic import Field, conint
@@ -41,6 +42,7 @@ class HammingDistanceBasedAlignment(Algorithm):
 
     This algorithm aligns iris templates by finding the optimal rotation offset
     that minimizes the hamming distance between each template and a reference template.
+    Always returns both the aligned templates and their pairwise distances (computed before alignment).
     """
 
     class Parameters(Algorithm.Parameters):
@@ -87,7 +89,7 @@ class HammingDistanceBasedAlignment(Algorithm):
             callbacks=callbacks,
         )
 
-    def run(self, templates: List[IrisTemplate]) -> List[IrisTemplate]:
+    def run(self, templates: List[IrisTemplate]) -> Tuple[List[IrisTemplate], Dict[tuple, float]]:
         """
         Align templates using hamming distance-based alignment.
 
@@ -95,24 +97,30 @@ class HammingDistanceBasedAlignment(Algorithm):
             templates (List[IrisTemplate]): List of IrisTemplate objects to align
 
         Returns:
-            List[IrisTemplate]: Aligned templates
+            Tuple[List[IrisTemplate], Dict[tuple, float]]: Tuple of (aligned templates, pairwise distances between templates, computed before alignment)
+
+        Raises:
+            ValueError: If no templates provided
         """
         if not templates:
             raise ValueError("No templates provided for alignment")
 
         if len(templates) == 1:
-            return templates
+            return templates, {}
 
-        # Find reference template
+        # Step 1: Calculate pairwise distances (invariant to global rotation)
+        original_distances = self._calculate_pairwise_distances(templates)
+
+        # Step 2: Find the best reference template using original distances
         if self.params.use_first_as_reference:
             reference_idx = 0
         else:
-            reference_idx = self._find_best_reference(templates)
+            reference_idx = self._find_best_reference(templates, original_distances)
 
         reference_template = templates[reference_idx]
         aligned_templates = []
 
-        # Align each template to the reference
+        # Step 3: Align each template to the reference
         for i, template in enumerate(templates):
             if i == reference_idx:
                 # Reference template doesn't need alignment
@@ -125,7 +133,33 @@ class HammingDistanceBasedAlignment(Algorithm):
                 aligned_template = self._rotate_template(template, optimal_rotation)
                 aligned_templates.append(aligned_template)
 
-        return aligned_templates
+        # Step 4: Return aligned templates and the original distances
+        return aligned_templates, original_distances
+
+    def _calculate_pairwise_distances(self, templates: List[IrisTemplate]) -> Dict[tuple, float]:
+        """
+        Calculate pairwise Hamming distances between all templates.
+
+        Args:
+            templates (List[IrisTemplate]): Templates to compare
+
+        Returns:
+            Dict[tuple, float]: Dictionary with (i, j) as keys and distances as values
+        """
+        distances = {}
+        n_templates = len(templates)
+
+        for i in range(n_templates):
+            for j in range(i + 1, n_templates):
+                distance, _ = simple_hamming_distance(
+                    templates[i],
+                    templates[j],
+                    rotation_shift=self.params.rotation_shift,
+                    normalise=self.params.normalise,
+                )
+                distances[(i, j)] = distance
+
+        return distances
 
     def _aggregate_distances(self, distances: List[float]) -> float:
         """
@@ -151,12 +185,13 @@ class HammingDistanceBasedAlignment(Algorithm):
         else:
             raise ValueError(f"Unknown reference selection method: {self.params.reference_selection_method}")
 
-    def _find_best_reference(self, templates: List[IrisTemplate]) -> int:
+    def _find_best_reference(self, templates: List[IrisTemplate], distances: Dict[tuple, float]) -> int:
         """
         Find the template that has the minimum aggregated distance to all other templates.
 
         Args:
             templates (List[IrisTemplate]): List of templates
+            distances (Dict[tuple, float]): Precomputed pairwise distances
 
         Returns:
             int: Index of the best reference template
@@ -166,18 +201,14 @@ class HammingDistanceBasedAlignment(Algorithm):
         best_reference_idx = 0
 
         for i in range(n_templates):
-            distances = []
+            template_distances = []
             for j in range(n_templates):
                 if i != j:
-                    distance, _ = simple_hamming_distance(
-                        templates[i],
-                        templates[j],
-                        rotation_shift=self.params.rotation_shift,
-                        normalise=self.params.normalise,
-                    )
-                    distances.append(distance)
+                    # Get distance from precomputed dict
+                    key = (min(i, j), max(i, j))
+                    template_distances.append(distances[key])
 
-            aggregated_distance = self._aggregate_distances(distances)
+            aggregated_distance = self._aggregate_distances(template_distances)
 
             if aggregated_distance < min_aggregated_distance:
                 min_aggregated_distance = aggregated_distance
