@@ -146,3 +146,9 @@ class TemplateAggregationCompatibilityError(Exception):
     """Template aggregation compatibility validation Error class."""
 
     pass
+
+
+class IdentityValidationError(Exception):
+    """Identity validation Error class."""
+
+    pass
