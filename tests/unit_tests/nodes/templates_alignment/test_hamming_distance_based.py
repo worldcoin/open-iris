@@ -53,7 +53,7 @@ class TestHammingDistanceBasedAlignment:
             iris_code_version="v2.1",
         )
 
-        result = alignment.run([template])
+        result, _ = alignment.run([template])
 
         assert len(result) == 1
         assert result[0] == template
@@ -77,38 +77,12 @@ class TestHammingDistanceBasedAlignment:
         with patch.object(alignment, "_find_optimal_rotation", return_value=1) as mock_rotation, patch.object(
             alignment, "_rotate_template", return_value=template2
         ) as mock_rotate:
-            result = alignment.run([template1, template2])
+            result, _ = alignment.run([template1, template2])
 
             assert len(result) == 2
             assert result[0] == template1  # Reference template unchanged
             mock_rotation.assert_called_once_with(template2, template1)
             mock_rotate.assert_called_once_with(template2, 1)
-
-    def test_run_multiple_templates_best_reference(self):
-        """Test alignment with multiple templates using best reference."""
-        alignment = HammingDistanceBasedAlignment(use_first_as_reference=False)
-
-        # Create mock templates
-        template1 = IrisTemplate(
-            iris_codes=[np.array([[[True, False], [False, True]]])],
-            mask_codes=[np.array([[[True, True], [True, True]]])],
-            iris_code_version="v2.1",
-        )
-        template2 = IrisTemplate(
-            iris_codes=[np.array([[[False, True], [True, False]]])],
-            mask_codes=[np.array([[[True, True], [True, True]]])],
-            iris_code_version="v2.1",
-        )
-
-        with patch.object(alignment, "_find_best_reference", return_value=1) as mock_best_ref, patch.object(
-            alignment, "_find_optimal_rotation", return_value=2
-        ) as mock_rotation, patch.object(alignment, "_rotate_template", return_value=template1) as mock_rotate:
-            result = alignment.run([template1, template2])
-
-            assert len(result) == 2
-            mock_best_ref.assert_called_once_with([template1, template2])
-            mock_rotation.assert_called_once_with(template1, template2)
-            mock_rotate.assert_called_once_with(template1, 2)
 
     def test_find_best_reference(self):
         """Test finding the best reference template."""
@@ -145,7 +119,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.3, 0),  # template3 vs template2
             ]
 
-            best_idx = alignment._find_best_reference([template1, template2, template3])
+            distances = alignment._calculate_pairwise_distances([template1, template2, template3])
+            best_idx = alignment._find_best_reference([template1, template2, template3], distances)
 
             assert best_idx == 1  # Template 2 has the minimum sum of distances
 
@@ -200,7 +175,8 @@ class TestHammingDistanceBasedAlignment:
             mock_hd.reset_mock()
             mock_hd.side_effect = [(0.3, 0), (0.2, 0)]  # Two calls for _find_best_reference
 
-            _ = alignment._find_best_reference([template, reference])
+            distances = alignment._calculate_pairwise_distances([template, reference])
+            _ = alignment._find_best_reference([template, reference], distances)
 
             # Verify that normalise=True was used in both calls
             for call in mock_hd.call_args_list:
@@ -381,7 +357,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.1, 0),  # template3 vs template2
             ]
 
-            best_idx = alignment._find_best_reference([template1, template2, template3])
+            distances = alignment._calculate_pairwise_distances([template1, template2, template3])
+            best_idx = alignment._find_best_reference([template1, template2, template3], distances)
 
             assert best_idx == 1  # Template 2 has the minimum mean squared distance
 
@@ -410,7 +387,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.3, 0),  # template2 vs template1
             ]
 
-            best_idx = alignment._find_best_reference([template1, template2])
+            distances = alignment._calculate_pairwise_distances([template1, template2])
+            best_idx = alignment._find_best_reference([template1, template2], distances)
 
             assert best_idx == 0  # First template selected when distances are equal
 
@@ -455,7 +433,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.3, 0),  # template3 distances
             ]
 
-            best_idx_linear = alignment_linear._find_best_reference(templates)
+            distances = alignment_linear._calculate_pairwise_distances(templates)
+            best_idx_linear = alignment_linear._find_best_reference(templates, distances)
 
             # Expected calculations:
             # Template 1: sum = 0.2 + 0.6 = 0.8
@@ -477,8 +456,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.6, 0),
                 (0.3, 0),  # template3 distances
             ]
-
-            best_idx_mean_squared = alignment_mean_squared._find_best_reference(templates)
+            distances = alignment_mean_squared._calculate_pairwise_distances(templates)
+            best_idx_mean_squared = alignment_mean_squared._find_best_reference(templates, distances)
 
             # Expected calculations:
             # Template 1: mean_squared = (0.2² + 0.6²) / 2 = (0.04 + 0.36) / 2 = 0.20
@@ -501,7 +480,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.3, 0),  # template3 distances
             ]
 
-            best_idx_rms = alignment_rms._find_best_reference(templates)
+            distances = alignment_rms._calculate_pairwise_distances(templates)
+            best_idx_rms = alignment_rms._find_best_reference(templates, distances)
 
             # Expected calculations:
             # Template 1: rms = sqrt((0.2² + 0.6²) / 2) = sqrt(0.20) ≈ 0.447
@@ -576,7 +556,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.5, 0),  # template4 distances
             ]
 
-            best_idx_linear = alignment_linear._find_best_reference(templates)
+            distances = alignment_linear._calculate_pairwise_distances(templates)
+            best_idx_linear = alignment_linear._find_best_reference(templates, distances)
             assert best_idx_linear == 3  # Template 4 wins with sum=1.5
 
         # Test MEAN_SQUARED method - should prefer template 4 (mean_squared≈0.357)
@@ -600,7 +581,8 @@ class TestHammingDistanceBasedAlignment:
                 (0.5, 0),  # template4 distances
             ]
 
-            best_idx_mean_squared = alignment_mean_squared._find_best_reference(templates)
+            distances = alignment_linear._calculate_pairwise_distances(templates)
+            best_idx_mean_squared = alignment_mean_squared._find_best_reference(templates, distances)
             # Template 4: mean_squared = (0.1² + 0.9² + 0.5²) / 3 = (0.01 + 0.81 + 0.25) / 3 = 0.357
             # Template 3: mean_squared = (0.9² + 0.2² + 0.5²) / 3 = (0.81 + 0.04 + 0.25) / 3 = 0.367
             assert best_idx_mean_squared == 3  # Template 4 wins
@@ -658,17 +640,18 @@ class TestHammingDistanceBasedAlignment:
             reference_selection_method=ReferenceSelectionMethod.LINEAR, use_first_as_reference=False
         )
 
+        # Patch only for the pairwise distance calculation
         with patch("iris.nodes.templates_alignment.hamming_distance_based.simple_hamming_distance") as mock_hd:
+            # There are 3 templates, so 3 choose 2 = 3 pairs: (0,1), (0,2), (1,2)
+            # The order of calls in _calculate_pairwise_distances is:
+            # (0,1), (0,2), (1,2)
             mock_hd.side_effect = [
-                (0.05, 0),
-                (0.05, 0),  # template1 distances
-                (0.0, 0),
-                (0.15, 0),  # template2 distances
-                (0.05, 0),
-                (0.15, 0),  # template3 distances
+                (0.05, 0),  # template1 vs template2
+                (0.05, 0),  # template1 vs template3
+                (0.15, 0),  # template2 vs template3
             ]
-
-            best_idx_linear = alignment_linear._find_best_reference(templates)
+            distances = alignment_linear._calculate_pairwise_distances(templates)
+            best_idx_linear = alignment_linear._find_best_reference(templates, distances)
             assert best_idx_linear == 0  # Template 1 wins with smallest sum
 
         # Verify calculations show the trade-offs
@@ -750,13 +733,13 @@ class TestHammingDistanceBasedAlignment:
         template1 = IrisTemplate(iris_codes=[iris_code1], mask_codes=[mask_code1], iris_code_version="v2.1")
         template2 = IrisTemplate(iris_codes=[iris_code2], mask_codes=[mask_code2], iris_code_version="v2.1")
 
-        result = alignment.run([template1, template2])
+        aligned_templates, _ = alignment.run([template1, template2])
 
         # First template should remain unchanged (reference)
-        np.testing.assert_array_equal(result[0].iris_codes[0], iris_code1)
+        np.testing.assert_array_equal(aligned_templates[0].iris_codes[0], iris_code1)
 
         # Second template should be aligned back to match the first
         # The alignment should find rotation = -1 to align template2 back to template1
-        assert len(result) == 2
-        assert result[0].iris_code_version == "v2.1"
-        assert result[1].iris_code_version == "v2.1"
+        assert len(aligned_templates) == 2
+        assert aligned_templates[0].iris_code_version == "v2.1"
+        assert aligned_templates[1].iris_code_version == "v2.1"

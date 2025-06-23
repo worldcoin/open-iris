@@ -122,7 +122,7 @@ class TestE2EHammingDistanceBasedAlignment:
         """Test end-to-end alignment with default parameters."""
         alignment = HammingDistanceBasedAlignment()
 
-        result = alignment.run(template_set)
+        result, _ = alignment.run(template_set)
 
         # Check that we get the same number of templates back
         assert len(result) == len(template_set)
@@ -141,7 +141,7 @@ class TestE2EHammingDistanceBasedAlignment:
         """Test end-to-end alignment using first template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=True, rotation_shift=10)
 
-        result = alignment.run(template_set)
+        result, _ = alignment.run(template_set)
 
         # First template should remain unchanged
         for i in range(len(template_set[0].iris_codes)):
@@ -152,7 +152,7 @@ class TestE2EHammingDistanceBasedAlignment:
         """Test end-to-end alignment using best template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=False, rotation_shift=15)
 
-        result = alignment.run(template_set)
+        result, _ = alignment.run(template_set)
 
         # Check that alignment completed successfully
         assert len(result) == len(template_set)
@@ -179,7 +179,7 @@ class TestE2EHammingDistanceBasedAlignment:
         )
 
         alignment = HammingDistanceBasedAlignment(rotation_shift=10)
-        result = alignment.run([base_template, rotated_template])
+        result, _ = alignment.run([base_template, rotated_template])
 
         # First template (reference) should be unchanged
         np.testing.assert_array_equal(result[0].iris_codes[0], base_template.iris_codes[0])
@@ -197,7 +197,7 @@ class TestE2EHammingDistanceBasedAlignment:
         )
 
         alignment = HammingDistanceBasedAlignment()
-        result = alignment.run([template])
+        result, _ = alignment.run([template])
 
         assert len(result) == 1
         np.testing.assert_array_equal(result[0].iris_codes[0], template.iris_codes[0])
@@ -258,7 +258,7 @@ class TestE2EHammingDistanceBasedAlignment:
         )
 
         alignment = HammingDistanceBasedAlignment(rotation_shift=rotation_shift)
-        result = alignment.run([base_template, rotated_template])
+        result, _ = alignment.run([base_template, rotated_template])
 
         assert len(result) == 2
         # Both templates should maintain their basic structure
@@ -283,7 +283,7 @@ class TestE2EHammingDistanceBasedAlignment:
         )
 
         alignment = HammingDistanceBasedAlignment(normalise=normalise, rotation_shift=10)
-        result = alignment.run([base_template, rotated_template])
+        result, _ = alignment.run([base_template, rotated_template])
 
         assert len(result) == 2
         # Both templates should maintain their basic structure
@@ -314,7 +314,7 @@ class TestE2EHammingDistanceBasedAlignment:
             use_first_as_reference=False, reference_selection_method=reference_method, rotation_shift=10
         )
 
-        result = alignment.run([base_template, rotated_template1, rotated_template2])
+        result, _ = alignment.run([base_template, rotated_template1, rotated_template2])
 
         # Check that alignment completed successfully
         assert len(result) == 3

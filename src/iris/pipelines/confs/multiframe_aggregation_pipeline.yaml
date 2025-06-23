@@ -324,7 +324,7 @@ templates_aggregation:
 
     - name: identity_validation
       algorithm:
-        class_name: iris.nodes.template_identity_filter.TemplateIdentityFilter
+        class_name: iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter
         params:
           identity_distance_threshold: 0.35
           identity_validation_action: remove  # Options: remove, raise_error, log_warning
@@ -332,8 +332,10 @@ templates_aggregation:
       inputs:
         - name: templates
           source_node: templates_alignment
+          index: 0
         - name: pairwise_distances
           source_node: templates_alignment
+          index: 1
       callbacks:
 
     - name: templates_aggregation

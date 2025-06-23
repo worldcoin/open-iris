@@ -1,6 +1,7 @@
 import logging
+from collections import defaultdict, deque
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set, Tuple
 
 import numpy as np
 from pydantic import Field, conint
@@ -57,6 +58,48 @@ def greedy_purification(distances: Dict[tuple, float], threshold: float, n: int,
         removed.add(worst)
         remaining.remove(worst)
     return sorted(list(removed))
+
+
+def find_identity_clusters(
+    distances: Dict[Tuple[int, int], float], n: int, threshold: float, min_cluster_size: int = 2
+) -> List[Set[int]]:
+    """
+    Identifies clusters (potential identities) among templates based on pairwise distances.
+
+    Args:
+        distances (Dict[tuple, float]): Dictionary of pairwise distances between templates, keys are (i, j) tuples.
+        n (int): Total number of templates (nodes).
+        threshold (float): Maximum distance to consider two templates as belonging to the same identity (edge in the graph).
+        min_cluster_size (int): Minimum number of templates required to consider a group a cluster (default: 2).
+
+    Returns:
+        List[Set[int]]: List of clusters, each cluster is a set of template indices. Only clusters with size >= min_cluster_size are returned.
+    """
+    # Build adjacency list: connect nodes (templates) if their distance is within the threshold
+    adj: Dict[int, Set[int]] = defaultdict(set)
+    for (i, j), d in distances.items():
+        if d <= threshold:
+            adj[i].add(j)
+            adj[j].add(i)
+
+    # Find connected components (clusters) using BFS
+    visited: Set[int] = set()
+    clusters: List[Set[int]] = []
+    for node in range(n):
+        if node not in visited:
+            queue = deque([node])
+            cluster: Set[int] = set()
+            while queue:
+                current_node = queue.popleft()
+                if current_node not in visited:
+                    visited.add(current_node)
+                    cluster.add(current_node)
+                    # Add all unvisited neighbors to the queue
+                    queue.extend(adj[current_node] - visited)
+            # Only consider clusters of sufficient size
+            if len(cluster) >= min_cluster_size:
+                clusters.append(cluster)
+    return clusters
 
 
 class IdentityValidationAction(str, Enum):
@@ -177,7 +220,25 @@ class TemplateIdentityFilter(Algorithm):
         """
         n = max(max(pair) for pair in distances) + 1 if distances else 0
         threshold = self.params.identity_distance_threshold
-        return greedy_purification(distances, threshold, n)
+
+        # Step 1: Find clusters
+        clusters = find_identity_clusters(distances, n, threshold, min_cluster_size=2)
+
+        if len(clusters) == 0:
+            raise E.IdentityValidationError(
+                f"Found no identity clusters. All templates have Hamming distance exceeding threshold {threshold:.4f}. "
+            )
+
+        if len(clusters) > 1:
+            raise E.IdentityValidationError(
+                f"Found multiple identity clusters with Hamming distance exceeding threshold {threshold:.4f}. "
+                f"Template indices of the clusters: {[sorted(list(c)) for c in clusters]}"
+            )
+
+        # Step 2: if there is only one cluster, treat other nodes as outliers
+        outliers = [i for i in range(n) if i not in clusters[0]]
+
+        return outliers
 
     def _handle_identity_outliers(
         self,
