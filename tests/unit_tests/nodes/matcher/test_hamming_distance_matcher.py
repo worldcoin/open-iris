@@ -4,79 +4,94 @@ import numpy as np
 import pytest
 from pydantic import ValidationError
 
-from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
+from iris.io.dataclasses import IrisTemplate
+from iris.nodes.matcher.hamming_distance_matcher import HashBasedMatcher
 
 
 @pytest.mark.parametrize(
-    "rotation_shift, norm_mean",
+    "rotation_shift,hash_bits",
     [
-        pytest.param(-0.5, 0.45),
-        pytest.param(1.5, None),
-        pytest.param(200, "a"),
-        pytest.param(100, -0.2),
-        pytest.param(10, 1.3),
-    ],
-    ids=[
-        "rotation_shift should not be negative",
-        "rotation_shift should not be floating points",
-        "norm_mean should be float",
-        "norm_mean should not be negative",
-        "norm_mean should not be more than 1",
+        (0, 40),
+        (1, 40),
+        (10, 40),
+        (0, 32),
+        (0, 64),
     ],
 )
-def test_iris_matcher_raises_an_exception1(
-    rotation_shift: int,
-    norm_mean: float,
-) -> None:
-    with pytest.raises(ValidationError):
-        _ = HammingDistanceMatcher(rotation_shift=rotation_shift, norm_mean=norm_mean)
+def test_hash_based_matcher_parameters(rotation_shift: int, hash_bits: int) -> None:
+    """Test HashBasedMatcher parameter validation."""
+    _ = HashBasedMatcher(rotation_shift=rotation_shift, hash_bits=hash_bits)
 
 
 @pytest.mark.parametrize(
-    "rotation_shift, norm_mean, weights",
+    "rotation_shift,hash_bits",
     [
-        pytest.param(5, 0.4, 3),
-        pytest.param(15, None, np.zeros((3, 4))),
-        pytest.param(200, 0.45, [("a", 13)]),
-    ],
-    ids=[
-        "weights should be a list of arrays",
-        "weights should be a list of arrays",
-        "n_rows need to be int or float",
+        (-1, 40),  # Invalid rotation_shift
+        (0, -1),   # Invalid hash_bits
+        (0, 0),    # Invalid hash_bits
     ],
 )
-def test_iris_matcher_raises_an_exception2(
-    rotation_shift: int,
-    norm_mean: float,
-    weights: List[np.ndarray],
-) -> None:
+def test_hash_based_matcher_invalid_parameters(rotation_shift: int, hash_bits: int) -> None:
+    """Test HashBasedMatcher invalid parameter validation."""
     with pytest.raises(ValidationError):
-        _ = HammingDistanceMatcher(rotation_shift=rotation_shift, norm_mean=norm_mean, weights=weights)
+        _ = HashBasedMatcher(rotation_shift=rotation_shift, hash_bits=hash_bits)
 
 
-@pytest.mark.parametrize(
-    "rotation_shift, norm_mean, norm_gradient, separate_half_matching, weights",
-    [
-        pytest.param(5, 0.4, "a", False, 3),
-        pytest.param(15, None, 0.0005, "b", np.zeros((3, 4))),
-    ],
-    ids=[
-        "norm_gradient should be float",
-        "separate_half_matching should be bool",
-    ],
-)
-def test_iris_matcher_raises_an_exception2(
-    rotation_shift: int,
-    norm_mean: float,
-    norm_gradient: float,
-    separate_half_matching: bool,
-    weights: List[np.ndarray],
-) -> None:
-    with pytest.raises(ValidationError):
-        _ = HammingDistanceMatcher(
-            rotation_shift,
-            norm_mean=norm_mean,
-            norm_gradient=norm_gradient,
-            separate_half_matching=separate_half_matching,
-            weights=weights,
-        )
+def test_hash_based_matcher_unique_id_generation():
+    """Test unique ID generation from iris template."""
+    # Create test iris template
+    iris_codes = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    mask_codes = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+    
+    matcher = HashBasedMatcher()
+    unique_id = matcher.generate_unique_id(template)
+    
+    # Check that unique_id is an integer
+    assert isinstance(unique_id, int)
+    # Check that unique_id is positive
+    assert unique_id >= 0
+    # Check that unique_id fits in 40 bits
+    assert unique_id < (1 << 40)
+
+
+def test_hash_based_matcher_exact_match():
+    """Test exact matching between identical templates."""
+    # Create test iris template
+    iris_codes = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    mask_codes = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    template1 = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+    template2 = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+    
+    matcher = HashBasedMatcher()
+    result = matcher.run(template1, template2)
+    
+    # Identical templates should match exactly (0.0)
+    assert result == 0.0
+
+
+def test_hash_based_matcher_no_match():
+    """Test no matching between different templates."""
+    # Create different test iris templates
+    iris_codes1 = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    mask_codes1 = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    template1 = IrisTemplate(iris_codes=iris_codes1, mask_codes=mask_codes1, iris_code_version="v2.1")
+    
+    iris_codes2 = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    mask_codes2 = [np.random.choice([True, False], size=(16, 256, 2)) for _ in range(2)]
+    template2 = IrisTemplate(iris_codes=iris_codes2, mask_codes=mask_codes2, iris_code_version="v2.1")
+    
+    matcher = HashBasedMatcher()
+    result = matcher.run(template1, template2)
+    
+    # Different templates should not match (1.0)
+    assert result == 1.0
+
+
+def test_hash_based_matcher_id_size():
+    """Test that unique ID size is correct."""
+    matcher = HashBasedMatcher()
+    id_size = matcher.get_id_size_bytes()
+    
+    # Should be 5 bytes for 40-bit identifier
+    assert id_size == 5

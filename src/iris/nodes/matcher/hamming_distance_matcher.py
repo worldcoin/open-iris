@@ -1,85 +1,125 @@
+import hashlib
 from typing import List, Optional
 
 import numpy as np
-from pydantic import confloat, conint
+from pydantic import conint
 
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.matcher.hamming_distance_matcher_interface import Matcher
-from iris.nodes.matcher.utils import hamming_distance
 
 
-class HammingDistanceMatcher(Matcher):
-    """Hamming distance Matcher with additional optional features.
+class HashBasedMatcher(Matcher):
+    """Hash-based Matcher that generates 40-bit unique identifiers.
 
     Algorithm steps:
-       1) Calculate counts of nonmatch irisbits (IB_Counts) in common unmasked region and the counts of common maskbits (MB_Counts) in common unmasked region for both upper and lower half of iris, respectively.
-       2) If parameter norm_mean is defined, calculate normalized Hamming distance (NHD) based on IB_Counts, MB_Counts and norm_mean.
-       3) If parameter weights is defined, calculate weighted Hamming distance (WHD) based on IB_Counts, MB_Counts and weights.
-       4) If parameters norm_mean and weights are both defined, calculate weighted normalized Hamming distance (WNHD) based on IB_Counts, MB_Counts, norm_mean and weights.
-       5) Otherwise, calculate Hamming distance (HD) based on IB_Counts and MB_Counts.
-       6) If parameter rotation_shift is > 0, repeat the above steps for additional rotations of the iriscode.
-       7) Return the minimium distance from above calculations.
+       1) Serialize iris template to string representation
+       2) Generate SHA-256 hash from serialized template
+       3) Extract first 5 bytes (40 bits) from hash as unique identifier
+       4) Compare identifiers for exact matching
+       5) Return 0.0 for exact match, 1.0 for no match
     """
 
     class Parameters(Matcher.Parameters):
-        """HammingDistanceMatcher parameters."""
+        """HashBasedMatcher parameters."""
 
-        rotation_shift: conint(ge=0, strict=True)
-        normalise: bool
-        norm_mean: confloat(ge=0, le=1, strict=True)
-        norm_gradient: float
-        separate_half_matching: bool
-        weights: Optional[List[np.ndarray]]
+        rotation_shift: conint(ge=0, strict=True)  # Kept for interface compatibility
+        hash_bits: int = 40  # Number of bits to extract from hash
 
     __parameters_type__ = Parameters
 
     def __init__(
         self,
-        rotation_shift: conint(ge=0, strict=True) = 15,
-        normalise: bool = True,
-        norm_mean: confloat(ge=0, le=1, strict=True) = 0.45,
-        norm_gradient: float = 0.00005,
-        separate_half_matching: bool = True,
-        weights: Optional[List[np.ndarray]] = None,
+        rotation_shift: conint(ge=0, strict=True) = 0,  # Not used in hash-based approach
+        hash_bits: int = 40,
     ) -> None:
         """Assign parameters.
 
         Args:
-            rotation_shift (Optional[conint(ge=0, strict=True)], optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
-            normalise (bool, optional): Flag to normalize HD. Defaults to True.
-            norm_mean (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
-            norm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
-            separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to True.
-            weights (Optional[List[np.ndarray]], optional): list of weights table. Optional paremeter for weighted HD. Defaults to None.
+            rotation_shift (int): Kept for interface compatibility, not used in hash-based approach.
+            hash_bits (int): Number of bits to extract from hash. Defaults to 40.
         """
-        super().__init__(
-            rotation_shift=rotation_shift,
-            normalise=normalise,
-            norm_mean=norm_mean,
-            norm_gradient=norm_gradient,
-            separate_half_matching=separate_half_matching,
-            weights=weights,
-        )
+        super().__init__(rotation_shift=rotation_shift)
+        self.hash_bits = hash_bits
+
+    def template_to_hash(self, template: IrisTemplate) -> str:
+        """Convert iris template to SHA-256 hash.
+
+        Args:
+            template (IrisTemplate): Iris template to hash.
+
+        Returns:
+            str: SHA-256 hash as hex string.
+        """
+        # Serialize template
+        serialized = template.serialize()
+        iris_codes_str = serialized['iris_codes']
+        mask_codes_str = serialized['mask_codes']
+        version_str = serialized['iris_code_version']
+        
+        # Combine all data for hashing
+        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode('utf-8')
+        return hashlib.sha256(combined_data).hexdigest()
+
+    def hash_to_unique_id(self, hash_value: str) -> int:
+        """Extract unique identifier from hash.
+
+        Args:
+            hash_value (str): SHA-256 hash as hex string.
+
+        Returns:
+            int: Unique identifier (40-bit integer).
+        """
+        # Take first 5 bytes (40 bits) of hash and convert to integer
+        hash_bytes = bytes.fromhex(hash_value[:10])  # First 10 hex chars = 5 bytes
+        return int.from_bytes(hash_bytes, byteorder='big')
+
+    def generate_unique_id(self, template: IrisTemplate) -> int:
+        """Generate unique identifier from iris template.
+
+        Args:
+            template (IrisTemplate): Iris template.
+
+        Returns:
+            int: Unique identifier.
+        """
+        hash_value = self.template_to_hash(template)
+        return self.hash_to_unique_id(hash_value)
 
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
-        """Match iris templates using Hamming distance.
+        """Match iris templates using hash-based unique identifiers.
 
         Args:
             template_probe (IrisTemplate): Iris template from probe.
             template_gallery (IrisTemplate): Iris template from gallery.
 
         Returns:
-            float: matching distance.
+            float: 0.0 for exact match, 1.0 for no match.
         """
-        score, _ = hamming_distance(
-            template_probe=template_probe,
-            template_gallery=template_gallery,
-            rotation_shift=self.params.rotation_shift,
-            normalise=self.params.normalise,
-            norm_mean=self.params.norm_mean,
-            norm_gradient=self.params.norm_gradient,
-            separate_half_matching=self.params.separate_half_matching,
-            weights=self.params.weights,
-        )
+        # Generate unique identifiers
+        probe_id = self.generate_unique_id(template_probe)
+        gallery_id = self.generate_unique_id(template_gallery)
+        
+        # Compare identifiers
+        if probe_id == gallery_id:
+            return 0.0  # Exact match
+        else:
+            return 1.0  # No match
 
-        return score
+    def get_unique_id(self, template: IrisTemplate) -> int:
+        """Get unique identifier for a template.
+
+        Args:
+            template (IrisTemplate): Iris template.
+
+        Returns:
+            int: Unique identifier.
+        """
+        return self.generate_unique_id(template)
+
+    def get_id_size_bytes(self) -> int:
+        """Get storage size of unique identifier in bytes.
+
+        Returns:
+            int: Size in bytes (5 bytes for 40-bit identifier).
+        """
+        return 5  # 40 bits = 5 bytes

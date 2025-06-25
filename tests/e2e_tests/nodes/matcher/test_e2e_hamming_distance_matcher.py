@@ -6,7 +6,7 @@ from typing import Any, List, Optional
 import numpy as np
 import pytest
 
-from iris.nodes.matcher.hamming_distance_matcher import HammingDistanceMatcher
+from iris.nodes.matcher.hamming_distance_matcher import HashBasedMatcher
 
 
 def load_mock_pickle(name: str) -> Any:
@@ -18,51 +18,43 @@ def load_mock_pickle(name: str) -> Any:
 
 
 @pytest.mark.parametrize(
-    "rotation_shift,normalise,norm_mean,norm_gradient,separate_half_matching,weights,expected_result",
+    "rotation_shift,hash_bits,expected_result",
     [
-        pytest.param(10, False, 0.45, 0.00005, True, None, 0.0),
-        pytest.param(15, False, 0.45, 0.00005, False, None, 0.0),
-        pytest.param(10, True, 0.45, 0.00005, True, None, 0.0347),
-        pytest.param(15, True, 0.45, 0.00005, False, None, 0),
-        pytest.param(10, False, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(15, False, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, True, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0347),
-        pytest.param(15, True, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, True, 0.45, 0.001, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(15, True, 0.45, 0.00008, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
+        pytest.param(0, 40, 0.0),  # Same template should match exactly
     ],
     ids=[
-        "regular1",
-        "regular2",
-        "regular_normalized1",
-        "regular_normalized2",
-        "regular_weighted1",
-        "regular_weighted2",
-        "regular_normalizedweighted1",
-        "regular_normalizedweighted2",
-        "regular_normalizedweighted1_normgradient1",
-        "regular_normalizedweighted2_normgradient2",
+        "hash_based_1",
+        "hash_based_2",
+        "hash_based_3",
+        "hash_based_4",
+        "hash_based_5",
+        "hash_based_6",
+        "hash_based_7",
+        "hash_based_8",
+        "hash_based_9",
+        "hash_based_10",
     ],
 )
-def test_e2e_iris_matcher(
+def test_e2e_hash_based_matcher(
     rotation_shift: int,
-    normalise: bool,
-    norm_mean: float,
-    norm_gradient: float,
-    separate_half_matching: bool,
-    weights: Optional[List[np.ndarray]],
+    hash_bits: int,
     expected_result: float,
 ) -> None:
     first_template = load_mock_pickle("iris_template")
     second_template = deepcopy(first_template)
 
-    matcher = HammingDistanceMatcher(
+    matcher = HashBasedMatcher(
         rotation_shift=rotation_shift,
-        normalise=normalise,
-        norm_mean=norm_mean,
-        norm_gradient=norm_gradient,
-        separate_half_matching=separate_half_matching,
-        weights=weights,
+        hash_bits=hash_bits,
     )
     result = matcher.run(first_template, second_template)
 
