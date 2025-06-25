@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate
 from iris.nodes.templates_aggregation.majority_vote import MajorityVoteAggregation
 
@@ -290,8 +291,6 @@ class TestMajorityVoteAggregation:
 
     def test_algorithm_inheritance(self):
         """Test that MajorityVoteAggregation properly inherits from Algorithm."""
-        from iris.io.class_configs import Algorithm
-
         aggregator = MajorityVoteAggregation()
         assert isinstance(aggregator, Algorithm)
         assert hasattr(aggregator, "params")

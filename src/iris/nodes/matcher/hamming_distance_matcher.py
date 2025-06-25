@@ -1,7 +1,5 @@
 import hashlib
-from typing import List, Optional
 
-import numpy as np
 from pydantic import conint
 
 from iris.io.dataclasses import IrisTemplate
@@ -12,11 +10,9 @@ class HashBasedMatcher(Matcher):
     """Hash-based Matcher that generates 40-bit unique identifiers.
 
     Algorithm steps:
-       1) Serialize iris template to string representation
-       2) Generate SHA-256 hash from serialized template
-       3) Extract first 5 bytes (40 bits) from hash as unique identifier
-       4) Compare identifiers for exact matching
-       5) Return 0.0 for exact match, 1.0 for no match
+       1) Use IrisTemplate's built-in generate_unique_id method
+       2) Compare identifiers for exact matching
+       3) Return 0.0 for exact match, 1.0 for no match
     """
 
     class Parameters(Matcher.Parameters):
@@ -41,50 +37,6 @@ class HashBasedMatcher(Matcher):
         super().__init__(rotation_shift=rotation_shift)
         self.hash_bits = hash_bits
 
-    def template_to_hash(self, template: IrisTemplate) -> str:
-        """Convert iris template to SHA-256 hash.
-
-        Args:
-            template (IrisTemplate): Iris template to hash.
-
-        Returns:
-            str: SHA-256 hash as hex string.
-        """
-        # Serialize template
-        serialized = template.serialize()
-        iris_codes_str = serialized['iris_codes']
-        mask_codes_str = serialized['mask_codes']
-        version_str = serialized['iris_code_version']
-        
-        # Combine all data for hashing
-        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode('utf-8')
-        return hashlib.sha256(combined_data).hexdigest()
-
-    def hash_to_unique_id(self, hash_value: str) -> int:
-        """Extract unique identifier from hash.
-
-        Args:
-            hash_value (str): SHA-256 hash as hex string.
-
-        Returns:
-            int: Unique identifier (40-bit integer).
-        """
-        # Take first 5 bytes (40 bits) of hash and convert to integer
-        hash_bytes = bytes.fromhex(hash_value[:10])  # First 10 hex chars = 5 bytes
-        return int.from_bytes(hash_bytes, byteorder='big')
-
-    def generate_unique_id(self, template: IrisTemplate) -> int:
-        """Generate unique identifier from iris template.
-
-        Args:
-            template (IrisTemplate): Iris template.
-
-        Returns:
-            int: Unique identifier.
-        """
-        hash_value = self.template_to_hash(template)
-        return self.hash_to_unique_id(hash_value)
-
     def run(self, template_probe: IrisTemplate, template_gallery: IrisTemplate) -> float:
         """Match iris templates using hash-based unique identifiers.
 
@@ -95,10 +47,10 @@ class HashBasedMatcher(Matcher):
         Returns:
             float: 0.0 for exact match, 1.0 for no match.
         """
-        # Generate unique identifiers
-        probe_id = self.generate_unique_id(template_probe)
-        gallery_id = self.generate_unique_id(template_gallery)
-        
+        # Generate unique identifiers using built-in method
+        probe_id = template_probe.generate_unique_id()
+        gallery_id = template_gallery.generate_unique_id()
+
         # Compare identifiers
         if probe_id == gallery_id:
             return 0.0  # Exact match
@@ -114,7 +66,7 @@ class HashBasedMatcher(Matcher):
         Returns:
             int: Unique identifier.
         """
-        return self.generate_unique_id(template)
+        return template.generate_unique_id()
 
     def get_id_size_bytes(self) -> int:
         """Get storage size of unique identifier in bytes.

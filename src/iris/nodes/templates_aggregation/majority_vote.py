@@ -1,5 +1,4 @@
-"""
-Iris Template Combiner
+"""Iris Template Combiner.
 
 This module implements a hybrid approach for combining multiple iris templates
 from the same user to enhance recognition performance.
@@ -24,8 +23,7 @@ from iris.io.dataclasses import IrisTemplate
 
 
 class MajorityVoteAggregation(Algorithm):
-    """
-    Class for combining multiple iris templates from the same user.
+    """Class for combining multiple iris templates from the same user.
 
     The algorithm identifies consistent and inconsistent bits across templates,
     uses majority voting for consistent bits, creates a weight template to
@@ -34,6 +32,8 @@ class MajorityVoteAggregation(Algorithm):
     """
 
     class Parameters(Algorithm.Parameters):
+        """Parameters for the MajorityVoteAggregation algorithm."""
+
         consistency_threshold: float = Field(default=0.75, ge=0.0, le=1.0)
         mask_threshold: float = Field(default=0.01, ge=0.0, le=1.0)
         use_inconsistent_bits: bool = Field(default=True)
@@ -49,14 +49,14 @@ class MajorityVoteAggregation(Algorithm):
         inconsistent_bit_threshold: float = 0.4,
         callbacks: List[Callback] = [],
     ):
-        """
-        Initialize the IrisTemplateCombiner.
+        """Initialize the IrisTemplateCombiner.
 
         Args:
-            consistency_threshold (float): Threshold for considering a bit consistent across templates
-            mask_threshold (float): Threshold for considering a mask bit valid in the combined template
-            use_inconsistent_bits (bool): Whether to use inconsistent bits information
-            inconsistent_bit_threshold (float): Threshold for identifying inconsistent bits
+            consistency_threshold (float): Threshold for considering a bit consistent across templates.
+            mask_threshold (float): Threshold for considering a mask bit valid in the combined template.
+            use_inconsistent_bits (bool): Whether to use inconsistent bits information.
+            inconsistent_bit_threshold (float): Threshold for identifying inconsistent bits.
+            callbacks (List[Callback]): List of callback functions to execute during processing.
         """
         super().__init__(
             consistency_threshold=consistency_threshold,
@@ -67,28 +67,24 @@ class MajorityVoteAggregation(Algorithm):
         )
 
     def run(self, templates: List[IrisTemplate]) -> Tuple[IrisTemplate, np.ndarray]:
-        """
-        Combine multiple iris templates from the same user.
+        """Combine multiple iris templates from the same user.
 
         Args:
-            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
+            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user.
 
         Returns:
-            combined_template (IrisTemplate): Combined IrisTemplate
-            weights (np.ndarray): Weight matrix reflecting bit reliability
+            Tuple[IrisTemplate, np.ndarray]: Combined IrisTemplate and weight matrix reflecting bit reliability.
         """
         return self.combine_templates(templates)
 
     def combine_templates(self, templates: List[IrisTemplate]) -> Tuple[IrisTemplate, np.ndarray]:
-        """
-        Combine multiple iris templates from the same user.
+        """Combine multiple iris templates from the same user.
 
         Args:
-            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
+            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user.
 
         Returns:
-            combined_template (IrisTemplate): Combined IrisTemplate
-            weights (np.ndarray): Weight matrix reflecting bit reliability
+            Tuple[IrisTemplate, np.ndarray]: Combined IrisTemplate and weight matrix reflecting bit reliability.
         """
         if not templates:
             raise ValueError("No templates provided for combination")
@@ -133,17 +129,14 @@ class MajorityVoteAggregation(Algorithm):
     def _combine_wavelet_codes(
         self, iris_codes: List[np.ndarray], mask_codes: List[np.ndarray]
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """
-        Combine iris codes and mask codes for a single wavelet.
+        """Combine iris codes and mask codes for a single wavelet.
 
         Args:
-            iris_codes (List[np.ndarray]): List of iris codes for a single wavelet from multiple templates
-            mask_codes (List[np.ndarray]): List of mask codes for a single wavelet from multiple templates
+            iris_codes (List[np.ndarray]): List of iris codes for a single wavelet from multiple templates.
+            mask_codes (List[np.ndarray]): List of mask codes for a single wavelet from multiple templates.
 
         Returns:
-            combined_iris_code (np.ndarray): Combined iris code for this wavelet
-            combined_mask_code (np.ndarray): Combined mask code for this wavelet
-            weight (np.ndarray): Weight matrix reflecting bit reliability
+            Tuple[np.ndarray, np.ndarray, np.ndarray]: Combined iris code, mask code, and weight matrix for this wavelet.
         """
         num_templates = len(iris_codes)
         shape = iris_codes[0].shape

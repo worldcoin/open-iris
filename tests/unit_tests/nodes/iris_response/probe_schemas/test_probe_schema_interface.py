@@ -39,8 +39,8 @@ def test_parameters_assignment() -> None:
     assert filter_params.__class__.__name__ == expected_param_class_name
     assert len(filter_params.__dict__) == expected_num_params
     assert sorted(list(filter_params.__dict__.keys())) == expected_params_names
-    assert type(filter_params.n_rows) == expected_params_type
-    assert type(filter_params.n_cols) == expected_params_type
+    assert isinstance(filter_params.n_rows, expected_params_type)
+    assert isinstance(filter_params.n_cols, expected_params_type)
     assert filter_params.n_rows == filter_params.n_cols == expected_params_value
 
 

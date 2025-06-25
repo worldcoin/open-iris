@@ -1,20 +1,25 @@
 import os
 import pickle
 from copy import deepcopy
-from typing import Any, List, Optional
+from typing import Any
 
-import numpy as np
 import pytest
 
 from iris.nodes.matcher.hamming_distance_matcher import HashBasedMatcher
+from iris.io.dataclasses import IrisTemplate
 
 
 def load_mock_pickle(name: str) -> Any:
     testdir = os.path.join(os.path.dirname(__file__), "mocks", "hamming_distance_matcher")
-
     mock_path = os.path.join(testdir, f"{name}.pickle")
-
-    return pickle.load(open(mock_path, "rb"))
+    obj = pickle.load(open(mock_path, "rb"))
+    if isinstance(obj, IrisTemplate) and not hasattr(obj, "iris_code_version"):
+        obj = IrisTemplate(
+            iris_codes=obj.iris_codes,
+            mask_codes=obj.mask_codes,
+            iris_code_version="v1.0",
+        )
+    return obj
 
 
 @pytest.mark.parametrize(

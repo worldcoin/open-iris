@@ -1,4 +1,5 @@
 import hashlib
+
 from pydantic import conint
 
 from iris.io.dataclasses import IrisTemplate
@@ -49,12 +50,12 @@ class SimpleHashBasedMatcher(Matcher):
         """
         # Serialize template
         serialized = template.serialize()
-        iris_codes_str = serialized['iris_codes']
-        mask_codes_str = serialized['mask_codes']
-        version_str = serialized['iris_code_version']
-        
+        iris_codes_str = serialized["iris_codes"]
+        mask_codes_str = serialized["mask_codes"]
+        version_str = serialized["iris_code_version"]
+
         # Combine all data for hashing
-        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode('utf-8')
+        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode("utf-8")
         return hashlib.sha256(combined_data).hexdigest()
 
     def hash_to_unique_id(self, hash_value: str) -> int:
@@ -68,7 +69,7 @@ class SimpleHashBasedMatcher(Matcher):
         """
         # Take first 5 bytes (40 bits) of hash and convert to integer
         hash_bytes = bytes.fromhex(hash_value[:10])  # First 10 hex chars = 5 bytes
-        return int.from_bytes(hash_bytes, byteorder='big')
+        return int.from_bytes(hash_bytes, byteorder="big")
 
     def generate_unique_id(self, template: IrisTemplate) -> int:
         """Generate unique identifier from iris template.
@@ -95,7 +96,7 @@ class SimpleHashBasedMatcher(Matcher):
         # Generate unique identifiers
         probe_id = self.generate_unique_id(template_probe)
         gallery_id = self.generate_unique_id(template_gallery)
-        
+
         # Compare identifiers
         if probe_id == gallery_id:
             return 0.0  # Exact match

@@ -51,8 +51,13 @@ class FragileBitRefinement(Algorithm):
             maskisduplicated (bool, optional): If True, the mask is duplicated for both real and imaginary parts.
             callbacks(List[Callback]): List of callbacks. Defaults to [].
         """
-        super().__init__(value_threshold=value_threshold, fragile_type=fragile_type, maskisduplicated=maskisduplicated, callbacks=callbacks)
-        
+        super().__init__(
+            value_threshold=value_threshold,
+            fragile_type=fragile_type,
+            maskisduplicated=maskisduplicated,
+            callbacks=callbacks,
+        )
+
     def run(self, response: IrisFilterResponse) -> IrisFilterResponse:
         """Generate refined IrisFilterResponse.
 
@@ -97,7 +102,7 @@ class FragileBitRefinement(Algorithm):
                     iris_response_r >= self.params.value_threshold[0], iris_response_r <= self.params.value_threshold[1]
                 )
                 # min angle away from the coordinate lines
-                
+
                 if self.params.maskisduplicated:
                     mask_value = mask_value_r * iris_mask.imag
                     fragile_masks.append(mask_value + 1j * mask_value)

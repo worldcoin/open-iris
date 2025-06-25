@@ -92,7 +92,7 @@ def call_trace_storage(mock_alg_names: List[str]) -> PipelineCallTraceStorage:
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_init_storage(storage: PipelineCallTraceStorage, mock_alg_names: List[str], request: FixtureRequest) -> None:
@@ -105,7 +105,7 @@ def test_init_storage(storage: PipelineCallTraceStorage, mock_alg_names: List[st
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_write_get_input(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
@@ -119,7 +119,7 @@ def test_write_get_input(storage: PipelineCallTraceStorage, request: FixtureRequ
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_write_get_error(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
@@ -135,7 +135,7 @@ def test_write_get_error(storage: PipelineCallTraceStorage, request: FixtureRequ
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_write_get_parameter(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
@@ -155,7 +155,7 @@ def test_write_get_parameter(storage: PipelineCallTraceStorage, request: Fixture
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_get_method_returns_none_for_missing_key(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:
@@ -172,7 +172,7 @@ def test_get_method_returns_none_for_missing_key(storage: PipelineCallTraceStora
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_clean(storage: PipelineCallTraceStorage, mock_alg_names: List[str], request: FixtureRequest) -> None:
@@ -195,7 +195,7 @@ def test_clean(storage: PipelineCallTraceStorage, mock_alg_names: List[str], req
 
 @pytest.mark.parametrize(
     "storage",
-    [("call_trace_storage")],
+    ["call_trace_storage"],
     ids=["PipelineCallTraceStorage"],
 )
 def test_node_result_writer(storage: PipelineCallTraceStorage, request: FixtureRequest) -> None:

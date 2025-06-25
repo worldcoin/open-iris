@@ -32,7 +32,7 @@ def test_parameters_assignment() -> None:
     assert filter_params.__class__.__name__ == expected_param_class_name
     assert len(filter_params.__dict__) == expected_num_params
     assert list(filter_params.__dict__.keys())[0] == expected_param_name
-    assert type(filter_params.weight) == expected_param_type
+    assert isinstance(filter_params.weight, expected_param_type)
     assert filter_params.weight == expected_param_value
 
 

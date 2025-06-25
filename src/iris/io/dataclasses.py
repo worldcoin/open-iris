@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from functools import cached_property
 from typing import Any, Callable, Dict, List, Literal, Tuple, Union
 
@@ -11,7 +12,6 @@ from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
 from iris.utils.base64_encoding import base64_decode_array, base64_encode_array
 from iris.utils.math import estimate_diameter
-import hashlib
 
 
 class IRImage(ImmutableModel):
@@ -707,17 +707,17 @@ class IrisTemplate(ImmutableModel):
         """
         # Serialize template
         serialized = self.serialize()
-        iris_codes_str = serialized['iris_codes']
-        mask_codes_str = serialized['mask_codes']
-        version_str = serialized['iris_code_version']
-        
+        iris_codes_str = serialized["iris_codes"]
+        mask_codes_str = serialized["mask_codes"]
+        version_str = serialized["iris_code_version"]
+
         # Combine all data for hashing
-        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode('utf-8')
+        combined_data = f"{iris_codes_str}:{mask_codes_str}:{version_str}".encode("utf-8")
         hash_value = hashlib.sha256(combined_data).hexdigest()
-        
+
         # Extract first 5 bytes (40 bits) from hash and convert to integer
         hash_bytes = bytes.fromhex(hash_value[:10])  # First 10 hex chars = 5 bytes
-        return int.from_bytes(hash_bytes, byteorder='big')
+        return int.from_bytes(hash_bytes, byteorder="big")
 
     def get_id_size_bytes(self) -> int:
         """Get storage size of unique identifier in bytes.
@@ -755,8 +755,7 @@ class EyeOcclusion(ImmutableModel):
 
 
 class OutputFieldSpec(BaseModel):
-    """
-    Specification for a single output field in the pipeline result.
+    """Specification for a single output field in the pipeline result.
 
     Attributes:
         key (str): The name of the field in the output dictionary.

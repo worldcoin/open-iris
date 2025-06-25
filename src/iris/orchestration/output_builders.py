@@ -179,16 +179,16 @@ MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation", [None, None])[0] if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=True,
     ),
     OutputFieldSpec(
         key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation", [None, None])[1] if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=True,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
@@ -198,16 +198,16 @@ MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation", [None, None])[0] if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=False,
     ),
     OutputFieldSpec(
         key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation", [None, None])[1] if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=False,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),

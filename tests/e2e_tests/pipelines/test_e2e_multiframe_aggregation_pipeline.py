@@ -140,7 +140,6 @@ class TestIRISPipelineWithAggregation:
         [
             # Standard predefined environments
             (IRISPipeline.ORB_ENVIRONMENT, MultiframeAggregationPipeline.ORB_ENVIRONMENT),
-            #
             (
                 Environment(
                     pipeline_output_builder=build_simple_iris_pipeline_debugging_output,

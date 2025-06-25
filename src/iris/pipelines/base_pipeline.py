@@ -14,8 +14,7 @@ OutputType = TypeVar("OutputType")
 
 
 def load_yaml_config(config: Optional[str]) -> Dict[str, Any]:
-    """
-    Loads YAML config from a YAML string or a path to a YAML file.
+    """Load YAML config from a YAML string or a path to a YAML file.
 
     Args:
         config: YAML string or path to YAML file.
@@ -44,9 +43,9 @@ def load_yaml_config(config: Optional[str]) -> Dict[str, Any]:
 
 
 class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
-    """
-    Generic base class for IRIS pipelines, abstracting shared logic for pipeline execution,
-    node instantiation, environment setup, and call trace management.
+    """Generic base class for IRIS pipelines.
+
+    Abstracting shared logic for pipeline execution, node instantiation, environment setup, and call trace management.
     Subclasses should implement input/output specifics via _handle_input and _handle_output.
     """
 
@@ -57,8 +56,8 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         config: Dict[str, Any],
         env: Environment,
     ) -> None:
-        """
-        Initialize the pipeline with configuration and environment.
+        """Initialize the pipeline with configuration and environment.
+
         Args:
             config (Dict[str, Any]): Pipeline configuration dictionary.
             env (Environment): Pipeline environment (output builder, error manager, etc.).
@@ -70,6 +69,7 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         self.call_trace = self.env.call_trace_initialiser(nodes=self.nodes, pipeline_nodes=self.params.pipeline)
 
     def __init_subclass__(cls) -> None:
+        """Initialize subclass and validate PACKAGE_VERSION attribute."""
         super().__init_subclass__()
         if not hasattr(cls, "PACKAGE_VERSION") or not isinstance(cls.PACKAGE_VERSION, str) or not cls.PACKAGE_VERSION:
             raise TypeError(f"{cls.__name__} must define a non-empty string PACKAGE_VERSION class attribute.")
@@ -83,18 +83,22 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
             pipeline_input (InputType): Input to the pipeline (type defined by subclass).
             *args (Any): Optional positional arguments for extensibility.
             **kwargs (Any): Optional keyword arguments for extensibility.
+
         Returns:
             OutputType: Output from the pipeline (type defined by subclass).
         """
         return self.run(pipeline_input, *args, **kwargs)
 
     def run(self, pipeline_input: InputType, *args: Any, **kwargs: Any) -> OutputType:
-        """
-        Main pipeline execution loop. Handles input, node execution, and output.
+        """Execute the main pipeline execution loop.
+
+        Handles input, node execution, and output.
+
         Args:
             pipeline_input (InputType): Input to the pipeline (type defined by subclass).
             *args (Any): Optional positional arguments for extensibility.
             **kwargs (Any): Optional keyword arguments for extensibility.
+
         Returns:
             OutputType: Output from the pipeline (type defined by subclass).
         """
@@ -115,8 +119,10 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
 
     @abc.abstractmethod
     def _handle_input(self, pipeline_input: InputType, *args: Any, **kwargs: Any) -> None:
-        """
-        Write the pipeline input to the call trace. To be implemented by subclasses.
+        """Write the pipeline input to the call trace.
+
+        To be implemented by subclasses.
+
         Args:
             pipeline_input (InputType): Input to the pipeline.
             *args (Any): Optional positional arguments for extensibility.
@@ -126,21 +132,25 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
 
     @abc.abstractmethod
     def _handle_output(self, *args, **kwargs) -> OutputType:
-        """
-        Build and return the pipeline output from the call trace. To be implemented by subclasses.
+        """Build and return the pipeline output from the call trace.
+
+        To be implemented by subclasses.
+
         Args:
             *args (Any): Optional positional arguments for extensibility.
             **kwargs (Any): Optional keyword arguments for extensibility.
+
         Returns:
             OutputType: Output from the pipeline.
         """
         pass
 
     def _get_node_inputs(self, node: PipelineNode) -> Dict[str, Any]:
-        """
-        Gather the input arguments for a pipeline node from the call trace.
+        """Gather the input arguments for a pipeline node from the call trace.
+
         Args:
             node (PipelineNode): The pipeline node for which to gather inputs.
+
         Returns:
             Dict[str, Any]: Dictionary of input arguments for the node.
         """
@@ -160,11 +170,14 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         return input_kwargs
 
     def _handle_node_error(self, node: PipelineNode, error: Exception) -> bool:
-        """
-        Default error handling for node execution. Can be overridden by subclasses.
+        """Handle default error handling for node execution.
+
+        Can be overridden by subclasses.
+
         Args:
             node (PipelineNode): The node where the error occurred.
             error (Exception): The exception raised during node execution.
+
         Returns:
             bool: True if the error should be skipped, False otherwise.
         """
@@ -172,8 +185,10 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         return False
 
     def _instanciate_nodes(self) -> Dict[str, Algorithm]:
-        """
-        Instantiate all pipeline nodes, filtering out those in disabled_qa if present.
+        """Instantiate all pipeline nodes.
+
+        Filtering out those in disabled_qa if present.
+
         Returns:
             Dict[str, Algorithm]: Dictionary of node name to Algorithm instance.
         """
@@ -194,10 +209,11 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         return nodes
 
     def _instantiate_pipeline_node_param(self, param_value: Any) -> Any:
-        """
-        Instantiate a single parameter value if it has a class_name attribute.
+        """Instantiate a single parameter value if it has a class_name attribute.
+
         Args:
             param_value (Any): The parameter value to instantiate.
+
         Returns:
             Any: The instantiated parameter value.
         """
@@ -209,8 +225,10 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
         return param_value
 
     def _instanciate_pipeline(self) -> List[PipelineNode]:
-        """
-        Instantiate the pipeline nodes, resolving any nested PipelineClass references.
+        """Instantiate the pipeline nodes.
+
+        Resolving any nested PipelineClass references.
+
         Returns:
             List[PipelineNode]: List of instantiated pipeline nodes.
         """

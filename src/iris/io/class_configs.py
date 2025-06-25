@@ -32,13 +32,13 @@ class ImmutableModel(pydantic.BaseModel):
         raise RuntimeError(f"{self.__class__.__name__}.serialize not implemented!")
 
     @staticmethod
-    def deserialize(self) -> Any:
+    def deserialize(data) -> Any:
         """Deserialize the object. By defaults, this method raises a RuntimeError to notify the user that the method wasn't implemented.
 
         Raises:
             RuntimeError: Always.
         """
-        raise RuntimeError(f"{self.__class__.__name__}.deserialize not implemented!")
+        raise RuntimeError(f"{ImmutableModel.__name__}.deserialize not implemented!")
 
 
 class Algorithm(abc.ABC):

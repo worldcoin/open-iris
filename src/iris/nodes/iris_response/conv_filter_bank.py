@@ -94,7 +94,12 @@ class ConvFilterBank(Algorithm):
             filters (List[ImageFilter]): List of image filters.
             probe_schemas (List[ProbeSchema]): List of corresponding probe schemas.
         """
-        super().__init__(iris_code_version=iris_code_version, maskisduplicated=maskisduplicated, filters=filters, probe_schemas=probe_schemas)
+        super().__init__(
+            iris_code_version=iris_code_version,
+            maskisduplicated=maskisduplicated,
+            filters=filters,
+            probe_schemas=probe_schemas,
+        )
 
     def run(self, normalization_output: NormalizedIris) -> IrisFilterResponse:
         """Apply filters to a normalized iris image.
@@ -160,15 +165,30 @@ class ConvFilterBank(Algorithm):
 
                 # Perform convolution at [i,j] probed pixel position.
                 iris_response[i][j] = (iris_patch * filter_patch).sum() / iris_patch.shape[0] / k_cols
-                if iris_response[i][j] == 0:   
+                if iris_response[i][j] == 0:
                     mask_response[i][j] = 0
                 else:
                     if self.params.maskisduplicated:
-                        val = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
+                        val = (
+                            1
+                            if mask_patch.all()
+                            else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum()
+                            / np.abs(filter_patch.imag).sum()
+                        )
                         mask_response[i][j] = np.complex64(val + 1j * val)
                     else:
-                        val_real = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].real).sum() / np.abs(filter_patch.real).sum()
-                        val_imag = 1 if mask_patch.all() else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum() / np.abs(filter_patch.imag).sum()
+                        val_real = (
+                            1
+                            if mask_patch.all()
+                            else np.abs(filter_patch[mask_patch.astype(bool)].real).sum()
+                            / np.abs(filter_patch.real).sum()
+                        )
+                        val_imag = (
+                            1
+                            if mask_patch.all()
+                            else np.abs(filter_patch[mask_patch.astype(bool)].imag).sum()
+                            / np.abs(filter_patch.imag).sum()
+                        )
                         mask_response[i][j] = np.complex64(val_real + 1j * val_imag)
 
         iris_response.real = iris_response.real / img_filter.kernel_norm.real

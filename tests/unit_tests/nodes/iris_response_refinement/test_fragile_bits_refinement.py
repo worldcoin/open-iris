@@ -12,7 +12,7 @@ from iris.nodes.iris_response_refinement.fragile_bits_refinement import FragileB
     [
         pytest.param([-0.6, 0, -0.3], FragileType.cartesian, 1),
         pytest.param([-0.2, -0.5, 1], FragileType.polar, 0),
-        pytest.param([-0.2, -0.5, 1], FragileType.polar, 'a'),
+        pytest.param([-0.2, -0.5, 1], FragileType.polar, "a"),
         pytest.param([-0.2, -0.5, 1], FragileType.polar, 0.5),
         pytest.param([0, 0, 1], "elliptical", 1),
     ],

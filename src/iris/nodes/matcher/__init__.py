@@ -4,7 +4,7 @@ from iris.nodes.matcher.simple_hamming_distance_matcher import SimpleHashBasedMa
 
 __all__ = [
     "HashBasedMatcher",
-    "SimpleHashBasedMatcher", 
+    "SimpleHashBasedMatcher",
     "Matcher",
     "BatchMatcher",
 ]
