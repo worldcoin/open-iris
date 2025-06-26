@@ -13,30 +13,33 @@ from iris.io.dataclasses import IrisTemplate
 from iris.nodes.matcher.utils import simple_hamming_distance
 
 
-def greedy_purification(distances: Dict[tuple, float], threshold: float, n: int, min_templates: int = 1) -> List[int]:
+def greedy_purification(
+    distances: Dict[Tuple[int, int], float], threshold: float, nb_templates: int, min_templates: int = 1
+) -> List[int]:
     """
     Iteratively remove the template with the highest mean distance to others until
     all pairwise distances are within threshold or until min_templates remain.
 
     Args:
-        distances: dict of (i, j): distance
-        threshold: distance threshold
-        n: number of templates
-        min_templates: minimum templates to retain
+        distances (Dict[Tuple[int, int], float]): dict of (i, j): distance
+        threshold (float): distance threshold
+        nb_templates (int): number of templates
+        min_templates (int): minimum templates to retain. Default is 1.
 
     Returns:
-        indices of outlier templates to remove
+        List[int]: indices of outlier templates to remove
     """
-    remaining = set(range(n))
+    remaining = set(range(nb_templates))
     removed = set()
 
     # Convert dict to a matrix for convenience
-    dist_matrix = np.full((n, n), np.nan)
+    dist_matrix = np.full((nb_templates, nb_templates), np.nan)
     for (i, j), d in distances.items():
         dist_matrix[i, j] = d
         dist_matrix[j, i] = d
 
-    while True:
+    max_removals = nb_templates - min_templates
+    for _ in range(max_removals + 1):
         # Check if all pairwise distances among remaining are within threshold
         sub = list(remaining)
         pairs = [(i, j) for idx, i in enumerate(sub) for j in sub[idx + 1 :]]
@@ -61,14 +64,14 @@ def greedy_purification(distances: Dict[tuple, float], threshold: float, n: int,
 
 
 def find_identity_clusters(
-    distances: Dict[Tuple[int, int], float], n: int, threshold: float, min_cluster_size: int = 2
+    distances: Dict[Tuple[int, int], float], nb_templates: int, threshold: float, min_cluster_size: int = 2
 ) -> List[Set[int]]:
     """
     Identifies clusters (potential identities) among templates based on pairwise distances.
 
     Args:
-        distances (Dict[tuple, float]): Dictionary of pairwise distances between templates, keys are (i, j) tuples.
-        n (int): Total number of templates (nodes).
+        distances (Dict[Tuple[int, int], float]): Dictionary of pairwise distances between templates, keys are (i, j) tuples.
+        nb_templates (int): Total number of templates (nodes).
         threshold (float): Maximum distance to consider two templates as belonging to the same identity (edge in the graph).
         min_cluster_size (int): Minimum number of templates required to consider a group a cluster (default: 2).
 
@@ -85,7 +88,7 @@ def find_identity_clusters(
     # Find connected components (clusters) using BFS
     visited: Set[int] = set()
     clusters: List[Set[int]] = []
-    for node in range(n):
+    for node in range(nb_templates):
         if node not in visited:
             queue = deque([node])
             cluster: Set[int] = set()
