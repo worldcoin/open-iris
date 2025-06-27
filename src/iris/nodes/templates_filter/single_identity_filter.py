@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict, deque
 from enum import Enum
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Set, Tuple
 
 import numpy as np
 from pydantic import Field, conint
@@ -9,7 +9,7 @@ from pydantic import Field, conint
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate
 from iris.nodes.matcher.utils import simple_hamming_distance
 
 
@@ -160,8 +160,7 @@ class TemplateIdentityFilter(Algorithm):
 
     def run(
         self,
-        templates: List[IrisTemplate],
-        pairwise_distances: Optional[Dict[tuple, float]] = None,
+        aligned_templates: AlignedTemplates,
     ) -> List[IrisTemplate]:
         """
         Filter templates to ensure all are from the same identity based on Hamming distances.
@@ -176,24 +175,25 @@ class TemplateIdentityFilter(Algorithm):
         Raises:
             E.IdentityValidationError: If validation fails and action is RAISE_ERROR or not enough templates remain.
         """
-        if len(templates) == 1:
-            return templates
+        if len(aligned_templates) == 1:
+            return aligned_templates.templates
+
+        templates = aligned_templates.templates
+        pairwise_distances = aligned_templates.distances
 
         # Validate that the number of pairwise distances matches the expected count for n templates
         expected_num_distances = len(templates) * (len(templates) - 1) / 2
-        if pairwise_distances is not None:
-            if len(pairwise_distances) != expected_num_distances:
-                raise E.IdentityValidationError(
-                    f"Number of pairwise distances is incorrect. Expected: {expected_num_distances}, "
-                    f"got: {len(pairwise_distances)}"
-                )
+        if len(pairwise_distances) != expected_num_distances:
+            raise E.IdentityValidationError(
+                f"Number of pairwise distances is incorrect. Expected: {expected_num_distances}, "
+                f"got: {len(pairwise_distances)}"
+            )
 
         # Use provided distances or compute them if not given
-        distances = pairwise_distances or self._calculate_pairwise_distances(templates)
-        outlier_indices = self._find_identity_outliers(distances)
-        return self._handle_identity_outliers(templates, outlier_indices, distances)
+        outlier_indices = self._find_identity_outliers(pairwise_distances)
+        return self._handle_identity_outliers(templates, outlier_indices, pairwise_distances.data)
 
-    def _calculate_pairwise_distances(self, templates: List[IrisTemplate]) -> Dict[tuple, float]:
+    def _calculate_pairwise_distances(self, templates: List[IrisTemplate]) -> DistanceMatrix:
         """
         Compute pairwise Hamming distances between all templates.
 
@@ -209,23 +209,24 @@ class TemplateIdentityFilter(Algorithm):
             for j in range(i + 1, n):
                 d, _ = simple_hamming_distance(templates[i], templates[j])
                 distances[(i, j)] = d
-        return distances
+        distances_matrix = DistanceMatrix(data=distances)
+        return distances_matrix
 
-    def _find_identity_outliers(self, distances: Dict[tuple, float]) -> List[int]:
+    def _find_identity_outliers(self, distances: DistanceMatrix) -> List[int]:
         """
         Identify indices of templates that are outliers based on the identity distance threshold.
 
         Args:
-            distances (Dict[tuple, float]): Pairwise Hamming distances.
+            distances (DistanceMatrix): Pairwise Hamming distances.
 
         Returns:
             List[int]: Indices of templates considered outliers.
         """
-        n = max(max(pair) for pair in distances) + 1 if distances else 0
+        n = distances.nb_templates
         threshold = self.params.identity_distance_threshold
 
         # Step 1: Find clusters
-        clusters = find_identity_clusters(distances, n, threshold, min_cluster_size=2)
+        clusters = find_identity_clusters(distances.data, n, threshold, min_cluster_size=2)
 
         if len(clusters) == 0:
             raise E.IdentityValidationError(

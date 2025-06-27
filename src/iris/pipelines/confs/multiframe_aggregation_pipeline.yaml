@@ -330,12 +330,8 @@ templates_aggregation:
           identity_validation_action: remove  # Options: remove, raise_error, log_warning
           min_templates_after_validation: 1
       inputs:
-        - name: templates
+        - name: aligned_templates
           source_node: templates_alignment
-          index: 0
-        - name: pairwise_distances
-          source_node: templates_alignment
-          index: 1
       callbacks:
 
     - name: templates_aggregation

@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 import iris.io.errors as E
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate
 from iris.nodes.templates_filter.single_identity_filter import (
     IdentityValidationAction,
     TemplateIdentityFilter,
@@ -141,6 +142,8 @@ def test_find_identity_clusters_min_cluster_size_gt_n():
 
 
 # ---- Dummy template for TemplateIdentityFilter tests ----
+
+
 class DummyTemplate:
     def __init__(self, arr):
         self.arr = arr
@@ -155,31 +158,59 @@ def make_templates(arrs):
 
 # ---- Tests for TemplateIdentityFilter ----
 class TestTemplateIdentityFilter:
-    def test_filter_removes_outlier(self):
-        arrs = [[0, 0, 0], [0, 0, 0], [1, 1, 1]]
-        templates = make_templates(arrs)
+    @pytest.fixture
+    def sample_iris_templates(self, request):
+        """Create sample IrisTemplate instances for testing.
+
+        Can be parametrized with 'nb_templates' marker to specify number of templates.
+        Default is 3 templates.
+        """
+        # Get number of templates from marker, default to 3
+        nb_templates = getattr(request.node.get_closest_marker("nb_templates"), "args", [3])[0]
+
+        iris_codes = [
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),  # Realistic size
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+        ]
+        mask_codes = [
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),  # Mostly valid
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+        ]
+        iris_code_version = "v2.1"
+
+        return [
+            IrisTemplate(
+                iris_codes=iris_codes,
+                mask_codes=mask_codes,
+                iris_code_version=iris_code_version,
+            )
+            for _ in range(nb_templates)
+        ]
+
+    def test_filter_removes_outlier(self, sample_iris_templates):
         mat = np.array([[0, 0.0, 1.0], [0.0, 0, 1.0], [1.0, 1.0, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
             identity_distance_threshold=0.2, identity_validation_action=IdentityValidationAction.REMOVE
         )
-        filtered = node.run(templates, pairwise_distances=d)
-        assert filtered == templates[:2]
+        filtered = node.run(
+            AlignedTemplates(templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0)
+        )
+        assert filtered == sample_iris_templates[:2]
 
-    def test_filter_raises_error(self):
-        arrs = [[0, 0, 0], [1, 1, 1]]
-        templates = make_templates(arrs)
+    def test_filter_raises_error(self, sample_iris_templates):
         mat = np.array([[0, 1.0], [1.0, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
             identity_distance_threshold=0.2, identity_validation_action=IdentityValidationAction.RAISE_ERROR
         )
         with pytest.raises(Exception):
-            node.run(templates, pairwise_distances=d)
+            at = AlignedTemplates(
+                templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+            )
+            node.run(at)
 
-    def test_filter_logs_warning(self, monkeypatch):
-        arrs = [[0, 0, 0], [1, 1, 1], [2, 2, 2]]
-        templates = make_templates(arrs)
+    def test_filter_logs_warning(self, monkeypatch, sample_iris_templates):
         mat = np.array([[0, 0.1, 0.5], [0.1, 0, 0.5], [0.5, 0.5, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
@@ -191,14 +222,16 @@ class TestTemplateIdentityFilter:
             called["msg"] = msg
 
         monkeypatch.setattr(logging, "warning", fake_warning)
-        filtered = node.run(templates, pairwise_distances=d)
-        assert filtered == templates
+        at = AlignedTemplates(
+            templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+        )
+        filtered = node.run(at)
+        assert filtered == sample_iris_templates
         assert "exceed threshold" in called["msg"]
 
-    def test_filter_min_templates_after_validation(self):
+    @pytest.mark.nb_templates(4)
+    def test_filter_min_templates_after_validation(self, sample_iris_templates):
         # 4 templates: 0,1 are a cluster; 2,3 are outliers
-        arrs = [[0, 0, 0], [0, 0, 1], [1, 1, 1], [2, 2, 2]]
-        templates = make_templates(arrs)
         mat = np.array([[0, 0.05, 0.8, 0.8], [0.05, 0, 0.8, 0.8], [0.8, 0.8, 0, 0.8], [0.8, 0.8, 0.8, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
@@ -207,56 +240,50 @@ class TestTemplateIdentityFilter:
             min_templates_after_validation=3,
         )
         with pytest.raises(E.IdentityValidationError):
-            node.run(templates, pairwise_distances=d)
+            at = AlignedTemplates(
+                templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+            )
+            node.run(at)
 
-    def test_filter_computes_distances_if_not_provided(self, monkeypatch):
-        arrs = [[0, 0, 0], [0, 0, 0], [1, 1, 1]]
-        templates = make_templates(arrs)
-        node = TemplateIdentityFilter(
-            identity_distance_threshold=0.2, identity_validation_action=IdentityValidationAction.REMOVE
-        )
-        # Patch where used, not where defined!
-        monkeypatch.setattr(
-            "iris.nodes.templates_filter.single_identity_filter.simple_hamming_distance",
-            lambda a, b: (1.0 if not np.array_equal(a.arr, b.arr) else 0.0, None),
-        )
-        filtered = node.run(templates)
-        assert len(filtered) == 2
-
-    def test_filter_single_template(self):
-        arrs = [[0, 0, 0]]
-        templates = make_templates(arrs)
+    @pytest.mark.nb_templates(1)
+    def test_filter_single_template(self, sample_iris_templates):
         node = TemplateIdentityFilter(identity_distance_threshold=0.2)
-        filtered = node.run(templates)
-        assert filtered == templates
+        at = AlignedTemplates(
+            templates=sample_iris_templates, distances=DistanceMatrix(data={}), reference_template_id=0
+        )
+        filtered = node.run(at)
+        assert filtered == sample_iris_templates
 
-    def test_raises_error_if_two_clusters(self):
+    @pytest.mark.nb_templates(4)
+    def test_raises_error_if_two_clusters(self, sample_iris_templates):
         # 0,1 are close; 2,3 are close; between clusters is large
-        arrs = [[0, 0, 0], [0, 0, 1], [1, 1, 1], [1, 1, 2]]
-        templates = make_templates(arrs)
         mat = np.array([[0, 0.05, 0.81, 0.82], [0.05, 0, 0.79, 0.76], [0.81, 0.79, 0, 0.03], [0.82, 0.76, 0.03, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
             identity_distance_threshold=0.2, identity_validation_action=IdentityValidationAction.REMOVE
         )
         with pytest.raises(E.IdentityValidationError):
-            node.run(templates, pairwise_distances=d)
+            at = AlignedTemplates(
+                templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+            )
+            node.run(at)
 
-    def test_raises_error_if_no_clusters(self):
-        arrs = [[0, 0, 0], [1, 1, 1], [2, 2, 2]]
-        templates = make_templates(arrs)
+    @pytest.mark.nb_templates(3)
+    def test_raises_error_if_no_clusters(self, sample_iris_templates):
         mat = np.array([[0, 0.5, 0.6], [0.5, 0, 0.7], [0.6, 0.7, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
             identity_distance_threshold=0.2, identity_validation_action=IdentityValidationAction.REMOVE
         )
         with pytest.raises(E.IdentityValidationError):
-            node.run(templates, pairwise_distances=d)
+            at = AlignedTemplates(
+                templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+            )
+            node.run(at)
 
-    def test_filter_all_outliers_raises(self):
+    @pytest.mark.nb_templates(3)
+    def test_filter_all_outliers_raises(self, sample_iris_templates):
         # All templates are outliers (no clusters)
-        arrs = [[0, 0, 0], [1, 1, 1], [2, 2, 2]]
-        templates = make_templates(arrs)
         mat = np.array([[0, 0.8, 0.8], [0.8, 0, 0.8], [0.8, 0.8, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
@@ -265,12 +292,14 @@ class TestTemplateIdentityFilter:
             min_templates_after_validation=1,
         )
         with pytest.raises(E.IdentityValidationError):
-            node.run(templates, pairwise_distances=d)
+            at = AlignedTemplates(
+                templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+            )
+            node.run(at)
 
-    def test_filter_log_warning_no_outliers(self, monkeypatch):
+    @pytest.mark.nb_templates(2)
+    def test_filter_log_warning_no_outliers(self, monkeypatch, sample_iris_templates):
         # All templates are within threshold, so no warning should be logged
-        arrs = [[0, 0, 0], [0, 0, 1]]
-        templates = make_templates(arrs)
         mat = np.array([[0, 0.1], [0.1, 0]])
         d = make_dist_dict(mat)
         node = TemplateIdentityFilter(
@@ -282,6 +311,9 @@ class TestTemplateIdentityFilter:
             called["msg"] = msg
 
         monkeypatch.setattr("logging.warning", fake_warning)
-        filtered = node.run(templates, pairwise_distances=d)
-        assert filtered == templates
+        at = AlignedTemplates(
+            templates=sample_iris_templates, distances=DistanceMatrix(data=d), reference_template_id=0
+        )
+        filtered = node.run(at)
+        assert filtered == sample_iris_templates
         assert "msg" not in called  # No warning should be logged

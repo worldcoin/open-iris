@@ -17,14 +17,14 @@ Date: 12 June 2025
 """
 
 from enum import Enum
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import numpy as np
 from pydantic import Field, conint
 
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate
 from iris.nodes.matcher.utils import simple_hamming_distance
 
 
@@ -89,7 +89,7 @@ class HammingDistanceBasedAlignment(Algorithm):
             callbacks=callbacks,
         )
 
-    def run(self, templates: List[IrisTemplate]) -> Tuple[List[IrisTemplate], Dict[tuple, float]]:
+    def run(self, templates: List[IrisTemplate]) -> AlignedTemplates:
         """
         Align templates using hamming distance-based alignment.
 
@@ -97,7 +97,7 @@ class HammingDistanceBasedAlignment(Algorithm):
             templates (List[IrisTemplate]): List of IrisTemplate objects to align
 
         Returns:
-            Tuple[List[IrisTemplate], Dict[tuple, float]]: Tuple of (aligned templates, pairwise distances between templates, computed before alignment)
+            AlignedTemplates: an AlignedTemplates object
 
         Raises:
             ValueError: If no templates provided
@@ -106,7 +106,11 @@ class HammingDistanceBasedAlignment(Algorithm):
             raise ValueError("No templates provided for alignment")
 
         if len(templates) == 1:
-            return templates, {}
+            return AlignedTemplates(
+                templates=templates,
+                distances=DistanceMatrix(data={}),
+                reference_template_id=0,
+            )
 
         # Step 1: Calculate pairwise distances (invariant to global rotation)
         original_distances = self._calculate_pairwise_distances(templates)
@@ -133,8 +137,12 @@ class HammingDistanceBasedAlignment(Algorithm):
                 aligned_template = self._rotate_template(template, optimal_rotation)
                 aligned_templates.append(aligned_template)
 
-        # Step 4: Return aligned templates and the original distances
-        return aligned_templates, original_distances
+        at = AlignedTemplates(
+            templates=aligned_templates,
+            distances=DistanceMatrix(data=original_distances),
+            reference_template_id=reference_idx,
+        )
+        return at
 
     def _calculate_pairwise_distances(self, templates: List[IrisTemplate]) -> Dict[tuple, float]:
         """
