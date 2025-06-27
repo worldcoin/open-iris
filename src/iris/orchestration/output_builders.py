@@ -131,7 +131,7 @@ def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) 
 
     return {
         "iris_version": __version__,
-        "templates_count": len(templates),
+        "input_templates_count": len(templates),
     }
 
 

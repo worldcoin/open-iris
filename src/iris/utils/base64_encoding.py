@@ -4,6 +4,37 @@ from typing import Tuple
 import numpy as np
 
 
+def base64_encode_float_array(array2encode: np.ndarray) -> bytes:
+    """Convert a numpy float array to a base64-encoded bytes string.
+
+    Args:
+        array2encode (np.ndarray): The float array to convert.
+
+    Returns:
+        bytes: The base64-encoded bytes string.
+    """
+    if not np.issubdtype(array2encode.dtype, np.floating):
+        raise TypeError("Input array must be of float dtype")
+    byte_data = array2encode.astype(np.float32).tobytes()  # or float64 if you need higher precision
+    return base64.b64encode(byte_data)
+
+
+def base64_decode_float_array(bytes_array: str, array_shape: Tuple[int, ...], dtype=np.float32) -> np.ndarray:
+    """Convert a base64-encoded bytes string to a numpy float array.
+
+    Args:
+        bytes_array (str): The base64-encoded bytes string.
+        array_shape (Tuple[int, ...]): The shape to reshape the array to.
+        dtype: The dtype of the array (default: np.float32).
+
+    Returns:
+        np.ndarray: The float array.
+    """
+    decoded_bytes = base64.b64decode(bytes_array)
+    arr = np.frombuffer(decoded_bytes, dtype=dtype)
+    return arr.reshape(array_shape)
+
+
 def base64_encode_array(array2encode: np.ndarray) -> bytes:
     """Convert a numpy array to a packed base64 string.
 

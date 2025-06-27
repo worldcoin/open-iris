@@ -20,7 +20,7 @@ from pydantic import Field
 
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IrisTemplate, WeightedIrisTemplate
 
 
 class MajorityVoteAggregation(Algorithm):
@@ -66,7 +66,7 @@ class MajorityVoteAggregation(Algorithm):
             callbacks=callbacks,
         )
 
-    def run(self, templates: List[IrisTemplate]) -> Tuple[IrisTemplate, np.ndarray]:
+    def run(self, templates: List[IrisTemplate]) -> WeightedIrisTemplate:
         """
         Combine multiple iris templates from the same user.
 
@@ -74,12 +74,11 @@ class MajorityVoteAggregation(Algorithm):
             templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
 
         Returns:
-            combined_template (IrisTemplate): Combined IrisTemplate
-            weights (np.ndarray): Weight matrix reflecting bit reliability
+            combined_template (WeightedIrisTemplate): Combined WeightedIrisTemplate
         """
         return self.combine_templates(templates)
 
-    def combine_templates(self, templates: List[IrisTemplate]) -> Tuple[IrisTemplate, np.ndarray]:
+    def combine_templates(self, templates: List[IrisTemplate]) -> WeightedIrisTemplate:
         """
         Combine multiple iris templates from the same user.
 
@@ -87,8 +86,7 @@ class MajorityVoteAggregation(Algorithm):
             templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
 
         Returns:
-            combined_template (IrisTemplate): Combined IrisTemplate
-            weights (np.ndarray): Weight matrix reflecting bit reliability
+            combined_template (WeightedIrisTemplate): Combined WeightedIrisTemplate
         """
         if not templates:
             raise ValueError("No templates provided for combination")
@@ -128,7 +126,8 @@ class MajorityVoteAggregation(Algorithm):
             iris_code_version=templates[0].iris_code_version,
         )
 
-        return combined_template, weights
+        weighted_template = WeightedIrisTemplate.from_iris_template(combined_template, weights)
+        return weighted_template
 
     def _combine_wavelet_codes(
         self, iris_codes: List[np.ndarray], mask_codes: List[np.ndarray]

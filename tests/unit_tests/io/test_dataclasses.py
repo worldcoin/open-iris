@@ -1115,3 +1115,412 @@ class TestAlignedTemplates:
         """Test that __len__ is consistent with other length-related properties."""
         assert len(aligned_templates) == len(aligned_templates.templates)
         assert len(aligned_templates) == aligned_templates.distances.nb_templates
+
+
+class TestWeightedIrisTemplate:
+    """Test cases for the WeightedIrisTemplate class."""
+
+    @pytest.fixture
+    def sample_weighted_iris_template_data(self):
+        """Create sample data for WeightedIrisTemplate testing."""
+        iris_codes = [
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+        ]
+        mask_codes = [
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+        ]
+        weights = [
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+        iris_code_version = "v2.1"
+
+        return {
+            "iris_codes": iris_codes,
+            "mask_codes": mask_codes,
+            "weights": weights,
+            "iris_code_version": iris_code_version,
+        }
+
+    @pytest.fixture
+    def weighted_iris_template(self, sample_weighted_iris_template_data):
+        """Create a WeightedIrisTemplate instance for testing."""
+        return dc.WeightedIrisTemplate(**sample_weighted_iris_template_data)
+
+    def test_initialization(self, sample_weighted_iris_template_data):
+        """Test WeightedIrisTemplate initialization."""
+        weighted_template = dc.WeightedIrisTemplate(**sample_weighted_iris_template_data)
+
+        assert len(weighted_template.iris_codes) == 2
+        assert len(weighted_template.mask_codes) == 2
+        assert len(weighted_template.weights) == 2
+        assert weighted_template.iris_code_version == "v2.1"
+
+        # Check that weights have correct shape and type
+        for i, weight in enumerate(weighted_template.weights):
+            assert weight.shape == weighted_template.iris_codes[i].shape
+            assert weight.dtype == np.float32
+            assert np.all(weight >= 0)
+
+    def test_weights_length_mismatch(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when weights and iris_codes have different lengths."""
+        # Create weights with wrong length
+        wrong_weights = [sample_weighted_iris_template_data["weights"][0]]  # Only one weight instead of two
+
+        with pytest.raises(ValueError, match="weights and iris_codes must have same length"):
+            dc.WeightedIrisTemplate(
+                iris_codes=sample_weighted_iris_template_data["iris_codes"],
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                weights=wrong_weights,
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_weights_shape_mismatch(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when weights and iris_codes have different shapes."""
+        # Create weights with wrong shape
+        wrong_weights = [
+            np.random.uniform(0.0, 1.0, size=(16, 100, 2)).astype(np.float32),  # Wrong width
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        with pytest.raises(ValueError, match="Shape mismatch at wavelet 0"):
+            dc.WeightedIrisTemplate(
+                iris_codes=sample_weighted_iris_template_data["iris_codes"],
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                weights=wrong_weights,
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_negative_weights(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when weights contain negative values."""
+        # Create weights with negative values
+        negative_weights = [
+            np.random.uniform(-1.0, 1.0, size=(16, 200, 2)).astype(np.float32),  # Contains negative values
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        with pytest.raises(ValueError, match="All weights must be >= 0"):
+            dc.WeightedIrisTemplate(
+                iris_codes=sample_weighted_iris_template_data["iris_codes"],
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                weights=negative_weights,
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_non_float_weights(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when weights are not float arrays."""
+        # Create weights with wrong dtype
+        int_weights = [
+            np.random.randint(0, 2, size=(16, 200, 2)).astype(np.int32),  # Integer instead of float
+            np.random.randint(0, 2, size=(16, 200, 2)).astype(np.int32),
+        ]
+
+        with pytest.raises(ValidationError, match="Weight must be float array"):
+            dc.WeightedIrisTemplate(
+                iris_codes=sample_weighted_iris_template_data["iris_codes"],
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                weights=int_weights,
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_missing_iris_codes(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when iris_codes is missing."""
+        with pytest.raises(ValueError, match="iris_codes and weights must both be provided"):
+            dc.WeightedIrisTemplate(
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                weights=sample_weighted_iris_template_data["weights"],
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_missing_weights(self, sample_weighted_iris_template_data):
+        """Test that initialization fails when weights is missing."""
+        with pytest.raises(ValueError, match="iris_codes and weights must both be provided"):
+            dc.WeightedIrisTemplate(
+                iris_codes=sample_weighted_iris_template_data["iris_codes"],
+                mask_codes=sample_weighted_iris_template_data["mask_codes"],
+                iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+            )
+
+    def test_serialize(self, weighted_iris_template):
+        """Test serialization of WeightedIrisTemplate."""
+        serialized = weighted_iris_template.serialize()
+
+        # Check that all expected keys are present
+        assert "iris_codes" in serialized
+        assert "mask_codes" in serialized
+        assert "weights" in serialized
+        assert "iris_code_version" in serialized
+
+        # Check that values are strings (base64 encoded)
+        assert isinstance(serialized["iris_codes"], str)
+        assert isinstance(serialized["mask_codes"], str)
+        assert isinstance(serialized["weights"], str)
+        assert serialized["iris_code_version"] == "v2.1"
+
+    def test_deserialize(self, sample_weighted_iris_template_data):
+        """Test deserialization of WeightedIrisTemplate."""
+        # Create a template first
+        original_template = dc.WeightedIrisTemplate(**sample_weighted_iris_template_data)
+
+        # Serialize and then deserialize
+        serialized = original_template.serialize()
+        deserialized = dc.WeightedIrisTemplate.deserialize(serialized, array_shape=(16, 200, 2, 2))
+
+        # Check that the deserialized object matches the original
+        assert len(deserialized.iris_codes) == len(original_template.iris_codes)
+        assert len(deserialized.mask_codes) == len(original_template.mask_codes)
+        assert len(deserialized.weights) == len(original_template.weights)
+        assert deserialized.iris_code_version == original_template.iris_code_version
+
+        # Check that the data is preserved
+        for i in range(len(original_template.iris_codes)):
+            np.testing.assert_array_equal(deserialized.iris_codes[i], original_template.iris_codes[i])
+            np.testing.assert_array_equal(deserialized.mask_codes[i], original_template.mask_codes[i])
+            np.testing.assert_array_almost_equal(deserialized.weights[i], original_template.weights[i])
+
+    def test_serialize_deserialize_roundtrip(self, weighted_iris_template):
+        """Test that serialize followed by deserialize returns equivalent object."""
+        serialized = weighted_iris_template.serialize()
+        deserialized = dc.WeightedIrisTemplate.deserialize(serialized, array_shape=(16, 200, 2, 2))
+
+        # Check that the deserialized object has the same properties
+        assert deserialized.iris_code_version == weighted_iris_template.iris_code_version
+        assert len(deserialized.iris_codes) == len(weighted_iris_template.iris_codes)
+        assert len(deserialized.mask_codes) == len(weighted_iris_template.mask_codes)
+        assert len(deserialized.weights) == len(weighted_iris_template.weights)
+
+    def test_convert2old_format(self, weighted_iris_template):
+        """Test convert2old_format method."""
+        old_iris_codes, old_mask_codes, old_weights = weighted_iris_template.convert2old_format()
+
+        # Check shapes
+        assert old_iris_codes.shape == (16, 200, 2, 2)  # (height, width, nb_wavelets, 2)
+        assert old_mask_codes.shape == (16, 200, 2, 2)
+        assert old_weights.shape == (16, 200, 2, 2)
+
+        # Check that the conversion is correct
+        for i in range(2):  # 2 wavelets
+            np.testing.assert_array_equal(old_iris_codes[:, :, i, :], weighted_iris_template.iris_codes[i])
+            np.testing.assert_array_equal(old_mask_codes[:, :, i, :], weighted_iris_template.mask_codes[i])
+            np.testing.assert_array_almost_equal(old_weights[:, :, i, :], weighted_iris_template.weights[i])
+
+    def test_convert_to_new_format(self, sample_weighted_iris_template_data):
+        """Test convert_to_new_format static method."""
+        # Create old format data
+        old_iris_codes = np.random.choice(2, size=(16, 200, 2, 2)).astype(bool)
+        old_mask_codes = np.random.choice(2, size=(16, 200, 2, 2)).astype(bool)
+        old_weights = np.random.uniform(0.0, 1.0, size=(16, 200, 2, 2)).astype(np.float32)
+        iris_code_version = "v2.1"
+
+        # Convert to new format
+        new_template = dc.WeightedIrisTemplate.convert_to_new_format(
+            iris_codes=old_iris_codes,
+            mask_codes=old_mask_codes,
+            weights=old_weights,
+            iris_code_version=iris_code_version,
+        )
+
+        # Check that the conversion is correct
+        assert len(new_template.iris_codes) == 2
+        assert len(new_template.mask_codes) == 2
+        assert len(new_template.weights) == 2
+        assert new_template.iris_code_version == iris_code_version
+
+        # Check that the data is preserved
+        for i in range(2):
+            np.testing.assert_array_equal(new_template.iris_codes[i], old_iris_codes[:, :, i, :])
+            np.testing.assert_array_equal(new_template.mask_codes[i], old_mask_codes[:, :, i, :])
+            np.testing.assert_array_almost_equal(new_template.weights[i], old_weights[:, :, i, :])
+
+    def test_inheritance_from_iris_template(self, weighted_iris_template):
+        """Test that WeightedIrisTemplate inherits correctly from IrisTemplate."""
+        # Check that it has all the properties of IrisTemplate
+        assert hasattr(weighted_iris_template, "iris_codes")
+        assert hasattr(weighted_iris_template, "mask_codes")
+        assert hasattr(weighted_iris_template, "iris_code_version")
+        assert hasattr(weighted_iris_template, "serialize")
+        assert hasattr(weighted_iris_template, "deserialize")
+
+        # Check that it's an instance of both classes
+        assert isinstance(weighted_iris_template, dc.WeightedIrisTemplate)
+        assert isinstance(weighted_iris_template, dc.IrisTemplate)
+
+    def test_weights_property_access(self, weighted_iris_template):
+        """Test that weights property can be accessed correctly."""
+        weights = weighted_iris_template.weights
+
+        assert len(weights) == 2
+        for weight in weights:
+            assert weight.dtype == np.float32
+            assert np.all(weight >= 0)
+            assert weight.shape == (16, 200, 2)
+
+    def test_edge_case_zero_weights(self, sample_weighted_iris_template_data):
+        """Test that zero weights are allowed."""
+        # Create weights with some zero values
+        zero_weights = [
+            np.zeros((16, 200, 2), dtype=np.float32),
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        weighted_template = dc.WeightedIrisTemplate(
+            iris_codes=sample_weighted_iris_template_data["iris_codes"],
+            mask_codes=sample_weighted_iris_template_data["mask_codes"],
+            weights=zero_weights,
+            iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+        )
+
+        assert np.all(weighted_template.weights[0] == 0)
+        assert np.all(weighted_template.weights[1] >= 0)
+
+    def test_edge_case_single_wavelet(self):
+        """Test WeightedIrisTemplate with a single wavelet."""
+        iris_codes = [np.random.choice(2, size=(16, 200, 2)).astype(bool)]
+        mask_codes = [np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool)]
+        iris_code_version = "v2.1"
+
+        weighted_template = dc.WeightedIrisTemplate(
+            iris_codes=iris_codes,
+            mask_codes=mask_codes,
+            weights=[np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32)],
+            iris_code_version=iris_code_version,
+        )
+
+        assert len(weighted_template.iris_codes) == 1
+        assert len(weighted_template.mask_codes) == 1
+        assert len(weighted_template.weights) == 1
+        assert weighted_template.iris_code_version == iris_code_version
+
+    def test_from_iris_template(self, sample_weighted_iris_template_data):
+        """Test the from_iris_template static method."""
+        # Create an IrisTemplate first
+        iris_template = dc.IrisTemplate(
+            iris_codes=sample_weighted_iris_template_data["iris_codes"],
+            mask_codes=sample_weighted_iris_template_data["mask_codes"],
+            iris_code_version=sample_weighted_iris_template_data["iris_code_version"],
+        )
+
+        # Create weights
+        weights = sample_weighted_iris_template_data["weights"]
+
+        # Create WeightedIrisTemplate using from_iris_template
+        weighted_template = dc.WeightedIrisTemplate.from_iris_template(iris_template, weights)
+
+        # Check that the weighted template has the correct properties
+        assert len(weighted_template.iris_codes) == len(iris_template.iris_codes)
+        assert len(weighted_template.mask_codes) == len(iris_template.mask_codes)
+        assert len(weighted_template.weights) == len(weights)
+        assert weighted_template.iris_code_version == iris_template.iris_code_version
+
+        # Check that the data is preserved
+        for i in range(len(iris_template.iris_codes)):
+            np.testing.assert_array_equal(weighted_template.iris_codes[i], iris_template.iris_codes[i])
+            np.testing.assert_array_equal(weighted_template.mask_codes[i], iris_template.mask_codes[i])
+            np.testing.assert_array_almost_equal(weighted_template.weights[i], weights[i])
+
+        # Check that it's a proper WeightedIrisTemplate
+        assert isinstance(weighted_template, dc.WeightedIrisTemplate)
+        assert isinstance(weighted_template, dc.IrisTemplate)
+
+    def test_from_iris_template_with_different_weights(self):
+        """Test from_iris_template with different weight configurations."""
+        # Create an IrisTemplate
+        iris_codes = [
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+        ]
+        mask_codes = [
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+        ]
+        iris_code_version = "v2.1"
+
+        iris_template = dc.IrisTemplate(
+            iris_codes=iris_codes,
+            mask_codes=mask_codes,
+            iris_code_version=iris_code_version,
+        )
+
+        # Test with uniform weights
+        uniform_weights = [
+            np.ones((16, 200, 2), dtype=np.float32),
+            np.ones((16, 200, 2), dtype=np.float32),
+        ]
+
+        weighted_template_uniform = dc.WeightedIrisTemplate.from_iris_template(iris_template, uniform_weights)
+        assert np.all(weighted_template_uniform.weights[0] == 1.0)
+        assert np.all(weighted_template_uniform.weights[1] == 1.0)
+
+        # Test with zero weights
+        zero_weights = [
+            np.zeros((16, 200, 2), dtype=np.float32),
+            np.zeros((16, 200, 2), dtype=np.float32),
+        ]
+
+        weighted_template_zero = dc.WeightedIrisTemplate.from_iris_template(iris_template, zero_weights)
+        assert np.all(weighted_template_zero.weights[0] == 0.0)
+        assert np.all(weighted_template_zero.weights[1] == 0.0)
+
+        # Test with random weights
+        random_weights = [
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        weighted_template_random = dc.WeightedIrisTemplate.from_iris_template(iris_template, random_weights)
+        assert np.all(weighted_template_random.weights[0] >= 0)
+        assert np.all(weighted_template_random.weights[1] >= 0)
+
+    def test_from_iris_template_validation(self):
+        """Test that from_iris_template applies the same validation as direct initialization."""
+        # Create an IrisTemplate
+        iris_codes = [
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+            np.random.choice(2, size=(16, 200, 2)).astype(bool),
+        ]
+        mask_codes = [
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+            np.random.choice(2, size=(16, 200, 2), p=[0.1, 0.9]).astype(bool),
+        ]
+        iris_code_version = "v2.1"
+
+        iris_template = dc.IrisTemplate(
+            iris_codes=iris_codes,
+            mask_codes=mask_codes,
+            iris_code_version=iris_code_version,
+        )
+
+        # Test with wrong length weights
+        wrong_length_weights = [np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32)]  # Only one weight
+
+        with pytest.raises(ValueError, match="weights and iris_codes must have same length"):
+            dc.WeightedIrisTemplate.from_iris_template(iris_template, wrong_length_weights)
+
+        # Test with wrong shape weights
+        wrong_shape_weights = [
+            np.random.uniform(0.0, 1.0, size=(16, 100, 2)).astype(np.float32),  # Wrong width
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        with pytest.raises(ValueError, match="Shape mismatch at wavelet 0"):
+            dc.WeightedIrisTemplate.from_iris_template(iris_template, wrong_shape_weights)
+
+        # Test with negative weights
+        negative_weights = [
+            np.random.uniform(-1.0, 1.0, size=(16, 200, 2)).astype(np.float32),  # Contains negative values
+            np.random.uniform(0.0, 1.0, size=(16, 200, 2)).astype(np.float32),
+        ]
+
+        with pytest.raises(ValueError, match="All weights must be >= 0"):
+            dc.WeightedIrisTemplate.from_iris_template(iris_template, negative_weights)
+
+        # Test with non-float weights
+        int_weights = [
+            np.random.randint(0, 2, size=(16, 200, 2)).astype(np.int32),  # Integer instead of float
+            np.random.randint(0, 2, size=(16, 200, 2)).astype(np.int32),
+        ]
+
+        with pytest.raises(ValidationError, match="Weight must be float array"):
+            dc.WeightedIrisTemplate.from_iris_template(iris_template, int_weights)

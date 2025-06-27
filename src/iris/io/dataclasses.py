@@ -9,7 +9,12 @@ from pydantic import BaseModel, Field, NonNegativeInt, root_validator, validator
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
-from iris.utils.base64_encoding import base64_decode_array, base64_encode_array
+from iris.utils.base64_encoding import (
+    base64_decode_array,
+    base64_decode_float_array,
+    base64_encode_array,
+    base64_encode_float_array,
+)
 from iris.utils.math import estimate_diameter
 
 
@@ -697,6 +702,116 @@ class IrisTemplate(ImmutableModel):
             np.ndarray: New format codes.
         """
         return [array[:, :, i, :] for i in range(array.shape[2])]
+
+
+class WeightedIrisTemplate(IrisTemplate):
+    """
+    Extends IrisTemplate to include per-bit reliability weights.
+    """
+
+    weights: List[np.ndarray] = Field(..., description="List of weight matrices per wavelet, shape matches iris_codes.")
+
+    @staticmethod
+    def from_iris_template(iris_template: IrisTemplate, weights: List[np.ndarray]) -> WeightedIrisTemplate:
+        """Create a WeightedIrisTemplate from an IrisTemplate and a list of weights.
+
+        Args:
+            iris_template (IrisTemplate): IrisTemplate to convert.
+            weights (List[np.ndarray]): List of weight matrices per wavelet, shape matches iris_codes.
+
+        Returns:
+            WeightedIrisTemplate: WeightedIrisTemplate object.
+        """
+        return WeightedIrisTemplate(
+            iris_codes=iris_template.iris_codes,
+            mask_codes=iris_template.mask_codes,
+            weights=weights,
+            iris_code_version=iris_template.iris_code_version,
+        )
+
+    @root_validator(pre=True)
+    def check_weights_shape_and_length(cls, values):
+        iris_codes = values.get("iris_codes")
+        weights = values.get("weights")
+        if iris_codes is None or weights is None:
+            raise ValueError("iris_codes and weights must both be provided")
+        if len(weights) != len(iris_codes):
+            raise ValueError(f"weights and iris_codes must have same length. Got {len(weights)} and {len(iris_codes)}.")
+        for idx, (w, c) in enumerate(zip(weights, iris_codes)):
+            if w.shape != c.shape:
+                raise ValueError(f"Shape mismatch at wavelet {idx}: weight shape {w.shape}, code shape {c.shape}")
+            if not np.all(w >= 0):
+                raise ValueError(f"All weights must be >= 0 (found negative at wavelet {idx})")
+        return values
+
+    @validator("weights", each_item=True)
+    def weights_are_valid(cls, v):
+        if not np.issubdtype(v.dtype, np.floating):
+            raise TypeError(f"Weight must be float array, got {v.dtype}")
+        return v
+
+    def serialize(self) -> Dict[str, Any]:
+        """Serialize WeightedIrisTemplate object.
+
+        Returns:
+            Dict[str, bytes]: Serialized object.
+        """
+        old_format_iris_codes, old_format_mask_codes, old_format_weights = self.convert2old_format()
+
+        return {
+            "iris_codes": base64_encode_array(old_format_iris_codes).decode("utf-8"),
+            "mask_codes": base64_encode_array(old_format_mask_codes).decode("utf-8"),
+            "weights": base64_encode_float_array(old_format_weights).decode("utf-8"),
+            "iris_code_version": self.iris_code_version,
+        }
+
+    @staticmethod
+    def deserialize(
+        serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)
+    ) -> WeightedIrisTemplate:
+        """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
+
+        Args:
+            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.
+            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            WeightedIrisTemplate: Serialized object.
+        """
+        return WeightedIrisTemplate.convert_to_new_format(
+            iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
+            mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
+            weights=base64_decode_float_array(serialized_template["weights"], array_shape=array_shape),
+            iris_code_version=serialized_template["iris_code_version"],
+        )
+
+    def convert2old_format(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Convert an old tempalte format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes, weights).
+        """
+        return (
+            IrisTemplate.new_to_old_format(self.iris_codes),
+            IrisTemplate.new_to_old_format(self.mask_codes),
+            IrisTemplate.new_to_old_format(self.weights),
+        )
+
+    @staticmethod
+    def convert_to_new_format(
+        iris_codes: np.ndarray, mask_codes: np.ndarray, weights: np.ndarray, iris_code_version: str
+    ) -> WeightedIrisTemplate:
+        """Convert an old template format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            WeightedIrisTemplate: Serialized object in new format.
+        """
+        return WeightedIrisTemplate(
+            iris_codes=IrisTemplate.old_to_new_format(iris_codes),
+            mask_codes=IrisTemplate.old_to_new_format(mask_codes),
+            weights=IrisTemplate.old_to_new_format(weights),
+            iris_code_version=iris_code_version,
+        )
 
 
 class EyeOcclusion(ImmutableModel):
