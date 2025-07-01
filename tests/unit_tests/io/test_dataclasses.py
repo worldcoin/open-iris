@@ -1524,3 +1524,16 @@ class TestWeightedIrisTemplate:
 
         with pytest.raises(ValidationError, match="Weight must be float array"):
             dc.WeightedIrisTemplate.from_iris_template(iris_template, int_weights)
+
+    def test_as_iris_template(self, weighted_iris_template):
+        """Test conversion to IrisTemplate using as_iris_template."""
+        iris_template = weighted_iris_template.as_iris_template()
+        assert isinstance(iris_template, dc.IrisTemplate)
+        assert not hasattr(iris_template, "weights")
+        assert iris_template.iris_code_version == weighted_iris_template.iris_code_version
+        assert len(iris_template.iris_codes) == len(weighted_iris_template.iris_codes)
+        assert len(iris_template.mask_codes) == len(weighted_iris_template.mask_codes)
+        for arr1, arr2 in zip(iris_template.iris_codes, weighted_iris_template.iris_codes):
+            np.testing.assert_array_equal(arr1, arr2)
+        for arr1, arr2 in zip(iris_template.mask_codes, weighted_iris_template.mask_codes):
+            np.testing.assert_array_equal(arr1, arr2)

@@ -1,11 +1,13 @@
 from unittest.mock import Mock
 
+import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import OutputFieldSpec
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, OutputFieldSpec, WeightedIrisTemplate
 from iris.orchestration.output_builders import (
     _build_from_spec,
+    build_aggregation_multiframe_orb_output,
     build_iris_pipeline_orb_output,
     build_simple_iris_pipeline_debugging_output,
     build_simple_iris_pipeline_orb_output,
@@ -173,3 +175,96 @@ class TestOutputBuildersWithMissingKeys:
         assert "missing_key_1" in result
         assert "missing_key_2" in result
         assert "missing_key_3" in result
+
+
+class TestBuildAggregationMultiframeOrbOutput:
+    @pytest.fixture
+    def mock_call_trace_with_missing_keys(self):
+        call_trace = PipelineCallTraceStorage(results_names=["templates_aggregation"])
+        # No input, no aggregation, no alignment, no identity filter
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_with_aggregation(self):
+        call_trace = PipelineCallTraceStorage(results_names=["templates_aggregation"])
+        # Minimal iris template data
+        iris_codes = [np.ones((2, 2, 2), dtype=bool)]
+        mask_codes = [np.zeros((2, 2, 2), dtype=bool)]
+        weights = [np.ones((2, 2, 2), dtype=np.float32)]
+        iris_code_version = "v2.1"
+        weighted_template = WeightedIrisTemplate(
+            iris_codes=iris_codes,
+            mask_codes=mask_codes,
+            weights=weights,
+            iris_code_version=iris_code_version,
+        )
+        call_trace.write("templates_aggregation", weighted_template)
+        # Set input as a list of templates (simulate input)
+        call_trace.write_input([weighted_template])
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_with_alignment_and_identity_filter(self):
+        call_trace = PipelineCallTraceStorage(
+            results_names=["templates_aggregation", "templates_alignment", "identity_filter"]
+        )
+        # Minimal iris template data
+        iris_codes = [np.ones((2, 2, 2), dtype=bool)]
+        mask_codes = [np.zeros((2, 2, 2), dtype=bool)]
+        weights = [np.ones((2, 2, 2), dtype=np.float32)]
+        iris_code_version = "v2.1"
+        weighted_template = WeightedIrisTemplate(
+            iris_codes=iris_codes,
+            mask_codes=mask_codes,
+            weights=weights,
+            iris_code_version=iris_code_version,
+        )
+        call_trace.write("templates_aggregation", weighted_template)
+        call_trace.write_input([weighted_template])
+        # Add aligned templates
+        aligned_templates = AlignedTemplates(
+            templates=[weighted_template],
+            distances=DistanceMatrix(data={(0, 0): 0.0}),
+            reference_template_id=0,
+        )
+        call_trace.write("templates_alignment", aligned_templates)
+        # Add identity filter result
+        call_trace.write("identity_validation", [weighted_template])
+        return call_trace
+
+    def test_with_missing_keys(self, mock_call_trace_with_missing_keys):
+        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_missing_keys)
+        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert result["error"] is None
+        assert result["iris_template"] is None
+        assert result["weights"] is None
+        metadata = result["metadata"]
+        assert metadata["input_templates_count"] is None
+        assert metadata["aligned_templates"]["reference_template_id"] is None
+        assert metadata["aligned_templates"]["distances"] is None
+        assert metadata["post_identity_filter_templates_count"] is None
+
+    def test_with_aggregation(self, mock_call_trace_with_aggregation):
+        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_aggregation)
+        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert result["error"] is None
+        # Should be safely serialized (dict)
+        assert isinstance(result["iris_template"], dict)
+        assert isinstance(result["weights"], list)
+        metadata = result["metadata"]
+        assert metadata["input_templates_count"] == 1
+        assert metadata["aligned_templates"]["reference_template_id"] is None
+        assert metadata["aligned_templates"]["distances"] is None
+        assert metadata["post_identity_filter_templates_count"] is None
+
+    def test_with_alignment_and_identity_filter(self, mock_call_trace_with_alignment_and_identity_filter):
+        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_alignment_and_identity_filter)
+        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert result["error"] is None
+        assert isinstance(result["iris_template"], dict)
+        assert isinstance(result["weights"], list)
+        metadata = result["metadata"]
+        assert metadata["input_templates_count"] == 1
+        assert metadata["aligned_templates"]["reference_template_id"] == 0
+        assert metadata["aligned_templates"]["distances"] == {(0, 0): 0.0}
+        assert metadata["post_identity_filter_templates_count"] == 1

@@ -65,61 +65,115 @@ def incompatible_iris_templates():
 
 @pytest.fixture
 def standalone_aggregation_config():
-    """Create a custom configuration for the aggregation pipeline."""
+    """Create a custom configuration for the aggregation pipeline (updated to match YAML)."""
     return {
-        "metadata": {"pipeline_name": "e2e_test_aggregation", "iris_version": "1.6.1"},
+        "metadata": {"pipeline_name": "templates_aggregation", "iris_version": "1.7.1"},
         "pipeline": [
+            {
+                "name": "templates_alignment",
+                "algorithm": {
+                    "class_name": "iris.nodes.templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment",
+                    "params": {
+                        "rotation_shift": 15,
+                        "use_first_as_reference": False,
+                        "normalise": True,
+                        "reference_selection_method": "linear",
+                    },
+                },
+                "inputs": [{"name": "templates", "source_node": "input"}],
+                "callbacks": [],
+            },
+            {
+                "name": "identity_validation",
+                "algorithm": {
+                    "class_name": "iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter",
+                    "params": {
+                        "identity_distance_threshold": 0.35,
+                        "identity_validation_action": "remove",
+                        "min_templates_after_validation": 1,
+                    },
+                },
+                "inputs": [{"name": "aligned_templates", "source_node": "templates_alignment"}],
+                "callbacks": [],
+            },
             {
                 "name": "templates_aggregation",
                 "algorithm": {
                     "class_name": "iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation",
                     "params": {
-                        "consistency_threshold": 0.6,
-                        "mask_threshold": 0.3,
+                        "consistency_threshold": 0.75,
+                        "mask_threshold": 0.01,
                         "use_inconsistent_bits": True,
-                        "inconsistent_bit_threshold": 0.2,
+                        "inconsistent_bit_threshold": 0.4,
                     },
                 },
-                "inputs": [{"name": "templates", "source_node": "input"}],
+                "inputs": [{"name": "templates", "source_node": "identity_validation"}],
                 "callbacks": [
                     {
                         "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
                         "params": {},
                     }
                 ],
-            }
+            },
         ],
     }
 
 
 @pytest.fixture
 def composite_iris_config():
-    """Create a custom configuration for the aggregation pipeline."""
+    """Create a custom configuration for the aggregation pipeline (updated to match YAML)."""
     return {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.6.1"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.7.2"},
         "pipeline": [],
         "template_aggregation": {
-            "metadata": {"pipeline_name": "e2e_test_aggregation", "iris_version": "1.6.1"},
+            "metadata": {"pipeline_name": "templates_aggregation", "iris_version": "1.7.1"},
             "pipeline": [
+                {
+                    "name": "templates_alignment",
+                    "algorithm": {
+                        "class_name": "iris.nodes.templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment",
+                        "params": {
+                            "rotation_shift": 15,
+                            "use_first_as_reference": False,
+                            "normalise": True,
+                            "reference_selection_method": "linear",
+                        },
+                    },
+                    "inputs": [{"name": "templates", "source_node": "input"}],
+                    "callbacks": [],
+                },
+                {
+                    "name": "identity_validation",
+                    "algorithm": {
+                        "class_name": "iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter",
+                        "params": {
+                            "identity_distance_threshold": 0.35,
+                            "identity_validation_action": "remove",
+                            "min_templates_after_validation": 1,
+                        },
+                    },
+                    "inputs": [{"name": "aligned_templates", "source_node": "templates_alignment"}],
+                    "callbacks": [],
+                },
                 {
                     "name": "templates_aggregation",
                     "algorithm": {
                         "class_name": "iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation",
                         "params": {
-                            "consistency_threshold": 0.6,
-                            "mask_threshold": 0.3,
+                            "consistency_threshold": 0.75,
+                            "mask_threshold": 0.01,
                             "use_inconsistent_bits": True,
-                            "inconsistent_bit_threshold": 0.2,
+                            "inconsistent_bit_threshold": 0.4,
                         },
                     },
-                    "inputs": [{"name": "templates", "source_node": "input"}],
+                    "inputs": [{"name": "templates", "source_node": "identity_validation"}],
                     "callbacks": [
                         {
                             "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
                             "params": {},
                         }
                     ],
-                }
+                },
             ],
         },
     }
@@ -247,14 +301,14 @@ class TestMultiframeAggregationPipeline:
         ],
         ids=["standalone aggregation", "composite iris pipeline"],
     )
-    def test_full_pipeline_with_compatible_templates(self, config, subconfig_key, request, random_iris_templates):
+    def test_full_pipeline_with_compatible_templates(self, config, subconfig_key, request, same_id_iris_templates):
         """Test the complete pipeline flow with compatible templates."""
         # Initialize the pipeline
         config = request.getfixturevalue(config)
         pipeline = MultiframeAggregationPipeline(config=config, subconfig_key=subconfig_key)
 
         # Run the pipeline
-        result = pipeline.run(random_iris_templates)
+        result = pipeline.run(same_id_iris_templates)
 
         # Verify the output structure
         assert isinstance(result, dict)
@@ -269,21 +323,26 @@ class TestMultiframeAggregationPipeline:
         # Verify the aggregated template
         aggregated_template = result["iris_template"]
         assert isinstance(aggregated_template, IrisTemplate)
-        assert aggregated_template.iris_code_version == random_iris_templates[0].iris_code_version
-        assert len(aggregated_template.iris_codes) == len(random_iris_templates[0].iris_codes)
-        assert len(aggregated_template.mask_codes) == len(random_iris_templates[0].mask_codes)
+        assert aggregated_template.iris_code_version == same_id_iris_templates[0].iris_code_version
+        assert len(aggregated_template.iris_codes) == len(same_id_iris_templates[0].iris_codes)
+        assert len(aggregated_template.mask_codes) == len(same_id_iris_templates[0].mask_codes)
 
         # Verify weights
         weights = result["weights"]
         assert isinstance(weights, list)
-        assert len(weights) == len(random_iris_templates[0].iris_codes)
+        assert len(weights) == len(same_id_iris_templates[0].iris_codes)
 
         # Verify metadata
         metadata = result["metadata"]
         assert isinstance(metadata, dict)
-        assert "templates_count" in metadata
-        assert metadata["templates_count"] == len(random_iris_templates)
+        assert "input_templates_count" in metadata
+        assert metadata["input_templates_count"] == len(same_id_iris_templates)
         assert "iris_version" in metadata
+        assert "aligned_templates" in metadata
+        assert "reference_template_id" in metadata["aligned_templates"]
+        assert "distances" in metadata["aligned_templates"]
+        assert "post_identity_filter_templates_count" in metadata
+        assert metadata["post_identity_filter_templates_count"] == len(same_id_iris_templates)
 
     def test_pipeline_with_incompatible_templates(self, incompatible_iris_templates, standalone_aggregation_config):
         """Test the pipeline with incompatible templates (should fail validation)."""
@@ -334,7 +393,7 @@ class TestMultiframeAggregationPipeline:
         assert result["iris_template"] is not None
         assert result["weights"] is not None
 
-    def test_pipeline_with_custom_environment(self, random_iris_templates, standalone_aggregation_config):
+    def test_pipeline_with_custom_environment(self, same_id_iris_templates, standalone_aggregation_config):
         """Test the pipeline with a custom environment."""
         # Create custom environment
         custom_env = Environment(
@@ -347,7 +406,7 @@ class TestMultiframeAggregationPipeline:
         pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, env=custom_env, subconfig_key="")
 
         # Run the pipeline
-        result = pipeline.run(random_iris_templates)
+        result = pipeline.run(same_id_iris_templates)
 
         # Verify successful execution
         assert result["error"] is None
@@ -365,19 +424,19 @@ class TestMultiframeAggregationPipeline:
         assert result["error"] is None
         assert result["iris_template"] is not None
 
-    def test_pipeline_call_trace_functionality(self, random_iris_templates, standalone_aggregation_config):
+    def test_pipeline_call_trace_functionality(self, same_id_iris_templates, standalone_aggregation_config):
         """Test that the pipeline call trace works correctly."""
         pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run the pipeline
-        _ = pipeline.run(random_iris_templates)
+        _ = pipeline.run(same_id_iris_templates)
 
         # Verify call trace has been populated
         assert pipeline.call_trace is not None
 
         # Check that input was written to call trace
         input_data = pipeline.call_trace.get_input()
-        assert input_data == random_iris_templates
+        assert input_data == same_id_iris_templates
 
         # Check that the aggregation node result is available
         aggregation_result = pipeline.call_trace["templates_aggregation"]
@@ -429,7 +488,7 @@ class TestMultiframeAggregationPipeline:
         # Should handle many templates
         assert result["error"] is None
         assert result["iris_template"] is not None
-        assert result["metadata"]["templates_count"] == 20
+        assert result["metadata"]["input_templates_count"] == 20
 
     def test_pipeline_parameter_propagation(self):
         """Test that parameters are correctly propagated through the pipeline."""
