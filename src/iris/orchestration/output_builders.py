@@ -127,10 +127,11 @@ def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) 
         Dict[str, Any]: Metadata dictionary.
     """
     templates = call_trace.get_input()
+    # templates_alignment = call_trace.get("templates_alignment", (None, None))
 
     return {
         "iris_version": __version__,
-        "templates_count": len(templates),
+        "input_templates_count": len(templates),
     }
 
 

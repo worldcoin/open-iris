@@ -9,7 +9,12 @@ from pydantic import BaseModel, Field, NonNegativeInt, root_validator, validator
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io import validators as v
 from iris.io.class_configs import ImmutableModel
-from iris.utils.base64_encoding import base64_decode_array, base64_encode_array
+from iris.utils.base64_encoding import (
+    base64_decode_array,
+    base64_decode_float_array,
+    base64_encode_array,
+    base64_encode_float_array,
+)
 from iris.utils.math import estimate_diameter
 
 
@@ -699,6 +704,116 @@ class IrisTemplate(ImmutableModel):
         return [array[:, :, i, :] for i in range(array.shape[2])]
 
 
+class WeightedIrisTemplate(IrisTemplate):
+    """
+    Extends IrisTemplate to include per-bit reliability weights.
+    """
+
+    weights: List[np.ndarray] = Field(..., description="List of weight matrices per wavelet, shape matches iris_codes.")
+
+    @staticmethod
+    def from_iris_template(iris_template: IrisTemplate, weights: List[np.ndarray]) -> WeightedIrisTemplate:
+        """Create a WeightedIrisTemplate from an IrisTemplate and a list of weights.
+
+        Args:
+            iris_template (IrisTemplate): IrisTemplate to convert.
+            weights (List[np.ndarray]): List of weight matrices per wavelet, shape matches iris_codes.
+
+        Returns:
+            WeightedIrisTemplate: WeightedIrisTemplate object.
+        """
+        return WeightedIrisTemplate(
+            iris_codes=iris_template.iris_codes,
+            mask_codes=iris_template.mask_codes,
+            weights=weights,
+            iris_code_version=iris_template.iris_code_version,
+        )
+
+    @root_validator(pre=True)
+    def check_weights_shape_and_length(cls, values):
+        iris_codes = values.get("iris_codes")
+        weights = values.get("weights")
+        if iris_codes is None or weights is None:
+            raise ValueError("iris_codes and weights must both be provided")
+        if len(weights) != len(iris_codes):
+            raise ValueError(f"weights and iris_codes must have same length. Got {len(weights)} and {len(iris_codes)}.")
+        for idx, (w, c) in enumerate(zip(weights, iris_codes)):
+            if w.shape != c.shape:
+                raise ValueError(f"Shape mismatch at wavelet {idx}: weight shape {w.shape}, code shape {c.shape}")
+            if not np.all(w >= 0):
+                raise ValueError(f"All weights must be >= 0 (found negative at wavelet {idx})")
+        return values
+
+    @validator("weights", each_item=True)
+    def weights_are_valid(cls, v):
+        if not np.issubdtype(v.dtype, np.floating):
+            raise TypeError(f"Weight must be float array, got {v.dtype}")
+        return v
+
+    def serialize(self) -> Dict[str, Any]:
+        """Serialize WeightedIrisTemplate object.
+
+        Returns:
+            Dict[str, bytes]: Serialized object.
+        """
+        old_format_iris_codes, old_format_mask_codes, old_format_weights = self.convert2old_format()
+
+        return {
+            "iris_codes": base64_encode_array(old_format_iris_codes).decode("utf-8"),
+            "mask_codes": base64_encode_array(old_format_mask_codes).decode("utf-8"),
+            "weights": base64_encode_float_array(old_format_weights).decode("utf-8"),
+            "iris_code_version": self.iris_code_version,
+        }
+
+    @staticmethod
+    def deserialize(
+        serialized_template: dict[str, Union[np.ndarray, str]], array_shape: Tuple = (16, 256, 2, 2)
+    ) -> WeightedIrisTemplate:
+        """Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.
+
+        Args:
+            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.
+            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            WeightedIrisTemplate: Serialized object.
+        """
+        return WeightedIrisTemplate.convert_to_new_format(
+            iris_codes=base64_decode_array(serialized_template["iris_codes"], array_shape=array_shape),
+            mask_codes=base64_decode_array(serialized_template["mask_codes"], array_shape=array_shape),
+            weights=base64_decode_float_array(serialized_template["weights"], array_shape=array_shape),
+            iris_code_version=serialized_template["iris_code_version"],
+        )
+
+    def convert2old_format(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Convert an old tempalte format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes, weights).
+        """
+        return (
+            IrisTemplate.new_to_old_format(self.iris_codes),
+            IrisTemplate.new_to_old_format(self.mask_codes),
+            IrisTemplate.new_to_old_format(self.weights),
+        )
+
+    @staticmethod
+    def convert_to_new_format(
+        iris_codes: np.ndarray, mask_codes: np.ndarray, weights: np.ndarray, iris_code_version: str
+    ) -> WeightedIrisTemplate:
+        """Convert an old template format and the associated iris code version into an IrisTemplate object.
+
+        Returns:
+            WeightedIrisTemplate: Serialized object in new format.
+        """
+        return WeightedIrisTemplate(
+            iris_codes=IrisTemplate.old_to_new_format(iris_codes),
+            mask_codes=IrisTemplate.old_to_new_format(mask_codes),
+            weights=IrisTemplate.old_to_new_format(weights),
+            iris_code_version=iris_code_version,
+        )
+
+
 class EyeOcclusion(ImmutableModel):
     """Data holder for the eye occlusion."""
 
@@ -738,3 +853,214 @@ class OutputFieldSpec(BaseModel):
     key: str
     extractor: Callable[[PipelineCallTraceStorage], Any]
     safe_serialize: bool = False
+
+
+class DistanceMatrix(ImmutableModel):
+    """Data holder for a distance matrix."""
+
+    data: Dict[Tuple[int, int], float]
+
+    def get(self, i: int, j: int) -> float:
+        """Get the distance between two templates.
+
+        Args:
+            i (int): Index of the first template.
+            j (int): Index of the second template.
+
+        Returns:
+            float: Distance between the two templates.
+        """
+        key = (min(i, j), max(i, j))
+        return self.data[key]
+
+    def to_numpy(self) -> np.ndarray:
+        """Convert the distance matrix to a numpy array.
+
+        Returns:
+            np.ndarray: Distance matrix.
+        """
+        n = self.nb_templates
+        mat = np.zeros((n, n), dtype=float)
+        for (i, j), value in self.data.items():
+            mat[i, j] = value
+            mat[j, i] = value  # symmetry
+        return mat
+
+    def to_matrix(self) -> np.ndarray:
+        """Convert the distances to a symmetric matrix.
+
+        Returns:
+            np.ndarray: Distance matrix.
+        """
+        return self.to_numpy()
+
+    def __len__(self) -> int:
+        """Return the number of distances in the matrix.
+
+        Returns:
+            int: Number of distances.
+        """
+        return len(self.data)
+
+    @property
+    def nb_templates(self) -> int:
+        """Number of unique template indices present in the matrix.
+
+        Returns:
+            int: Number of unique template indices.
+        """
+        indices = set()
+        for i, j in self.data.keys():
+            indices.add(i)
+            indices.add(j)
+        return len(indices)
+
+    def serialize(self) -> Dict[Tuple[int, int], float]:
+        """Serialize DistanceMatrix object.
+
+        Returns:
+            Dict[Tuple[int, int], float]: Serialized object.
+        """
+        return self.data
+
+    @staticmethod
+    def deserialize(data: Dict[Tuple[int, int], float]) -> DistanceMatrix:
+        """Deserialize DistanceMatrix object.
+
+        Returns:
+            DistanceMatrix: Deserialized object.
+        """
+        return DistanceMatrix(data=data)
+
+
+class AlignedTemplates(ImmutableModel):
+    """Data holder for aligned templates and Hamming distances between them.
+
+    Args:
+        aligned_templates (List[IrisTemplate]): List of aligned Iris templates.
+        distances (Dict[Tuple[int, int], float]): Dictionary of Hamming distances between Iris templates.
+        reference_template_id (int): Index of the reference template.
+    """
+
+    templates: List[IrisTemplate]
+    distances: DistanceMatrix
+    reference_template_id: int
+
+    @root_validator(pre=True, allow_reuse=True)
+    def _check_distances_match_templates(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Check that the number of distances corresponds to the number of aligned templates.
+
+        Args:
+            values (Dict[str, Any]): Dictionary containing the field values.
+
+        Returns:
+            Dict[str, Any]: The validated values.
+
+        Raises:
+            ValueError: If the number of distances doesn't match the number of templates.
+        """
+        templates = values.get("templates")
+        distances = values.get("distances")
+
+        if templates is not None and distances is not None:
+            nb_templates = len(templates)
+            nb_distances = distances.nb_templates
+
+            if (nb_distances != nb_templates) & (nb_templates > 1):
+                raise ValueError(
+                    f"Number of templates ({nb_templates}) does not match number of distances ({nb_distances}). "
+                    f"Expected {nb_templates} templates but found {nb_distances} in distance matrix."
+                )
+
+        return values
+
+    @root_validator(pre=True, allow_reuse=True)
+    def _check_reference_template_id_valid(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Check that the reference_template_id is within the valid range of aligned templates indices.
+
+        Args:
+            values (Dict[str, Any]): Dictionary containing the field values.
+
+        Returns:
+            Dict[str, Any]: The validated values.
+
+        Raises:
+            ValueError: If the reference_template_id is out of range.
+        """
+        templates = values.get("templates")
+        reference_template_id = values.get("reference_template_id")
+
+        if templates is not None and reference_template_id is not None:
+            nb_templates = len(templates)
+
+            if reference_template_id < 0:
+                raise ValueError(
+                    f"reference_template_id ({reference_template_id}) cannot be negative. "
+                    f"Must be between 0 and {nb_templates - 1}."
+                )
+
+            if reference_template_id >= nb_templates:
+                raise ValueError(
+                    f"reference_template_id ({reference_template_id}) is out of range. "
+                    f"Must be between 0 and {nb_templates - 1} for {nb_templates} templates."
+                )
+
+        return values
+
+    @property
+    def reference_template(self) -> IrisTemplate:
+        """Get the reference template.
+
+        Returns:
+            IrisTemplate: Reference template.
+        """
+        return self.templates[self.reference_template_id]
+
+    def get_distance(self, i: int, j: int) -> float:
+        """Get the distance between two templates.
+
+        Args:
+            i (int): Index of the first template.
+            j (int): Index of the second template.
+
+        Returns:
+            float: Distance between the two templates.
+        """
+        return self.distances.get(i, j)
+
+    def __len__(self) -> int:
+        """Return the number of aligned templates.
+
+        Returns:
+            int: Number of aligned templates.
+        """
+        return len(self.templates)
+
+    def serialize(self) -> Dict[str, Any]:
+        """Serialize AlignedTemplates object.
+
+        Returns:
+            Dict[str, Any]: Serialized object.
+        """
+        return {
+            "templates": [template.serialize() for template in self.templates],
+            "distances": self.distances.serialize(),
+            "reference_template_id": self.reference_template_id,
+        }
+
+    @staticmethod
+    def deserialize(data: Dict[str, Any], array_shape: Tuple[int, int, int, int] = (16, 256, 2, 2)) -> AlignedTemplates:
+        """Deserialize AlignedTemplates object.
+
+        Args:
+            data (Dict[str, Any]): Serialized object to dict.
+            array_shape (Tuple[int, int, int, int], optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            AlignedTemplates: Deserialized object.
+        """
+        return AlignedTemplates(
+            templates=[IrisTemplate.deserialize(template, array_shape) for template in data["templates"]],
+            distances=DistanceMatrix.deserialize(data["distances"]),
+            reference_template_id=data["reference_template_id"],
+        )

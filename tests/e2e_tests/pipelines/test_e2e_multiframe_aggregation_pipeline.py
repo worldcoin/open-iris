@@ -18,7 +18,7 @@ from iris.pipelines.multiframe_aggregation_pipeline import MultiframeAggregation
 
 
 @pytest.fixture
-def sample_iris_templates():
+def random_iris_templates():
     """Create a set of sample IrisTemplates for end-to-end testing."""
     templates = []
 
@@ -132,6 +132,47 @@ def ir_image() -> np.ndarray:
     return img_data
 
 
+@pytest.fixture
+def same_id_iris_templates():
+    """Create a set of IrisTemplates with very small Hamming distances between them (including mask codes)."""
+    num_templates = 5
+    num_wavelets = 2
+    shape = (8, 32, 2)
+    iris_code_version = "v2.1"
+    templates = []
+
+    # Create a base template
+    base_iris_codes = [np.random.choice(2, size=shape).astype(bool) for _ in range(num_wavelets)]
+    base_mask_codes = [np.random.choice(2, size=shape, p=[0.1, 0.9]).astype(bool) for _ in range(num_wavelets)]
+
+    for i in range(num_templates):
+        # Copy base codes
+        iris_codes = [arr.copy() for arr in base_iris_codes]
+        mask_codes = [arr.copy() for arr in base_mask_codes]
+
+        # Flip a small number of random bits in each wavelet's iris code and mask code
+        for w in range(num_wavelets):
+            n_flips_iris = 2  # Number of bits to flip per wavelet in iris code
+            n_flips_mask = 1  # Number of bits to flip per wavelet in mask code
+
+            # Flip iris code bits
+            flat_iris = iris_codes[w].flatten()
+            flip_indices_iris = np.random.choice(flat_iris.size, size=n_flips_iris, replace=False)
+            flat_iris[flip_indices_iris] = ~flat_iris[flip_indices_iris]
+            iris_codes[w] = flat_iris.reshape(shape)
+
+            # Flip mask code bits
+            flat_mask = mask_codes[w].flatten()
+            flip_indices_mask = np.random.choice(flat_mask.size, size=n_flips_mask, replace=False)
+            flat_mask[flip_indices_mask] = ~flat_mask[flip_indices_mask]
+            mask_codes[w] = flat_mask.reshape(shape)
+
+        template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version=iris_code_version)
+        templates.append(template)
+
+    return templates
+
+
 class TestIRISPipelineWithAggregation:
     """End-to-end tests for iris pipeline with aggregation functionality."""
 
@@ -206,14 +247,14 @@ class TestMultiframeAggregationPipeline:
         ],
         ids=["standalone aggregation", "composite iris pipeline"],
     )
-    def test_full_pipeline_with_compatible_templates(self, config, subconfig_key, request, sample_iris_templates):
+    def test_full_pipeline_with_compatible_templates(self, config, subconfig_key, request, random_iris_templates):
         """Test the complete pipeline flow with compatible templates."""
         # Initialize the pipeline
         config = request.getfixturevalue(config)
         pipeline = MultiframeAggregationPipeline(config=config, subconfig_key=subconfig_key)
 
         # Run the pipeline
-        result = pipeline.run(sample_iris_templates)
+        result = pipeline.run(random_iris_templates)
 
         # Verify the output structure
         assert isinstance(result, dict)
@@ -228,20 +269,20 @@ class TestMultiframeAggregationPipeline:
         # Verify the aggregated template
         aggregated_template = result["iris_template"]
         assert isinstance(aggregated_template, IrisTemplate)
-        assert aggregated_template.iris_code_version == sample_iris_templates[0].iris_code_version
-        assert len(aggregated_template.iris_codes) == len(sample_iris_templates[0].iris_codes)
-        assert len(aggregated_template.mask_codes) == len(sample_iris_templates[0].mask_codes)
+        assert aggregated_template.iris_code_version == random_iris_templates[0].iris_code_version
+        assert len(aggregated_template.iris_codes) == len(random_iris_templates[0].iris_codes)
+        assert len(aggregated_template.mask_codes) == len(random_iris_templates[0].mask_codes)
 
         # Verify weights
         weights = result["weights"]
         assert isinstance(weights, list)
-        assert len(weights) == len(sample_iris_templates[0].iris_codes)
+        assert len(weights) == len(random_iris_templates[0].iris_codes)
 
         # Verify metadata
         metadata = result["metadata"]
         assert isinstance(metadata, dict)
         assert "templates_count" in metadata
-        assert metadata["templates_count"] == len(sample_iris_templates)
+        assert metadata["templates_count"] == len(random_iris_templates)
         assert "iris_version" in metadata
 
     def test_pipeline_with_incompatible_templates(self, incompatible_iris_templates, standalone_aggregation_config):
@@ -280,20 +321,20 @@ class TestMultiframeAggregationPipeline:
         assert aggregated_template.iris_code_version == single_template.iris_code_version
         assert len(aggregated_template.iris_codes) == len(single_template.iris_codes)
 
-    def test_pipeline_with_default_configuration(self, sample_iris_templates):
+    def test_pipeline_with_default_configuration_same_id(self, same_id_iris_templates):
         """Test the pipeline using default configuration."""
         # Initialize with default config
         pipeline = MultiframeAggregationPipeline()
 
         # Run the pipeline
-        result = pipeline.run(sample_iris_templates)
+        result = pipeline.run(same_id_iris_templates)
 
         # Verify successful execution
         assert result["error"] is None
         assert result["iris_template"] is not None
         assert result["weights"] is not None
 
-    def test_pipeline_with_custom_environment(self, sample_iris_templates, standalone_aggregation_config):
+    def test_pipeline_with_custom_environment(self, random_iris_templates, standalone_aggregation_config):
         """Test the pipeline with a custom environment."""
         # Create custom environment
         custom_env = Environment(
@@ -306,37 +347,37 @@ class TestMultiframeAggregationPipeline:
         pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, env=custom_env, subconfig_key="")
 
         # Run the pipeline
-        result = pipeline.run(sample_iris_templates)
+        result = pipeline.run(random_iris_templates)
 
         # Verify successful execution
         assert result["error"] is None
         assert result["iris_template"] is not None
 
-    def test_pipeline_with_orb_environment(self, sample_iris_templates):
+    def test_pipeline_with_orb_environment(self, same_id_iris_templates):
         """Test the pipeline with ORB environment."""
         # Use the predefined ORB environment
         pipeline = MultiframeAggregationPipeline(env=MultiframeAggregationPipeline.ORB_ENVIRONMENT)
 
         # Run the pipeline
-        result = pipeline.run(sample_iris_templates)
+        result = pipeline.run(same_id_iris_templates)
 
         # Verify successful execution
         assert result["error"] is None
         assert result["iris_template"] is not None
 
-    def test_pipeline_call_trace_functionality(self, sample_iris_templates, standalone_aggregation_config):
+    def test_pipeline_call_trace_functionality(self, random_iris_templates, standalone_aggregation_config):
         """Test that the pipeline call trace works correctly."""
         pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run the pipeline
-        _ = pipeline.run(sample_iris_templates)
+        _ = pipeline.run(random_iris_templates)
 
         # Verify call trace has been populated
         assert pipeline.call_trace is not None
 
         # Check that input was written to call trace
         input_data = pipeline.call_trace.get_input()
-        assert input_data == sample_iris_templates
+        assert input_data == random_iris_templates
 
         # Check that the aggregation node result is available
         aggregation_result = pipeline.call_trace["templates_aggregation"]

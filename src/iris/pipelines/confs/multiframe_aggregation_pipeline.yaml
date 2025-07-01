@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.7.1
+  iris_version: 1.7.2
 
 pipeline:
   - name: segmentation
@@ -305,21 +305,46 @@ pipeline:
 
 templates_aggregation:
   metadata:
-    iris_version: 1.7.0
+    iris_version: 1.7.1
     pipeline_name: templates_aggregation
 
   pipeline:
+    - name: templates_alignment
+      algorithm:
+        class_name: iris.nodes.templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment
+        params:
+          rotation_shift: 15
+          use_first_as_reference: false
+          normalise: true
+          reference_selection_method: linear
+      inputs:
+        - name: templates
+          source_node: input
+      callbacks:
+
+    - name: identity_validation
+      algorithm:
+        class_name: iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter
+        params:
+          identity_distance_threshold: 0.35
+          identity_validation_action: remove  # Options: remove, raise_error, log_warning
+          min_templates_after_validation: 1
+      inputs:
+        - name: aligned_templates
+          source_node: templates_alignment
+      callbacks:
+
     - name: templates_aggregation
       algorithm:
         class_name: iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation
         params:
           consistency_threshold: 0.75
-          mask_threshold: 0.5
+          mask_threshold: 0.01
           use_inconsistent_bits: True
           inconsistent_bit_threshold: 0.4
       inputs:
         - name: templates
-          source_node: input
+          source_node: identity_validation
       callbacks:
         - class_name: iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible
           params: {}
