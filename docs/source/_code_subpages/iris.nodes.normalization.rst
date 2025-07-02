@@ -4,6 +4,14 @@ iris.nodes.normalization package
 Submodules
 ----------
 
+iris.nodes.normalization.common module
+--------------------------------------
+
+.. automodule:: iris.nodes.normalization.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 iris.nodes.normalization.linear\_normalization module
 -----------------------------------------------------
 
@@ -24,14 +32,6 @@ iris.nodes.normalization.perspective\_normalization module
 ----------------------------------------------------------
 
 .. automodule:: iris.nodes.normalization.perspective_normalization
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-iris.nodes.normalization.utils module
--------------------------------------
-
-.. automodule:: iris.nodes.normalization.utils
    :members:
    :undoc-members:
    :show-inheritance:

@@ -280,6 +280,7 @@ class TestIRISPipelineWithAggregation:
         assert aggregation_pipeline_output["error"] is None
         assert aggregation_pipeline_output["iris_template"] is not None
         assert aggregation_pipeline_output["metadata"] is not None
+        assert aggregation_pipeline_output["weights"] is not None
 
         assert all(
             np.array_equal(
@@ -312,6 +313,7 @@ class TestMultiframeAggregationPipeline:
         # Verify the output structure
         assert isinstance(result, dict)
         assert "iris_template" in result
+        assert "weights" in result
         assert "error" in result
         assert "metadata" in result
 
@@ -324,6 +326,11 @@ class TestMultiframeAggregationPipeline:
         assert aggregated_template.iris_code_version == same_id_iris_templates[0].iris_code_version
         assert len(aggregated_template.iris_codes) == len(same_id_iris_templates[0].iris_codes)
         assert len(aggregated_template.mask_codes) == len(same_id_iris_templates[0].mask_codes)
+
+        # Verify weights
+        weights = result["weights"]
+        assert isinstance(weights, list)
+        assert len(weights) == len(same_id_iris_templates[0].iris_codes)
 
         # Verify metadata
         metadata = result["metadata"]
@@ -348,6 +355,7 @@ class TestMultiframeAggregationPipeline:
         # Verify that an error was captured
         assert result["error"] is not None
         assert result["iris_template"] is None
+        assert result["weights"] is None
 
     def test_pipeline_with_single_template(self, standalone_aggregation_config):
         """Test the pipeline with a single template."""
@@ -365,6 +373,7 @@ class TestMultiframeAggregationPipeline:
         # Verify successful execution
         assert result["error"] is None
         assert result["iris_template"] is not None
+        assert result["weights"] is not None
 
         # For single template, the output should be essentially the same as input
         aggregated_template = result["iris_template"]
@@ -382,6 +391,7 @@ class TestMultiframeAggregationPipeline:
         # Verify successful execution
         assert result["error"] is None
         assert result["iris_template"] is not None
+        assert result["weights"] is not None
 
     def test_pipeline_with_custom_environment(self, same_id_iris_templates, standalone_aggregation_config):
         """Test the pipeline with a custom environment."""
@@ -442,6 +452,25 @@ class TestMultiframeAggregationPipeline:
         # Should have an error due to validation failure
         assert result["error"] is not None
         assert result["iris_template"] is None
+
+    def test_integration_with_different_template_sizes(self, standalone_aggregation_config):
+        """Test integration with templates of different sizes."""
+        # Create templates with different but compatible sizes
+        templates = []
+
+        # All templates have same structure but different content
+        for i in range(3):
+            iris_codes = [np.random.choice(2, size=(4, 16, 2)).astype(bool) for _ in range(1)]  # Smaller size
+            mask_codes = [np.random.choice(2, size=(4, 16, 2)).astype(bool) for _ in range(1)]
+            template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+            templates.append(template)
+
+        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        result = pipeline.run(templates)
+
+        # Should work fine with smaller templates
+        assert result["error"] is None
+        assert result["iris_template"] is not None
 
     def test_integration_with_many_templates(self, standalone_aggregation_config):
         """Test integration with a large number of templates."""
