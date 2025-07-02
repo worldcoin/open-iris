@@ -52,6 +52,14 @@ iris.nodes.eye\_properties\_estimation.pupil\_iris\_property\_calculator module
    :undoc-members:
    :show-inheritance:
 
+iris.nodes.eye\_properties\_estimation.sharpness\_estimation module
+-------------------------------------------------------------------
+
+.. automodule:: iris.nodes.eye_properties_estimation.sharpness_estimation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
