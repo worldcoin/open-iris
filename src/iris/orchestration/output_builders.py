@@ -127,10 +127,19 @@ def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) 
         Dict[str, Any]: Metadata dictionary.
     """
     templates = call_trace.get_input()
+    aligned_templates = call_trace.get("templates_alignment")
+    identity_filtered_templates = call_trace.get("identity_validation")
 
     return {
         "iris_version": __version__,
-        "templates_count": len(templates),
+        "input_templates_count": len(templates) if templates is not None else None,
+        "aligned_templates": {
+            "reference_template_id": aligned_templates.reference_template_id if aligned_templates is not None else None,
+            "distances": __safe_serialize(aligned_templates.distances) if aligned_templates is not None else None,
+        },
+        "post_identity_filter_templates_count": len(identity_filtered_templates)
+        if identity_filtered_templates is not None
+        else None,
     }
 
 
@@ -179,14 +188,14 @@ MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        extractor=lambda ct: ct.get("templates_aggregation").as_iris_template()
         if ct.get("templates_aggregation") is not None
         else None,
         safe_serialize=True,
     ),
     OutputFieldSpec(
         key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        extractor=lambda ct: ct.get("templates_aggregation").weights
         if ct.get("templates_aggregation") is not None
         else None,
         safe_serialize=True,
@@ -198,14 +207,14 @@ MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[0]
+        extractor=lambda ct: ct.get("templates_aggregation").as_iris_template()
         if ct.get("templates_aggregation") is not None
         else None,
         safe_serialize=False,
     ),
     OutputFieldSpec(
         key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation", [None, None])[1]
+        extractor=lambda ct: ct.get("templates_aggregation").weights
         if ct.get("templates_aggregation") is not None
         else None,
         safe_serialize=False,

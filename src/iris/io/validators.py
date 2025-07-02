@@ -217,6 +217,9 @@ def are_lengths_equal(field1: str, field2: str) -> Callable:
 
     def __root_validator(cls: type, values: Dict[str, List[Any]]) -> Dict[str, List[Any]]:
         """Check if len(field1) equals len(field2)."""
+        if field1 not in values or field2 not in values:
+            return values
+
         if len(values[field1]) != len(values[field2]):
             raise ValueError(
                 f"{cls.__name__}: {field1} and {field2} length mismatch, "
@@ -241,6 +244,9 @@ def are_shapes_equal(field1: str, field2: str) -> Callable:
 
     def __root_validator(cls: type, values: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
         """Check if field1.shape equals field2.shape."""
+        if field1 not in values or field2 not in values:
+            return values
+
         if values[field1].shape != values[field2].shape:
             raise ValueError(f"{cls.__name__}: {field1} and {field2} shape mismatch.")
         return values
@@ -264,6 +270,9 @@ def are_all_shapes_equal(field1: str, field2: str) -> Callable:
 
     def __root_validator(cls: type, values: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
         """Check if len(field1) equals len(field2) and if every element have the same shape."""
+        if field1 not in values or field2 not in values:
+            return values
+
         shapes_field_1 = [element.shape for element in values[field1]]
         shapes_field_2 = [element.shape for element in values[field2]]
 

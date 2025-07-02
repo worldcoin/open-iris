@@ -260,3 +260,18 @@ def test_are_all_shapes_equal_raises_an_exception(values: Dict[str, List[np.ndar
     with pytest.raises(ValueError):
         val = pydantic_v.are_all_shapes_equal(field1="field1", field2="field2")
         val(MockClass, values)
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        {},  # both missing
+        {"field1": [np.zeros((2, 3)) for _ in range(2)]},  # field2 missing
+        {"field2": [np.ones((2, 3)) for _ in range(2)]},  # field1 missing
+    ],
+    ids=["both missing", "field2 missing", "field1 missing"],
+)
+def test_are_all_shapes_equal_missing_field_raises(values: dict) -> None:
+    # should not raise an exception
+    val = pydantic_v.are_all_shapes_equal(field1="field1", field2="field2")
+    val(MockClass, values)

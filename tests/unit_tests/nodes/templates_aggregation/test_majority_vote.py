@@ -117,10 +117,12 @@ class TestMajorityVoteAggregation:
         """Test run method with single template."""
         aggregator = MajorityVoteAggregation()
 
-        combined_template, weights = aggregator.run([single_template])
+        weighted_template = aggregator.run([single_template])
+        combined_template = weighted_template.as_iris_template()
+        weights = weighted_template.weights
 
         # Should return the same template
-        assert combined_template.iris_code_version == single_template.iris_code_version
+        assert weighted_template.iris_code_version == single_template.iris_code_version
         assert len(combined_template.iris_codes) == len(single_template.iris_codes)
         assert len(combined_template.mask_codes) == len(single_template.mask_codes)
 
@@ -134,7 +136,9 @@ class TestMajorityVoteAggregation:
             consistency_threshold=0.5, mask_threshold=0.5, use_inconsistent_bits=True, inconsistent_bit_threshold=0.3
         )
 
-        combined_template, weights = aggregator.run(simple_templates)
+        weighted_template = aggregator.run(simple_templates)
+        combined_template = weighted_template.as_iris_template()
+        weights = weighted_template.weights
 
         # Check basic structure
         assert isinstance(combined_template, IrisTemplate)
@@ -153,7 +157,9 @@ class TestMajorityVoteAggregation:
         """Test combine_templates method directly."""
         aggregator = MajorityVoteAggregation()
 
-        combined_template, weights = aggregator.combine_templates(simple_templates)
+        weighted_template = aggregator.combine_templates(simple_templates)
+        combined_template = weighted_template.as_iris_template()
+        weights = weighted_template.weights
 
         assert isinstance(combined_template, IrisTemplate)
         assert isinstance(weights, list)
@@ -309,7 +315,8 @@ class TestMajorityVoteAggregation:
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
 
         aggregator = MajorityVoteAggregation()
-        combined_template, weights = aggregator.run([template1, template2])
+        weighted_template = aggregator.run([template1, template2])
+        combined_template = weighted_template.as_iris_template()
 
         # All iris codes should remain False
         np.testing.assert_array_equal(combined_template.iris_codes[0], np.zeros((2, 2, 2), dtype=bool))
@@ -327,7 +334,8 @@ class TestMajorityVoteAggregation:
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
 
         aggregator = MajorityVoteAggregation()
-        combined_template, weights = aggregator.run([template1, template2])
+        weighted_template = aggregator.run([template1, template2])
+        combined_template = weighted_template.as_iris_template()
 
         # All iris codes should remain True
         np.testing.assert_array_equal(combined_template.iris_codes[0], np.ones((2, 2, 2), dtype=bool))
@@ -345,7 +353,8 @@ class TestMajorityVoteAggregation:
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
 
         aggregator = MajorityVoteAggregation(mask_threshold=0.5)
-        combined_template, weights = aggregator.run([template1, template2])
+        weighted_template = aggregator.run([template1, template2])
+        combined_template = weighted_template.as_iris_template()
 
         # All masks should be False due to mask_threshold
         np.testing.assert_array_equal(combined_template.mask_codes[0], np.zeros((2, 2, 2), dtype=bool))

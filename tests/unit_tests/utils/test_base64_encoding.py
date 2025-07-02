@@ -30,3 +30,22 @@ def test_base64_str_encode_decode(plain_str: str, base64_str: str) -> None:
     # Test that encoding and decoding convolve
     encoded_decoded_str = be.base64_decode_str(be.base64_encode_str(plain_str))
     assert encoded_decoded_str == plain_str
+
+
+@pytest.mark.parametrize(
+    "mock_shape,dtype",
+    [
+        ((3, 10, 100), np.float32),
+        ((100, 10, 3), np.float32),
+    ],
+)
+def test_base64_float_array_encode_decode(mock_shape, dtype):
+    mock_array = np.random.rand(*mock_shape).astype(dtype)
+
+    # Encode and decode
+    b64 = be.base64_encode_float_array(mock_array)
+    decoded = be.base64_decode_float_array(b64, mock_shape, dtype=dtype)
+
+    # Use allclose for floats
+    np.testing.assert_allclose(decoded, mock_array, rtol=1e-6, atol=1e-6)
+    assert decoded.dtype == mock_array.dtype
