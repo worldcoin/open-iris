@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.validators package" href="iris.nodes.validators.html" /><link rel="prev" title="iris.nodes.segmentation package" href="iris.nodes.segmentation.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes.templates_alignment package" href="iris.nodes.templates_alignment.html" /><link rel="prev" title="iris.nodes.segmentation package" href="iris.nodes.segmentation.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.nodes.templates_aggregation package - iris v1.7.0</title>
+        <title>iris.nodes.templates_aggregation package - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -241,6 +241,8 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4 current current-page"><a class="current reference internal" href="#">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -345,36 +347,34 @@ consensus of valid regions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates">
-<span class="sig-name descname"><span class="pre">combine_templates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.combine_templates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">combine_templates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate" title="iris.io.dataclasses.WeightedIrisTemplate"><span class="pre">WeightedIrisTemplate</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.combine_templates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.combine_templates" title="Link to this definition">¶</a></dt>
 <dd><p>Combine multiple iris templates from the same user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>templates</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><em>IrisTemplate</em></a><em>]</em>) – List of IrisTemplate objects from the same user</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Combined IrisTemplate
-weights (np.ndarray): Weight matrix reflecting bit reliability</p>
+<dd class="field-even"><p>Combined WeightedIrisTemplate</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate">IrisTemplate</a>)</p>
+<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate" title="iris.io.dataclasses.WeightedIrisTemplate">WeightedIrisTemplate</a>)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate" title="iris.io.dataclasses.WeightedIrisTemplate"><span class="pre">WeightedIrisTemplate</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/templates_aggregation/majority_vote.html#MajorityVoteAggregation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation.run" title="Link to this definition">¶</a></dt>
 <dd><p>Combine multiple iris templates from the same user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>templates</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><em>IrisTemplate</em></a><em>]</em>) – List of IrisTemplate objects from the same user</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Combined IrisTemplate
-weights (np.ndarray): Weight matrix reflecting bit reliability</p>
+<dd class="field-even"><p>Combined WeightedIrisTemplate</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate">IrisTemplate</a>)</p>
+<dd class="field-odd"><p>combined_template (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate" title="iris.io.dataclasses.WeightedIrisTemplate">WeightedIrisTemplate</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -392,12 +392,12 @@ weights (np.ndarray): Weight matrix reflecting bit reliability</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="iris.nodes.validators.html">
+          <a class="next-page" href="iris.nodes.templates_alignment.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">iris.nodes.validators package</div>
+                <div class="title">iris.nodes.templates_alignment package</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -471,7 +471,7 @@ weights (np.ndarray): Weight matrix reflecting bit reliability</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

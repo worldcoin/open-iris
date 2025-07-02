@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.callbacks package" href="iris.callbacks.html" /><link rel="prev" title="iris" href="modules.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris package - iris v1.7.0</title>
+        <title>iris package - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -241,6 +241,8 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -351,6 +353,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="iris.io.html#module-iris.io.dataclasses">iris.io.dataclasses module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.deserialize"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.distances"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.distances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.get_distance"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.get_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.reference_template"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.reference_template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.reference_template_id"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.reference_template_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.serialize"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.AlignedTemplates.templates"><code class="docutils literal notranslate"><span class="pre">AlignedTemplates.templates</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox.deserialize"><code class="docutils literal notranslate"><span class="pre">BoundingBox.deserialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox.serialize"><code class="docutils literal notranslate"><span class="pre">BoundingBox.serialize()</span></code></a></li>
@@ -358,6 +370,16 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox.x_min"><code class="docutils literal notranslate"><span class="pre">BoundingBox.x_min</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox.y_max"><code class="docutils literal notranslate"><span class="pre">BoundingBox.y_max</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.BoundingBox.y_min"><code class="docutils literal notranslate"><span class="pre">BoundingBox.y_min</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.data"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.deserialize"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.get"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.nb_templates"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.nb_templates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.serialize"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.to_matrix"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.to_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.DistanceMatrix.to_numpy"><code class="docutils literal notranslate"><span class="pre">DistanceMatrix.to_numpy()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters"><code class="docutils literal notranslate"><span class="pre">EyeCenters</span></code></a><ul>
@@ -491,6 +513,18 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.Sharpness.serialize"><code class="docutils literal notranslate"><span class="pre">Sharpness.serialize()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.as_iris_template"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.as_iris_template()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.check_weights_shape_and_length"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.check_weights_shape_and_length()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.convert2old_format"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.convert2old_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.convert_to_new_format"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.convert_to_new_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.deserialize"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.from_iris_template"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.from_iris_template()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.serialize"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.weights"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.weights</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.weights_are_valid"><code class="docutils literal notranslate"><span class="pre">WeightedIrisTemplate.weights_are_valid()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="iris.io.html#module-iris.io.errors">iris.io.errors module</a><ul>
@@ -503,6 +537,7 @@
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.GeometryEstimationError"><code class="docutils literal notranslate"><span class="pre">GeometryEstimationError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.GeometryRefinementError"><code class="docutils literal notranslate"><span class="pre">GeometryRefinementError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.IRISPipelineError"><code class="docutils literal notranslate"><span class="pre">IRISPipelineError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.IdentityValidationError"><code class="docutils literal notranslate"><span class="pre">IdentityValidationError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.ImageFilterError"><code class="docutils literal notranslate"><span class="pre">ImageFilterError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.IsPupilInsideIrisValidatorError"><code class="docutils literal notranslate"><span class="pre">IsPupilInsideIrisValidatorError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.LandmarkEstimationError"><code class="docutils literal notranslate"><span class="pre">LandmarkEstimationError</span></code></a></li>
@@ -635,6 +670,18 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_aggregation.html#module-iris.nodes.templates_aggregation">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html#module-iris.nodes.templates_alignment.hamming_distance_based">iris.nodes.templates_alignment.hamming_distance_based module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html#module-iris.nodes.templates_alignment">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html#module-iris.nodes.templates_filter.single_identity_filter">iris.nodes.templates_filter.single_identity_filter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html#module-iris.nodes.templates_filter">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html#module-iris.nodes.validators.cross_object_validators">iris.nodes.validators.cross_object_validators module</a></li>
@@ -740,6 +787,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_from_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.run"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.iris_pipeline.IRISPipeline.update_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.update_config()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -764,8 +812,10 @@
 <li class="toctree-l2"><a class="reference internal" href="iris.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iris.utils.html#module-iris.utils.base64_encoding">iris.utils.base64_encoding module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_decode_array"><code class="docutils literal notranslate"><span class="pre">base64_decode_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_decode_float_array"><code class="docutils literal notranslate"><span class="pre">base64_decode_float_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_decode_str"><code class="docutils literal notranslate"><span class="pre">base64_decode_str()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_encode_array"><code class="docutils literal notranslate"><span class="pre">base64_encode_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_encode_float_array"><code class="docutils literal notranslate"><span class="pre">base64_encode_float_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.utils.html#iris.utils.base64_encoding.base64_encode_str"><code class="docutils literal notranslate"><span class="pre">base64_encode_str()</span></code></a></li>
 </ul>
 </li>
@@ -883,7 +933,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

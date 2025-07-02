@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.utils.base64_encoding - iris v1.7.0</title>
+        <title>iris.utils.base64_encoding - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -290,6 +292,43 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="base64_encode_float_array">
+<a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_float_array">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">base64_encode_float_array</span><span class="p">(</span><span class="n">array2encode</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a numpy float array to a base64-encoded bytes string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array2encode (np.ndarray): The float array to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bytes: The base64-encoded bytes string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">array2encode</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input array must be of float dtype&quot;</span><span class="p">)</span>
+    <span class="n">byte_data</span> <span class="o">=</span> <span class="n">array2encode</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>  <span class="c1"># or float64 if you need higher precision</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">byte_data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="base64_decode_float_array">
+<a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_float_array">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">base64_decode_float_array</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a base64-encoded bytes string to a numpy float array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bytes_array (str): The base64-encoded bytes string.</span>
+<span class="sd">        array_shape (Tuple[int, ...]): The shape to reshape the array to.</span>
+<span class="sd">        dtype: The dtype of the array (default: np.float32).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: The float array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">decoded_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">decoded_bytes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array_shape</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="base64_encode_array">
@@ -390,7 +429,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../../../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

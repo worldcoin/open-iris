@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.io.dataclasses - iris v1.7.0</title>
+        <title>iris.io.dataclasses - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -297,7 +299,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.callbacks.pipeline_trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineCallTraceStorage</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">validators</span> <span class="k">as</span> <span class="n">v</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.class_configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImmutableModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.base64_encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base64_decode_array</span><span class="p">,</span> <span class="n">base64_encode_array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.base64_encoding</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">base64_decode_array</span><span class="p">,</span>
+    <span class="n">base64_decode_float_array</span><span class="p">,</span>
+    <span class="n">base64_encode_array</span><span class="p">,</span>
+    <span class="n">base64_encode_float_array</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">estimate_diameter</span>
 
 
@@ -1137,6 +1144,155 @@
 
 
 
+<div class="viewcode-block" id="WeightedIrisTemplate">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WeightedIrisTemplate</span><span class="p">(</span><span class="n">IrisTemplate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extends IrisTemplate to include per-bit reliability weights.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">weights</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of weight matrices per wavelet, shape matches iris_codes.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WeightedIrisTemplate.as_iris_template">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.as_iris_template">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_iris_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a WeightedIrisTemplate to an IrisTemplate.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            IrisTemplate: IrisTemplate object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IrisTemplate</span><span class="p">(</span>
+            <span class="n">iris_codes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">,</span>
+            <span class="n">mask_codes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">,</span>
+            <span class="n">iris_code_version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_code_version</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.from_iris_template">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.from_iris_template">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_iris_template</span><span class="p">(</span><span class="n">iris_template</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">WeightedIrisTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a WeightedIrisTemplate from an IrisTemplate and a list of weights.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            iris_template (IrisTemplate): IrisTemplate to convert.</span>
+<span class="sd">            weights (List[np.ndarray]): List of weight matrices per wavelet, shape matches iris_codes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WeightedIrisTemplate: WeightedIrisTemplate object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">WeightedIrisTemplate</span><span class="p">(</span>
+            <span class="n">iris_codes</span><span class="o">=</span><span class="n">iris_template</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">,</span>
+            <span class="n">mask_codes</span><span class="o">=</span><span class="n">iris_template</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+            <span class="n">iris_code_version</span><span class="o">=</span><span class="n">iris_template</span><span class="o">.</span><span class="n">iris_code_version</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.check_weights_shape_and_length">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.check_weights_shape_and_length">[docs]</a>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_weights_shape_and_length</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">iris_codes</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iris_codes&quot;</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iris_codes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iris_codes and weights must both be provided&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_codes</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weights and iris_codes must have same length. Got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_codes</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">iris_codes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape mismatch at wavelet </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">: weight shape </span><span class="si">{</span><span class="n">w</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, code shape </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">w</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All weights must be &gt;= 0 (found negative at wavelet </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.weights_are_valid">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.weights_are_valid">[docs]</a>
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weights_are_valid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weight must be float array, got </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize WeightedIrisTemplate object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, bytes]: Serialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">old_format_iris_codes</span><span class="p">,</span> <span class="n">old_format_mask_codes</span><span class="p">,</span> <span class="n">old_format_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert2old_format</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;iris_codes&quot;</span><span class="p">:</span> <span class="n">base64_encode_array</span><span class="p">(</span><span class="n">old_format_iris_codes</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;mask_codes&quot;</span><span class="p">:</span> <span class="n">base64_encode_array</span><span class="p">(</span><span class="n">old_format_mask_codes</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;weights&quot;</span><span class="p">:</span> <span class="n">base64_encode_float_array</span><span class="p">(</span><span class="n">old_format_weights</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;iris_code_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iris_code_version</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span>
+        <span class="n">serialized_template</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightedIrisTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize a dict with iris_codes, mask_codes and iris_code_version into an IrisTemplate object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            serialized_template (dict[str, Union[np.ndarray, str]]): Serialized object to dict.</span>
+<span class="sd">            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WeightedIrisTemplate: Serialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">WeightedIrisTemplate</span><span class="o">.</span><span class="n">convert_to_new_format</span><span class="p">(</span>
+            <span class="n">iris_codes</span><span class="o">=</span><span class="n">base64_decode_array</span><span class="p">(</span><span class="n">serialized_template</span><span class="p">[</span><span class="s2">&quot;iris_codes&quot;</span><span class="p">],</span> <span class="n">array_shape</span><span class="o">=</span><span class="n">array_shape</span><span class="p">),</span>
+            <span class="n">mask_codes</span><span class="o">=</span><span class="n">base64_decode_array</span><span class="p">(</span><span class="n">serialized_template</span><span class="p">[</span><span class="s2">&quot;mask_codes&quot;</span><span class="p">],</span> <span class="n">array_shape</span><span class="o">=</span><span class="n">array_shape</span><span class="p">),</span>
+            <span class="n">weights</span><span class="o">=</span><span class="n">base64_decode_float_array</span><span class="p">(</span><span class="n">serialized_template</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span> <span class="n">array_shape</span><span class="o">=</span><span class="n">array_shape</span><span class="p">),</span>
+            <span class="n">iris_code_version</span><span class="o">=</span><span class="n">serialized_template</span><span class="p">[</span><span class="s2">&quot;iris_code_version&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.convert2old_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.convert2old_format">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert2old_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an old tempalte format and the associated iris code version into an IrisTemplate object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[np.ndarray, np.ndarray, np.ndarray]: Old engines pipeline object Tuple with (iris_codes, mask_codes, weights).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">IrisTemplate</span><span class="o">.</span><span class="n">new_to_old_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">),</span>
+            <span class="n">IrisTemplate</span><span class="o">.</span><span class="n">new_to_old_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">),</span>
+            <span class="n">IrisTemplate</span><span class="o">.</span><span class="n">new_to_old_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WeightedIrisTemplate.convert_to_new_format">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.WeightedIrisTemplate.convert_to_new_format">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_to_new_format</span><span class="p">(</span>
+        <span class="n">iris_codes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mask_codes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_code_version</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightedIrisTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an old template format and the associated iris code version into an IrisTemplate object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            WeightedIrisTemplate: Serialized object in new format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">WeightedIrisTemplate</span><span class="p">(</span>
+            <span class="n">iris_codes</span><span class="o">=</span><span class="n">IrisTemplate</span><span class="o">.</span><span class="n">old_to_new_format</span><span class="p">(</span><span class="n">iris_codes</span><span class="p">),</span>
+            <span class="n">mask_codes</span><span class="o">=</span><span class="n">IrisTemplate</span><span class="o">.</span><span class="n">old_to_new_format</span><span class="p">(</span><span class="n">mask_codes</span><span class="p">),</span>
+            <span class="n">weights</span><span class="o">=</span><span class="n">IrisTemplate</span><span class="o">.</span><span class="n">old_to_new_format</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span>
+            <span class="n">iris_code_version</span><span class="o">=</span><span class="n">iris_code_version</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="EyeOcclusion">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.EyeOcclusion">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EyeOcclusion</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
@@ -1188,6 +1344,247 @@
     <span class="n">extractor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">PipelineCallTraceStorage</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
     <span class="n">safe_serialize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+
+
+<div class="viewcode-block" id="DistanceMatrix">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DistanceMatrix</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for a distance matrix.&quot;&quot;&quot;</span>
+
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DistanceMatrix.get">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the distance between two templates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            i (int): Index of the first template.</span>
+<span class="sd">            j (int): Index of the second template.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Distance between the two templates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="DistanceMatrix.to_numpy">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix.to_numpy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the distance matrix to a numpy array.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Distance matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_templates</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">mat</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># symmetry</span>
+        <span class="k">return</span> <span class="n">mat</span></div>
+
+
+<div class="viewcode-block" id="DistanceMatrix.to_matrix">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix.to_matrix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the distances to a symmetric matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Distance matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of distances in the matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Number of distances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_templates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of unique template indices present in the matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Number of unique template indices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DistanceMatrix.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize DistanceMatrix object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[Tuple[int, int], float]: Serialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="DistanceMatrix.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.DistanceMatrix.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DistanceMatrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize DistanceMatrix object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DistanceMatrix: Deserialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">DistanceMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AlignedTemplates">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.AlignedTemplates">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlignedTemplates</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for aligned templates and Hamming distances between them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        aligned_templates (List[IrisTemplate]): List of aligned Iris templates.</span>
+<span class="sd">        distances (Dict[Tuple[int, int], float]): Dictionary of Hamming distances between Iris templates.</span>
+<span class="sd">        reference_template_id (int): Index of the reference template.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">templates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IrisTemplate</span><span class="p">]</span>
+    <span class="n">distances</span><span class="p">:</span> <span class="n">DistanceMatrix</span>
+    <span class="n">reference_template_id</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_distances_match_templates</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the number of distances corresponds to the number of aligned templates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            values (Dict[str, Any]): Dictionary containing the field values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: The validated values.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the number of distances doesn&#39;t match the number of templates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">templates</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates&quot;</span><span class="p">)</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;distances&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">distances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nb_templates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
+            <span class="n">nb_distances</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">nb_templates</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">nb_distances</span> <span class="o">!=</span> <span class="n">nb_templates</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">nb_templates</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Number of templates (</span><span class="si">{</span><span class="n">nb_templates</span><span class="si">}</span><span class="s2">) does not match number of distances (</span><span class="si">{</span><span class="n">nb_distances</span><span class="si">}</span><span class="s2">). &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">nb_templates</span><span class="si">}</span><span class="s2"> templates but found </span><span class="si">{</span><span class="n">nb_distances</span><span class="si">}</span><span class="s2"> in distance matrix.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">values</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_reference_template_id_valid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the reference_template_id is within the valid range of aligned templates indices.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            values (Dict[str, Any]): Dictionary containing the field values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: The validated values.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the reference_template_id is out of range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">templates</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates&quot;</span><span class="p">)</span>
+        <span class="n">reference_template_id</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reference_template_id&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">reference_template_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nb_templates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">reference_template_id</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;reference_template_id (</span><span class="si">{</span><span class="n">reference_template_id</span><span class="si">}</span><span class="s2">) cannot be negative. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Must be between 0 and </span><span class="si">{</span><span class="n">nb_templates</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">reference_template_id</span> <span class="o">&gt;=</span> <span class="n">nb_templates</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;reference_template_id (</span><span class="si">{</span><span class="n">reference_template_id</span><span class="si">}</span><span class="s2">) is out of range. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Must be between 0 and </span><span class="si">{</span><span class="n">nb_templates</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">nb_templates</span><span class="si">}</span><span class="s2"> templates.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">values</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reference_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the reference template.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            IrisTemplate: Reference template.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">templates</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_template_id</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AlignedTemplates.get_distance">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.AlignedTemplates.get_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the distance between two templates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            i (int): Index of the first template.</span>
+<span class="sd">            j (int): Index of the second template.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Distance between the two templates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of aligned templates.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Number of aligned templates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">templates</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AlignedTemplates.serialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.AlignedTemplates.serialize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize AlignedTemplates object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Serialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;templates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">templates</span><span class="p">],</span>
+            <span class="s2">&quot;distances&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span>
+            <span class="s2">&quot;reference_template_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_template_id</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="AlignedTemplates.deserialize">
+<a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.dataclasses.AlignedTemplates.deserialize">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">AlignedTemplates</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deserialize AlignedTemplates object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (Dict[str, Any]): Serialized object to dict.</span>
+<span class="sd">            array_shape (Tuple[int, int, int, int], optional): Shape of the iris code. Defaults to (16, 256, 2, 2).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AlignedTemplates: Deserialized object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AlignedTemplates</span><span class="p">(</span>
+            <span class="n">templates</span><span class="o">=</span><span class="p">[</span><span class="n">IrisTemplate</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;templates&quot;</span><span class="p">]],</span>
+            <span class="n">distances</span><span class="o">=</span><span class="n">DistanceMatrix</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;distances&quot;</span><span class="p">]),</span>
+            <span class="n">reference_template_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;reference_template_id&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -1220,7 +1617,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../../../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
