@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="iris.pipelines package" href="iris.pipelines.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.utils package - iris v1.7.0</title>
+        <title>iris.utils package - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -241,6 +241,8 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -320,6 +322,27 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.base64_encoding.base64_decode_float_array">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.base64_encoding.</span></span><span class="sig-name descname"><span class="pre">base64_decode_float_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">bytes_array:</span> <span class="pre">str,</span> <span class="pre">array_shape:</span> <span class="pre">~typing.Tuple[int,</span> <span class="pre">...],</span> <span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/iris/utils/base64_encoding.html#base64_decode_float_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.base64_encoding.base64_decode_float_array" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a base64-encoded bytes string to a numpy float array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bytes_array</strong> (<em>str</em>) – The base64-encoded bytes string.</p></li>
+<li><p><strong>array_shape</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>...</em><em>]</em>) – The shape to reshape the array to.</p></li>
+<li><p><strong>dtype</strong> – The dtype of the array (default: np.float32).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The float array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="iris.utils.base64_encoding.base64_decode_str">
 <span class="sig-prename descclassname"><span class="pre">iris.utils.base64_encoding.</span></span><span class="sig-name descname"><span class="pre">base64_decode_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base64_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/iris/utils/base64_encoding.html#base64_decode_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.base64_encoding.base64_decode_str" title="Link to this definition">¶</a></dt>
 <dd><p>Convert base64-encoded string to decoded string. Both input and output are string, but base64 encoded vs non-encoded.</p>
@@ -346,6 +369,23 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The packed base64 string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.utils.base64_encoding.base64_encode_float_array">
+<span class="sig-prename descclassname"><span class="pre">iris.utils.base64_encoding.</span></span><span class="sig-name descname"><span class="pre">base64_encode_float_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array2encode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../_modules/iris/utils/base64_encoding.html#base64_encode_float_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.base64_encoding.base64_encode_float_array" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a numpy float array to a base64-encoded bytes string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>array2encode</strong> (<em>np.ndarray</em>) – The float array to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The base64-encoded bytes string.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bytes</p>
@@ -934,8 +974,10 @@ and the pupil and iris centers.</p>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-iris.utils.base64_encoding">iris.utils.base64_encoding module</a><ul>
 <li><a class="reference internal" href="#iris.utils.base64_encoding.base64_decode_array"><code class="docutils literal notranslate"><span class="pre">base64_decode_array()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.base64_encoding.base64_decode_float_array"><code class="docutils literal notranslate"><span class="pre">base64_decode_float_array()</span></code></a></li>
 <li><a class="reference internal" href="#iris.utils.base64_encoding.base64_decode_str"><code class="docutils literal notranslate"><span class="pre">base64_decode_str()</span></code></a></li>
 <li><a class="reference internal" href="#iris.utils.base64_encoding.base64_encode_array"><code class="docutils literal notranslate"><span class="pre">base64_encode_array()</span></code></a></li>
+<li><a class="reference internal" href="#iris.utils.base64_encoding.base64_encode_float_array"><code class="docutils literal notranslate"><span class="pre">base64_encode_float_array()</span></code></a></li>
 <li><a class="reference internal" href="#iris.utils.base64_encoding.base64_encode_str"><code class="docutils literal notranslate"><span class="pre">base64_encode_str()</span></code></a></li>
 </ul>
 </li>
@@ -985,7 +1027,7 @@ and the pupil and iris centers.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

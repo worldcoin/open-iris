@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.io.validators - iris v1.7.0</title>
+        <title>iris.io.validators - iris v1.8.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.7.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.8.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.7.0</span>
+  <span class="sidebar-brand-text">iris v1.8.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,6 +240,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.normalization.html">iris.nodes.normalization package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.segmentation.html">iris.nodes.segmentation package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_aggregation.html">iris.nodes.templates_aggregation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_alignment.html">iris.nodes.templates_alignment package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.templates_filter.html">iris.nodes.templates_filter package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.validators.html">iris.nodes.validators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_code_subpages/iris.nodes.vectorization.html">iris.nodes.vectorization package</a></li>
 </ul>
@@ -540,6 +542,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if len(field1) equals len(field2).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> length mismatch, &quot;</span>
@@ -567,6 +572,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if field1.shape equals field2.shape.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span>
+
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> shape mismatch.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
@@ -593,6 +601,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if len(field1) equals len(field2) and if every element have the same shape.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span>
+
         <span class="n">shapes_field_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">]]</span>
         <span class="n">shapes_field_2</span> <span class="o">=</span> <span class="p">[</span><span class="n">element</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">]]</span>
 
@@ -637,7 +648,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+</div><script src="../../../_static/documentation_options.js?v=b51e6972"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
