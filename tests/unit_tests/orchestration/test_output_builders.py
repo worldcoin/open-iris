@@ -234,10 +234,9 @@ class TestBuildAggregationMultiframeOrbOutput:
 
     def test_with_missing_keys(self, mock_call_trace_with_missing_keys):
         result = build_aggregation_multiframe_orb_output(mock_call_trace_with_missing_keys)
-        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         assert result["iris_template"] is None
-        assert result["weights"] is None
         metadata = result["metadata"]
         assert metadata["input_templates_count"] is None
         assert metadata["aligned_templates"]["reference_template_id"] is None
@@ -246,11 +245,10 @@ class TestBuildAggregationMultiframeOrbOutput:
 
     def test_with_aggregation(self, mock_call_trace_with_aggregation):
         result = build_aggregation_multiframe_orb_output(mock_call_trace_with_aggregation)
-        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         # Should be safely serialized (dict)
         assert isinstance(result["iris_template"], dict)
-        assert isinstance(result["weights"], list)
         metadata = result["metadata"]
         assert metadata["input_templates_count"] == 1
         assert metadata["aligned_templates"]["reference_template_id"] is None
@@ -259,10 +257,9 @@ class TestBuildAggregationMultiframeOrbOutput:
 
     def test_with_alignment_and_identity_filter(self, mock_call_trace_with_alignment_and_identity_filter):
         result = build_aggregation_multiframe_orb_output(mock_call_trace_with_alignment_and_identity_filter)
-        assert set(result.keys()) == {"error", "iris_template", "weights", "metadata"}
+        assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         assert isinstance(result["iris_template"], dict)
-        assert isinstance(result["weights"], list)
         metadata = result["metadata"]
         assert metadata["input_templates_count"] == 1
         assert metadata["aligned_templates"]["reference_template_id"] == 0

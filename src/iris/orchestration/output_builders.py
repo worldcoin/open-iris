@@ -193,13 +193,6 @@ MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
         else None,
         safe_serialize=True,
     ),
-    OutputFieldSpec(
-        key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation").weights
-        if ct.get("templates_aggregation") is not None
-        else None,
-        safe_serialize=True,
-    ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
 ]
 
@@ -208,13 +201,6 @@ MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(
         key="iris_template",
         extractor=lambda ct: ct.get("templates_aggregation").as_iris_template()
-        if ct.get("templates_aggregation") is not None
-        else None,
-        safe_serialize=False,
-    ),
-    OutputFieldSpec(
-        key="weights",
-        extractor=lambda ct: ct.get("templates_aggregation").weights
         if ct.get("templates_aggregation") is not None
         else None,
         safe_serialize=False,
