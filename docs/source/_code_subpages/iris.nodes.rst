@@ -18,6 +18,9 @@ Subpackages
    iris.nodes.matcher
    iris.nodes.normalization
    iris.nodes.segmentation
+   iris.nodes.templates_aggregation
+   iris.nodes.templates_alignment
+   iris.nodes.templates_filter
    iris.nodes.validators
    iris.nodes.vectorization
 
