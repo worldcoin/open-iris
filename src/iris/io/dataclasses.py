@@ -711,6 +711,18 @@ class WeightedIrisTemplate(IrisTemplate):
 
     weights: List[np.ndarray] = Field(..., description="List of weight matrices per wavelet, shape matches iris_codes.")
 
+    def as_iris_template(self) -> IrisTemplate:
+        """Convert a WeightedIrisTemplate to an IrisTemplate.
+
+        Returns:
+            IrisTemplate: IrisTemplate object.
+        """
+        return IrisTemplate(
+            iris_codes=self.iris_codes,
+            mask_codes=self.mask_codes,
+            iris_code_version=self.iris_code_version,
+        )
+
     @staticmethod
     def from_iris_template(iris_template: IrisTemplate, weights: List[np.ndarray]) -> WeightedIrisTemplate:
         """Create a WeightedIrisTemplate from an IrisTemplate and a list of weights.

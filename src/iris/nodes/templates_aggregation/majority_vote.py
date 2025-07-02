@@ -93,8 +93,8 @@ class MajorityVoteAggregation(Algorithm):
 
         if len(templates) == 1:
             # If only one template, return it with uniform weights
-            weights = [np.ones_like(code) for code in templates[0].iris_codes]
-            return templates[0], weights
+            weights = [np.ones_like(code).astype(np.float32) for code in templates[0].iris_codes]
+            return WeightedIrisTemplate.from_iris_template(templates[0], weights)
 
         # Get the number of wavelets (filter responses)
         num_wavelets = len(templates[0].iris_codes)
