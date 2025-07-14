@@ -72,10 +72,10 @@ def count_nonmatchbits(
 
     if half_width:
         totalirisbitcount = np.sum(
-            [[np.sum(x[hw:, ...]), np.sum(x[:hw, ...])] for x, hw in zip(irisbitcount, half_width)], axis=0
+            [[np.sum(x[hw:, ...])*2, np.sum(x[:hw, ...])*2] for x, hw in zip(irisbitcount, half_width)], axis=0
         )
         totalmaskbitcount = np.sum(
-            [[np.sum(y[hw:, ...]), np.sum(y[:hw, ...])] for y, hw in zip(maskbitcount, half_width)], axis=0
+            [[np.sum(y[hw:, ...])*2, np.sum(y[:hw, ...])*2] for y, hw in zip(maskbitcount, half_width)], axis=0
         )
     else:
         totalirisbitcount = np.sum(irisbitcount)
