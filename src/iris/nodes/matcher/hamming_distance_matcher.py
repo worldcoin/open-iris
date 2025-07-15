@@ -18,7 +18,7 @@ class HammingDistanceMatcher(Matcher):
        4) If parameters norm_mean and weights are both defined, calculate weighted normalized Hamming distance (WNHD) based on IB_Counts, MB_Counts, norm_mean and weights.
        5) Otherwise, calculate Hamming distance (HD) based on IB_Counts and MB_Counts.
        6) If parameter rotation_shift is > 0, repeat the above steps for additional rotations of the iriscode.
-       7) Return the minimium distance from above calculations.
+       7) Return the minimum distance from above calculations.
     """
 
     class Parameters(Matcher.Parameters):
@@ -29,6 +29,7 @@ class HammingDistanceMatcher(Matcher):
         norm_mean: confloat(ge=0, le=1, strict=True)
         norm_gradient: float
         separate_half_matching: bool
+        weights_path: Optional[str]
         weights: Optional[List[np.ndarray]]
 
     __parameters_type__ = Parameters
@@ -40,6 +41,7 @@ class HammingDistanceMatcher(Matcher):
         norm_mean: confloat(ge=0, le=1, strict=True) = 0.45,
         norm_gradient: float = 0.00005,
         separate_half_matching: bool = True,
+        weights_path: Optional[str] = None,
         weights: Optional[List[np.ndarray]] = None,
     ) -> None:
         """Assign parameters.
@@ -47,17 +49,21 @@ class HammingDistanceMatcher(Matcher):
         Args:
             rotation_shift (Optional[conint(ge=0, strict=True)], optional): Rotation shifts allowed in matching (in columns). Defaults to 15.
             normalise (bool, optional): Flag to normalize HD. Defaults to True.
-            norm_mean (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.
+            norm_mean (Optional[confloat(ge=0, le = 1, strict=True)], optional): Nonmatch distance used for normalized HD. Optional parameter for normalized HD. Defaults to 0.45.
             norm_gradient: float, optional): Gradient for linear approximation of normalization term. Defaults to 0.00005.
             separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to True.
-            weights (Optional[List[np.ndarray]], optional): list of weights table. Optional paremeter for weighted HD. Defaults to None.
+            weights_path (Optional[str], optional): Path to the weights table. Optional parameter for weighted HD. Defaults to None.
+            weights (Optional[List[np.ndarray]], optional): list of weights table. Optional parameter for weighted HD. Defaults to None.
         """
+        if weights_path is not None:
+            weights = self.load_weights(weights_path)
         super().__init__(
             rotation_shift=rotation_shift,
             normalise=normalise,
             norm_mean=norm_mean,
             norm_gradient=norm_gradient,
             separate_half_matching=separate_half_matching,
+            weights_path=weights_path,
             weights=weights,
         )
 
