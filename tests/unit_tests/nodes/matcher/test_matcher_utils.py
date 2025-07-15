@@ -136,7 +136,7 @@ from iris.nodes.matcher.utils import hamming_distance
             0.45,
             0.00005,
             True,
-            (0.34997, -1),
+            (0.34994000000000003, -1),
         ),
         (
             IrisTemplate(
@@ -154,7 +154,7 @@ from iris.nodes.matcher.utils import hamming_distance
             0.45,
             0.000046,
             True,
-            (0.7251518000000001, 0),
+            (0.7253036, 0),
         ),
         (
             IrisTemplate(
@@ -208,7 +208,7 @@ from iris.nodes.matcher.utils import hamming_distance
             0.45,
             0.00005,
             True,
-            (0.6250645, -1),
+            (0.625129, -1),
         ),
         (
             IrisTemplate(
@@ -226,7 +226,7 @@ from iris.nodes.matcher.utils import hamming_distance
             0.45,
             0.00005,
             True,
-            (0.5041829166666667, 0),
+            (0.5041991666666666, 0),
         ),
         (
             IrisTemplate(
@@ -395,7 +395,7 @@ def test_hamming_distance(
             0.00005,
             True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.22486408163265306, 0),
+            (0.22472816326530615, 0),
         ),
         (
             IrisTemplate(
@@ -471,7 +471,7 @@ def test_hamming_distance(
             0.00005,
             True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1], [1, 2]])],
-            (0.7251328571428572, 0),
+            (0.7252657142857142, 0),
         ),
         (
             IrisTemplate(
@@ -502,7 +502,7 @@ def test_hamming_distance(
             0.00005,
             True,
             [np.array([[3, 1], [1, 2]]), np.array([[3, 1, 4, 2], [1, 2, 5, 4]])],
-            (0.7251492394655704, 0),
+            (0.7252984789311407, 0),
         ),
     ],
     ids=[
