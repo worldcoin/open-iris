@@ -22,11 +22,11 @@ def load_mock_pickle(name: str) -> Any:
     [
         pytest.param(10, False, 0.45, 0.00005, True, None, 0.0),
         pytest.param(15, False, 0.45, 0.00005, False, None, 0.0),
-        pytest.param(10, True, 0.45, 0.00005, True, None, 0.0347),
+        pytest.param(10, True, 0.45, 0.00005, True, None, 0.0026),
         pytest.param(15, True, 0.45, 0.00005, False, None, 0),
         pytest.param(10, False, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
         pytest.param(15, False, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
-        pytest.param(10, True, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0347),
+        pytest.param(10, True, 0.45, 0.00005, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0026),
         pytest.param(15, True, 0.45, 0.00005, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
         pytest.param(10, True, 0.45, 0.001, True, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
         pytest.param(15, True, 0.45, 0.00008, False, [np.ones([16, 256, 2]), np.ones([16, 256, 2])], 0.0),
