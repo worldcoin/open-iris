@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.nodes.matcher.utils - iris v1.8.0</title>
+        <title>iris.nodes.matcher.utils - iris v1.8.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.8.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.8.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">iris v1.8.0</span>
+  <span class="sidebar-brand-text">iris v1.8.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -320,7 +320,7 @@
 <div class="viewcode-block" id="get_bitcounts">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.utils.get_bitcounts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_bitcounts</span><span class="p">(</span><span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get bitcounts in iris and mask codes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get bit counts in iris and mask codes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        template_probe (IrisTemplate): Iris template from probe.</span>
@@ -328,7 +328,7 @@
 <span class="sd">        shift (int): Rotation shift (in columns)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: Bitcounts in iris and mask codes.</span>
+<span class="sd">        np.ndarray: Bit counts in iris and mask codes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">irisbits</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">probe_code</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">gallery_code</span>
@@ -350,13 +350,13 @@
     <span class="n">half_width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Count nonmatch bits for Hammming distance.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Count nonmatch bits for Hamming distance.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        irisbits (np.ndarray): Nonmatch irisbits.</span>
 <span class="sd">        maskbits (np.ndarray): Common maskbits.</span>
-<span class="sd">        half_width (Optional[np.ndarray] = None): List of half of code width. Optional paremeter for scoring the upper and lower halves separately. Defaults to None.</span>
-<span class="sd">        weights (Optional[np.ndarray] = None): List of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
+<span class="sd">        half_width (Optional[np.ndarray] = None): List of half of code width. Optional parameter for scoring the upper and lower halves separately. Defaults to None.</span>
+<span class="sd">        weights (Optional[np.ndarray] = None): List of weights table. Optional parameter for weighted HD. Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[int, int]: Total nonmatch iriscode bit count and common maskcode bit count, could be a list for top and bottom iris separately.</span>
@@ -370,10 +370,10 @@
 
     <span class="k">if</span> <span class="n">half_width</span><span class="p">:</span>
         <span class="n">totalirisbitcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">hw</span><span class="p">:,</span> <span class="o">...</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">hw</span><span class="p">,</span> <span class="o">...</span><span class="p">])]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">hw</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">,</span> <span class="n">half_width</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">hw</span><span class="p">:,</span> <span class="o">...</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">hw</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">hw</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">,</span> <span class="n">half_width</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
         <span class="n">totalmaskbitcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">hw</span><span class="p">:,</span> <span class="o">...</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[:</span><span class="n">hw</span><span class="p">,</span> <span class="o">...</span><span class="p">])]</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">hw</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">maskbitcount</span><span class="p">,</span> <span class="n">half_width</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">hw</span><span class="p">:,</span> <span class="o">...</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[:</span><span class="n">hw</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">hw</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">maskbitcount</span><span class="p">,</span> <span class="n">half_width</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">totalirisbitcount</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">irisbitcount</span><span class="p">)</span>
@@ -404,7 +404,7 @@
 <span class="sd">        norm_gradient (float): Gradient for linear approximation of normalization term. Defaults to 0.00005.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[float, int]: Miminum Hamming distance and corresonding rotation shift.</span>
+<span class="sd">        Tuple[float, int]: Minimum Hamming distance and corresponding rotation shift.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">probe_code</span><span class="p">,</span> <span class="n">gallery_code</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">template_probe</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">,</span> <span class="n">template_gallery</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">probe_code</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">gallery_code</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
@@ -438,7 +438,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">hamming_distance</span><span class="p">(</span>
     <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
     <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span>
-    <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">rotation_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
     <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">norm_mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
     <span class="n">norm_gradient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.00005</span><span class="p">,</span>
@@ -450,18 +450,18 @@
 <span class="sd">    Args:</span>
 <span class="sd">        template_probe (IrisTemplate): Iris template from probe.</span>
 <span class="sd">        template_gallery (IrisTemplate): Iris template from gallery.</span>
-<span class="sd">        rotation_shift (int): Rotation allowed in matching, converted to columns.</span>
+<span class="sd">        rotation_shift (int): Rotation allowed in matching, converted to columns. Defaults to 15.</span>
 <span class="sd">        normalise (bool, optional): Flag to normalize HD. Defaults to False.</span>
 <span class="sd">        norm_mean (float, optional): Nonmatch mean distance for normalized HD. Defaults to 0.45.</span>
 <span class="sd">        norm_gradient (float): Gradient for linear approximation of normalization term. Defaults to 0.00005.</span>
 <span class="sd">        separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to False.</span>
-<span class="sd">        weights (Optional[List[np.ndarray]], optional): List of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
+<span class="sd">        weights (Optional[List[np.ndarray]], optional): List of weights table. Optional parameter for weighted HD. Defaults to None.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        MatcherError: If probe and gallery iris codes are of different sizes or number of columns of iris codes is not even or If weights (when defined) and iris codes are of different sizes.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[float, int]: Miminum Hamming distance and corresonding rotation shift.</span>
+<span class="sd">        Tuple[float, int]: Minimum Hamming distance and corresponding rotation shift.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">half_codewidth</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -550,7 +550,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=b51e6972"></script>
+</div><script src="../../../../_static/documentation_options.js?v=269e6701"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
