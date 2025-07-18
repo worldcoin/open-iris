@@ -148,6 +148,12 @@ class TemplateAggregationCompatibilityError(Exception):
     pass
 
 
+class MultiframeAggregationPipelineError(Exception):
+    """MultiframeAggregationPipeline module Error class."""
+
+    pass
+
+
 class IdentityValidationError(Exception):
     """Identity validation Error class."""
 
