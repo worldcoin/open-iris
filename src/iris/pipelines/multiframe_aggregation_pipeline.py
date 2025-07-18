@@ -52,7 +52,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
-        subconfig_key: str = "templates_aggregation",
+        subconfig_key: Optional[str] = "templates_aggregation",
     ) -> None:
         """
         Initialize MultiframeAggregationPipeline with config and environment.
@@ -61,7 +61,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             env (Environment): Pipeline environment.
             subconfig_key (str): The key to extract from the config dict. If provided, the config will be loaded from the subconfig key. Empty string means no subconfig is provided and the entire config is loaded.
         """
-        deserialized_config = self.load_config(config, subconfig_key)
+        deserialized_config = self.load_config(config, keyword=subconfig_key)
         super().__init__(deserialized_config, env)
 
     def run(self, templates: List[IrisTemplate], *args: Any, **kwargs: Any) -> Any:
@@ -92,7 +92,7 @@ class MultiframeAggregationPipeline(BasePipeline):
 
     @classmethod
     def load_config(
-        cls, config: Union[Dict[str, Any], Optional[str]], keyword: str = "templates_aggregation"
+        cls, config: Union[Dict[str, Any], Optional[str]], keyword: Optional[str] = "templates_aggregation"
     ) -> Dict[str, Any]:
         """
         Load and deserialize the pipeline configuration (for multiframe aggregation).
@@ -101,10 +101,10 @@ class MultiframeAggregationPipeline(BasePipeline):
             config: Either
                 • a dict already containing your pipeline sections, or
                 • a YAML string (or None) that will be loaded from disk.
-            keyword: If non‐empty, the top‐level key to extract from the final dict.
+            keyword: If None or empty string, the entire dict is returned. Otherwise, extracts the sub-dict at this key.
 
         Returns:
-            The sub-dict at `keyword` (or the entire dict if `keyword==""`).
+            The sub-dict at `keyword` (or the entire dict if `keyword` is None or empty).
 
         Raises:
             ValueError: if `keyword` is non-empty and not found in the config.
@@ -119,7 +119,7 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = load_yaml_config(config)
 
         # 2) If they asked for the whole dict, just return it
-        if not keyword:
+        if keyword is None or keyword == "":  # noqa
             return raw
 
         # 3) Otherwise, extract the sub‐key or raise once

@@ -126,7 +126,7 @@ class TestMultiframeAggregationPipeline:
             mock_load.return_value = {"metadata": {"pipeline_name": "default", "iris_version": "1.6.1"}, "pipeline": []}
 
             _ = MultiframeAggregationPipeline(config=None)
-            mock_load.assert_called_once_with(None, "templates_aggregation")
+            mock_load.assert_called_once_with(None, keyword="templates_aggregation")
 
     def test_init_with_string_config(self):
         """Test initialization with string configuration."""
@@ -144,7 +144,7 @@ class TestMultiframeAggregationPipeline:
             }
 
             _ = MultiframeAggregationPipeline(config=yaml_config)
-            mock_load.assert_called_once_with(yaml_config, "templates_aggregation")
+            mock_load.assert_called_once_with(yaml_config, keyword="templates_aggregation")
 
     def test_init_with_custom_subconfig_key(self, mock_config):
         """Test initialization with custom subconfig key."""
@@ -152,7 +152,7 @@ class TestMultiframeAggregationPipeline:
             mock_load.return_value = mock_config
 
             _ = MultiframeAggregationPipeline(config="test", subconfig_key="custom_key")
-            mock_load.assert_called_once_with("test", "custom_key")
+            mock_load.assert_called_once_with("test", keyword="custom_key")
 
     def test_run_with_templates(self, mock_config, mock_templates_list):
         """Test running the pipeline with templates."""

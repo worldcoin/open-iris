@@ -94,13 +94,7 @@ class TestMultiframeIrisPipeline:
         assert len(aggregation_pipeline_output["individual_frames"]) == 1
         assert isinstance(aggregation_pipeline_output["individual_frames"][0], dict)
         assert "error" in aggregation_pipeline_output["individual_frames"][0]
-        assert "iris_template" in aggregation_pipeline_output["individual_frames"][0]
         assert "metadata" in aggregation_pipeline_output["individual_frames"][0]
-
-        if env == MultiframeIrisPipeline.ORB_ENVIRONMENT:
-            assert isinstance(aggregation_pipeline_output["individual_frames"][0]["iris_template"], (dict))
-        else:
-            assert isinstance(aggregation_pipeline_output["individual_frames"][0]["iris_template"], IrisTemplate)
 
         # multiframe_aggregation_metadata should be a dict
         assert isinstance(aggregation_pipeline_output["multiframe_aggregation_metadata"], dict)

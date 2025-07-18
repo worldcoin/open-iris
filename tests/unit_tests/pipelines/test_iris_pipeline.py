@@ -974,29 +974,34 @@ def test_version_validation_behavior(input_version, expected_version, should_pas
     """Test version validation behavior with various version combinations."""
 
     class CustomPipeline(IRISPipeline):
-        PACKAGE_VERSION = expected_version
+        pass
+        # PACKAGE_VERSION = expected_version
 
-    config = {
-        "metadata": {
-            "pipeline_name": "custom_pipeline",
-            "iris_version": input_version,
-        },
-        "pipeline": [],
-    }
+    # monkey patch the version
+    with patch.object(CustomPipeline, "PACKAGE_VERSION", expected_version):
+        config = {
+            "metadata": {
+                "pipeline_name": "custom_pipeline",
+                "iris_version": input_version,
+            },
+            "pipeline": [],
+        }
 
-    if should_pass:
-        # Should create pipeline without error
-        try:
-            pipeline = CustomPipeline(config=config)
-            assert pipeline.params.metadata.iris_version == input_version
-        except IRISPipelineError:
-            pytest.fail(f"Expected version {input_version} to match {expected_version}")
-    else:
-        # Should raise version mismatch error
-        with pytest.raises(IRISPipelineError) as exc_info:
-            CustomPipeline(config=config)
+        if should_pass:
+            # Should create pipeline without error
+            try:
+                pipeline = CustomPipeline(config=config)
+                assert pipeline.params.metadata.iris_version == input_version
+            except IRISPipelineError:
+                pytest.fail(f"Expected version {input_version} to match {expected_version}")
+        else:
+            # Should raise version mismatch error
+            with pytest.raises(IRISPipelineError) as exc_info:
+                CustomPipeline(config=config)
 
-        error_message = str(exc_info.value)
-        assert "Wrong config version" in error_message
-        assert expected_version in error_message
-        assert input_version in error_message
+            error_message = str(exc_info.value)
+            assert "Wrong config version" in error_message
+            assert expected_version in error_message
+            assert input_version in error_message
+
+    # del CustomPipeline

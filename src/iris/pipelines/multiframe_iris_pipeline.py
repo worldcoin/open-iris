@@ -235,18 +235,34 @@ class MultiframeIrisPipeline:
                 - List of individual pipeline outputs for each image
         """
         iris_templates = []
-        individual_templates_output = []
+        individual_templates_output = []  # Collect individual template outputs
 
         for i, img in enumerate(imgs_data):
-            try:
-                template, iris_pipeline_output = self._process_single_image(img, eye_side, i)
-            except Exception as e:
-                self.call_trace.write("individual_frames", individual_templates_output + [iris_pipeline_output])
-                raise e
-            iris_templates.append(template)
+            iris_pipeline_output = self.iris_pipeline.run(img, eye_side)
             individual_templates_output.append(iris_pipeline_output)
 
+            # if there was an error - re-raise it and let the caller handle it
+            if iris_pipeline_output["error"] is not None:
+                # store the error in the call_trace for this frame
+                self.call_trace.write("individual_frames", individual_templates_output)
+                # re-raise the error
+                message = f"Error in IrisPipeline for frame {i}: see individual_frames for details"
+                raise IRISPipelineError(message)
+
+            template = iris_pipeline_output["iris_template"]
+            if isinstance(template, dict):
+                template = IrisTemplate.deserialize(template, self.iris_template_shape)
+            elif template is None:
+                pass  # TODO: handle this case
+            else:
+                # template is already a IrisTemplate object
+                pass
+
+            iris_templates.append(template)
+
+        # Write individual frames to call_trace
         self.call_trace.write("individual_frames", individual_templates_output)
+
         return iris_templates, individual_templates_output
 
     def _run_aggregation_pipeline(self, iris_templates: List[IrisTemplate]) -> Any:
@@ -269,32 +285,6 @@ class MultiframeIrisPipeline:
             raise MultiframeAggregationPipelineError(message)
 
         return aggregation_pipeline_output
-
-    def _process_single_image(
-        self, img: np.ndarray, eye_side: Literal["left", "right"], i: int
-    ) -> Tuple[IrisTemplate, Any]:
-        """Helper to process a single image, returns (template, output) or raises.
-
-        Args:
-            img (np.ndarray): The image to process.
-            eye_side (Literal["left", "right"]): The eye side of the image.
-            i (int): The index of the image.
-        Returns:
-            Tuple[IrisTemplate, Any]: The iris template and the iris pipeline output.
-        """
-        iris_pipeline_output = self.iris_pipeline.run(img, eye_side)
-        # Check for errors
-        if iris_pipeline_output["error"] is not None:
-            message = f"Error in IrisPipeline for frame {i}: {iris_pipeline_output['error']}"
-            raise IRISPipelineError(message)
-
-        template = iris_pipeline_output["iris_template"]
-        if isinstance(template, dict):
-            template = IrisTemplate.deserialize(template, self.iris_template_shape)
-        elif template is None:
-            # Option: Raise or skip or append None
-            raise IRISPipelineError(f"No iris template extracted for frame {i}")
-        return template, iris_pipeline_output
 
     def _handle_output(self, *args, **kwargs) -> Any:
         """
@@ -372,7 +362,7 @@ class MultiframeIrisPipeline:
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
-            subconfig_key="",
+            subconfig_key=None,
         )
 
         return iris_pipeline, multiframe_aggregation_pipeline

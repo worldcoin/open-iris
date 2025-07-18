@@ -289,7 +289,9 @@ MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_iris_pipeline_metadata, safe_serialize=False),
     OutputFieldSpec(
         key="individual_frames",
-        extractor=lambda ct: {k: v for k, v in ct.get("individual_frames", {}).items() if k != "iris_template"},
+        extractor=lambda ct: [
+            {k: v for k, v in frame.items() if k != "iris_template"} for frame in ct.get("individual_frames", [])
+        ],
         safe_serialize=True,
     ),
     OutputFieldSpec(
