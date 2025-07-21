@@ -1,0 +1,47 @@
+name: Build and Deploy Docs
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build-deploy-docs:
+    runs-on: ubuntu-latest
+    env:
+      IRIS_ENV: SERVER
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for pushing to gh-pages
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y make
+
+      - name: Install package and build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Build docs (Makefile)
+        run: make build-docs
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html  # <-- Update if your Makefile outputs somewhere else
+          publish_branch: gh-pages
+          force_orphan: true   # Creates a fresh branch tree each time
+
+          # Optionally add:
+          # cname: your.custom.domain
+          # enable_jekyll: false
