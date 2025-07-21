@@ -41,12 +41,25 @@ jobs:
       - name: Build docs (Makefile)
         run: make build-docs
 
+      - name: Debug - Check built docs content
+        run: |
+          echo "Contents of docs/build/html:"
+          ls -la docs/build/html/
+          echo "Hidden files in docs/build/html:"
+          find docs/build/html -name ".*" -type f
+
       - name: Preserve built docs
         run: |
           # Move built docs to a temporary location outside the repo
           mkdir -p /tmp/docs-build
-          cp -r docs/build/html/. /tmp/docs-build/
-          ls -la /tmp/docs-build/  # Debug: show what was copied
+          # Enable dotglob to include hidden files in globs
+          shopt -s dotglob
+          # Copy all files including hidden ones
+          cp -r docs/build/html/* /tmp/docs-build/
+          # Show what was actually copied (including hidden files)
+          ls -la /tmp/docs-build/
+          echo "Files starting with dot:"
+          find /tmp/docs-build -name ".*" -type f
 
       - name: Configure Git
         run: |
@@ -97,7 +110,9 @@ jobs:
           fi
 
           # Copy preserved documentation
-          cp -r /tmp/docs-build/. .
+          # Enable dotglob to include hidden files in globs
+          shopt -s dotglob
+          cp -r /tmp/docs-build/* .
 
           ls -la .  # Debug: show what was copied to current directory
 
