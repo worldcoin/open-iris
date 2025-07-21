@@ -1,4 +1,4 @@
-name: Test PyPI Publish
+name: PyPI Publish Wheels
 
 on:
   workflow_dispatch:
