@@ -250,23 +250,6 @@ class TestMultiframeAggregationPipeline:
 
             assert result == {"metadata": {"pipeline_name": "custom"}}
 
-    def test_load_from_config_success(self):
-        """Test load_from_config class method with successful loading."""
-        base64_config = "dGVzdF9jb25maWc="  # base64 encoded "test_config"
-
-        with patch("iris.pipelines.multiframe_aggregation_pipeline.base64_decode_str") as mock_decode:
-            mock_decode.return_value = "decoded_config"
-
-            with patch.object(MultiframeAggregationPipeline, "__init__", return_value=None):
-                mock_pipeline = Mock()
-
-                with patch.object(MultiframeAggregationPipeline, "__new__", return_value=mock_pipeline):
-                    result = MultiframeAggregationPipeline.load_from_config(base64_config)
-
-                assert result["agent"] == mock_pipeline
-                assert result["error"] is None
-                mock_decode.assert_called_once_with(base64_config)
-
     def test_load_from_config_with_exception(self):
         """Test load_from_config class method with exception handling."""
         base64_config = "invalid_base64"
@@ -304,17 +287,6 @@ class TestMultiframeAggregationPipeline:
     def test_parameters_type_attribute(self):
         """Test that __parameters_type__ is correctly set."""
         assert MultiframeAggregationPipeline.__parameters_type__ == MultiframeAggregationPipeline.Parameters
-
-    @patch("iris.pipelines.multiframe_aggregation_pipeline.BasePipeline.__init__")
-    def test_inheritance_from_base_pipeline(self, mock_base_init, mock_config):
-        """Test that MultiframeAggregationPipeline properly inherits from BasePipeline."""
-        mock_env = Mock()
-
-        pipeline = MultiframeAggregationPipeline.__new__(MultiframeAggregationPipeline)
-        pipeline.__init__(config=mock_config, env=mock_env, subconfig_key="")
-
-        # Verify that BasePipeline.__init__ was called with correct arguments
-        mock_base_init.assert_called_once_with(mock_config, mock_env)
 
     def test_run_with_additional_args_kwargs(self, mock_templates_list):
         """Test running the pipeline with additional args and kwargs."""

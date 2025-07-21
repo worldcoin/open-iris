@@ -150,6 +150,27 @@ def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) 
     }
 
 
+def __get_multiframe_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Produce multiframe iris pipeline metadata output from a call_trace.
+
+    Args:
+        call_trace (PipelineCallTraceStorage): Pipeline call trace.
+
+    Returns:
+        Dict[str, Any]: Metadata dictionary.
+    """
+    input_data = call_trace.get_input()
+    aggregation_result = call_trace.get("aggregation_result")
+
+    return {
+        "iris_version": __version__,
+        "input_images_count": len(input_data["imgs_data"]) if input_data and "imgs_data" in input_data else None,
+        "eye_side": input_data["eye_side"] if input_data and "eye_side" in input_data else None,
+        "aggregation_successful": aggregation_result is not None and aggregation_result.get("error") is None,
+        "is_aggregated": aggregation_result is not None,
+    }
+
+
 # =============================================================================
 # Specs for different output variants
 # =============================================================================
@@ -215,66 +236,6 @@ MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
 ]
 
-# =============================================================================
-# Builder functions leveraging the generic engine
-# =============================================================================
-
-
-def build_simple_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct simple ORB output: raw iris_template, error, and metadata."""
-    return _build_from_spec(call_trace, IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC)
-
-
-def build_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct ORB output with serialized iris_template."""
-    return _build_from_spec(call_trace, IRIS_PIPE_ORB_OUTPUT_SPEC)
-
-
-def build_simple_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct debugging output with intermediate results (raw values)."""
-    return _build_from_spec(call_trace, IRIS_PIPE_DEBUG_OUTPUT_SPEC)
-
-
-def build_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """
-    Construct full debugging output: wrap simple_debugging and ensure
-    the iris_template is also safely serialized.
-    """
-    output = build_simple_iris_pipeline_debugging_output(call_trace)
-    output["iris_template"] = __safe_serialize(output.get("iris_template"))
-    return output
-
-
-def build_aggregation_multiframe_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct multiframe aggregation ORB output with safe serialization."""
-    return _build_from_spec(call_trace, MULTIFRAME_AGG_ORB_OUTPUT_SPEC)
-
-
-def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct simple multiframe aggregation output (raw values)."""
-    return _build_from_spec(call_trace, MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC)
-
-
-def __get_multiframe_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Produce multiframe iris pipeline metadata output from a call_trace.
-
-    Args:
-        call_trace (PipelineCallTraceStorage): Pipeline call trace.
-
-    Returns:
-        Dict[str, Any]: Metadata dictionary.
-    """
-    input_data = call_trace.get_input()
-    aggregation_result = call_trace.get("aggregation_result")
-
-    return {
-        "iris_version": __version__,
-        "input_images_count": len(input_data["imgs_data"]) if input_data and "imgs_data" in input_data else None,
-        "eye_side": input_data["eye_side"] if input_data and "eye_side" in input_data else None,
-        "aggregation_successful": aggregation_result is not None and aggregation_result.get("error") is None,
-        "is_aggregated": aggregation_result is not None,
-    }
-
 
 # Multiframe iris pipeline output specs
 MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC = [
@@ -325,6 +286,46 @@ MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC = [
         safe_serialize=False,
     ),
 ]
+
+
+# =============================================================================
+# Builder functions leveraging the generic engine
+# =============================================================================
+
+
+def build_simple_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct simple ORB output: raw iris_template, error, and metadata."""
+    return _build_from_spec(call_trace, IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC)
+
+
+def build_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct ORB output with serialized iris_template."""
+    return _build_from_spec(call_trace, IRIS_PIPE_ORB_OUTPUT_SPEC)
+
+
+def build_simple_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct debugging output with intermediate results (raw values)."""
+    return _build_from_spec(call_trace, IRIS_PIPE_DEBUG_OUTPUT_SPEC)
+
+
+def build_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """
+    Construct full debugging output: wrap simple_debugging and ensure
+    the iris_template is also safely serialized.
+    """
+    output = build_simple_iris_pipeline_debugging_output(call_trace)
+    output["iris_template"] = __safe_serialize(output.get("iris_template"))
+    return output
+
+
+def build_aggregation_multiframe_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct multiframe aggregation ORB output with safe serialization."""
+    return _build_from_spec(call_trace, MULTIFRAME_AGG_ORB_OUTPUT_SPEC)
+
+
+def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct simple multiframe aggregation output (raw values)."""
+    return _build_from_spec(call_trace, MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC)
 
 
 def build_multiframe_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
