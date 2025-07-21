@@ -25,7 +25,7 @@ jobs:
       # Show what the tag/release would be (mimic)
       - name: Mimic release/tag creation
         run: |
-          VERSION=$(python setup.py --version)
+          VERSION=$(IRIS_ENV=SERVER python setup.py --version)
           echo "Would create release/tag: v$VERSION"
           echo "Release notes would be based on changes for version $VERSION"
           TAG_NAME="v$VERSION"
