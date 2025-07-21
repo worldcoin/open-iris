@@ -42,10 +42,7 @@ class ImmutableModel(pydantic.BaseModel):
 
 
 class Algorithm(abc.ABC):
-    """Base class of every node of the iris recognition pipeline.
-
-    BLABAL change
-    """
+    """Base class of every node of the iris recognition pipeline."""
 
     class Parameters(ImmutableModel):
         """Default parameters."""
