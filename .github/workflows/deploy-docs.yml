@@ -76,7 +76,7 @@ jobs:
           git checkout gh-pages
           git pull origin gh-pages
           git checkout -b docs-update
-          git add ./docs/build/html
+          git add docs/build/html/*
           git commit -m "Automated docs update"
           git push origin docs-update
 
