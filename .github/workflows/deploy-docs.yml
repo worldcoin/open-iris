@@ -129,3 +129,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Automated docs update from ${{ github.sha }}"
 
+
+      - name: Commit documentation changes
+        run: |
+          set -e
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch origin gh-pages:gh-pages
+          git checkout gh-pages
+          git pull origin gh-pages
+          git checkout -b docs-update
+          git add ./docs/build/html
+          git commit -m "Automated docs update"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: docs-update
+          title: "Automated docs update"
+          body: "This PR updates the documentation on gh-pages branch."
+          base: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
