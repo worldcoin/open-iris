@@ -1,5 +1,8 @@
 name: PyPI Publish Wheels
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,16 +11,17 @@ on:
         required: false
         default: 'false'
         type: boolean
+  release:
+    types: [published]
   push:
-    tags:
-        - "*"
+    branches: ["main"]
 
 jobs:
   build-upload-testpypi:
     runs-on: ubuntu-latest
     env:
       IRIS_ENV: SERVER
-      IS_TEST: ${{ github.event.inputs.test || 'false' }}
+      IS_TEST: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'true' || (github.event.inputs.test || 'false') }}
 
     steps:
       - name: Checkout code

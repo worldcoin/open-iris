@@ -1,10 +1,12 @@
 name: Build and Deploy Docs
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*"
+  release:
+    types: [published]
 
 jobs:
   build-deploy-docs:
