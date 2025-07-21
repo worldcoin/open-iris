@@ -142,12 +142,25 @@ jobs:
 
       - name: Clear existing content and copy new docs
         run: |
-          # Remove all files except .git, .buildinfo, and .nojekyll
-          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type f -exec rm -f {} +
-          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
+          # Remove all files except .git
+          find . -name .git -prune -o -type f -exec rm -f {} +
+          find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
           # Copy preserved documentation
           cp -r /tmp/docs-build/* .
+
+          # Restore the original .buildinfo from root if it existed
+          if [ -f /tmp/preserve-buildinfo ]; then
+            cp /tmp/preserve-buildinfo .buildinfo
+            echo "Restored original .buildinfo to root"
+          fi
+
+          # Restore the original .nojekyll from root if it existed
+          if [ -f /tmp/preserve-nojekyll ]; then
+            cp /tmp/preserve-nojekyll .nojekyll
+            echo "Restored original .nojekyll to root"
+          fi
+
           ls -la .  # Debug: show what was copied to current directory
 
           # Add all changes
