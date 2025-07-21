@@ -84,9 +84,6 @@ jobs:
           find . -name .git -prune -o -type f -exec rm -f {} +
           find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
-          # Copy preserved documentation
-          cp -r /tmp/docs-build/* .
-
           # Restore the original .buildinfo from root if it existed
           if [ -f /tmp/preserve-buildinfo ]; then
             cp /tmp/preserve-buildinfo .buildinfo
@@ -98,6 +95,9 @@ jobs:
             cp /tmp/preserve-nojekyll .nojekyll
             echo "Restored original .nojekyll to root"
           fi
+
+          # Copy preserved documentation
+          cp -r /tmp/docs-build/* .
 
           ls -la .  # Debug: show what was copied to current directory
 
