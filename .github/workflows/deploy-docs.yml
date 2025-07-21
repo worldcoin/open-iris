@@ -146,8 +146,9 @@ jobs:
           find . -name .git -prune -o -type f -exec rm -f {} +
           find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
-          # Copy new documentation
-          cp -r docs/build/html/* .
+          # Copy preserved documentation
+          cp -r /tmp/docs-build/* .
+          ls -la .  # Debug: show what was copied to current directory
 
           # Add all changes
           git add .
