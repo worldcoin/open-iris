@@ -1,5 +1,6 @@
 import os
 import random
+from unittest.mock import Mock
 
 import cv2
 import numpy as np
@@ -9,9 +10,23 @@ from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
+from iris.orchestration.output_builders import __get_iris_pipeline_metadata as get_iris_pipeline_metadata
+from iris.orchestration.output_builders import (
+    __get_multiframe_aggregation_metadata as get_multiframe_aggregation_metadata,
+)
 from iris.orchestration.output_builders import build_simple_multiframe_iris_pipeline_output
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.multiframe_iris_pipeline import MultiframeIrisPipeline
+
+
+def assert_pipeline_output(output: dict, env: Environment):
+    """Assert the structure of the output based on the output_builders."""
+    assert isinstance(output, dict)
+    assert "error" in output
+    assert "iris_template" in output
+    assert "metadata" in output
+    assert "individual_frames" in output
+    assert "multiframe_aggregation_metadata" in output
 
 
 @pytest.fixture
@@ -96,6 +111,19 @@ class TestMultiframeIrisPipeline:
         assert "error" in aggregation_pipeline_output["individual_frames"][0]
         assert "metadata" in aggregation_pipeline_output["individual_frames"][0]
 
+        # check that the individiual frame metadata contains all the fields from IrisPipeline metadata
+        dummy_call_trace = Mock()
+        # Create a mock IRImage-like object with the required properties
+        mock_ir_image = Mock()
+        mock_ir_image.width = ir_image.shape[1]
+        mock_ir_image.height = ir_image.shape[0]
+        mock_ir_image.eye_side = "right"
+        dummy_call_trace.get_input.return_value = mock_ir_image
+        dummy_call_trace.get.side_effect = lambda k: None
+        expected_keys = set(get_iris_pipeline_metadata(dummy_call_trace).keys())
+        actual_keys = set(aggregation_pipeline_output["individual_frames"][0]["metadata"].keys())
+        assert expected_keys == actual_keys
+
         # multiframe_aggregation_metadata should be a dict
         assert isinstance(aggregation_pipeline_output["multiframe_aggregation_metadata"], dict)
 
@@ -105,6 +133,15 @@ class TestMultiframeIrisPipeline:
         assert "input_images_count" in metadata
         assert "eye_side" in metadata
         assert "aggregation_successful" in metadata
+        assert "is_aggregated" in metadata
+
+        # check that multiframe_aggregation_metadata contains all the metadata from MultiframeAggregationPipeline
+        dummy_call_trace = Mock()
+        dummy_call_trace.get_input.return_value = [None]
+        dummy_call_trace.get.side_effect = lambda k: None
+        expected_keys = set(get_multiframe_aggregation_metadata(dummy_call_trace).keys())
+        actual_keys = set(aggregation_pipeline_output["multiframe_aggregation_metadata"]["metadata"].keys())
+        assert expected_keys == actual_keys
 
     @pytest.mark.parametrize(
         "env",
