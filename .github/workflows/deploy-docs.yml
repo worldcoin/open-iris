@@ -58,14 +58,47 @@ jobs:
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
           git checkout gh-pages
 
+      - name: Preserve existing .buildinfo from root
+        run: |
+          # Backup the existing .buildinfo if it exists
+          if [ -f .buildinfo ]; then
+            cp .buildinfo /tmp/preserve-buildinfo
+            echo "Preserved existing .buildinfo from root"
+          else
+            echo "No existing .buildinfo found in root"
+          fi
+
+      - name: Preserve existing .nojekyll from root
+        run: |
+          # Backup the existing .nojekyll if it exists
+          if [ -f .nojekyll ]; then
+            cp .nojekyll /tmp/preserve-nojekyll
+            echo "Preserved existing .nojekyll from root"
+          else
+            echo "No existing .nojekyll found in root"
+          fi
+
       - name: Clear existing content and copy new docs
         run: |
-          # Remove all files except .git, .buildinfo, and .nojekyll
-          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type f -exec rm -f {} +
-          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
+          # Remove all files except .git
+          find . -name .git -prune -o -type f -exec rm -f {} +
+          find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
           # Copy preserved documentation
           cp -r /tmp/docs-build/* .
+
+          # Restore the original .buildinfo from root if it existed
+          if [ -f /tmp/preserve-buildinfo ]; then
+            cp /tmp/preserve-buildinfo .buildinfo
+            echo "Restored original .buildinfo to root"
+          fi
+
+          # Restore the original .nojekyll from root if it existed
+          if [ -f /tmp/preserve-nojekyll ]; then
+            cp /tmp/preserve-nojekyll .nojekyll
+            echo "Restored original .nojekyll to root"
+          fi
+
           ls -la .  # Debug: show what was copied to current directory
 
           # Add all changes
