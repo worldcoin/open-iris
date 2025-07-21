@@ -141,6 +141,7 @@ jobs:
           git checkout -b docs-update
           git add ./docs/build/html
           git commit -m "Automated docs update"
+          git push origin docs-update
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
