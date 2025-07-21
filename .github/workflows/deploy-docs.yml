@@ -8,6 +8,8 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  push:
+    branches: ["tech_debt/AIC-5935"]
 
 jobs:
   build-deploy-docs:
