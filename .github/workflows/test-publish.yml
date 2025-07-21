@@ -1,0 +1,57 @@
+name: Test PyPI Publish
+
+on:
+  workflow_dispatch:        # allows you to run manually
+  push:
+    branches: ["tech_debt/AIC-5935"]      # or you can use ["*"] for all branches
+
+jobs:
+  build-upload-testpypi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip setuptools wheel twine
+
+      # Show what the tag/release would be (mimic)
+      - name: Mimic release/tag creation
+        run: |
+          VERSION=$(python setup.py --version)
+          echo "Would create release/tag: v$VERSION"
+          echo "Release notes would be based on changes for version $VERSION"
+          TAG_NAME="v$VERSION"
+          echo "Tag name: $TAG_NAME"
+          echo "Release notes: $RELEASE_NOTES"
+
+      # Build the wheel and sdist
+      - name: Build wheel and sdist
+        run: |
+          IRIS_ENV=SERVER python setup.py sdist bdist_wheel
+
+      # Create .pypirc file for TestPyPI
+      - name: Create .pypirc for TestPyPI
+        run: |
+          cat <<EOF > ~/.pypirc
+          [distutils]
+          index-servers =
+              test-open-iris
+
+          [test-open-iris]
+          repository = https://test.pypi.org/legacy/
+          username = ${{ secrets.TEST_PYPI_USERNAME }}
+          password = ${{ secrets.TEST_PYPI_PASSWORD }}
+          EOF
+
+      # Upload to TestPyPI
+      - name: Upload to TestPyPI (test-open-iris)
+        run: |
+          python -m twine upload --repository test-open-iris dist/* --verbose
