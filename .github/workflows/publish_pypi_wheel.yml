@@ -51,7 +51,7 @@ jobs:
           else
             USERNAME="${{ secrets.PYPI_USERNAME }}"
             PASSWORD="${{ secrets.PYPI_PASSWORD }}"
-            REPOSITORY="https://pypi.org/legacy/"
+            REPOSITORY="https://upload.pypi.org/legacy/"
             SERVER_NAME="open-iris"
           fi
 
