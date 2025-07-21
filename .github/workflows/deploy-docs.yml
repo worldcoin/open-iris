@@ -32,6 +32,7 @@ jobs:
 
       - name: Install package and build dependencies
         run: |
+          set -e
           python -m pip install --upgrade pip
           pip install -e .
           pip install -r requirements/dev.txt
@@ -41,8 +42,11 @@ jobs:
 
       - name: Commit documentation changes
         run: |
+          set -e
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git fetch origin gh-pages:gh-pages
+          git checkout gh-pages
           git checkout -b docs-update
           git add ./html
           git commit -m "Automated docs update"
