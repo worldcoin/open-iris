@@ -44,13 +44,13 @@ jobs:
       - name: Set up gh-pages worktree
         run: |
           git fetch origin gh-pages:gh-pages
-          git worktree add gh-pages-dir gh-pages
+          git worktree add ../gh-pages-dir gh-pages
 
       - name: Copy docs to gh-pages worktree
         run: |
-          rm -rf gh-pages-dir/*
-          cp -r docs/build/html/* gh-pages-dir/
-          cd gh-pages-dir
+          rm -rf ../gh-pages-dir/*
+          cp -r docs/build/html/* ../gh-pages-dir/
+          cd ../gh-pages-dir
           git add .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -59,12 +59,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          path: gh-pages-dir
+          path: ../gh-pages-dir
           branch: docs-update
           title: "Automated docs update"
           body: "This PR updates the documentation on gh-pages branch."
           base: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
+
 
       # - name: Commit documentation changes
       #   run: |
