@@ -60,9 +60,9 @@ jobs:
 
       - name: Clear existing content and copy new docs
         run: |
-          # Remove all files except .git
-          find . -name .git -prune -o -type f -exec rm -f {} +
-          find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
+          # Remove all files except .git, .buildinfo, and .nojekyll
+          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type f -exec rm -f {} +
+          find . -name .git -prune -o -name .buildinfo -prune -o -name .nojekyll -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
           # Copy preserved documentation
           cp -r /tmp/docs-build/* .
