@@ -132,49 +132,49 @@ jobs:
 
       - name: Commit documentation changes
         run: |
-          git fetch origin gh-pages:gh-pages
-          git worktree add ../gh-pages-dir gh-pages
-
-      - name: Copy docs to gh-pages worktree
-        run: |
-          rm -rf ../gh-pages-dir/*
-          cp -r docs/build/html/* ../gh-pages-dir/
-          cd ../gh-pages-dir
-          git add .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Automated docs update" || echo "No changes to commit"
+
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+      - name: Clear existing content and copy new docs
+        run: |
+          # Remove all files except .git
+          find . -name .git -prune -o -type f -exec rm -f {} +
+          find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
+
+          # Copy new documentation
+          cp -r docs/build/html/* .
+
+          # Add all changes
+          git add .
+
+      - name: Check if there are changes to commit
+        id: changes
+        run: |
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
-          path: ../gh-pages-dir
-          branch: docs-update
+          branch: docs-update-${{ github.run_number }}
           title: "Automated docs update"
-          body: "This PR updates the documentation on gh-pages branch."
+          body: |
+            This PR updates the documentation on gh-pages branch.
+
+            Generated from commit: ${{ github.sha }}
+            Workflow run: ${{ github.run_id }}
           base: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
-
-
-      # - name: Commit documentation changes
-      #   run: |
-      #     set -e
-      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      #     git config --global user.name "github-actions[bot]"
-      #     git fetch origin gh-pages:gh-pages
-      #     git checkout gh-pages
-      #     git pull origin gh-pages
-      #     git checkout -b docs-update
-      #     git add docs/build/html/*
-      #     git commit -m "Automated docs update"
-      #     git push origin docs-update
-
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v7
-      #   with:
-      #     branch: docs-update
-      #     title: "Automated docs update"
-      #     body: "This PR updates the documentation on gh-pages branch."
-      #     base: gh-pages
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Automated docs update from ${{ github.sha }}"
 
