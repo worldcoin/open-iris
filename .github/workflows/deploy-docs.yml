@@ -37,22 +37,19 @@ jobs:
           pip install -e .
           pip install -r requirements/dev.txt
 
-      - name: Checkout gh-pages branch
-        run: |
-          set -e
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git fetch origin gh-pages:gh-pages
-          git checkout gh-pages
-          git checkout -b docs-update
-
       - name: Build docs (Makefile)
         run: make build-docs
 
       - name: Commit documentation changes
         run: |
           set -e
-          git add ./html
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch origin gh-pages:gh-pages
+          git checkout gh-pages
+          git pull origin gh-pages
+          git checkout -b docs-update
+          git add ./docs/build/html
           git commit -m "Automated docs update"
 
       - name: Create Pull Request
