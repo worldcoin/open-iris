@@ -41,6 +41,13 @@ jobs:
       - name: Build docs (Makefile)
         run: make build-docs
 
+      - name: Preserve built docs
+        run: |
+          # Move built docs to a temporary location outside the repo
+          mkdir -p /tmp/docs-build
+          cp -r docs/build/html/* /tmp/docs-build/
+          ls -la /tmp/docs-build/  # Debug: show what was copied
+
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
@@ -57,8 +64,9 @@ jobs:
           find . -name .git -prune -o -type f -exec rm -f {} +
           find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
 
-          # Copy new documentation
-          cp -r docs/build/html/* .
+          # Copy preserved documentation
+          cp -r /tmp/docs-build/* .
+          ls -la .  # Debug: show what was copied to current directory
 
           # Add all changes
           git add .
