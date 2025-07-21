@@ -161,6 +161,9 @@ jobs:
             echo "Restored original .nojekyll to root"
           fi
 
+          # Copy preserved documentation
+          cp -r /tmp/docs-build/* .
+
           ls -la .  # Debug: show what was copied to current directory
 
           # Add all changes
