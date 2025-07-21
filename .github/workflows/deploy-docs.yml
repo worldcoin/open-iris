@@ -39,14 +39,20 @@ jobs:
       - name: Build docs (Makefile)
         run: make build-docs
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./html  # <-- Update if your Makefile outputs somewhere else
-          publish_branch: gh-pages
-          force_orphan: true   # Creates a fresh branch tree each time
+      - name: Commit documentation changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git checkout -b docs-update
+          git add ./html
+          git commit -m "Automated docs update"
 
-          # Optionally add:
-          # cname: your.custom.domain
-          # enable_jekyll: false
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: docs-update
+          title: "Automated docs update"
+          body: "This PR updates the documentation on gh-pages branch."
+          base: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
