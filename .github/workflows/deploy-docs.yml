@@ -69,16 +69,6 @@ jobs:
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
           git checkout gh-pages
 
-      - name: Preserve existing .buildinfo from root
-        run: |
-          # Backup the existing .buildinfo if it exists
-          if [ -f .buildinfo ]; then
-            cp .buildinfo /tmp/preserve-buildinfo
-            echo "Preserved existing .buildinfo from root"
-          else
-            echo "No existing .buildinfo found in root"
-          fi
-
       - name: Preserve existing .nojekyll from root
         run: |
           # Backup the existing .nojekyll if it exists
@@ -94,12 +84,6 @@ jobs:
           # Remove all files except .git
           find . -name .git -prune -o -type f -exec rm -f {} +
           find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
-
-          # Restore the original .buildinfo from root if it existed
-          if [ -f /tmp/preserve-buildinfo ]; then
-            cp /tmp/preserve-buildinfo .buildinfo
-            echo "Restored original .buildinfo to root"
-          fi
 
           # Restore the original .nojekyll from root if it existed
           if [ -f /tmp/preserve-nojekyll ]; then
