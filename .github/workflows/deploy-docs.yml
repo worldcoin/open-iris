@@ -1,0 +1,129 @@
+name: Build and Deploy Docs
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build-deploy-docs:
+    runs-on: ubuntu-latest
+    env:
+      IRIS_ENV: SERVER
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for accessing gh-pages branch
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y make
+
+      - name: Install package and build dependencies
+        run: |
+          set -e
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install -r requirements/dev.txt
+
+      - name: Build docs (Makefile)
+        run: make build-docs
+
+      - name: Debug - Check built docs content
+        run: |
+          echo "Contents of docs/build/html:"
+          ls -la docs/build/html/
+          echo "Hidden files in docs/build/html:"
+          find docs/build/html -name ".*" -type f
+
+      - name: Preserve built docs
+        run: |
+          # Move built docs to a temporary location outside the repo
+          mkdir -p /tmp/docs-build
+          # Enable dotglob to include hidden files in globs
+          shopt -s dotglob
+          # Copy all files including hidden ones
+          cp -r docs/build/html/* /tmp/docs-build/
+          # Show what was actually copied (including hidden files)
+          ls -la /tmp/docs-build/
+          echo "Files starting with dot:"
+          find /tmp/docs-build -name ".*" -type f
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+
+      - name: Preserve existing .nojekyll from root
+        run: |
+          # Backup the existing .nojekyll if it exists
+          if [ -f .nojekyll ]; then
+            cp .nojekyll /tmp/preserve-nojekyll
+            echo "Preserved existing .nojekyll from root"
+          else
+            echo "No existing .nojekyll found in root"
+          fi
+
+      - name: Clear existing content and copy new docs
+        run: |
+          # Remove all files except .git
+          find . -name .git -prune -o -type f -exec rm -f {} +
+          find . -name .git -prune -o -type d -empty -exec rmdir {} + 2>/dev/null || true
+
+          # Restore the original .nojekyll from root if it existed
+          if [ -f /tmp/preserve-nojekyll ]; then
+            cp /tmp/preserve-nojekyll .nojekyll
+            echo "Restored original .nojekyll to root"
+          fi
+
+          # Copy preserved documentation
+          # Enable dotglob to include hidden files in globs
+          shopt -s dotglob
+          cp -r /tmp/docs-build/* .
+
+          ls -la .  # Debug: show what was copied to current directory
+
+          # Add all changes
+          git add .
+
+      - name: Check if there are changes to commit
+        id: changes
+        run: |
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: docs-update-${{ github.run_number }}
+          title: "Automated docs update"
+          body: |
+            This PR updates the documentation on gh-pages branch.
+
+            Generated from commit: ${{ github.sha }}
+            Workflow run: ${{ github.run_id }}
+          base: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Automated docs update from ${{ github.sha }}"
+
