@@ -23,7 +23,7 @@ iris.pipelines.iris\_pipeline module
 iris.pipelines.multiframe\_aggregation\_pipeline module
 -------------------------------------------------------
 
-.. automodule:: iris.pipelines.multiframe_aggregation_pipeline
+.. automodule:: iris.pipelines.templates_aggregation_pipeline
    :members:
    :undoc-members:
    :show-inheritance:

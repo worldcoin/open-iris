@@ -10,11 +10,11 @@ from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
 from iris.orchestration.output_builders import (
     build_simple_iris_pipeline_debugging_output,
-    build_simple_multiframe_aggregation_output,
+    build_simple_templates_aggregation_output,
 )
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.iris_pipeline import IRISPipeline
-from iris.pipelines.multiframe_aggregation_pipeline import MultiframeAggregationPipeline
+from iris.pipelines.templates_aggregation_pipeline import TemplatesAggregationPipeline
 
 
 @pytest.fixture
@@ -234,7 +234,7 @@ class TestIRISPipelineWithAggregation:
         "iris_env,aggregation_env",
         [
             # Standard predefined environments
-            (IRISPipeline.ORB_ENVIRONMENT, MultiframeAggregationPipeline.ORB_ENVIRONMENT),
+            (IRISPipeline.ORB_ENVIRONMENT, TemplatesAggregationPipeline.ORB_ENVIRONMENT),
             #
             (
                 Environment(
@@ -243,7 +243,7 @@ class TestIRISPipelineWithAggregation:
                     call_trace_initialiser=PipelineCallTraceStorage.initialise,
                 ),
                 Environment(
-                    pipeline_output_builder=build_simple_multiframe_aggregation_output,
+                    pipeline_output_builder=build_simple_templates_aggregation_output,
                     error_manager=raise_error_manager,
                     call_trace_initialiser=PipelineCallTraceStorage.initialise,
                 ),
@@ -256,9 +256,9 @@ class TestIRISPipelineWithAggregation:
     )
     def test_iris_pipeline_with_aggregation(self, ir_image, iris_env, aggregation_env):
         """Test the iris pipeline with aggregation using different environment combinations."""
-        combined_config = load_yaml_config(MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH)
+        combined_config = load_yaml_config(TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH)
 
-        aggregation_pipeline = MultiframeAggregationPipeline(
+        aggregation_pipeline = TemplatesAggregationPipeline(
             config=combined_config, subconfig_key="templates_aggregation", env=aggregation_env
         )
 
@@ -273,7 +273,7 @@ class TestIRISPipelineWithAggregation:
             iris_templates.append(template)
 
         aggregation_pipeline_output = aggregation_pipeline.run(iris_templates)
-        if aggregation_env == MultiframeAggregationPipeline.ORB_ENVIRONMENT:
+        if aggregation_env == TemplatesAggregationPipeline.ORB_ENVIRONMENT:
             aggregated_template = IrisTemplate.deserialize(aggregation_pipeline_output["iris_template"])
         else:
             aggregated_template = aggregation_pipeline_output["iris_template"]
@@ -289,8 +289,8 @@ class TestIRISPipelineWithAggregation:
         )
 
 
-class TestMultiframeAggregationPipeline:
-    """End-to-end tests for multiframe aggregation functionality."""
+class TestTemplatesAggregationPipeline:
+    """End-to-end tests for templates aggregation functionality."""
 
     @pytest.mark.parametrize(
         "config,subconfig_key",
@@ -304,7 +304,7 @@ class TestMultiframeAggregationPipeline:
         """Test the complete pipeline flow with compatible templates."""
         # Initialize the pipeline
         config = request.getfixturevalue(config)
-        pipeline = MultiframeAggregationPipeline(config=config, subconfig_key=subconfig_key)
+        pipeline = TemplatesAggregationPipeline(config=config, subconfig_key=subconfig_key)
 
         # Run the pipeline
         result = pipeline.run(same_id_iris_templates)
@@ -340,7 +340,7 @@ class TestMultiframeAggregationPipeline:
     def test_pipeline_with_incompatible_templates(self, incompatible_iris_templates, standalone_aggregation_config):
         """Test the pipeline with incompatible templates (should fail validation)."""
         # Initialize the pipeline
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run the pipeline - should handle the validation error
         result = pipeline.run(incompatible_iris_templates)
@@ -357,7 +357,7 @@ class TestMultiframeAggregationPipeline:
         single_template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
 
         # Initialize the pipeline
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run the pipeline
         result = pipeline.run([single_template])
@@ -374,7 +374,7 @@ class TestMultiframeAggregationPipeline:
     def test_pipeline_with_default_configuration_same_id(self, same_id_iris_templates):
         """Test the pipeline using default configuration."""
         # Initialize with default config
-        pipeline = MultiframeAggregationPipeline()
+        pipeline = TemplatesAggregationPipeline()
 
         # Run the pipeline
         result = pipeline.run(same_id_iris_templates)
@@ -387,13 +387,13 @@ class TestMultiframeAggregationPipeline:
         """Test the pipeline with a custom environment."""
         # Create custom environment
         custom_env = Environment(
-            pipeline_output_builder=build_simple_multiframe_aggregation_output,
+            pipeline_output_builder=build_simple_templates_aggregation_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         )
 
         # Initialize pipeline with custom environment
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, env=custom_env, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, env=custom_env, subconfig_key="")
 
         # Run the pipeline
         result = pipeline.run(same_id_iris_templates)
@@ -405,7 +405,7 @@ class TestMultiframeAggregationPipeline:
     def test_pipeline_with_orb_environment(self, same_id_iris_templates):
         """Test the pipeline with ORB environment."""
         # Use the predefined ORB environment
-        pipeline = MultiframeAggregationPipeline(env=MultiframeAggregationPipeline.ORB_ENVIRONMENT)
+        pipeline = TemplatesAggregationPipeline(env=TemplatesAggregationPipeline.ORB_ENVIRONMENT)
 
         # Run the pipeline
         result = pipeline.run(same_id_iris_templates)
@@ -416,7 +416,7 @@ class TestMultiframeAggregationPipeline:
 
     def test_pipeline_call_trace_functionality(self, same_id_iris_templates, standalone_aggregation_config):
         """Test that the pipeline call trace works correctly."""
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run the pipeline
         _ = pipeline.run(same_id_iris_templates)
@@ -434,7 +434,7 @@ class TestMultiframeAggregationPipeline:
 
     def test_pipeline_with_empty_templates_list(self, standalone_aggregation_config):
         """Test the pipeline with an empty templates list."""
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Run with empty list - should be handled by validation
         result = pipeline.run([])
@@ -453,7 +453,7 @@ class TestMultiframeAggregationPipeline:
             template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
             templates.append(template)
 
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
         result = pipeline.run(templates)
 
         # Should handle many templates
@@ -497,7 +497,7 @@ class TestMultiframeAggregationPipeline:
             template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
             templates.append(template)
 
-        pipeline = MultiframeAggregationPipeline(config=config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=config, subconfig_key="")
         result = pipeline.run(templates)
 
         # Should work with custom parameters
@@ -506,7 +506,7 @@ class TestMultiframeAggregationPipeline:
 
     def test_error_handling_and_recovery(self, standalone_aggregation_config):
         """Test error handling in the pipeline."""
-        pipeline = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
 
         # Test with None input (should be handled gracefully)
         try:
@@ -529,10 +529,10 @@ class TestMultiframeAggregationPipeline:
             templates.append(template)
 
         # Run pipeline twice
-        pipeline1 = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline1 = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
         result1 = pipeline1.run(templates)
 
-        pipeline2 = MultiframeAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
+        pipeline2 = TemplatesAggregationPipeline(config=standalone_aggregation_config, subconfig_key="")
         result2 = pipeline2.run(templates)
 
         # Results should be identical
