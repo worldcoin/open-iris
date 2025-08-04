@@ -1,0 +1,82 @@
+name: PyPI Publish Wheels
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Use TestPyPI (true) or PyPI (false)'
+        required: false
+        default: 'false'
+        type: boolean
+  release:
+    types: [published]
+  push:
+    branches: ["main"]
+
+jobs:
+  build-upload-testpypi:
+    runs-on: ubuntu-latest
+    env:
+      IRIS_ENV: SERVER
+      IS_TEST: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'true' || (github.event.inputs.test || 'false') }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install build tools
+        run: |
+          set -e
+          python -m pip install --upgrade pip setuptools wheel twine
+
+      # Build the wheel and sdist
+      - name: Build wheel and sdist
+        run: |
+          set -e
+          python setup.py sdist bdist_wheel
+
+      # Create .pypirc file for TestPyPI
+      - name: Create .pypirc for TestPyPI
+        run: |
+          set -e
+          if [ "$IS_TEST" = "true" ]; then
+            USERNAME="${{ secrets.TEST_PYPI_USERNAME }}"
+            PASSWORD="${{ secrets.TEST_PYPI_PASSWORD }}"
+            REPOSITORY="https://test.pypi.org/legacy/"
+            SERVER_NAME="test-open-iris"
+          else
+            USERNAME="${{ secrets.PYPI_USERNAME }}"
+            PASSWORD="${{ secrets.PYPI_PASSWORD }}"
+            REPOSITORY="https://upload.pypi.org/legacy/"
+            SERVER_NAME="open-iris"
+          fi
+
+          cat <<EOF > ~/.pypirc
+          [distutils]
+          index-servers =
+              $SERVER_NAME
+
+          [$SERVER_NAME]
+          repository = $REPOSITORY
+          username = $USERNAME
+          password = $PASSWORD
+          EOF
+
+      # Upload to TestPyPI
+      - name: Upload to PyPI
+        run: |
+          set -e
+          if [ "$IS_TEST" = "true" ]; then
+            SERVER_NAME="test-open-iris"
+          else
+            SERVER_NAME="open-iris"
+          fi
+          python -m twine upload --repository $SERVER_NAME dist/* --verbose
