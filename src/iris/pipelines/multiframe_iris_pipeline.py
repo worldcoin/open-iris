@@ -7,26 +7,26 @@ import numpy as np
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import IrisTemplate
-from iris.io.errors import IRISPipelineError, MultiframeAggregationPipelineError
+from iris.io.errors import IRISPipelineError, TemplatesAggregationPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
     build_multiframe_iris_pipeline_orb_output,
     build_simple_iris_pipeline_orb_output,
-    build_simple_multiframe_aggregation_output,
     build_simple_multiframe_iris_pipeline_output,
+    build_simple_templates_aggregation_output,
 )
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.iris_pipeline import IRISPipeline
-from iris.pipelines.multiframe_aggregation_pipeline import MultiframeAggregationPipeline
+from iris.pipelines.templates_aggregation_pipeline import TemplatesAggregationPipeline
 from iris.utils.base64_encoding import base64_decode_str
 
 
 class MultiframeIrisPipeline:
     """
-    Pipeline that combines IRISPipeline and MultiframeAggregationPipeline.
+    Pipeline that combines IRISPipeline and TemplatesAggregationPipeline.
     Takes a list of images and eye-side as input, processes each image through IRISPipeline,
-    then aggregates the resulting templates using MultiframeAggregationPipeline.
+    then aggregates the resulting templates using TemplatesAggregationPipeline.
 
     Uses a unified configuration with two distinct parts:
     - iris_pipeline: Configuration for individual image processing
@@ -52,14 +52,14 @@ class MultiframeIrisPipeline:
         ),
     ) -> None:
         """
-        Initialize MultiframeExecutionPipeline with unified config and environment.
+        Initialize MultiframeIrisPipeline with unified config and environment.
         Args:
             config (Union[Dict[str, Any], Optional[str]]): Unified pipeline config dict or YAML string.
             env (Environment): Pipeline environment.
         """
         self.env = env
         self.iris_pipeline_config, self.templates_aggregation_pipeline_config = self.load_config(config)
-        self.iris_pipeline, self.multiframe_aggregation_pipeline = self._initialize_pipelines(
+        self.iris_pipeline, self.templates_aggregation_pipeline = self._initialize_pipelines(
             self.iris_pipeline_config, self.templates_aggregation_pipeline_config
         )
 
@@ -117,7 +117,7 @@ class MultiframeIrisPipeline:
     @classmethod
     def load_config(cls, config: Union[Dict[str, Any], Optional[str]]) -> Dict[str, Any]:
         """
-        Load and deserialize the pipeline configuration (for multiframe aggregation).
+        Load and deserialize the pipeline configuration (for templates aggregation).
 
         Args:
             config: Either
@@ -275,14 +275,14 @@ class MultiframeIrisPipeline:
         Returns:
             Any: Output from the aggregation pipeline.
         """
-        aggregation_pipeline_output = self.multiframe_aggregation_pipeline.run(iris_templates)
+        aggregation_pipeline_output = self.templates_aggregation_pipeline.run(iris_templates)
 
         # Store aggregation result in call_trace
         self.call_trace.write("aggregation_result", aggregation_pipeline_output)
 
         if aggregation_pipeline_output["error"] is not None:
-            message = "Error in MultiframeAggregationPipeline: see aggregation_result for details"
-            raise MultiframeAggregationPipelineError(message)
+            message = "Error in TemplatesAggregationPipeline: see aggregation_result for details"
+            raise TemplatesAggregationPipelineError(message)
 
         return aggregation_pipeline_output
 
@@ -334,14 +334,14 @@ class MultiframeIrisPipeline:
     @staticmethod
     def _initialize_pipelines(
         iris_pipeline_config: Dict[str, Any], templates_aggregation_pipeline_config: Dict[str, Any]
-    ) -> Tuple[IRISPipeline, MultiframeAggregationPipeline]:
+    ) -> Tuple[IRISPipeline, TemplatesAggregationPipeline]:
         """
-        Initialize the iris and multiframe aggregation pipelines.
+        Initialize the iris and templates aggregation pipelines.
         Args:
             iris_pipeline_config (Dict[str, Any]): The configuration for the iris pipeline.
-            templates_aggregation_pipeline_config (Dict[str, Any]): The configuration for the multiframe aggregation pipeline.
+            templates_aggregation_pipeline_config (Dict[str, Any]): The configuration for the templates aggregation pipeline.
         Returns:
-            Tuple[IRISPipeline, MultiframeAggregationPipeline]: The initialized iris and multiframe aggregation pipelines.
+            Tuple[IRISPipeline, TemplatesAggregationPipeline]: The initialized iris and templates aggregation pipelines.
         """
         # Initialize sub-pipelines with their respective configurations
         # We use a "simple" env that does not serialize the iris template within the individual IrisPipeline
@@ -355,14 +355,14 @@ class MultiframeIrisPipeline:
             ),
         )
 
-        multiframe_aggregation_pipeline = MultiframeAggregationPipeline(
+        templates_aggregation_pipeline = TemplatesAggregationPipeline(
             config=templates_aggregation_pipeline_config,
             env=Environment(
-                pipeline_output_builder=build_simple_multiframe_aggregation_output,
+                pipeline_output_builder=build_simple_templates_aggregation_output,
                 error_manager=store_error_manager,
                 call_trace_initialiser=PipelineCallTraceStorage.initialise,
             ),
             subconfig_key=None,
         )
 
-        return iris_pipeline, multiframe_aggregation_pipeline
+        return iris_pipeline, templates_aggregation_pipeline

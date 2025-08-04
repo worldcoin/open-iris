@@ -93,7 +93,7 @@ class TestMultiframeIrisPipeline:
         """Load a valid multiframe pipeline configuration from the real YAML file."""
         from iris.pipelines.base_pipeline import load_yaml_config
 
-        config = load_yaml_config("src/iris/pipelines/confs/multiframe_aggregation_pipeline.yaml")
+        config = load_yaml_config("src/iris/pipelines/confs/templates_aggregation_pipeline.yaml")
         return {
             "iris_pipeline": {"metadata": config["metadata"], "pipeline": config["pipeline"]},
             "templates_aggregation_pipeline": config["templates_aggregation"],
@@ -527,7 +527,7 @@ class TestMultiframeIrisPipeline:
     def test_initialization_with_valid_config(self, valid_multiframe_config):
         """Test MultiframeIrisPipeline initialization with valid config."""
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method to be called without arguments
             with patch.object(
@@ -565,7 +565,7 @@ class TestMultiframeIrisPipeline:
     def test_initialization_with_default_environment(self, valid_multiframe_config):
         """Test MultiframeIrisPipeline initialization with default environment."""
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method
             with patch.object(
@@ -587,7 +587,7 @@ class TestMultiframeIrisPipeline:
         )
 
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method
             with patch.object(
@@ -600,7 +600,7 @@ class TestMultiframeIrisPipeline:
     def test_handle_input_method(self, valid_multiframe_config):
         """Test _handle_input method."""
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method
             with patch.object(
@@ -620,7 +620,7 @@ class TestMultiframeIrisPipeline:
     def test_handle_output_method(self, valid_multiframe_config):
         """Test _handle_output method."""
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method
             with patch.object(
@@ -644,7 +644,7 @@ class TestMultiframeIrisPipeline:
     def test_handle_pipeline_error_method(self, valid_multiframe_config):
         """Test _handle_pipeline_error method."""
         with patch("iris.pipelines.multiframe_iris_pipeline.IRISPipeline") as _, patch(
-            "iris.pipelines.multiframe_iris_pipeline.MultiframeAggregationPipeline"
+            "iris.pipelines.multiframe_iris_pipeline.TemplatesAggregationPipeline"
         ) as __:
             # Mock the derive_iris_template_shape_from_config method
             with patch.object(
@@ -764,8 +764,8 @@ class TestMultiframeIrisPipeline:
             assert output["iris_template"] is not None
             assert output["individual_frames"][0]["error"] is None
             assert len(output["individual_frames"]) == i
-            assert output["multiframe_aggregation_metadata"] is not None
-            assert output["multiframe_aggregation_metadata"]["error"] is None
+            assert output["templates_aggregation_metadata"] is not None
+            assert output["templates_aggregation_metadata"]["error"] is None
 
     def test_run_one_corrupted_image(self, valid_multiframe_config, ir_image):
         """Test successful execution of the complete run method."""

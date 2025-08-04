@@ -124,8 +124,8 @@ def __get_error(call_trace: PipelineCallTraceStorage) -> Optional[Dict[str, Any]
     return error
 
 
-def __get_multiframe_aggregation_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Produce multiframe aggregation metadata output from a call_trace.
+def __get_templates_aggregation_metadata(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Produce templates aggregation metadata output from a call_trace.
 
     Args:
         call_trace (PipelineCallTraceStorage): Pipeline call trace.
@@ -212,7 +212,7 @@ IRIS_PIPE_DEBUG_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
 ]
 
-MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
+TEMPLATES_AGG_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
@@ -221,10 +221,10 @@ MULTIFRAME_AGG_ORB_OUTPUT_SPEC = [
         else None,
         safe_serialize=True,
     ),
-    OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
+    OutputFieldSpec(key="metadata", extractor=__get_templates_aggregation_metadata, safe_serialize=False),
 ]
 
-MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
+TEMPLATES_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
@@ -233,7 +233,7 @@ MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
         else None,
         safe_serialize=False,
     ),
-    OutputFieldSpec(key="metadata", extractor=__get_multiframe_aggregation_metadata, safe_serialize=False),
+    OutputFieldSpec(key="metadata", extractor=__get_templates_aggregation_metadata, safe_serialize=False),
 ]
 
 
@@ -256,7 +256,7 @@ MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC = [
         safe_serialize=True,
     ),
     OutputFieldSpec(
-        key="multiframe_aggregation_metadata",
+        key="templates_aggregation_metadata",
         extractor=lambda ct: {k: v for k, v in ct.get("aggregation_result", {}).items() if k != "iris_template"},
         safe_serialize=False,
     ),
@@ -281,7 +281,7 @@ MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC = [
         safe_serialize=False,
     ),
     OutputFieldSpec(
-        key="multiframe_aggregation_metadata",
+        key="templates_aggregation_metadata",
         extractor=lambda ct: {k: v for k, v in ct.get("aggregation_result", {}).items() if k != "iris_template"},
         safe_serialize=False,
     ),
@@ -318,14 +318,14 @@ def build_iris_pipeline_debugging_output(call_trace: PipelineCallTraceStorage) -
     return output
 
 
-def build_aggregation_multiframe_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct multiframe aggregation ORB output with safe serialization."""
-    return _build_from_spec(call_trace, MULTIFRAME_AGG_ORB_OUTPUT_SPEC)
+def build_aggregation_templates_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct templates aggregation ORB output with safe serialization."""
+    return _build_from_spec(call_trace, TEMPLATES_AGG_ORB_OUTPUT_SPEC)
 
 
-def build_simple_multiframe_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
-    """Construct simple multiframe aggregation output (raw values)."""
-    return _build_from_spec(call_trace, MULTIFRAME_AGG_SIMPLE_ORB_OUTPUT_SPEC)
+def build_simple_templates_aggregation_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:
+    """Construct simple templates aggregation output (raw values)."""
+    return _build_from_spec(call_trace, TEMPLATES_AGG_SIMPLE_ORB_OUTPUT_SPEC)
 
 
 def build_multiframe_iris_pipeline_orb_output(call_trace: PipelineCallTraceStorage) -> Dict[str, Any]:

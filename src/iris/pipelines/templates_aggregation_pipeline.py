@@ -11,8 +11,8 @@ from iris.io.dataclasses import IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
-    build_aggregation_multiframe_orb_output,
-    build_simple_multiframe_aggregation_output,
+    build_aggregation_templates_orb_output,
+    build_simple_templates_aggregation_output,
 )
 from iris.orchestration.pipeline_dataclasses import PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
@@ -20,17 +20,17 @@ from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
 
-class MultiframeAggregationPipeline(BasePipeline):
+class TemplatesAggregationPipeline(BasePipeline):
     """
-    Pipeline for multiframe iris template aggregation.
+    Pipeline for iris templates aggregation.
     Inherits shared logic from BasePipeline and implements input/output specifics.
     """
 
-    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
+    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "templates_aggregation_pipeline.yaml")
     PACKAGE_VERSION = __version__
 
     ORB_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_aggregation_multiframe_orb_output,
+        pipeline_output_builder=build_aggregation_templates_orb_output,
         error_manager=store_error_manager,
         call_trace_initialiser=PipelineCallTraceStorage.initialise,
     )
@@ -48,14 +48,14 @@ class MultiframeAggregationPipeline(BasePipeline):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_simple_multiframe_aggregation_output,
+            pipeline_output_builder=build_simple_templates_aggregation_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
         subconfig_key: Optional[str] = "templates_aggregation",
     ) -> None:
         """
-        Initialize MultiframeAggregationPipeline with config and environment.
+        Initialize TemplatesAggregationPipeline with config and environment.
         Args:
             config (Union[Dict[str, Any], Optional[str]]): Pipeline config dict or YAML string.
             env (Environment): Pipeline environment.
@@ -95,7 +95,7 @@ class MultiframeAggregationPipeline(BasePipeline):
         cls, config: Union[Dict[str, Any], Optional[str]], keyword: Optional[str] = "templates_aggregation"
     ) -> Dict[str, Any]:
         """
-        Load and deserialize the pipeline configuration (for multiframe aggregation).
+        Load and deserialize the pipeline configuration (for templates aggregation).
 
         Args:
             config: Either
@@ -126,18 +126,18 @@ class MultiframeAggregationPipeline(BasePipeline):
         try:
             return raw[keyword]
         except KeyError:
-            raise ValueError(f"MultiframeAggregation requires '{keyword}' in the configuration.")
+            raise ValueError(f"TemplatesAggregation requires '{keyword}' in the configuration.")
 
     @classmethod
     def load_from_config(
         cls, config: str
-    ) -> Dict[str, Union["MultiframeAggregationPipeline", Optional[Dict[str, Any]]]]:
+    ) -> Dict[str, Union["TemplatesAggregationPipeline", Optional[Dict[str, Any]]]]:
         """
-        Given an iris config string in base64, initialise a MultiframeAggregationPipeline with this config.
+        Given an iris config string in base64, initialise a TemplatesAggregationPipeline with this config.
         Args:
             config (str): Base64-encoded config string.
         Returns:
-            Dict[str, Union[MultiframeAggregationPipeline, Optional[Dict[str, Any]]]]: Initialised pipeline and error (if any).
+            Dict[str, Union[TemplatesAggregationPipeline, Optional[Dict[str, Any]]]]: Initialised pipeline and error (if any).
         """
         error = None
         pipeline = None

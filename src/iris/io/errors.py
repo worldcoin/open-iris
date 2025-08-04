@@ -148,8 +148,8 @@ class TemplateAggregationCompatibilityError(Exception):
     pass
 
 
-class MultiframeAggregationPipelineError(Exception):
-    """MultiframeAggregationPipeline module Error class."""
+class TemplatesAggregationPipelineError(Exception):
+    """TemplatesAggregationPipeline module Error class."""
 
     pass
 

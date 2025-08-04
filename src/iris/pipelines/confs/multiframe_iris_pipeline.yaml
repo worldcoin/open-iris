@@ -310,7 +310,7 @@ iris_pipeline:
       callbacks:
 
 
-# Configuration for template aggregation (MultiframeAggregationPipeline)
+# Configuration for template aggregation (TemplatesAggregationPipeline)
 templates_aggregation_pipeline:
   metadata:
     iris_version: 1.8.2
