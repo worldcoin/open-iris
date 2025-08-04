@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.8.3
+  iris_version: 1.9.0
 
 pipeline:
   - name: segmentation
@@ -305,7 +305,7 @@ pipeline:
 
 templates_aggregation:
   metadata:
-    iris_version: 1.8.3
+    iris_version: 1.9.0
     pipeline_name: templates_aggregation
 
   pipeline:
