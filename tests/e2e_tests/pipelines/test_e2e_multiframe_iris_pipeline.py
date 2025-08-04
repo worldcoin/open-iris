@@ -1,5 +1,6 @@
 import os
 import random
+from typing import List
 from unittest.mock import Mock
 
 import cv2
@@ -37,7 +38,7 @@ def ir_image() -> np.ndarray:
 
 
 @pytest.fixture
-def ir_images(request, ir_image) -> list[np.ndarray]:
+def ir_images(request, ir_image) -> List[np.ndarray]:
     # Get number of images from marker, default to 3
     nb_images = getattr(request.node.get_closest_marker("nb_images"), "args", [3])[0]
 
