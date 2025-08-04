@@ -31,6 +31,19 @@ class MultiframeIrisPipeline:
     Uses a unified configuration with two distinct parts:
     - iris_pipeline: Configuration for individual image processing
     - templates_aggregation: Configuration for template aggregation
+
+    IMPORTANT WARNING: Template Quality and Validation Requirements
+
+    To prevent aggregation of templates from different users, different eyes, or of different
+    quality (off-gaze, occlusion, poor focus, etc.), users must pay extra attention to the
+    filtering and validation of provided templates and corresponding thresholds during template
+    creation. It is strongly advised to conduct a dedicated analysis of template quality
+    metrics and establish appropriate validation criteria prior to using this functionality
+    in production environments.
+
+    While the pipeline does perform some basic validation of the input templates,
+    users are responsible for ensuring
+    data integrity and appropriate quality thresholds to maintain system accuracy and security.
     """
 
     DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "multiframe_iris_pipeline.yaml")
