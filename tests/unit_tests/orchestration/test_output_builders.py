@@ -7,7 +7,7 @@ from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, OutputFieldSpec, WeightedIrisTemplate
 from iris.orchestration.output_builders import (
     _build_from_spec,
-    build_aggregation_multiframe_orb_output,
+    build_aggregation_templates_orb_output,
     build_iris_pipeline_orb_output,
     build_simple_iris_pipeline_debugging_output,
     build_simple_iris_pipeline_orb_output,
@@ -177,7 +177,7 @@ class TestOutputBuildersWithMissingKeys:
         assert "missing_key_3" in result
 
 
-class TestBuildAggregationMultiframeOrbOutput:
+class TestBuildAggregationTemplatesOrbOutput:
     @pytest.fixture
     def mock_call_trace_with_missing_keys(self):
         call_trace = PipelineCallTraceStorage(results_names=["templates_aggregation"])
@@ -233,7 +233,7 @@ class TestBuildAggregationMultiframeOrbOutput:
         return call_trace
 
     def test_with_missing_keys(self, mock_call_trace_with_missing_keys):
-        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_missing_keys)
+        result = build_aggregation_templates_orb_output(mock_call_trace_with_missing_keys)
         assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         assert result["iris_template"] is None
@@ -244,7 +244,7 @@ class TestBuildAggregationMultiframeOrbOutput:
         assert metadata["post_identity_filter_templates_count"] is None
 
     def test_with_aggregation(self, mock_call_trace_with_aggregation):
-        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_aggregation)
+        result = build_aggregation_templates_orb_output(mock_call_trace_with_aggregation)
         assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         # Should be safely serialized (dict)
@@ -256,7 +256,7 @@ class TestBuildAggregationMultiframeOrbOutput:
         assert metadata["post_identity_filter_templates_count"] is None
 
     def test_with_alignment_and_identity_filter(self, mock_call_trace_with_alignment_and_identity_filter):
-        result = build_aggregation_multiframe_orb_output(mock_call_trace_with_alignment_and_identity_filter)
+        result = build_aggregation_templates_orb_output(mock_call_trace_with_alignment_and_identity_filter)
         assert set(result.keys()) == {"error", "iris_template", "metadata"}
         assert result["error"] is None
         assert isinstance(result["iris_template"], dict)

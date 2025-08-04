@@ -11,8 +11,8 @@ from iris.io.dataclasses import IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
-    build_aggregation_multiframe_orb_output,
-    build_simple_multiframe_aggregation_output,
+    build_aggregation_templates_orb_output,
+    build_simple_templates_aggregation_output,
 )
 from iris.orchestration.pipeline_dataclasses import PipelineMetadata, PipelineNode
 from iris.orchestration.validators import pipeline_config_duplicate_node_name_check
@@ -20,17 +20,17 @@ from iris.pipelines.base_pipeline import BasePipeline, load_yaml_config
 from iris.utils.base64_encoding import base64_decode_str
 
 
-class MultiframeAggregationPipeline(BasePipeline):
+class TemplatesAggregationPipeline(BasePipeline):
     """
-    Pipeline for multiframe iris template aggregation.
+    Pipeline for iris templates aggregation.
     Inherits shared logic from BasePipeline and implements input/output specifics.
     """
 
-    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "multiframe_aggregation_pipeline.yaml")
+    DEFAULT_PIPELINE_CFG_PATH = os.path.join(os.path.dirname(__file__), "confs", "templates_aggregation_pipeline.yaml")
     PACKAGE_VERSION = __version__
 
     ORB_ENVIRONMENT = Environment(
-        pipeline_output_builder=build_aggregation_multiframe_orb_output,
+        pipeline_output_builder=build_aggregation_templates_orb_output,
         error_manager=store_error_manager,
         call_trace_initialiser=PipelineCallTraceStorage.initialise,
     )
@@ -48,20 +48,20 @@ class MultiframeAggregationPipeline(BasePipeline):
         self,
         config: Union[Dict[str, Any], Optional[str]] = None,
         env: Environment = Environment(
-            pipeline_output_builder=build_simple_multiframe_aggregation_output,
+            pipeline_output_builder=build_simple_templates_aggregation_output,
             error_manager=store_error_manager,
             call_trace_initialiser=PipelineCallTraceStorage.initialise,
         ),
-        subconfig_key: str = "templates_aggregation",
+        subconfig_key: Optional[str] = "templates_aggregation",
     ) -> None:
         """
-        Initialize MultiframeAggregationPipeline with config and environment.
+        Initialize TemplatesAggregationPipeline with config and environment.
         Args:
             config (Union[Dict[str, Any], Optional[str]]): Pipeline config dict or YAML string.
             env (Environment): Pipeline environment.
             subconfig_key (str): The key to extract from the config dict. If provided, the config will be loaded from the subconfig key. Empty string means no subconfig is provided and the entire config is loaded.
         """
-        deserialized_config = self.load_config(config, subconfig_key)
+        deserialized_config = self.load_config(config, keyword=subconfig_key)
         super().__init__(deserialized_config, env)
 
     def run(self, templates: List[IrisTemplate], *args: Any, **kwargs: Any) -> Any:
@@ -92,19 +92,19 @@ class MultiframeAggregationPipeline(BasePipeline):
 
     @classmethod
     def load_config(
-        cls, config: Union[Dict[str, Any], Optional[str]], keyword: str = "templates_aggregation"
+        cls, config: Union[Dict[str, Any], Optional[str]], keyword: Optional[str] = "templates_aggregation"
     ) -> Dict[str, Any]:
         """
-        Load and deserialize the pipeline configuration (for multiframe aggregation).
+        Load and deserialize the pipeline configuration (for templates aggregation).
 
         Args:
             config: Either
                 • a dict already containing your pipeline sections, or
                 • a YAML string (or None) that will be loaded from disk.
-            keyword: If non‐empty, the top‐level key to extract from the final dict.
+            keyword: If None or empty string, the entire dict is returned. Otherwise, extracts the sub-dict at this key.
 
         Returns:
-            The sub-dict at `keyword` (or the entire dict if `keyword==""`).
+            The sub-dict at `keyword` (or the entire dict if `keyword` is None or empty).
 
         Raises:
             ValueError: if `keyword` is non-empty and not found in the config.
@@ -119,25 +119,25 @@ class MultiframeAggregationPipeline(BasePipeline):
             raw = load_yaml_config(config)
 
         # 2) If they asked for the whole dict, just return it
-        if not keyword:
+        if keyword is None or keyword == "":  # noqa
             return raw
 
         # 3) Otherwise, extract the sub‐key or raise once
         try:
             return raw[keyword]
         except KeyError:
-            raise ValueError(f"MultiframeAggregation requires '{keyword}' in the configuration.")
+            raise ValueError(f"TemplatesAggregation requires '{keyword}' in the configuration.")
 
     @classmethod
     def load_from_config(
         cls, config: str
-    ) -> Dict[str, Union["MultiframeAggregationPipeline", Optional[Dict[str, Any]]]]:
+    ) -> Dict[str, Union["TemplatesAggregationPipeline", Optional[Dict[str, Any]]]]:
         """
-        Given an iris config string in base64, initialise a MultiframeAggregationPipeline with this config.
+        Given an iris config string in base64, initialise a TemplatesAggregationPipeline with this config.
         Args:
             config (str): Base64-encoded config string.
         Returns:
-            Dict[str, Union[MultiframeAggregationPipeline, Optional[Dict[str, Any]]]]: Initialised pipeline and error (if any).
+            Dict[str, Union[TemplatesAggregationPipeline, Optional[Dict[str, Any]]]]: Initialised pipeline and error (if any).
         """
         error = None
         pipeline = None
