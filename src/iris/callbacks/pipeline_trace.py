@@ -136,7 +136,7 @@ class PipelineCallTraceStorage:
         call_trace = PipelineCallTraceStorage(results_names=nodes.keys())
 
         for algorithm_name, algorithm_object in nodes.items():
-            algorithm_object._callbacks.append(NodeResultsWriter(call_trace, algorithm_name))
+            algorithm_object._callbacks.insert(0, NodeResultsWriter(call_trace, algorithm_name))
 
         return call_trace
 
