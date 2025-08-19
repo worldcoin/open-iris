@@ -4,7 +4,15 @@ import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, OutputFieldSpec, WeightedIrisTemplate
+from iris.io.dataclasses import (
+    AlignedTemplates,
+    DistanceMatrix,
+    EyeCenters,
+    Offgaze,
+    OutputFieldSpec,
+    WeightedIrisTemplate,
+)
+from iris.orchestration import output_builders as ob
 from iris.orchestration.output_builders import (
     _build_from_spec,
     build_aggregation_templates_orb_output,
@@ -12,6 +20,8 @@ from iris.orchestration.output_builders import (
     build_simple_iris_pipeline_debugging_output,
     build_simple_iris_pipeline_orb_output,
 )
+
+SAFE_SERIALIZE = getattr(ob, "__safe_serialize")
 
 
 class TestOutputBuildersWithMissingKeys:
@@ -265,3 +275,42 @@ class TestBuildAggregationTemplatesOrbOutput:
         assert metadata["aligned_templates"]["reference_template_id"] == 0
         assert metadata["aligned_templates"]["distances"] == {(0, 0): 0.0}
         assert metadata["post_identity_filter_templates_count"] == 1
+
+
+class TestSafeSerialize:
+    def test_none_returns_none(self):
+        assert SAFE_SERIALIZE(None) is None
+
+    def test_immutable_model_serialization(self):
+        offgaze = Offgaze(score=0.5)
+        assert SAFE_SERIALIZE(offgaze) == offgaze.serialize()
+
+        eye_centers = EyeCenters(pupil_x=1.0, pupil_y=2.0, iris_x=3.0, iris_y=4.0)
+        assert SAFE_SERIALIZE(eye_centers) == eye_centers.serialize()
+
+    def test_numpy_array_to_list(self):
+        arr = np.array([[1, 2], [3, 4]])
+        assert SAFE_SERIALIZE(arr) == arr.tolist()
+
+    def test_list_and_tuple_recursion(self):
+        offgaze = Offgaze(score=0.25)
+        arr = np.array([1, 2, 3])
+
+        data_list = [1, "a", offgaze, arr]
+        assert SAFE_SERIALIZE(data_list) == [1, "a", offgaze.serialize(), arr.tolist()]
+
+        data_tuple = (True, 3.14, offgaze, arr)
+        assert SAFE_SERIALIZE(data_tuple) == (True, 3.14, offgaze.serialize(), arr.tolist())
+
+    def test_primitives_passthrough(self):
+        assert SAFE_SERIALIZE("hello") == "hello"
+        assert SAFE_SERIALIZE(123) == 123
+        assert SAFE_SERIALIZE(3.14) == 3.14
+        assert SAFE_SERIALIZE(True) is True
+
+    def test_unsupported_type_raises(self):
+        class Foo:
+            pass
+
+        with pytest.raises(NotImplementedError):
+            SAFE_SERIALIZE(Foo())
