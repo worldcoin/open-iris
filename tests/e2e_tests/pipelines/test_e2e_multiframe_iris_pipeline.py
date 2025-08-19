@@ -111,6 +111,7 @@ class TestMultiframeIrisPipeline:
         assert isinstance(aggregation_pipeline_output["individual_frames"][0], dict)
         assert "error" in aggregation_pipeline_output["individual_frames"][0]
         assert "metadata" in aggregation_pipeline_output["individual_frames"][0]
+        assert isinstance(aggregation_pipeline_output["individual_frames"][0]["metadata"]["image_size"], tuple)
 
         # check that the individiual frame metadata contains all the fields from IrisPipeline metadata
         dummy_call_trace = Mock()
