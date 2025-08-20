@@ -19,7 +19,7 @@ def _nested_safe_serialize(obj: Any) -> Any:
 
     # Handle lists and tuples by serializing each element
     if isinstance(obj, (list, tuple)):
-        return [_nested_safe_serialize(item) for item in obj]
+        return type(obj)(_nested_safe_serialize(item) for item in obj)
 
     # Handle mappings by serializing each value
     if isinstance(obj, Mapping):
@@ -67,7 +67,7 @@ def __safe_serialize(object: Optional[Any]) -> Optional[Any]:
     elif isinstance(object, ImmutableModel):
         return object.serialize()
     elif isinstance(object, (list, tuple)):
-        return [__safe_serialize(sub_object) for sub_object in object]
+        return type(object)(__safe_serialize(sub_object) for sub_object in object)
     elif isinstance(object, np.ndarray):
         return object.tolist()
     elif isinstance(object, (str, int, float, bool)):
