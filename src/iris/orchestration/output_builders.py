@@ -69,7 +69,7 @@ def __safe_serialize(object: Optional[Any]) -> Optional[Any]:
     elif isinstance(object, (list, tuple)):
         return type(object)(__safe_serialize(sub_object) for sub_object in object)
     elif isinstance(object, np.ndarray):
-        return object.tolist()
+        return object
     elif isinstance(object, (str, int, float, bool)):
         return object
     else:
