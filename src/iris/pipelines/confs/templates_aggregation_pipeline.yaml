@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.9.1
+  iris_version: 1.9.2
 
 pipeline:
   - name: segmentation
@@ -114,7 +114,8 @@ pipeline:
           class_name: iris.LSQEllipseFitWithRefinement
           params:
             dphi: 0.703125
-        algorithm_switch_std_threshold: 3.5
+        algorithm_switch_std_threshold: 0.014
+        algorithm_switch_std_conditioned_multiplier: 2.0
     inputs:
       - name: input_polygons
         source_node: smoothing
@@ -305,7 +306,7 @@ pipeline:
 
 templates_aggregation:
   metadata:
-    iris_version: 1.9.1
+    iris_version: 1.9.2
     pipeline_name: templates_aggregation
 
   pipeline:
