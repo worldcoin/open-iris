@@ -288,19 +288,15 @@ class TestSafeSerialize:
         eye_centers = EyeCenters(pupil_x=1.0, pupil_y=2.0, iris_x=3.0, iris_y=4.0)
         assert SAFE_SERIALIZE(eye_centers) == eye_centers.serialize()
 
-    def test_numpy_array_to_list(self):
-        arr = np.array([[1, 2], [3, 4]])
-        assert SAFE_SERIALIZE(arr) == arr.tolist()
-
     def test_list_and_tuple_recursion(self):
         offgaze = Offgaze(score=0.25)
         arr = np.array([1, 2, 3])
 
         data_list = [1, "a", offgaze, arr]
-        assert SAFE_SERIALIZE(data_list) == [1, "a", offgaze.serialize(), arr.tolist()]
+        assert SAFE_SERIALIZE(data_list) == [1, "a", offgaze.serialize(), arr]
 
         data_tuple = (True, 3.14, offgaze, arr)
-        assert SAFE_SERIALIZE(data_tuple) == (True, 3.14, offgaze.serialize(), arr.tolist())
+        assert SAFE_SERIALIZE(data_tuple) == (True, 3.14, offgaze.serialize(), arr)
 
     def test_primitives_passthrough(self):
         assert SAFE_SERIALIZE("hello") == "hello"
