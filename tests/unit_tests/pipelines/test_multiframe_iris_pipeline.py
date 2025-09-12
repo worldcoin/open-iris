@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IRImage, IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
@@ -612,7 +612,7 @@ class TestMultiframeIrisPipeline:
                 mock_call_trace = Mock()
                 pipeline.call_trace = mock_call_trace
 
-                test_input = {"imgs_data": [np.random.rand(1, 1)], "eye_side": "right"}
+                test_input = [IRImage(img_data=np.random.rand(1, 1), image_id="image_id", eye_side="right")]
                 pipeline._handle_input(test_input)
 
                 mock_call_trace.write_input.assert_called_once_with(test_input)
@@ -710,15 +710,17 @@ class TestMultiframeIrisPipeline:
         mock_call_trace = Mock()
         pipeline.call_trace = mock_call_trace
 
-        imgs_data = [Mock(), Mock()]  # Two mock images
-        eye_side = "left"
+        ir_images = [
+            IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side="left"),
+            IRImage(img_data=np.random.rand(15, 15), image_id="img2", eye_side="left"),
+        ]
 
-        iris_templates, individual_templates_output = pipeline._run_iris_pipeline(imgs_data, eye_side)
+        iris_templates, individual_templates_output = pipeline._run_iris_pipeline(ir_images)
 
         # Verify iris pipeline was called for each image
         assert mock_iris_pipeline.run.call_count == 2
-        mock_iris_pipeline.run.assert_any_call(imgs_data[0], eye_side)
-        mock_iris_pipeline.run.assert_any_call(imgs_data[1], eye_side)
+        mock_iris_pipeline.run.assert_any_call(ir_images[0])
+        mock_iris_pipeline.run.assert_any_call(ir_images[1])
 
         # Verify outputs
         assert len(iris_templates) == 2
@@ -736,18 +738,15 @@ class TestMultiframeIrisPipeline:
         """Test run_iris_pipeline when iris_template is None."""
         pipeline = MultiframeIrisPipeline(config=valid_multiframe_config)
         eye_side = "left"
-        with pytest.raises(ValueError, match="imgs_data must be a list of numpy arrays."):
-            pipeline.run(None, eye_side)
+        with pytest.raises(ValueError, match="pipeline_input must be a list of IRImage."):
+            pipeline.run(None)
 
-        with pytest.raises(ValueError, match="eye_side must be either 'left' or 'right'."):
-            pipeline.run([np.random.rand(10, 10)], "invalid_eye_side")
-
-        with pytest.raises(ValueError, match="imgs_data must be a list of numpy arrays."):
-            pipeline.run("invalid_input", eye_side)
+        with pytest.raises(ValueError, match="pipeline_input must be a list of IRImage."):
+            pipeline.run([1, 2, 3])
 
         # valid run but error inside the call_trace
-        eye_side = "left"
-        output = pipeline.run([np.random.rand(10, 10)], eye_side)
+        ir_images = [IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side=eye_side)]
+        output = pipeline.run(ir_images)
         assert output["error"] is not None
         assert output["error"]["error_type"] == "IRISPipelineError"
         assert output["iris_template"] is None
@@ -758,7 +757,8 @@ class TestMultiframeIrisPipeline:
         """Test successful execution of the complete run method."""
         pipeline = MultiframeIrisPipeline(config=valid_multiframe_config)
         for i in range(1, 3):
-            output = pipeline.run([ir_image] * i, "left")
+            ir_images = [IRImage(img_data=ir_image, image_id="img1", eye_side="left")] * i
+            output = pipeline.run(ir_images)
 
             assert output["error"] is None
             assert output["iris_template"] is not None
@@ -770,13 +770,17 @@ class TestMultiframeIrisPipeline:
     def test_run_one_corrupted_image(self, valid_multiframe_config, ir_image):
         """Test successful execution of the complete run method."""
         pipeline = MultiframeIrisPipeline(config=valid_multiframe_config)
-        output = pipeline.run([ir_image, np.random.rand(10, 10)], "left")
+        ir_images = [
+            IRImage(img_data=ir_image, image_id="img1", eye_side="left"),
+            IRImage(img_data=np.random.rand(10, 10), image_id="img2", eye_side="left"),
+        ]
+        output = pipeline.run(ir_images)
         assert output["error"] is not None
         assert output["error"]["error_type"] == "IRISPipelineError"
         assert len(output["individual_frames"]) == 2
         assert output["iris_template"] is None
 
-        output = pipeline.run([np.random.rand(10, 10), ir_image], "left")
+        output = pipeline.run([IRImage(img_data=np.random.rand(10, 10), image_id="img2", eye_side="left")])
         assert output["error"] is not None
         assert output["error"]["error_type"] == "IRISPipelineError"
         assert output["iris_template"] is None

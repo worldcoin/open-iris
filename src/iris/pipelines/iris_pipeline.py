@@ -97,46 +97,42 @@ class IRISPipeline(BasePipeline):
         deserialized_config = self.load_config(config) if isinstance(config, str) or config is None else config
         super().__init__(deserialized_config, env)
 
-    def estimate(self, img_data: np.ndarray, eye_side: Literal["left", "right"], *args, **kwargs) -> Any:
+    def estimate(self, ir_image: IRImage, *args, **kwargs) -> Any:
         """Wrap the `run` method to match the Orb system AI models call interface.
 
         Args:
-            img_data (np.ndarray): Input image data.
-            eye_side (Literal["left", "right"]): Eye side.
+            ir_image (IRImage): Input Infrared image data.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
 
         Returns:
             Any: Output created by builder specified in environment.pipeline_output_builder.
         """
-        return self.run(img_data, eye_side, *args, **kwargs)
+        return self.run(ir_image, *args, **kwargs)
 
-    def run(self, img_data: np.ndarray, eye_side: Literal["left", "right"], *args, **kwargs) -> Any:
+    def run(self, ir_image: IRImage, *args, **kwargs) -> Any:
         """
         Wrap the `run` method to match the Orb system AI models call interface.
 
         Args:
-            img_data (np.ndarray): Input Infrared image data.
-            eye_side (Literal["left", "right"]): Eye side.
+            ir_image (IRImage): Input Infrared image data.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
 
         Returns:
             Any: Output created by builder specified in environment.pipeline_output_builder.
         """
-        pipeline_input = {"img_data": img_data, "eye_side": eye_side}
-        return super().run(pipeline_input, *args, **kwargs)
+        return super().run(ir_image, *args, **kwargs)
 
     def _handle_input(self, pipeline_input: Any, *args, **kwargs) -> None:
         """
         Write the IR image input to the call trace.
         Args:
-            pipeline_input (dict): Should contain 'img_data' and 'eye_side'.
+            pipeline_input (IRImage): Should be IRImage object.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         """
-        ir_image = IRImage(img_data=pipeline_input["img_data"], eye_side=pipeline_input["eye_side"])
-        self.call_trace.write_input(ir_image)
+        self.call_trace.write_input(pipeline_input)
 
     def _handle_output(self, *args, **kwargs) -> Any:
         """

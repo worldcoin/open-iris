@@ -81,6 +81,7 @@ def test_computed_responses_maskisduplicated(
     assert np.allclose(expected_result.mask_responses[2], result.mask_responses[2], rtol=1e-05, atol=1e-07)
     assert result.iris_code_version == "v0.1"
 
+
 def test_computed_responses(
     first_filter: ImageFilter,
     second_filter: ImageFilter,
@@ -105,6 +106,7 @@ def test_computed_responses(
     assert np.allclose(expected_result.mask_responses[1], result.mask_responses[1], rtol=1e-05, atol=1e-07)
     assert np.allclose(expected_result.mask_responses[2], result.mask_responses[2], rtol=1e-05, atol=1e-07)
     assert result.iris_code_version == "v0.1"
+
 
 @pytest.mark.parametrize(
     "filters, probe_schemas, maskisduplicated",
@@ -145,7 +147,9 @@ def test_convfilterbank_constructor(
 
     assert len(filters) == len(probe_schemas)
 
-    filterbank = ConvFilterBank(filters=loaded_filters, probe_schemas=loaded_probe_schemas, maskisduplicated=maskisduplicated)
+    filterbank = ConvFilterBank(
+        filters=loaded_filters, probe_schemas=loaded_probe_schemas, maskisduplicated=maskisduplicated
+    )
     filter_responses = filterbank(normalization_output=load_mock_pickle("normalized_iris"))
 
     for i_iris_response, i_mask_response in zip(filter_responses.iris_responses, filter_responses.mask_responses):

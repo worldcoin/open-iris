@@ -28,13 +28,19 @@ def load_mock_pickle(name: str) -> Any:
     ids=["cartesian", "polar", "cartesian_maskisduplicated", "polar_maskisduplicated"],
 )
 def test_fragile_bits_dummy_responses(
-    value_threshold: Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)], fragile_type: FragileType, maskisduplicated: bool,
+    value_threshold: Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)],
+    fragile_type: FragileType,
+    maskisduplicated: bool,
 ) -> None:
     iris_filter_response = load_mock_pickle(f"artificial_iris_responses_{fragile_type}")
 
-    mask_responses_refined = load_mock_pickle(f"artificial_mask_responses_{fragile_type}_{int(maskisduplicated)}_expected_refinement")
+    mask_responses_refined = load_mock_pickle(
+        f"artificial_mask_responses_{fragile_type}_{int(maskisduplicated)}_expected_refinement"
+    )
 
-    fragile_bit_refinement = FragileBitRefinement(value_threshold=value_threshold, fragile_type=fragile_type, maskisduplicated=maskisduplicated)
+    fragile_bit_refinement = FragileBitRefinement(
+        value_threshold=value_threshold, fragile_type=fragile_type, maskisduplicated=maskisduplicated
+    )
     iris_filter_response_refined = fragile_bit_refinement(iris_filter_response)
 
     for refined_mask, obtained_mask in zip(mask_responses_refined, iris_filter_response_refined.mask_responses):

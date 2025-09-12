@@ -3,6 +3,7 @@ import logging
 import os
 
 import cv2
+from iris.io.dataclasses import IRImage
 from iris.pipelines.iris_pipeline import IRISPipeline
 
 if __name__ == "__main__":
@@ -22,6 +23,6 @@ if __name__ == "__main__":
 
     img_data = cv2.imread(args.in_img, cv2.IMREAD_GRAYSCALE)
 
-    out = iris_pipeline(img_data, "right")
+    out = iris_pipeline.estimate(IRImage(img_data=img_data, image_id="image_id1", eye_side="right"))
 
     logging.info("Run iris pipeline inference script FINISHED")

@@ -15,7 +15,9 @@ from iris.orchestration.output_builders import __get_iris_pipeline_metadata as g
 from iris.orchestration.output_builders import (
     __get_templates_aggregation_metadata as get_templates_aggregation_metadata,
 )
-from iris.orchestration.output_builders import build_simple_multiframe_iris_pipeline_output
+from iris.orchestration.output_builders import (
+    build_simple_multiframe_iris_pipeline_output,
+)
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.multiframe_iris_pipeline import MultiframeIrisPipeline
 

@@ -6,7 +6,7 @@ import numpy as np
 
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IRImage, IrisTemplate
 from iris.io.errors import IRISPipelineError, TemplatesAggregationPipelineError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
@@ -98,12 +98,11 @@ class MultiframeIrisPipeline:
         """
         return self.run(imgs_data, eye_side, *args, **kwargs)
 
-    def run(self, imgs_data: List[np.ndarray], eye_side: Literal["left", "right"], *args: Any, **kwargs: Any) -> Any:
+    def run(self, ir_images: List[IRImage], *args: Any, **kwargs: Any) -> Any:
         """
         Process multiple images through the combined pipeline.
         Args:
-            images (List[np.ndarray]): List of input images.
-            eye_side (Literal["left", "right"]): Eye side for all images.
+            ir_images (List[IRImage]): List of input images.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         Returns:
@@ -111,12 +110,11 @@ class MultiframeIrisPipeline:
         """
         self.call_trace.clean()
 
-        pipeline_input = {"imgs_data": imgs_data, "eye_side": eye_side}
-        self._handle_input(pipeline_input, *args, **kwargs)
+        self._handle_input(ir_images, *args, **kwargs)
 
         # Process individual images through iris pipeline
         try:
-            iris_templates, _ = self._run_iris_pipeline(imgs_data, eye_side)
+            iris_templates, _ = self._run_iris_pipeline(ir_images)
 
             # Run aggregation pipeline
             _ = self._run_aggregation_pipeline(iris_templates)
@@ -232,15 +230,12 @@ class MultiframeIrisPipeline:
 
         return (n_rows, n_cols, n_filters, n_probe_schemas)
 
-    def _run_iris_pipeline(
-        self, imgs_data: List[np.ndarray], eye_side: Literal["left", "right"]
-    ) -> Tuple[List[IrisTemplate], List[Any]]:
+    def _run_iris_pipeline(self, ir_images: List[IRImage]) -> Tuple[List[IrisTemplate], List[Any]]:
         """
         Process multiple images through the iris pipeline.
 
         Args:
-            imgs_data (List[np.ndarray]): List of input images.
-            eye_side (Literal["left", "right"]): Eye side for all images.
+            ir_images (List[IRImage]): List of input IR images.
 
         Returns:
             Tuple[List[IrisTemplate], List[Any]]: Tuple containing:
@@ -250,8 +245,8 @@ class MultiframeIrisPipeline:
         iris_templates = []
         individual_templates_output = []  # Collect individual template outputs
 
-        for i, img in enumerate(imgs_data):
-            iris_pipeline_output = self.iris_pipeline.run(img, eye_side)
+        for i, img in enumerate(ir_images):
+            iris_pipeline_output = self.iris_pipeline.run(img)
             individual_templates_output.append(iris_pipeline_output)
 
             # if there was an error - re-raise it and let the caller handle it
@@ -312,24 +307,19 @@ class MultiframeIrisPipeline:
 
     def _handle_input(self, pipeline_input: Any, *args, **kwargs) -> None:
         """
-        Write the list of IrisTemplate objects to the call trace.
+        Write the list of IRImage objects to the call trace.
+
         Args:
-            pipeline_input (Any): List of IrisTemplate objects.
+            pipeline_input (Any): List of IRImage objects.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         """
-        img_data = pipeline_input["imgs_data"]
-        eye_side = pipeline_input["eye_side"]
+        # Check that pipeline_input is a list of IRImage objects
+        if not isinstance(pipeline_input, (list, tuple)):
+            raise ValueError("pipeline_input must be a list of IRImage.")
+        if not all(isinstance(img, IRImage) for img in pipeline_input):
+            raise ValueError("pipeline_input must be a list of IRImage.")
 
-        # Check that img_data is a list of numpy arrays
-        if not isinstance(img_data, (list, tuple)):
-            raise ValueError("imgs_data must be a list of numpy arrays.")
-        if not all(isinstance(img, np.ndarray) for img in img_data):
-            raise ValueError("imgs_data must be a list of numpy arrays.")
-
-        # Check that eye_side is 'left' or 'right'
-        if eye_side not in ("left", "right"):
-            raise ValueError("eye_side must be either 'left' or 'right'.")
         self.call_trace.write_input(pipeline_input)
 
     def _handle_pipeline_error(self, error: Exception, allow_skip: bool = False) -> bool:
