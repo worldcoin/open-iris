@@ -86,7 +86,6 @@ def __get_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage) -> Dict[s
         Dict[str, Any]: Metadata dictionary.
     """
     ir_image = call_trace.get_input()
-    print(type(ir_image))
 
     return {
         "iris_version": __version__,
