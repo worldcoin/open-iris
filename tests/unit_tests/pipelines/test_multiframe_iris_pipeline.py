@@ -744,6 +744,12 @@ class TestMultiframeIrisPipeline:
         with pytest.raises(ValueError, match="pipeline_input must be a list of IRImage."):
             pipeline.run([1, 2, 3])
 
+        with pytest.raises(ValueError, match="All IRImage objects must have the same eye_side."):
+            pipeline.run([
+                IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side="left"),
+                IRImage(img_data=np.random.rand(10, 10), image_id="img2", eye_side="right")
+            ])
+
         # valid run but error inside the call_trace
         ir_images = [IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side=eye_side)]
         output = pipeline.run(ir_images)

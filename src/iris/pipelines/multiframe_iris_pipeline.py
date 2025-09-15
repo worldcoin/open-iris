@@ -83,20 +83,19 @@ class MultiframeIrisPipeline:
         self.call_trace = self.env.call_trace_initialiser(nodes={}, pipeline_nodes=[])
 
     def estimate(
-        self, imgs_data: List[np.ndarray], eye_side: Literal["left", "right"], *args: Any, **kwargs: Any
+        self, ir_images: List[IRImage], *args: Any, **kwargs: Any
     ) -> Any:
         """
         Wrap the `run` method to match the Orb system AI models call interface.
 
         Args:
-            imgs_data (List[np.ndarray]): List of input images.
-            eye_side (Literal["left", "right"]): Eye side for all images.
+            ir_images (List[IRImage]): List of input images.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         Returns:
             Any: Output created by builder specified in environment.pipeline_output_builder.
         """
-        return self.run(imgs_data, eye_side, *args, **kwargs)
+        return self.run(ir_images, *args, **kwargs)
 
     def run(self, ir_images: List[IRImage], *args: Any, **kwargs: Any) -> Any:
         """
@@ -319,6 +318,8 @@ class MultiframeIrisPipeline:
             raise ValueError("pipeline_input must be a list of IRImage.")
         if not all(isinstance(img, IRImage) for img in pipeline_input):
             raise ValueError("pipeline_input must be a list of IRImage.")
+        if len(set([img.eye_side for img in pipeline_input])) != 1:
+            raise ValueError("All IRImage objects must have the same eye_side.")
 
         self.call_trace.write_input(pipeline_input)
 
