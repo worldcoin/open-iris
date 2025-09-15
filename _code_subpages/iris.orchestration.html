@@ -5,33 +5,33 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.pipelines package" href="iris.pipelines.html" /><link rel="prev" title="iris.nodes.vectorization package" href="iris.nodes.vectorization.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.orchestration package - iris v1.8.2</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
+        <title>iris.orchestration package - iris v1.9.3</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.8.2</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,8 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  
-  <span class="sidebar-brand-text">iris v1.8.2</span>
+  <span class="sidebar-brand-text">iris v1.9.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -370,9 +369,9 @@
 <section id="module-iris.orchestration.output_builders">
 <span id="iris-orchestration-output-builders-module"></span><h2>iris.orchestration.output_builders module<a class="headerlink" href="#module-iris.orchestration.output_builders" title="Link to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_aggregation_multiframe_orb_output">
-<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_aggregation_multiframe_orb_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_aggregation_multiframe_orb_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_aggregation_multiframe_orb_output" title="Link to this definition">¶</a></dt>
-<dd><p>Construct multiframe aggregation ORB output with safe serialization.</p>
+<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_aggregation_templates_orb_output">
+<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_aggregation_templates_orb_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_aggregation_templates_orb_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_aggregation_templates_orb_output" title="Link to this definition">¶</a></dt>
+<dd><p>Construct templates aggregation ORB output with safe serialization.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -389,6 +388,12 @@ the iris_template is also safely serialized.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_multiframe_iris_pipeline_orb_output">
+<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_multiframe_iris_pipeline_orb_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_multiframe_iris_pipeline_orb_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_multiframe_iris_pipeline_orb_output" title="Link to this definition">¶</a></dt>
+<dd><p>Construct combined iris pipeline ORB output with safe serialization.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="iris.orchestration.output_builders.build_simple_iris_pipeline_debugging_output">
 <span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_simple_iris_pipeline_debugging_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_simple_iris_pipeline_debugging_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_simple_iris_pipeline_debugging_output" title="Link to this definition">¶</a></dt>
 <dd><p>Construct debugging output with intermediate results (raw values).</p>
@@ -401,9 +406,15 @@ the iris_template is also safely serialized.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_simple_multiframe_aggregation_output">
-<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_simple_multiframe_aggregation_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_simple_multiframe_aggregation_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_simple_multiframe_aggregation_output" title="Link to this definition">¶</a></dt>
-<dd><p>Construct simple multiframe aggregation output (raw values).</p>
+<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_simple_multiframe_iris_pipeline_output">
+<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_simple_multiframe_iris_pipeline_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_simple_multiframe_iris_pipeline_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_simple_multiframe_iris_pipeline_output" title="Link to this definition">¶</a></dt>
+<dd><p>Construct simple combined iris pipeline output (raw values).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iris.orchestration.output_builders.build_simple_templates_aggregation_output">
+<span class="sig-prename descclassname"><span class="pre">iris.orchestration.output_builders.</span></span><span class="sig-name descname"><span class="pre">build_simple_templates_aggregation_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">call_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.callbacks.html#iris.callbacks.pipeline_trace.PipelineCallTraceStorage" title="iris.callbacks.pipeline_trace.PipelineCallTraceStorage"><span class="pre">PipelineCallTraceStorage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/orchestration/output_builders.html#build_simple_templates_aggregation_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.orchestration.output_builders.build_simple_templates_aggregation_output" title="Link to this definition">¶</a></dt>
+<dd><p>Construct simple templates aggregation output (raw values).</p>
 </dd></dl>
 
 </section>
@@ -616,12 +627,14 @@ the iris_template is also safely serialized.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-iris.orchestration.output_builders">iris.orchestration.output_builders module</a><ul>
-<li><a class="reference internal" href="#iris.orchestration.output_builders.build_aggregation_multiframe_orb_output"><code class="docutils literal notranslate"><span class="pre">build_aggregation_multiframe_orb_output()</span></code></a></li>
+<li><a class="reference internal" href="#iris.orchestration.output_builders.build_aggregation_templates_orb_output"><code class="docutils literal notranslate"><span class="pre">build_aggregation_templates_orb_output()</span></code></a></li>
 <li><a class="reference internal" href="#iris.orchestration.output_builders.build_iris_pipeline_debugging_output"><code class="docutils literal notranslate"><span class="pre">build_iris_pipeline_debugging_output()</span></code></a></li>
 <li><a class="reference internal" href="#iris.orchestration.output_builders.build_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_iris_pipeline_orb_output()</span></code></a></li>
+<li><a class="reference internal" href="#iris.orchestration.output_builders.build_multiframe_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_multiframe_iris_pipeline_orb_output()</span></code></a></li>
 <li><a class="reference internal" href="#iris.orchestration.output_builders.build_simple_iris_pipeline_debugging_output"><code class="docutils literal notranslate"><span class="pre">build_simple_iris_pipeline_debugging_output()</span></code></a></li>
 <li><a class="reference internal" href="#iris.orchestration.output_builders.build_simple_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_simple_iris_pipeline_orb_output()</span></code></a></li>
-<li><a class="reference internal" href="#iris.orchestration.output_builders.build_simple_multiframe_aggregation_output"><code class="docutils literal notranslate"><span class="pre">build_simple_multiframe_aggregation_output()</span></code></a></li>
+<li><a class="reference internal" href="#iris.orchestration.output_builders.build_simple_multiframe_iris_pipeline_output"><code class="docutils literal notranslate"><span class="pre">build_simple_multiframe_iris_pipeline_output()</span></code></a></li>
+<li><a class="reference internal" href="#iris.orchestration.output_builders.build_simple_templates_aggregation_output"><code class="docutils literal notranslate"><span class="pre">build_simple_templates_aggregation_output()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-iris.orchestration.pipeline_dataclasses">iris.orchestration.pipeline_dataclasses module</a><ul>
@@ -671,9 +684,9 @@ the iris_template is also safely serialized.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=269e6701"></script>
+</div><script src="../_static/documentation_options.js?v=f333a941"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>

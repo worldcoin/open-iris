@@ -5,33 +5,33 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.callbacks package" href="iris.callbacks.html" /><link rel="prev" title="iris" href="modules.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris package - iris v1.8.2</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
+        <title>iris package - iris v1.9.3</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.8.2</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,8 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  
-  <span class="sidebar-brand-text">iris v1.8.2</span>
+  <span class="sidebar-brand-text">iris v1.9.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -428,6 +427,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.deserialize"><code class="docutils literal notranslate"><span class="pre">IRImage.deserialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.eye_side"><code class="docutils literal notranslate"><span class="pre">IRImage.eye_side</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.height"><code class="docutils literal notranslate"><span class="pre">IRImage.height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.image_id"><code class="docutils literal notranslate"><span class="pre">IRImage.image_id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.img_data"><code class="docutils literal notranslate"><span class="pre">IRImage.img_data</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.serialize"><code class="docutils literal notranslate"><span class="pre">IRImage.serialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage.width"><code class="docutils literal notranslate"><span class="pre">IRImage.width</span></code></a></li>
@@ -553,6 +553,7 @@
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.PupilIrisPropertyEstimationError"><code class="docutils literal notranslate"><span class="pre">PupilIrisPropertyEstimationError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.SharpnessEstimationError"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimationError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.TemplateAggregationCompatibilityError"><code class="docutils literal notranslate"><span class="pre">TemplateAggregationCompatibilityError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.TemplatesAggregationPipelineError"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipelineError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.io.html#iris.io.errors.VectorizationError"><code class="docutils literal notranslate"><span class="pre">VectorizationError</span></code></a></li>
 </ul>
 </li>
@@ -718,12 +719,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="iris.orchestration.html#module-iris.orchestration.output_builders">iris.orchestration.output_builders module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_aggregation_multiframe_orb_output"><code class="docutils literal notranslate"><span class="pre">build_aggregation_multiframe_orb_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_aggregation_templates_orb_output"><code class="docutils literal notranslate"><span class="pre">build_aggregation_templates_orb_output()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_iris_pipeline_debugging_output"><code class="docutils literal notranslate"><span class="pre">build_iris_pipeline_debugging_output()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_iris_pipeline_orb_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_multiframe_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_multiframe_iris_pipeline_orb_output()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_simple_iris_pipeline_debugging_output"><code class="docutils literal notranslate"><span class="pre">build_simple_iris_pipeline_debugging_output()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_simple_iris_pipeline_orb_output"><code class="docutils literal notranslate"><span class="pre">build_simple_iris_pipeline_orb_output()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_simple_multiframe_aggregation_output"><code class="docutils literal notranslate"><span class="pre">build_simple_multiframe_aggregation_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_simple_multiframe_iris_pipeline_output"><code class="docutils literal notranslate"><span class="pre">build_simple_multiframe_iris_pipeline_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.output_builders.build_simple_templates_aggregation_output"><code class="docutils literal notranslate"><span class="pre">build_simple_templates_aggregation_output()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="iris.orchestration.html#module-iris.orchestration.pipeline_dataclasses">iris.orchestration.pipeline_dataclasses module</a><ul>
@@ -792,20 +795,70 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="iris.pipelines.html#module-iris.pipelines.multiframe_aggregation_pipeline">iris.pipelines.multiframe_aggregation_pipeline module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.Parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.load_config()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.load_from_config()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="iris.pipelines.html#module-iris.pipelines.multiframe_iris_pipeline">iris.pipelines.multiframe_iris_pipeline module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.PACKAGE_VERSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.derive_iris_template_shape_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.derive_iris_template_shape_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.estimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="iris.pipelines.html#module-iris.pipelines">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iris.pipelines.html#module-iris.pipelines.templates_aggregation_pipeline">iris.pipelines.templates_aggregation_pipeline module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iris.pipelines.html#module-iris.pipelines">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.DEBUGGING_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.DEBUGGING_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.PACKAGE_VERSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.estimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.run"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.IRISPipeline.update_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.update_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.PACKAGE_VERSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.derive_iris_template_shape_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.derive_iris_template_shape_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.estimate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.MultiframeIrisPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_from_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iris.pipelines.html#iris.pipelines.TemplatesAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="iris.utils.html">iris.utils package</a><ul>
@@ -933,10 +986,10 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=269e6701"></script>
+</div><script src="../_static/documentation_options.js?v=f333a941"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>
