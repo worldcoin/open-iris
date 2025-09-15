@@ -20,10 +20,18 @@ iris.pipelines.iris\_pipeline module
    :undoc-members:
    :show-inheritance:
 
-iris.pipelines.multiframe\_aggregation\_pipeline module
--------------------------------------------------------
+iris.pipelines.multiframe\_iris\_pipeline module
+------------------------------------------------
 
-.. automodule:: iris.pipelines.multiframe_aggregation_pipeline
+.. automodule:: iris.pipelines.multiframe_iris_pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iris.pipelines.templates\_aggregation\_pipeline module
+------------------------------------------------------
+
+.. automodule:: iris.pipelines.templates_aggregation_pipeline
    :members:
    :undoc-members:
    :show-inheritance:
