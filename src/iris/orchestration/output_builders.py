@@ -89,6 +89,7 @@ def __get_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage) -> Dict[s
 
     return {
         "iris_version": __version__,
+        "image_id": ir_image.image_id,
         "image_size": (ir_image.width, ir_image.height),
         "eye_side": ir_image.eye_side,
         "eye_centers": __safe_serialize(call_trace.get("eye_center_estimation")),
@@ -144,9 +145,9 @@ def __get_templates_aggregation_metadata(call_trace: PipelineCallTraceStorage) -
             "reference_template_id": aligned_templates.reference_template_id if aligned_templates is not None else None,
             "distances": __safe_serialize(aligned_templates.distances) if aligned_templates is not None else None,
         },
-        "post_identity_filter_templates_count": len(identity_filtered_templates)
-        if identity_filtered_templates is not None
-        else None,
+        "post_identity_filter_templates_count": (
+            len(identity_filtered_templates) if identity_filtered_templates is not None else None
+        ),
     }
 
 
@@ -216,9 +217,9 @@ TEMPLATES_AGG_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation").as_iris_template()
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation").as_iris_template() if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=True,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_templates_aggregation_metadata, safe_serialize=False),
@@ -228,9 +229,9 @@ TEMPLATES_AGG_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("templates_aggregation").as_iris_template()
-        if ct.get("templates_aggregation") is not None
-        else None,
+        extractor=lambda ct: (
+            ct.get("templates_aggregation").as_iris_template() if ct.get("templates_aggregation") is not None else None
+        ),
         safe_serialize=False,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_templates_aggregation_metadata, safe_serialize=False),
@@ -242,9 +243,9 @@ MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("aggregation_result", {}).get("iris_template")
-        if ct.get("aggregation_result")
-        else None,
+        extractor=lambda ct: (
+            ct.get("aggregation_result", {}).get("iris_template") if ct.get("aggregation_result") else None
+        ),
         safe_serialize=True,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_iris_pipeline_metadata, safe_serialize=False),
@@ -267,9 +268,9 @@ MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC = [
     OutputFieldSpec(key="error", extractor=__get_error, safe_serialize=False),
     OutputFieldSpec(
         key="iris_template",
-        extractor=lambda ct: ct.get("aggregation_result", {}).get("iris_template")
-        if ct.get("aggregation_result")
-        else None,
+        extractor=lambda ct: (
+            ct.get("aggregation_result", {}).get("iris_template") if ct.get("aggregation_result") else None
+        ),
         safe_serialize=False,
     ),
     OutputFieldSpec(key="metadata", extractor=__get_multiframe_iris_pipeline_metadata, safe_serialize=False),

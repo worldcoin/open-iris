@@ -44,7 +44,7 @@ from tests.unit_tests.utils import generate_arc
 )
 def test_eye_centers_inside_image_validator(mock_centers: EyeCenters, min_distance_to_border: int) -> None:
     validator = cross_obj_v.EyeCentersInsideImageValidator(min_distance_to_border=min_distance_to_border)
-    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), eye_side="right")
+    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), image_id="image_id", eye_side="right")
 
     try:
         validator(mock_image, mock_centers)
@@ -92,7 +92,7 @@ def test_eye_centers_inside_image_validator_raises_exception(
     mock_centers: EyeCenters, min_distance_to_border: int
 ) -> None:
     validator = cross_obj_v.EyeCentersInsideImageValidator(min_distance_to_border=min_distance_to_border)
-    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), eye_side="right")
+    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), image_id="image_id", eye_side="right")
 
     with pytest.raises(EyeCentersInsideImageValidatorError):
         validator(mock_image, mock_centers)
@@ -135,7 +135,7 @@ def test_extrapolated_polygons_inside_image_validator(mock_extrapolated_polygons
         min_iris_allowed_percentage=0.5,
         min_eyeball_allowed_percentage=0.5,
     )
-    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), eye_side="right")
+    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), image_id="image_id", eye_side="right")
 
     try:
         validator(mock_image, mock_extrapolated_polygons)
@@ -178,7 +178,7 @@ def test_extrapolated_polygons_inside_image_validator_raise_exception(
         min_iris_allowed_percentage=0.5,
         min_eyeball_allowed_percentage=0.5,
     )
-    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), eye_side="right")
+    mock_image = IRImage(img_data=np.zeros(shape=(1080, 1440)), image_id="image_id", eye_side="right")
 
     with pytest.raises(ExtrapolatedPolygonsInsideImageValidatorError):
         validator(mock_image, mock_extrapolated_polygons)
