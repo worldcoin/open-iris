@@ -67,6 +67,7 @@ jobs:
       - name: Checkout gh-pages branch
         run: |
           git fetch origin gh-pages:gh-pages || git checkout --orphan gh-pages
+          git stash
           git checkout gh-pages
 
       - name: Preserve existing .nojekyll from root
