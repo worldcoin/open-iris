@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import Any, Callable, Dict, List, Literal, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field, NonNegativeInt, root_validator, validator
@@ -22,6 +22,7 @@ class IRImage(ImmutableModel):
     """Data holder for input IR image."""
 
     img_data: np.ndarray
+    image_id: Optional[str]
     eye_side: Literal["left", "right"]
 
     @property

@@ -13,6 +13,7 @@ from _pytest.fixtures import FixtureRequest
 import iris
 from iris import __version__
 from iris.callbacks.pipeline_trace import NodeResultsWriter, PipelineCallTraceStorage
+from iris.io.dataclasses import IRImage
 from iris.io.class_configs import Algorithm
 from iris.io.errors import IRISPipelineError
 from iris.orchestration.environment import Environment
@@ -244,11 +245,11 @@ def test_check_pipeline_coherency_fails(config: Optional[str], expectation):
     ],
 )
 def test_error_manager(input: str, env: Environment, expectation, request: FixtureRequest):
-    ir_image = request.getfixturevalue(input)
+    img_data = request.getfixturevalue(input)
     iris_pipeline = IRISPipeline(env=env)
 
     with expectation:
-        _ = iris_pipeline(ir_image, eye_side="left")
+        _ = iris_pipeline(IRImage(img_data=img_data, image_id="image_id", eye_side="left"))
 
 
 @pytest.mark.parametrize(
@@ -311,9 +312,9 @@ def test_interrupted_pipeline_has_the_right_call_trace(
     expected_non_null_outputs: List[str],
     request: FixtureRequest,
 ):
-    ir_image = request.getfixturevalue(input)
+    img_data = request.getfixturevalue(input)
     iris_pipeline = IRISPipeline(env=env)
-    result = iris_pipeline(ir_image, eye_side="left")
+    result = iris_pipeline(IRImage(img_data=img_data, image_id="image_id", eye_side="left"))
 
     # Test for None / non-None values in call_trace
     for node_name, intermediary_result in iris_pipeline.call_trace._storage.items():
@@ -357,8 +358,8 @@ def test_init_pipeline_tracing() -> None:
 def test_call_trace_clearance(ir_image: np.ndarray) -> None:
     iris_pipeline = IRISPipeline()
 
-    first_call = iris_pipeline(ir_image, eye_side="left")
-    second_call = iris_pipeline(ir_image, eye_side="right")
+    first_call = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
+    second_call = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
 
     assert first_call["metadata"]["eye_side"] != second_call["metadata"]["eye_side"]
 
@@ -697,15 +698,15 @@ def test_estimate_and_run_produce_same_output(ir_image: np.ndarray, env: Environ
     iris_pipeline = IRISPipeline(env=env)
 
     # Test with left eye
-    estimate_result_left = iris_pipeline.estimate(ir_image, eye_side="left")
-    run_result_left = iris_pipeline.run(ir_image, eye_side="left")
+    estimate_result_left = iris_pipeline.estimate(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
+    run_result_left = iris_pipeline.run(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
 
     # Assert that both methods produce the same output for left eye
     comparison_func(estimate_result_left, run_result_left)
 
     # Test with right eye
-    estimate_result_right = iris_pipeline.estimate(ir_image, eye_side="right")
-    run_result_right = iris_pipeline.run(ir_image, eye_side="right")
+    estimate_result_right = iris_pipeline.estimate(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
+    run_result_right = iris_pipeline.run(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
 
     # Assert that both methods produce the same output for right eye
     comparison_func(estimate_result_right, run_result_right)
@@ -725,8 +726,8 @@ def test_estimate_and_run_with_additional_args(ir_image: np.ndarray):
     extra_arg = "extra_positional"
     extra_kwarg = {"extra": "keyword"}
 
-    estimate_result = iris_pipeline.estimate(ir_image, "left", extra_arg, extra_param=extra_kwarg)
-    run_result = iris_pipeline.run(ir_image, "left", extra_arg, extra_param=extra_kwarg)
+    estimate_result = iris_pipeline.estimate(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"), extra_arg, extra_param=extra_kwarg)
+    run_result = iris_pipeline.run(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"), extra_arg, extra_param=extra_kwarg)
 
     # Assert that both methods produce the same output
     compare_debug_pipeline_outputs(estimate_result, run_result)
@@ -742,10 +743,10 @@ def test_estimate_calls_run_internally(ir_image: np.ndarray):
     iris_pipeline.run = Mock(return_value={"mocked": "result"})
 
     # Call estimate
-    result = iris_pipeline.estimate(ir_image, "left", "arg1", kwarg1="value1")
+    result = iris_pipeline.estimate(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"), "arg1", kwarg1="value1")
 
     # Verify run was called with the same arguments
-    iris_pipeline.run.assert_called_once_with(ir_image, "left", "arg1", kwarg1="value1")
+    iris_pipeline.run.assert_called_once_with(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"), "arg1", kwarg1="value1")
     assert result == {"mocked": "result"}
 
     # Restore original run method
@@ -758,9 +759,9 @@ def test_estimate_run_equivalence_with_call_method(ir_image: np.ndarray):
     iris_pipeline = IRISPipeline()
 
     # Get results from all three methods
-    estimate_result = iris_pipeline.estimate(ir_image, eye_side="left")
-    run_result = iris_pipeline.run(ir_image, eye_side="left")
-    call_result = iris_pipeline(ir_image, eye_side="left")
+    estimate_result = iris_pipeline.estimate(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
+    run_result = iris_pipeline.run(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
+    call_result = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="left"))
 
     # All three should produce identical results
     compare_simple_pipeline_outputs(estimate_result, run_result)
@@ -1003,5 +1004,3 @@ def test_version_validation_behavior(input_version, expected_version, should_pas
             assert "Wrong config version" in error_message
             assert expected_version in error_message
             assert input_version in error_message
-
-    # del CustomPipeline

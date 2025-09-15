@@ -11,6 +11,7 @@ def compare_iris_pipeline_metadata_output(metadata_1: Dict[str, Any], metadata_2
         metadata_2 (Dict[str, Any]): pipeline's metadata output 2.
     """
     assert metadata_2["image_size"] == metadata_1["image_size"]
+    assert metadata_2["image_id"] == metadata_1["image_id"]
     assert metadata_2["eye_side"] == metadata_1["eye_side"]
 
     np.testing.assert_almost_equal(

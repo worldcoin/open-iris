@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IRImage, IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import raise_error_manager, store_error_manager
 from iris.orchestration.output_builders import (
@@ -265,7 +265,7 @@ class TestIRISPipelineWithAggregation:
         iris_pipeline = IRISPipeline(config=combined_config, env=iris_env)
         iris_templates = []
         for _ in range(3):
-            iris_pipeline_output = iris_pipeline(img_data=ir_image, eye_side="right")
+            iris_pipeline_output = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
             if iris_env == IRISPipeline.ORB_ENVIRONMENT:
                 template = IrisTemplate.deserialize(iris_pipeline_output["iris_template"])
             else:

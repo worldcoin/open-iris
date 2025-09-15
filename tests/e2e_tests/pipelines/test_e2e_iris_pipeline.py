@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import pytest
 
+from iris.io.dataclasses import IRImage
 from iris.pipelines.iris_pipeline import IRISPipeline
 from tests.e2e_tests.utils import compare_debug_pipeline_outputs, compare_iris_pipeline_outputs
 
@@ -36,7 +37,7 @@ def expected_debug_pipeline_output() -> Dict[str, Any]:
 def test_e2e_iris_pipeline(ir_image: np.ndarray, expected_iris_pipeline_output: Dict[str, Any]) -> None:
     """End-to-end test of the IRISPipeline in the Orb setup"""
     iris_pipeline = IRISPipeline(env=IRISPipeline.ORB_ENVIRONMENT)
-    computed_pipeline_output = iris_pipeline(img_data=ir_image, eye_side="right")
+    computed_pipeline_output = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
 
     compare_iris_pipeline_outputs(computed_pipeline_output, expected_iris_pipeline_output)
 
@@ -45,6 +46,6 @@ def test_e2e_debug_pipeline(ir_image: np.ndarray, expected_debug_pipeline_output
     """End-to-end test of the IRISPipeline in the debug setup"""
     iris_pipeline = IRISPipeline(env=IRISPipeline.DEBUGGING_ENVIRONMENT)
 
-    computed_pipeline_output = iris_pipeline(img_data=ir_image, eye_side="right")
+    computed_pipeline_output = iris_pipeline(IRImage(img_data=ir_image, image_id="image_id", eye_side="right"))
 
     compare_debug_pipeline_outputs(computed_pipeline_output, expected_debug_pipeline_output)

@@ -1,7 +1,7 @@
 import abc
 from typing import Any, List
-import numpy as np
 
+import numpy as np
 from pydantic import conint
 
 from iris.io.class_configs import ImmutableModel
@@ -25,7 +25,7 @@ class Matcher(abc.ABC):
             rotation_shift (int = 15): rotation allowed in matching, converted to columns. Defaults to 15.
         """
         self.params = self.__parameters_type__(**kwargs)
-    
+
     def load_weights(self, weights_path: str) -> List[np.array]:
         """Load weights from a file.
 
@@ -35,7 +35,7 @@ class Matcher(abc.ABC):
         Returns:
             List[Any]: Loaded weights.
         """
-        with open(weights_path, 'rb') as f:
+        with open(weights_path, "rb") as f:
             try:
                 weights = np.load(f, allow_pickle=True)
                 if isinstance(weights, np.ndarray):
