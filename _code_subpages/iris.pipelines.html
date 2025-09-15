@@ -5,33 +5,33 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.utils package" href="iris.utils.html" /><link rel="prev" title="iris.orchestration package" href="iris.orchestration.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.pipelines package - iris v1.8.2</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
+        <title>iris.pipelines package - iris v1.9.3</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.8.2</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,8 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  
-  <span class="sidebar-brand-text">iris v1.8.2</span>
+  <span class="sidebar-brand-text">iris v1.9.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -392,7 +391,7 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH">
-<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/yi.chen/github/open-iris/src/iris/pipelines/confs/pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -402,7 +401,7 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.PACKAGE_VERSION">
-<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.8.2'</span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
@@ -424,13 +423,12 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.estimate">
-<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.estimate" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.estimate" title="Link to this definition">¶</a></dt>
 <dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>img_data</strong> (<em>np.ndarray</em>) – Input image data.</p></li>
-<li><p><strong>eye_side</strong> (<em>Literal</em><em>[</em><em>&quot;left&quot;</em><em>, </em><em>&quot;right&quot;</em><em>]</em>) – Eye side.</p></li>
+<li><p><strong>ir_image</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a>) – Input Infrared image data.</p></li>
 <li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
 <li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
 </ul>
@@ -478,13 +476,12 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.pipelines.iris_pipeline.IRISPipeline.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.run" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.iris_pipeline.IRISPipeline.run" title="Link to this definition">¶</a></dt>
 <dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>img_data</strong> (<em>np.ndarray</em>) – Input Infrared image data.</p></li>
-<li><p><strong>eye_side</strong> (<em>Literal</em><em>[</em><em>&quot;left&quot;</em><em>, </em><em>&quot;right&quot;</em><em>]</em>) – Eye side.</p></li>
+<li><p><strong>ir_image</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a>) – Input Infrared image data.</p></li>
 <li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
 <li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
 </ul>
@@ -512,60 +509,192 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 </dd></dl>
 
 </section>
-<section id="module-iris.pipelines.multiframe_aggregation_pipeline">
-<span id="iris-pipelines-multiframe-aggregation-pipeline-module"></span><h2>iris.pipelines.multiframe_aggregation_pipeline module<a class="headerlink" href="#module-iris.pipelines.multiframe_aggregation_pipeline" title="Link to this heading">¶</a></h2>
+<section id="module-iris.pipelines.multiframe_iris_pipeline">
+<span id="iris-pipelines-multiframe-iris-pipeline-module"></span><h2>iris.pipelines.multiframe_iris_pipeline module<a class="headerlink" href="#module-iris.pipelines.multiframe_iris_pipeline" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.multiframe_aggregation_pipeline.</span></span><span class="sig-name descname"><span class="pre">MultiframeAggregationPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_multiframe_aggregation_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subconfig_key:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_aggregation_pipeline.html#MultiframeAggregationPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.multiframe_iris_pipeline.</span></span><span class="sig-name descname"><span class="pre">MultiframeIrisPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_multiframe_iris_pipeline_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Pipeline that combines IRISPipeline and TemplatesAggregationPipeline.
+Takes a list of images and eye-side as input, processes each image through IRISPipeline,
+then aggregates the resulting templates using TemplatesAggregationPipeline.</p>
+<p>Uses a unified configuration with two distinct parts:
+- iris_pipeline: Configuration for individual image processing
+- templates_aggregation: Configuration for template aggregation</p>
+<p>IMPORTANT WARNING: Template Quality and Validation Requirements</p>
+<p>To prevent aggregation of templates from different users, different eyes, or of different
+quality (off-gaze, occlusion, poor focus, etc.), users must pay extra attention to the
+filtering and validation of provided templates and corresponding thresholds during template
+creation. It is strongly advised to conduct a dedicated analysis of template quality
+metrics and establish appropriate validation criteria prior to using this functionality
+in production environments.</p>
+<p>While the pipeline does perform some basic validation of the input templates,
+users are responsible for ensuring
+data integrity and appropriate quality thresholds to maintain system accuracy and security.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH">
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/multiframe_iris_pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.ORB_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_multiframe_iris_pipeline_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.derive_iris_template_shape_from_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">derive_iris_template_shape_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_pipeline_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.derive_iris_template_shape_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.derive_iris_template_shape_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Derive the iris template shape from the pipeline configuration.</p>
+<p>The shape is determined by scanning the filter_bank node configuration:
+- n_rows and n_cols from probe_schemas (first two dimensions)
+- number of filters (third dimension)
+- number of probe_schemas (fourth dimension)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The iris template shape (n_rows, n_cols, n_filters, n_probe_schemas)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[int, int, int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.estimate" title="Link to this definition">¶</a></dt>
+<dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_images</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a><em>]</em>) – List of input images.</p></li>
+<li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
+<li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_config" title="Link to this definition">¶</a></dt>
+<dd><p>Load and deserialize the pipeline configuration (for templates aggregation).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – Either
+• a dict already containing your pipeline sections, or
+• a YAML string (or None) that will be loaded from disk.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing the iris_pipeline and templates_aggregation_pipeline configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline" title="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline"><span class="pre">MultiframeIrisPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Given an iris config string in base64, initialise a MultiframeIrisPipeline with this config.
+:param config: Base64-encoded config string.
+:type config: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialised pipeline and error (if any).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline" title="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline">MultiframeIrisPipeline</a>, Optional[Dict[str, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.run" title="Link to this definition">¶</a></dt>
+<dd><p>Process multiple images through the combined pipeline.
+:param ir_images: List of input images.
+:type ir_images: List[IRImage]
+:param *args: Optional positional arguments for extensibility.
+:param **kwargs: Optional keyword arguments for extensibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.pipelines.templates_aggregation_pipeline">
+<span id="iris-pipelines-templates-aggregation-pipeline-module"></span><h2>iris.pipelines.templates_aggregation_pipeline module<a class="headerlink" href="#module-iris.pipelines.templates_aggregation_pipeline" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.templates_aggregation_pipeline.</span></span><span class="sig-name descname"><span class="pre">TemplatesAggregationPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_templates_aggregation_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subconfig_key:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#iris.pipelines.base_pipeline.BasePipeline" title="iris.pipelines.base_pipeline.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
-<p>Pipeline for multiframe iris template aggregation.
+<p>Pipeline for iris templates aggregation.
 Inherits shared logic from BasePipeline and implements input/output specifics.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH">
-<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/yi.chen/github/open-iris/src/iris/pipelines/confs/multiframe_aggregation_pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH">
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/templates_aggregation_pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.ORB_ENVIRONMENT">
-<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_aggregation_multiframe_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.ORB_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_aggregation_templates_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.PACKAGE_VERSION">
-<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.8.2'</span></em><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_aggregation_pipeline.html#MultiframeAggregationPipeline.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.metadata">
-<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></em><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.metadata" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></em><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.metadata" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.pipeline">
-<span class="sig-name descname"><span class="pre">pipeline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.pipeline" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.pipeline">
+<span class="sig-name descname"><span class="pre">pipeline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.pipeline" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_aggregation_pipeline.html#MultiframeAggregationPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_config" title="Link to this definition">¶</a></dt>
-<dd><p>Load and deserialize the pipeline configuration (for multiframe aggregation).</p>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_config" title="Link to this definition">¶</a></dt>
+<dd><p>Load and deserialize the pipeline configuration (for templates aggregation).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> – Either
 • a dict already containing your pipeline sections, or
 • a YAML string (or None) that will be loaded from disk.</p></li>
-<li><p><strong>keyword</strong> – If non‐empty, the top‐level key to extract from the final dict.</p></li>
+<li><p><strong>keyword</strong> – If None or empty string, the entire dict is returned. Otherwise, extracts the sub-dict at this key.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The sub-dict at <cite>keyword</cite> (or the entire dict if <cite>keyword==””</cite>).</p>
+<dd class="field-even"><p>The sub-dict at <cite>keyword</cite> (or the entire dict if <cite>keyword</cite> is None or empty).</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ValueError</strong> – if <cite>keyword</cite> is non-empty and not found in the config.</p>
@@ -574,9 +703,9 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_from_config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline" title="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline"><span class="pre">MultiframeAggregationPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_aggregation_pipeline.html#MultiframeAggregationPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_from_config" title="Link to this definition">¶</a></dt>
-<dd><p>Given an iris config string in base64, initialise a MultiframeAggregationPipeline with this config.
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline" title="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline"><span class="pre">TemplatesAggregationPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Given an iris config string in base64, initialise a TemplatesAggregationPipeline with this config.
 :param config: Base64-encoded config string.
 :type config: str</p>
 <dl class="field-list simple">
@@ -584,14 +713,14 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 <dd class="field-odd"><p>Initialised pipeline and error (if any).</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline" title="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline">MultiframeAggregationPipeline</a>, Optional[Dict[str, Any]]]]</p>
+<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline" title="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline">TemplatesAggregationPipeline</a>, Optional[Dict[str, Any]]]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_aggregation_pipeline.html#MultiframeAggregationPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.run" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.run" title="Link to this definition">¶</a></dt>
 <dd><p>Main pipeline execution loop. Handles input, node execution, and output.
 :param pipeline_input: Input to the pipeline (type defined by subclass).
 :type pipeline_input: InputType
@@ -614,6 +743,362 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 </section>
 <section id="module-iris.pipelines">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iris.pipelines" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.</span></span><span class="sig-name descname"><span class="pre">IRISPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_iris_pipeline_orb_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iris.pipelines.base_pipeline.BasePipeline" title="iris.pipelines.base_pipeline.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
+<p>Implementation of a fully configurable iris recognition pipeline.
+Inherits shared logic from BasePipeline and implements input/output specifics.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.DEBUGGING_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">DEBUGGING_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_iris_pipeline_debugging_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.OffgazeValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.OcclusionValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.IsPupilInsideIrisValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.SharpnessValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.object_validators.IsMaskTooSmallValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.cross_object_validators.EyeCentersInsideImageValidator'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'iris.nodes.validators.cross_object_validators.ExtrapolatedPolygonsInsideImageValidator'&gt;])</span></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.DEBUGGING_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH">
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.ORB_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_iris_pipeline_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.Parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>IRISPipeline parameters, all derived from the input <cite>config</cite>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.Parameters.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.Parameters.metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.Parameters.pipeline">
+<span class="sig-name descname"><span class="pre">pipeline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.pipelines.IRISPipeline.Parameters.pipeline" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.estimate" title="Link to this definition">¶</a></dt>
+<dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_image</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a>) – Input Infrared image data.</p></li>
+<li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
+<li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.load_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.load_config" title="Link to this definition">¶</a></dt>
+<dd><p>Load and deserialize the pipeline configuration.
+:param config: YAML string or None for default config.
+:type config: Optional[str]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Deserialized config dict.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.load_from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.iris_pipeline.IRISPipeline" title="iris.pipelines.iris_pipeline.IRISPipeline"><span class="pre">IRISPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.load_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Given an iris config string in base64, initialise an IRISPipeline with this config.
+:param config: Base64-encoded config string.
+:type config: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialised pipeline and error (if any).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.IRISPipeline" title="iris.pipelines.IRISPipeline">IRISPipeline</a>, Optional[Dict[str, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.run" title="Link to this definition">¶</a></dt>
+<dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_image</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a>) – Input Infrared image data.</p></li>
+<li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
+<li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.IRISPipeline.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/iris_pipeline.html#IRISPipeline.update_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.IRISPipeline.update_config" title="Link to this definition">¶</a></dt>
+<dd><p>Update the pipeline configuration based on the provided base64-encoded string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>str</em>) – Base64-encoded string of the new configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.</span></span><span class="sig-name descname"><span class="pre">MultiframeIrisPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_multiframe_iris_pipeline_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Pipeline that combines IRISPipeline and TemplatesAggregationPipeline.
+Takes a list of images and eye-side as input, processes each image through IRISPipeline,
+then aggregates the resulting templates using TemplatesAggregationPipeline.</p>
+<p>Uses a unified configuration with two distinct parts:
+- iris_pipeline: Configuration for individual image processing
+- templates_aggregation: Configuration for template aggregation</p>
+<p>IMPORTANT WARNING: Template Quality and Validation Requirements</p>
+<p>To prevent aggregation of templates from different users, different eyes, or of different
+quality (off-gaze, occlusion, poor focus, etc.), users must pay extra attention to the
+filtering and validation of provided templates and corresponding thresholds during template
+creation. It is strongly advised to conduct a dedicated analysis of template quality
+metrics and establish appropriate validation criteria prior to using this functionality
+in production environments.</p>
+<p>While the pipeline does perform some basic validation of the input templates,
+users are responsible for ensuring
+data integrity and appropriate quality thresholds to maintain system accuracy and security.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH">
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/multiframe_iris_pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.ORB_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_multiframe_iris_pipeline_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.derive_iris_template_shape_from_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">derive_iris_template_shape_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iris_pipeline_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.derive_iris_template_shape_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.derive_iris_template_shape_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Derive the iris template shape from the pipeline configuration.</p>
+<p>The shape is determined by scanning the filter_bank node configuration:
+- n_rows and n_cols from probe_schemas (first two dimensions)
+- number of filters (third dimension)
+- number of probe_schemas (fourth dimension)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The iris template shape (n_rows, n_cols, n_filters, n_probe_schemas)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[int, int, int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.estimate" title="Link to this definition">¶</a></dt>
+<dd><p>Wrap the <cite>run</cite> method to match the Orb system AI models call interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_images</strong> (<em>List</em><em>[</em><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><em>IRImage</em></a><em>]</em>) – List of input images.</p></li>
+<li><p><strong>*args</strong> – Optional positional arguments for extensibility.</p></li>
+<li><p><strong>**kwargs</strong> – Optional keyword arguments for extensibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.load_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.load_config" title="Link to this definition">¶</a></dt>
+<dd><p>Load and deserialize the pipeline configuration (for templates aggregation).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – Either
+• a dict already containing your pipeline sections, or
+• a YAML string (or None) that will be loaded from disk.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing the iris_pipeline and templates_aggregation_pipeline configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.load_from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline" title="iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline"><span class="pre">MultiframeIrisPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.load_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Given an iris config string in base64, initialise a MultiframeIrisPipeline with this config.
+:param config: Base64-encoded config string.
+:type config: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialised pipeline and error (if any).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline" title="iris.pipelines.MultiframeIrisPipeline">MultiframeIrisPipeline</a>, Optional[Dict[str, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.MultiframeIrisPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IRImage" title="iris.io.dataclasses.IRImage"><span class="pre">IRImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/multiframe_iris_pipeline.html#MultiframeIrisPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.MultiframeIrisPipeline.run" title="Link to this definition">¶</a></dt>
+<dd><p>Process multiple images through the combined pipeline.
+:param ir_images: List of input images.
+:type ir_images: List[IRImage]
+:param *args: Optional positional arguments for extensibility.
+:param **kwargs: Optional keyword arguments for extensibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output created by builder specified in environment.pipeline_output_builder.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.pipelines.</span></span><span class="sig-name descname"><span class="pre">TemplatesAggregationPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env:</span> <span class="pre">~iris.orchestration.environment.Environment</span> <span class="pre">=</span> <span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_simple_templates_aggregation_output&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disabled_qa=[])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subconfig_key:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iris.pipelines.base_pipeline.BasePipeline" title="iris.pipelines.base_pipeline.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
+<p>Pipeline for iris templates aggregation.
+Inherits shared logic from BasePipeline and implements input/output specifics.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH">
+<span class="sig-name descname"><span class="pre">DEFAULT_PIPELINE_CFG_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/open-iris/open-iris/src/iris/pipelines/confs/templates_aggregation_pipeline.yaml'</span></em><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.ORB_ENVIRONMENT">
+<span class="sig-name descname"><span class="pre">ORB_ENVIRONMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Environment(call_trace_initialiser=&lt;function</span> <span class="pre">PipelineCallTraceStorage.initialise&gt;,</span> <span class="pre">pipeline_output_builder=&lt;function</span> <span class="pre">build_aggregation_templates_orb_output&gt;,</span> <span class="pre">error_manager=&lt;function</span> <span class="pre">store_error_manager&gt;,</span> <span class="pre">disabled_qa=[])</span></em><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.ORB_ENVIRONMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">PACKAGE_VERSION</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.9.3'</span></em><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.PACKAGE_VERSION" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.Parameters.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata" title="iris.orchestration.pipeline_dataclasses.PipelineMetadata"><span class="pre">PipelineMetadata</span></a></em><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters.metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.Parameters.pipeline">
+<span class="sig-name descname"><span class="pre">pipeline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode" title="iris.orchestration.pipeline_dataclasses.PipelineNode"><span class="pre">PipelineNode</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters.pipeline" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.load_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'templates_aggregation'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.load_config" title="Link to this definition">¶</a></dt>
+<dd><p>Load and deserialize the pipeline configuration (for templates aggregation).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> – Either
+• a dict already containing your pipeline sections, or
+• a YAML string (or None) that will be loaded from disk.</p></li>
+<li><p><strong>keyword</strong> – If None or empty string, the entire dict is returned. Otherwise, extracts the sub-dict at this key.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sub-dict at <cite>keyword</cite> (or the entire dict if <cite>keyword</cite> is None or empty).</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – if <cite>keyword</cite> is non-empty and not found in the config.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.load_from_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline" title="iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline"><span class="pre">TemplatesAggregationPipeline</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.load_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.load_from_config" title="Link to this definition">¶</a></dt>
+<dd><p>Given an iris config string in base64, initialise a TemplatesAggregationPipeline with this config.
+:param config: Base64-encoded config string.
+:type config: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialised pipeline and error (if any).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Union[<a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline" title="iris.pipelines.TemplatesAggregationPipeline">TemplatesAggregationPipeline</a>, Optional[Dict[str, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.pipelines.TemplatesAggregationPipeline.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iris.io.html#iris.io.dataclasses.IrisTemplate" title="iris.io.dataclasses.IrisTemplate"><span class="pre">IrisTemplate</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/iris/pipelines/templates_aggregation_pipeline.html#TemplatesAggregationPipeline.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.pipelines.TemplatesAggregationPipeline.run" title="Link to this definition">¶</a></dt>
+<dd><p>Main pipeline execution loop. Handles input, node execution, and output.
+:param pipeline_input: Input to the pipeline (type defined by subclass).
+:type pipeline_input: InputType
+:param *args: Optional positional arguments for extensibility.
+:type *args: Any
+:param **kwargs: Optional keyword arguments for extensibility.
+:type **kwargs: Any</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output from the pipeline (type defined by subclass).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>OutputType</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -704,24 +1189,82 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-iris.pipelines.multiframe_aggregation_pipeline">iris.pipelines.multiframe_aggregation_pipeline module</a><ul>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline</span></code></a><ul>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.Parameters</span></code></a><ul>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.metadata"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.Parameters.metadata</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.Parameters.pipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.Parameters.pipeline</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.load_config()</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.load_from_config()</span></code></a></li>
-<li><a class="reference internal" href="#iris.pipelines.multiframe_aggregation_pipeline.MultiframeAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeAggregationPipeline.run()</span></code></a></li>
+<li><a class="reference internal" href="#module-iris.pipelines.multiframe_iris_pipeline">iris.pipelines.multiframe_iris_pipeline module</a><ul>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.PACKAGE_VERSION</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.derive_iris_template_shape_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.derive_iris_template_shape_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.estimate()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.multiframe_iris_pipeline.MultiframeIrisPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-iris.pipelines">Module contents</a></li>
+<li><a class="reference internal" href="#module-iris.pipelines.templates_aggregation_pipeline">iris.pipelines.templates_aggregation_pipeline module</a><ul>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.metadata"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters.metadata</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.Parameters.pipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters.pipeline</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-iris.pipelines">Module contents</a><ul>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.DEBUGGING_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.DEBUGGING_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.PACKAGE_VERSION</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.Parameters.metadata"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters.metadata</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.Parameters.pipeline"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.Parameters.pipeline</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.estimate()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.load_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.run"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.run()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.IRISPipeline.update_config"><code class="docutils literal notranslate"><span class="pre">IRISPipeline.update_config()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.PACKAGE_VERSION</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.derive_iris_template_shape_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.derive_iris_template_shape_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.estimate"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.estimate()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.load_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.MultiframeIrisPipeline.run"><code class="docutils literal notranslate"><span class="pre">MultiframeIrisPipeline.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.DEFAULT_PIPELINE_CFG_PATH</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.ORB_ENVIRONMENT"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.ORB_ENVIRONMENT</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.PACKAGE_VERSION"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.PACKAGE_VERSION</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters.metadata"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters.metadata</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.Parameters.pipeline"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.Parameters.pipeline</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.load_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.load_from_config"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.load_from_config()</span></code></a></li>
+<li><a class="reference internal" href="#iris.pipelines.TemplatesAggregationPipeline.run"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipeline.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -733,9 +1276,9 @@ Inherits shared logic from BasePipeline and implements input/output specifics.</
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=269e6701"></script>
+</div><script src="../_static/documentation_options.js?v=f333a941"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>

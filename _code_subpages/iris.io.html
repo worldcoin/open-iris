@@ -5,33 +5,33 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes package" href="iris.nodes.html" /><link rel="prev" title="iris.callbacks package" href="iris.callbacks.html" />
 
-    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>iris.io package - iris v1.8.2</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
+        <title>iris.io package - iris v1.9.3</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   --color-brand-primary: #FFFFFF;
   --color-brand-content: #1AA7EC;
   
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.8.2</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,8 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  
-  <span class="sidebar-brand-text">iris v1.8.2</span>
+  <span class="sidebar-brand-text">iris v1.9.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -1019,7 +1018,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.io.dataclasses.IRImage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.dataclasses.</span></span><span class="sig-name descname"><span class="pre">IRImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#IRImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.IRImage" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.dataclasses.</span></span><span class="sig-name descname"><span class="pre">IRImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eye_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#IRImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.IRImage" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#iris.io.class_configs.ImmutableModel" title="iris.io.class_configs.ImmutableModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImmutableModel</span></code></a></p>
 <p>Data holder for input IR image.</p>
 <dl class="py method">
@@ -1057,6 +1056,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.io.dataclasses.IRImage.image_id">
+<span class="sig-name descname"><span class="pre">image_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#iris.io.dataclasses.IRImage.image_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.io.dataclasses.IRImage.img_data">
@@ -2027,6 +2031,13 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="iris.io.errors.TemplatesAggregationPipelineError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">TemplatesAggregationPipelineError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#TemplatesAggregationPipelineError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.TemplatesAggregationPipelineError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>TemplatesAggregationPipeline module Error class.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="iris.io.errors.VectorizationError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.io.errors.</span></span><span class="sig-name descname"><span class="pre">VectorizationError</span></span><a class="reference internal" href="../_modules/iris/io/errors.html#VectorizationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.errors.VectorizationError" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -2461,6 +2472,7 @@ and if all of their element have the same shape one by one.</p>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.deserialize"><code class="docutils literal notranslate"><span class="pre">IRImage.deserialize()</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.eye_side"><code class="docutils literal notranslate"><span class="pre">IRImage.eye_side</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.height"><code class="docutils literal notranslate"><span class="pre">IRImage.height</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.dataclasses.IRImage.image_id"><code class="docutils literal notranslate"><span class="pre">IRImage.image_id</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.img_data"><code class="docutils literal notranslate"><span class="pre">IRImage.img_data</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.serialize"><code class="docutils literal notranslate"><span class="pre">IRImage.serialize()</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.dataclasses.IRImage.width"><code class="docutils literal notranslate"><span class="pre">IRImage.width</span></code></a></li>
@@ -2586,6 +2598,7 @@ and if all of their element have the same shape one by one.</p>
 <li><a class="reference internal" href="#iris.io.errors.PupilIrisPropertyEstimationError"><code class="docutils literal notranslate"><span class="pre">PupilIrisPropertyEstimationError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.SharpnessEstimationError"><code class="docutils literal notranslate"><span class="pre">SharpnessEstimationError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.TemplateAggregationCompatibilityError"><code class="docutils literal notranslate"><span class="pre">TemplateAggregationCompatibilityError</span></code></a></li>
+<li><a class="reference internal" href="#iris.io.errors.TemplatesAggregationPipelineError"><code class="docutils literal notranslate"><span class="pre">TemplatesAggregationPipelineError</span></code></a></li>
 <li><a class="reference internal" href="#iris.io.errors.VectorizationError"><code class="docutils literal notranslate"><span class="pre">VectorizationError</span></code></a></li>
 </ul>
 </li>
@@ -2618,9 +2631,9 @@ and if all of their element have the same shape one by one.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=269e6701"></script>
+</div><script src="../_static/documentation_options.js?v=f333a941"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>
