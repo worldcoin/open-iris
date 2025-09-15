@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IRImage, IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import __get_iris_pipeline_metadata as get_iris_pipeline_metadata
@@ -84,7 +84,7 @@ class TestMultiframeIrisPipeline:
         combined_config = load_yaml_config(MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH)
 
         aggregation_pipeline = MultiframeIrisPipeline(config=combined_config, env=env)
-        aggregation_pipeline_output = aggregation_pipeline.run(imgs_data=[ir_image], eye_side="right")
+        aggregation_pipeline_output = aggregation_pipeline.run([IRImage(img_data=ir_image, image_id="image_id", eye_side="right")])
         # Assert the structure of the output based on the output_builders
 
         # The output should be a dict with keys: error, iris_template, metadata, individual_frames, templates_aggregation_metadata
@@ -165,7 +165,8 @@ class TestMultiframeIrisPipeline:
         combined_config = load_yaml_config(MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH)
 
         aggregation_pipeline = MultiframeIrisPipeline(config=combined_config, env=env)
-        aggregation_pipeline_output = aggregation_pipeline.run(imgs_data=ir_images, eye_side="right")
+        images = [IRImage(img_data=img, image_id=f"image_{i}", eye_side="right") for i, img in enumerate(ir_images)]
+        aggregation_pipeline_output = aggregation_pipeline.run(images)
 
         # Assert the structure of the output based on the output_builders
         assert isinstance(aggregation_pipeline_output, dict)
