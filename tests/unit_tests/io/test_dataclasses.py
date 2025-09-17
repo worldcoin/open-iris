@@ -630,11 +630,13 @@ class TestDistanceMatrix:
     def test_serialize(self, distance_matrix, sample_distance_data):
         """Test serialization."""
         serialized = distance_matrix.serialize()
-        assert serialized == sample_distance_data
+        expected = {f"{i}_{j}": v for (i, j), v in sample_distance_data.items()}
+        assert serialized == expected
 
     def test_deserialize(self, sample_distance_data):
         """Test deserialization."""
-        deserialized = DistanceMatrix.deserialize(sample_distance_data)
+        input_data = {f"{i}_{j}": v for (i, j), v in sample_distance_data.items()}
+        deserialized = DistanceMatrix.deserialize(input_data)
         assert isinstance(deserialized, DistanceMatrix)
         assert deserialized.data == sample_distance_data
 

@@ -273,7 +273,7 @@ class TestBuildAggregationTemplatesOrbOutput:
         metadata = result["metadata"]
         assert metadata["input_templates_count"] == 1
         assert metadata["aligned_templates"]["reference_template_id"] == 0
-        assert metadata["aligned_templates"]["distances"] == {(0, 0): 0.0}
+        assert metadata["aligned_templates"]["distances"] == {"0_0": 0.0}
         assert metadata["post_identity_filter_templates_count"] == 1
 
 
