@@ -928,22 +928,35 @@ class DistanceMatrix(ImmutableModel):
             indices.add(j)
         return len(indices)
 
-    def serialize(self) -> Dict[Tuple[int, int], float]:
+    def serialize(self) -> Dict[str, float]:
         """Serialize DistanceMatrix object.
 
         Returns:
-            Dict[Tuple[int, int], float]: Serialized object.
+            Dict[str, float]: Serialized object with keys as "i_j" strings.
         """
-        return self.data
+        return {f"{i}_{j}": value for (i, j), value in self.data.items()}
 
     @staticmethod
-    def deserialize(data: Dict[Tuple[int, int], float]) -> DistanceMatrix:
-        """Deserialize DistanceMatrix object.
+    def deserialize(data: Dict[str, float]) -> DistanceMatrix:
+        """Deserialize DistanceMatrix object from "i_j" string keys only.
 
         Returns:
             DistanceMatrix: Deserialized object.
         """
-        return DistanceMatrix(data=data)
+        tuple_keyed: Dict[Tuple[int, int], float] = {}
+        for key_str, value in data.items():
+            s = str(key_str).strip()
+            parts = s.split("_", 1)
+            if len(parts) != 2:
+                raise ValueError(f"Invalid distance matrix key format: {key_str}, expected format: 'i_j'")
+            try:
+                i = int(parts[0])
+                j = int(parts[1])
+            except ValueError:
+                raise ValueError(f"Invalid distance matrix key format: {key_str}, expected format: 'i_j'")
+            tuple_keyed[(i, j)] = value
+
+        return DistanceMatrix(data=tuple_keyed)
 
 
 class AlignedTemplates(ImmutableModel):
