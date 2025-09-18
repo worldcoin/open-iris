@@ -34,9 +34,9 @@ There are several methods that wraps ``IRISPipeline`` inference call. Each one o
 .. code-block:: python
 
     # Options for the `eye_side` argument are: ["left", "right"]
-    output = iris_pipeline(img_data=img_pixels, eye_side="right")
-    output = iris_pipeline.run(img_data=img_pixels, eye_side="right")
-    output = iris_pipeline.estimate(img_data=img_pixels, eye_side="right")
+    output = iris_pipeline(iris.IRImage(img_data=img_pixels, image_id="image_id", eye_side="right"))
+    output = iris_pipeline.run(iris.IRImage(img_data=img_pixels, image_id="image_id", eye_side="right"))
+    output = iris_pipeline.estimate(iris.IRImage(img_data=img_pixels, image_id="image_id", eye_side="right"))
 
 The output of ``IRISPipeline`` is a dictionary with following keys: ``["error", "iris_template", "metadata"]``.
 
@@ -126,7 +126,7 @@ Let's test it and see the output of the ``IRISPipeline`` with ``DEBUGGING_ENVIRO
 .. code-block:: python
 
     iris_pipeline = iris.IRISPipeline(env=iris.IRISPipeline.DEBUGGING_ENVIRONMENT)
-    output = iris_pipeline(img_data=img_pixels, eye_side="right")
+    output = iris_pipeline(iris.IRImage(img_data=img_pixels, image_id="image_id", eye_side="right"))
 
 In the same manner, we can investigate what has been returned from ``DEBUGGING_ENVIRONMENT`` and we can see that more intermediate result are available for us in the ``output`` dictionary.
 

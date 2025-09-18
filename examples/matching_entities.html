@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contact" href="../issues_note.html" /><link rel="prev" title="Configuring custom pipeline tutorial" href="custom_pipeline.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
-        <title>Matching entities tutorial - iris v1.9.3</title>
+        <title>Matching entities tutorial - iris v1.9.4</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.4</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.3</span>
+  <span class="sidebar-brand-text">iris v1.9.4</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -312,13 +312,13 @@
 
 <span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">()</span>
 
-<span class="n">output_1</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject1_first_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">output_1</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_first_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject1_first_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
 <span class="n">subject1_first_code</span> <span class="o">=</span> <span class="n">output_1</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
 
-<span class="n">output_2</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject1_second_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">output_2</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_second_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject1_second_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
 <span class="n">subject1_second_code</span> <span class="o">=</span> <span class="n">output_2</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
 
-<span class="n">output_3</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">subject2_image</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">output_3</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject2_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject2_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
 <span class="n">subject2_code</span> <span class="o">=</span> <span class="n">output_3</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -425,7 +425,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=f333a941"></script>
+</div><script src="../_static/documentation_options.js?v=38ba398c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

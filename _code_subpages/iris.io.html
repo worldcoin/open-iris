@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="iris.nodes package" href="iris.nodes.html" /><link rel="prev" title="iris.callbacks package" href="iris.callbacks.html" />
 
     <link rel="shortcut icon" href="../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
-        <title>iris.io package - iris v1.9.3</title>
+        <title>iris.io package - iris v1.9.4</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.3</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.4</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.3</span>
+  <span class="sidebar-brand-text">iris v1.9.4</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -606,8 +606,8 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.io.dataclasses.DistanceMatrix.deserialize">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#iris.io.dataclasses.DistanceMatrix" title="iris.io.dataclasses.DistanceMatrix"><span class="pre">DistanceMatrix</span></a></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#DistanceMatrix.deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.DistanceMatrix.deserialize" title="Link to this definition">¶</a></dt>
-<dd><p>Deserialize DistanceMatrix object.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#iris.io.dataclasses.DistanceMatrix" title="iris.io.dataclasses.DistanceMatrix"><span class="pre">DistanceMatrix</span></a></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#DistanceMatrix.deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.DistanceMatrix.deserialize" title="Link to this definition">¶</a></dt>
+<dd><p>Deserialize DistanceMatrix object from “i_j” string keys only.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Deserialized object.</p>
@@ -654,14 +654,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.io.dataclasses.DistanceMatrix.serialize">
-<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#DistanceMatrix.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.DistanceMatrix.serialize" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iris/io/dataclasses.html#DistanceMatrix.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.io.dataclasses.DistanceMatrix.serialize" title="Link to this definition">¶</a></dt>
 <dd><p>Serialize DistanceMatrix object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Serialized object.</p>
+<dd class="field-odd"><p>Serialized object with keys as “i_j” strings.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[Tuple[int, int], float]</p>
+<dd class="field-even"><p>Dict[str, float]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2631,7 +2631,7 @@ and if all of their element have the same shape one by one.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=f333a941"></script>
+</div><script src="../_static/documentation_options.js?v=38ba398c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
