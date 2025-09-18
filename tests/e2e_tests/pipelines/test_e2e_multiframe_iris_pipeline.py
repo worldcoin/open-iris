@@ -1,3 +1,4 @@
+import json
 import os
 import random
 from typing import List
@@ -15,9 +16,7 @@ from iris.orchestration.output_builders import __get_iris_pipeline_metadata as g
 from iris.orchestration.output_builders import (
     __get_templates_aggregation_metadata as get_templates_aggregation_metadata,
 )
-from iris.orchestration.output_builders import (
-    build_simple_multiframe_iris_pipeline_output,
-)
+from iris.orchestration.output_builders import build_simple_multiframe_iris_pipeline_output
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.multiframe_iris_pipeline import MultiframeIrisPipeline
 
@@ -84,7 +83,9 @@ class TestMultiframeIrisPipeline:
         combined_config = load_yaml_config(MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH)
 
         aggregation_pipeline = MultiframeIrisPipeline(config=combined_config, env=env)
-        aggregation_pipeline_output = aggregation_pipeline.run([IRImage(img_data=ir_image, image_id="image_id", eye_side="right")])
+        aggregation_pipeline_output = aggregation_pipeline.run(
+            [IRImage(img_data=ir_image, image_id="image_id", eye_side="right")]
+        )
         # Assert the structure of the output based on the output_builders
 
         # The output should be a dict with keys: error, iris_template, metadata, individual_frames, templates_aggregation_metadata
@@ -94,6 +95,12 @@ class TestMultiframeIrisPipeline:
         assert "metadata" in aggregation_pipeline_output
         assert "individual_frames" in aggregation_pipeline_output
         assert "templates_aggregation_metadata" in aggregation_pipeline_output
+
+        # check that metadata is json serializable
+        json.dumps(aggregation_pipeline_output["metadata"])
+        for frame in aggregation_pipeline_output["individual_frames"]:
+            json.dumps(frame["metadata"])
+        json.dumps(aggregation_pipeline_output["templates_aggregation_metadata"])
 
         # Check types of the main fields
         # error can be None or dict

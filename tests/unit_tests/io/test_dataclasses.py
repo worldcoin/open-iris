@@ -1,3 +1,4 @@
+import json
 from typing import Any, List, Literal
 
 import numpy as np
@@ -640,6 +641,18 @@ class TestDistanceMatrix:
         assert isinstance(deserialized, DistanceMatrix)
         assert deserialized.data == sample_distance_data
 
+    def test_deserialize_invalid_key_format_missing_separator(self):
+        """DistanceMatrix.deserialize should raise ValueError when key lacks underscore separator."""
+        bad_input = {"0-1": 0.5}
+        with pytest.raises(ValueError, match="Invalid distance matrix key format"):
+            DistanceMatrix.deserialize(bad_input)
+
+    def test_deserialize_invalid_key_format_non_integer_indices(self):
+        """DistanceMatrix.deserialize should raise ValueError when indices are not integers."""
+        bad_input = {"1_a": 0.7}
+        with pytest.raises(ValueError, match="Invalid distance matrix key format"):
+            DistanceMatrix.deserialize(bad_input)
+
     def test_serialize_deserialize_roundtrip(self, distance_matrix):
         """Test that serialize followed by deserialize returns equivalent object."""
         serialized = distance_matrix.serialize()
@@ -1117,6 +1130,80 @@ class TestAlignedTemplates:
         """Test that __len__ is consistent with other length-related properties."""
         assert len(aligned_templates) == len(aligned_templates.templates)
         assert len(aligned_templates) == aligned_templates.distances.nb_templates
+
+
+@pytest.mark.parametrize(
+    "factory",
+    [
+        pytest.param(lambda: dc.EyeOrientation(angle=0.0), id="EyeOrientation"),
+        pytest.param(lambda: dc.EyeCenters(pupil_x=0.0, pupil_y=0.0, iris_x=1.0, iris_y=1.0), id="EyeCenters"),
+        pytest.param(lambda: dc.Offgaze(score=0.5), id="Offgaze"),
+        pytest.param(lambda: dc.Sharpness(score=0.1), id="Sharpness"),
+        pytest.param(
+            lambda: dc.PupilToIrisProperty(pupil_to_iris_diameter_ratio=0.5, pupil_to_iris_center_dist_ratio=0.2),
+            id="PupilToIrisProperty",
+        ),
+        pytest.param(
+            lambda: dc.Landmarks(
+                pupil_landmarks=np.ones((2, 2), dtype=float),
+                iris_landmarks=np.ones((2, 2), dtype=float),
+                eyeball_landmarks=np.ones((2, 2), dtype=float),
+            ),
+            id="Landmarks",
+        ),
+        pytest.param(lambda: dc.BoundingBox(x_min=0.0, x_max=1.0, y_min=0.0, y_max=1.0), id="BoundingBox"),
+        pytest.param(
+            lambda: dc.IrisTemplate(
+                iris_codes=[np.ones((2, 2, 2), dtype=bool), np.ones((2, 2, 2), dtype=bool)],
+                mask_codes=[np.ones((2, 2, 2), dtype=bool), np.ones((2, 2, 2), dtype=bool)],
+                iris_code_version="v2.1",
+            ),
+            id="IrisTemplate",
+        ),
+        pytest.param(
+            lambda: dc.WeightedIrisTemplate(
+                iris_codes=[np.ones((2, 2, 2), dtype=bool), np.ones((2, 2, 2), dtype=bool)],
+                mask_codes=[np.ones((2, 2, 2), dtype=bool), np.ones((2, 2, 2), dtype=bool)],
+                weights=[np.ones((2, 2, 2), dtype=np.float32), np.ones((2, 2, 2), dtype=np.float32)],
+                iris_code_version="v2.1",
+            ),
+            id="WeightedIrisTemplate",
+        ),
+        pytest.param(lambda: dc.EyeOcclusion(visible_fraction=0.5), id="EyeOcclusion"),
+        pytest.param(
+            lambda: dc.DistanceMatrix(data={(0, 1): 0.1, (0, 2): 0.2, (1, 2): 0.3}),
+            id="DistanceMatrix",
+        ),
+        pytest.param(
+            lambda: dc.AlignedTemplates(
+                templates=[
+                    dc.IrisTemplate(
+                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        iris_code_version="v2.1",
+                    ),
+                    dc.IrisTemplate(
+                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        iris_code_version="v2.1",
+                    ),
+                ],
+                distances=DistanceMatrix(data={(0, 1): 0.5}),
+                reference_template_id=0,
+            ),
+            id="AlignedTemplates",
+        ),
+    ],
+)
+def test_all_metadata_dataclasses_are_json_serializable(factory) -> None:
+    """Ensure that serialize() output for all dataclasses can be JSON-serialized.
+
+    Uses a NumPy-aware default to convert arrays and scalars.
+    """
+    obj = factory()
+    serialized = obj.serialize()
+    # Should not raise
+    json.dumps(serialized)
 
 
 class TestWeightedIrisTemplate:

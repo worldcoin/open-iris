@@ -948,9 +948,12 @@ class DistanceMatrix(ImmutableModel):
             s = str(key_str).strip()
             parts = s.split("_", 1)
             if len(parts) != 2:
-                raise ValueError(f"Invalid distance matrix key format: {key_str}")
-            i = int(parts[0].strip())
-            j = int(parts[1].strip())
+                raise ValueError(f"Invalid distance matrix key format: {key_str}, expected format: 'i_j'")
+            try:
+                i = int(parts[0])
+                j = int(parts[1])
+            except ValueError:
+                raise ValueError(f"Invalid distance matrix key format: {key_str}, expected format: 'i_j'")
             tuple_keyed[(i, j)] = value
 
         return DistanceMatrix(data=tuple_keyed)
