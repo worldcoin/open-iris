@@ -12,7 +12,8 @@ iris_pipeline:
     - name: segmentation
       algorithm:
         class_name: iris.MultilabelSegmentation.create_from_hugging_face
-        params: {}
+        params:
+          denoise: True
       inputs:
         - name: image
           source_node: input
