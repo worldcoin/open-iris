@@ -18,7 +18,7 @@ When the ``IRISPipeline`` pipeline is created with default parameters, it's grap
 
     metadata:
     pipeline_name: iris_pipeline
-    iris_version: 1.1.1
+    iris_version: 1.9.5
 
 The top YAML file contains ``IRISPipeline`` metadata, used to both describe ``IRISPipeline`` and specify package parameters that are later used to verify compatibility between ``iris`` package version/release and later, specified in the ``pipeline`` YAML file section, pipeline's graph.
 
@@ -93,7 +93,7 @@ First let's intantiate ``IRISPipeline`` with default configuration and see ``iri
 .. code-block:: python
 
     default_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.1"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.9.5"},
         "pipeline": [
             {
                 "name": "segmentation",
@@ -320,7 +320,7 @@ As expected all threshold values are set to default ``0.5`` value. Now, let's mo
 .. code-block:: python
 
     new_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.1"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.9.5"},
         "pipeline": [
             {
                 "name": "segmentation",
@@ -552,7 +552,7 @@ First let's instantiate ``IRISPipeline`` with default configuration and see node
 .. code-block:: python
 
     default_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.1"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.9.5"},
         "pipeline": [
             {
                 "name": "segmentation",
@@ -783,7 +783,7 @@ As expected, ``input_polygons`` argument of the ``run`` method is taken from the
 .. code-block:: python
 
     new_pipeline_conf = {
-        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.1.1"},
+        "metadata": {"pipeline_name": "iris_pipeline", "iris_version": "1.9.5"},
         "pipeline": [
             {
                 "name": "segmentation",

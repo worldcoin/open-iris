@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"/><!-- Generated with Sphinx 7.4.7 and Furo 2025.07.19 -->
-        <title>iris.nodes.segmentation.multilabel_segmentation_interface - iris v1.9.3</title>
+        <title>iris.nodes.segmentation.multilabel_segmentation_interface - iris v1.9.5</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.9.3</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.9.5</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -192,7 +192,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.3</span>
+  <span class="sidebar-brand-text">iris v1.9.5</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -332,20 +332,56 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+<div class="viewcode-block" id="MultilabelSemanticSegmentationInterface.image_denoise">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.segmentation.html#iris.nodes.segmentation.multilabel_segmentation_interface.MultilabelSemanticSegmentationInterface.image_denoise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">image_denoise</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">intensityIgnore</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply de-noising preprocessing step.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (np.ndarray): Image to denoise.</span>
+<span class="sd">            d (int): Diameter of each pixel neighborhood that is used during filtering.</span>
+<span class="sd">            sigmaColor (int): Filter sigma in color space.</span>
+<span class="sd">            sigmaSpace (int): Filter sigma in coordinate space.</span>
+<span class="sd">            intensityIgnore (int): Intensity threshold below which we do not apply filtering.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Denoised image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Bilateral filter to reduce noise while preserving edges.</span>
+        <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="n">sigmaColor</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="c1"># Invert the mask to get the areas you do NOT want to filter</span>
+        <span class="n">inverse_mask</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&lt;</span> <span class="n">intensityIgnore</span>
+        <span class="n">filtered_region</span> <span class="o">=</span> <span class="n">filtered_image</span> <span class="o">*</span> <span class="p">(</span><span class="o">~</span><span class="n">inverse_mask</span><span class="p">)</span>
+        <span class="c1"># Isolate the original, unfiltered region (where the inverse mask is white)</span>
+        <span class="n">original_region</span> <span class="o">=</span> <span class="n">image</span> <span class="o">*</span> <span class="n">inverse_mask</span>
+        <span class="c1"># Combine the two regions to get the final image</span>
+        <span class="n">denoised_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">filtered_region</span><span class="p">,</span> <span class="n">original_region</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">denoised_image</span></div>
+
+
 <div class="viewcode-block" id="MultilabelSemanticSegmentationInterface.preprocess">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.segmentation.html#iris.nodes.segmentation.multilabel_segmentation_interface.MultilabelSemanticSegmentationInterface.preprocess">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">input_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">nn_input_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">input_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">nn_input_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image before running a model inference.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            image (np.ndarray): Image to preprocess.</span>
 <span class="sd">            input_resolution (Tuple[int, int]): A model input resolution.</span>
+<span class="sd">            denoise (bool): Whether to apply de-noising preprocessing step.</span>
 <span class="sd">            nn_input_channels (int): A model input channels.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Preprocessed image.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nn_input</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">input_resolution</span><span class="p">)</span>
+        <span class="n">nn_input</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">input_resolution</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">denoise</span><span class="p">:</span>
+            <span class="n">nn_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_denoise</span><span class="p">(</span><span class="n">nn_input</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sigmaColor</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">sigmaSpace</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">intensityIgnore</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+
         <span class="n">nn_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">nn_input</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># Replicates torchvision&#39;s ToTensor</span>
 
         <span class="n">nn_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">nn_input</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -419,7 +455,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=f333a941"></script>
+</div><script src="../../../../_static/documentation_options.js?v=9cc2bd95"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>
