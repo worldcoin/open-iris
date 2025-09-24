@@ -315,7 +315,7 @@ iris_pipeline:
 # Configuration for template aggregation (TemplatesAggregationPipeline)
 templates_aggregation_pipeline:
   metadata:
-    iris_version: 1.9.4
+    iris_version: 1.9.5
     pipeline_name: templates_aggregation
 
   pipeline:
