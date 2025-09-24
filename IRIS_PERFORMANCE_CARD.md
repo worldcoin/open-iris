@@ -10,7 +10,7 @@ A list of public and private entities participated in the ICE 2005 is shown belo
 
 <img src="./docs/performance_card/ice2005_results.png" width="800" alt="ICE 2005 results">
 
-Fig. 1(a) and 1(b) show the ROC on right and left eye, respectively, from all participants in Iris Challenge Evaluation (ICE) 2005 and Fig. 2(a) and 2(b) show our ROC in comparison*. Although the exact error rates were not published in [1], these plots show IRIS performs as good as if not better than commercial algorithms available at the time.
+Fig. 1(a) and 1(b) show the ROC on right and left eye, respectively, from all participants in Iris Challenge Evaluation (ICE) 2005 and Fig. 2(a) and 2(b) show our ROC in comparison*. Although the exact error rates were not published in [1], these plots show IRIS performs better than commercial algorithms available at the time.
 
 |<img src="./docs/performance_card/comparison_1a.png" alt="1a"> Fig. 1(a) participant ROC on ICE 2005 (right eye) [1]| <img src="./docs/performance_card/comparison_1b.png" alt="1b"> Fig. 1(b) participant ROC on ICE 2005 (left eye) [1]|
 |---|---|
@@ -21,16 +21,16 @@ Fig. 1(a) and 1(b) show the ROC on right and left eye, respectively, from all pa
 
 We also compare our performance with the latest available iris open source algorithm OSIRIS, which has three versions OSIRISV2, OSIRISV4, OSIRISV4.1 [3] as well as HDBIF [4]. As we can see in the table below, IRIS achieves significantly lower False NonMatch Rate (FNMR) at False Match Rate (FMR) of 0.001 and 0.0001 than these open source algorithms.
 
-|                   | OSIRISV2 <br>[2009] | OSIRISV4 <br>[2011] | OSIRISV4.1 <br>[2016] | HDBIF <br>[2019] | IRIS\* <br>[2023] |
+|                   | OSIRISV2 <br>[2009] | OSIRISV4 <br>[2011] | OSIRISV4.1 <br>[2016] | HDBIF <br>[2019] | IRIS\* <br>[2025] |
 |-------------------|----------|----------|------------|-------|--------|
-| FNMR @ FMR=0.001  | 0.174    | 0.031    | 0.019      | 0.025 | 0.003  |
-| FNMR @ FMR=0.0001 | 0.268    | 0.058    | 0.034      | 0.039 | 0.006  |
+| FNMR @ FMR=0.001  | 0.174    | 0.031    | 0.019      | 0.025 | 0.0012 |
+| FNMR @ FMR=0.0001 | 0.268    | 0.058    | 0.034      | 0.039 | 0.0020 |
 
-\*Note that four left eye images failed the default enrollment setting in IRIS with a Failure-To-Enroll (FTE) rate of 0.00135. 
+\*Note that five left eye and two right eye images failed enrollment in IRIS with a Failure-To-Enroll (FTE) rate of 0.00238.
 
 ## ND-LG4000 dataset
 
-ND-LG4000 dataset is part of the ND-CrossSensor-Iris-2013 public dataset from the University of Notre Dame [5]. This dataset was collected from 676 subjects using LG IrisAccess 4000 scanner with image resolution 640x480. We randomly chose 541 subjects for training, 67 subjects for validating the segmentation model in IRIS. The remaining 2187 images from 68 subjects were used for testing, resulting in a total of ~2.4 million matches.
+ND-LG4000 dataset is part of the ND-CrossSensor-Iris-2013 public dataset from the University of Notre Dame [5]. This dataset was collected from 676 subjects using LG IrisAccess 4000 scanner with image resolution 640x480. We randomly chose 541 subjects for training, 67 subjects for validating the segmentation model in IRIS. The remaining 2187 images from 68 subjects were used for testing, including 4 images failed in enrollment, resulting in a total of ~2.4 million matches.
 
 |<img src="./docs/performance_card/lg4000_3a.png" alt="3a"> Fig. 3(a) IRIS ROC on ND-LG4000| <img src="./docs/performance_card/lg4000_3b.png" alt="3b"> Fig. 3(b) IRIS DET on ND-LG4000|
 |---|---|
