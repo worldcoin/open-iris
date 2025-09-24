@@ -38,18 +38,51 @@ class MultilabelSemanticSegmentationInterface(Algorithm):
         """Assign parameters."""
         super().__init__(**kwargs)
 
-    def preprocess(self, image: np.ndarray, input_resolution: Tuple[int, int], nn_input_channels: int) -> np.ndarray:
+    def image_denoise(
+        self, image: np.ndarray, d: int, sigmaColor: int, sigmaSpace: int, intensityIgnore: int
+    ) -> np.ndarray:
+        """Apply de-noising preprocessing step.
+
+        Args:
+            image (np.ndarray): Image to denoise.
+            d (int): Diameter of each pixel neighborhood that is used during filtering.
+            sigmaColor (int): Filter sigma in color space.
+            sigmaSpace (int): Filter sigma in coordinate space.
+            intensityIgnore (int): Intensity threshold below which we do not apply filtering.
+
+        Returns:
+            np.ndarray: Denoised image.
+        """
+        # Bilateral filter to reduce noise while preserving edges.
+        filtered_image = cv2.bilateralFilter(image, d=d, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+        # Invert the mask to get the areas you do NOT want to filter
+        inverse_mask = image < intensityIgnore
+        filtered_region = filtered_image * (~inverse_mask)
+        # Isolate the original, unfiltered region (where the inverse mask is white)
+        original_region = image * inverse_mask
+        # Combine the two regions to get the final image
+        denoised_image = cv2.add(filtered_region, original_region)
+
+        return denoised_image
+
+    def preprocess(
+        self, image: np.ndarray, input_resolution: Tuple[int, int], nn_input_channels: int, denoise: bool
+    ) -> np.ndarray:
         """Preprocess image before running a model inference.
 
         Args:
             image (np.ndarray): Image to preprocess.
             input_resolution (Tuple[int, int]): A model input resolution.
+            denoise (bool): Whether to apply de-noising preprocessing step.
             nn_input_channels (int): A model input channels.
 
         Returns:
             np.ndarray: Preprocessed image.
         """
-        nn_input = cv2.resize(image.astype(float), input_resolution)
+        nn_input = cv2.resize(image.astype(float), input_resolution).astype(np.uint8)
+        if denoise:
+            nn_input = self.image_denoise(nn_input, d=5, sigmaColor=75, sigmaSpace=10, intensityIgnore=75)
+
         nn_input = np.divide(nn_input, 255)  # Replicates torchvision's ToTensor
 
         nn_input = np.expand_dims(nn_input, axis=-1)

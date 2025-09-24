@@ -58,6 +58,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
 
         engine: trt.tensorrt.ICudaEngine
         input_num_channels: Literal[1, 3]
+        denoise: bool
         segmap_input_tensor_name: str
         segmap_output_tensor_name: str
         segmap_output_shape: trt.tensorrt.Dims
@@ -75,6 +76,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         cls,
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.engine",
         input_num_channels: Literal[1, 3] = 3,
+        denoise: bool = False,
         callbacks: List[Callback] = [],
     ) -> TensorRTMultilabelSegmentation:
         """Create TensorRTMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.
@@ -82,6 +84,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         Args:
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.engine".
             input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
+            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
             segmap_input_tensor_name: str , Name of segmap input tensor name. Defaults to "input".
             segmap_output_tensor_name: str, Name of segmap output tensor name. Defaults to "output".
@@ -96,12 +99,13 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             filename=model_name,
         )
 
-        return TensorRTMultilabelSegmentation(model_path, input_num_channels, callbacks)
+        return TensorRTMultilabelSegmentation(model_path, input_num_channels, denoise, callbacks)
 
     def __init__(
         self,
         model_path: str,
         input_num_channels: Literal[1, 3] = 3,
+        denoise: bool = False,
         callbacks: List[Callback] = [],
         segmap_input_tensor_name: str = "input",  # based on polygraphy result of "polygraphy inspect model ..." command
         segmap_output_tensor_name: str = "output",  # based on polygraphy result of "polygraphy inspect model ..." command
@@ -111,6 +115,9 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         Args:
             model_path (str): Path to the TensorRT model.
             input_num_channels (Literal[1, 3]): Model input image number of channels. Defaults to 3.
+            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.
+            segmap_input_tensor_name (str, optional): Name of segmap input tensor name. Defaults to "input".
+            segmap_output_tensor_name (str, optional): Name of segmap output tensor name. Defaults to "output".
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
         engine = self._load_engine(model_path)
@@ -132,6 +139,7 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         super().__init__(
             engine=engine,
             input_num_channels=input_num_channels,
+            denoise=denoise,
             segmap_input_tensor_name=segmap_input_tensor_name,
             segmap_output_tensor_name=segmap_output_tensor_name,
             segmap_output_shape=segmap_output_shape,
@@ -181,7 +189,9 @@ class TensorRTMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         else:
             input_height, input_width = self.params.engine.get_binding_shape(0)[2:4]
 
-        nn_input = self.preprocess(image, (input_width, input_height), self.params.input_num_channels)
+        nn_input = self.preprocess(
+            image, (input_width, input_height), self.params.input_num_channels, self.params.denoise
+        )
 
         return nn_input
 
