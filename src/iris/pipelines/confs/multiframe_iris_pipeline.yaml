@@ -1,12 +1,12 @@
 metadata:
   pipeline_name: multiframe_iris_pipeline
-  iris_version: 1.9.4
+  iris_version: 1.9.5
 
 # Configuration for individual image processing (IRISPipeline)
 iris_pipeline:
   metadata:
     pipeline_name: iris_pipeline
-    iris_version: 1.9.4
+    iris_version: 1.9.5
 
   pipeline:
     - name: segmentation
