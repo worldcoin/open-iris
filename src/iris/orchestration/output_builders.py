@@ -141,6 +141,7 @@ def __get_templates_aggregation_metadata(call_trace: PipelineCallTraceStorage) -
     return {
         "iris_version": __version__,
         "input_templates_count": len(templates) if templates is not None else None,
+        "input_templates_image_ids": [template.image_id for template in templates] if templates is not None else None,
         "aligned_templates": {
             "reference_template_id": aligned_templates.reference_template_id if aligned_templates is not None else None,
             "distances": __safe_serialize(aligned_templates.distances) if aligned_templates is not None else None,
@@ -148,6 +149,9 @@ def __get_templates_aggregation_metadata(call_trace: PipelineCallTraceStorage) -
         "post_identity_filter_templates_count": (
             len(identity_filtered_templates) if identity_filtered_templates is not None else None
         ),
+        "final_aggregation_image_ids": [template.image_id for template in identity_filtered_templates]
+        if identity_filtered_templates is not None
+        else None,
     }
 
 
@@ -161,12 +165,17 @@ def __get_multiframe_iris_pipeline_metadata(call_trace: PipelineCallTraceStorage
         Dict[str, Any]: Metadata dictionary.
     """
     input_data = call_trace.get_input()
+    first_entry = input_data[0] if input_data and len(input_data) > 0 else None
+    if first_entry is not None:
+        eye_side = first_entry.eye_side
+    else:
+        eye_side = None
     aggregation_result = call_trace.get("aggregation_result")
 
     return {
         "iris_version": __version__,
-        "input_images_count": len(input_data["imgs_data"]) if input_data and "imgs_data" in input_data else None,
-        "eye_side": input_data["eye_side"] if input_data and "eye_side" in input_data else None,
+        "input_images_count": len(input_data) if input_data else None,
+        "eye_side": eye_side,
         "aggregation_successful": aggregation_result is not None and aggregation_result.get("error") is None,
         "is_aggregated": aggregation_result is not None,
     }

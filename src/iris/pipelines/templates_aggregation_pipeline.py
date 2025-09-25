@@ -7,7 +7,7 @@ from pydantic import validator
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
@@ -64,20 +64,34 @@ class TemplatesAggregationPipeline(BasePipeline):
         deserialized_config = self.load_config(config, keyword=subconfig_key)
         super().__init__(deserialized_config, env)
 
-    def run(self, templates: List[IrisTemplate], *args: Any, **kwargs: Any) -> Any:
-        pipeline_input = {"templates": templates}
+    def run(
+        self, templates: List[IrisTemplate], image_ids: Optional[List[str]] = None, *args: Any, **kwargs: Any
+    ) -> Any:
+        # Validate input consistency
+        if image_ids is not None and len(image_ids) != len(templates):
+            raise ValueError(
+                f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
+            )
+
+        # Create IrisTemplateWithId pairs
+        templates_with_ids = []
+        for i, template in enumerate(templates):
+            image_id = image_ids[i] if image_ids else f"frame_{i}"
+            templates_with_ids.append(IrisTemplateWithId(template=template, image_id=image_id))
+
+        pipeline_input = {"templates_with_ids": templates_with_ids}
         return super().run(pipeline_input, *args, **kwargs)
 
     def _handle_input(self, pipeline_input: Any, *args, **kwargs) -> None:
         """
-        Write the list of IrisTemplate objects to the call trace.
+        Write the list of IrisTemplateWithId objects to the call trace.
         Args:
-            pipeline_input (Any): List of IrisTemplate objects.
+            pipeline_input (Any): List of IrisTemplateWithId objects.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         """
-        templates = pipeline_input["templates"]
-        self.call_trace.write_input(templates)
+        templates_with_ids = pipeline_input["templates_with_ids"]
+        self.call_trace.write_input(templates_with_ids)
 
     def _handle_output(self, *args, **kwargs) -> Any:
         """

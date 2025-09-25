@@ -327,7 +327,7 @@ templates_aggregation_pipeline:
           normalise: true
           reference_selection_method: linear
       inputs:
-        - name: templates
+        - name: templates_with_ids
           source_node: input
       callbacks:
 
@@ -352,7 +352,7 @@ templates_aggregation_pipeline:
           use_inconsistent_bits: True
           inconsistent_bit_threshold: 0.4
       inputs:
-        - name: templates
+        - name: templates_with_ids
           source_node: identity_validation
       callbacks:
         - class_name: iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible

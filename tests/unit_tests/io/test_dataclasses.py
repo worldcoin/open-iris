@@ -772,13 +772,18 @@ class TestAlignedTemplates:
         ]
         iris_code_version = "v2.1"
 
-        return [
+        iris_templates = [
             dc.IrisTemplate(
                 iris_codes=iris_codes,
                 mask_codes=mask_codes,
                 iris_code_version=iris_code_version,
             )
             for _ in range(nb_templates)
+        ]
+
+        return [
+            dc.IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+            for i, template in enumerate(iris_templates)
         ]
 
     @pytest.fixture
@@ -794,6 +799,7 @@ class TestAlignedTemplates:
     @pytest.fixture
     def aligned_templates(self, sample_iris_templates, sample_distance_matrix):
         """Create an AlignedTemplates instance for testing."""
+        # template_with_id = [dc.IrisTemplateWithId(template=template, image_id=f"image_id_{i}") for i, template in enumerate(sample_iris_templates)]
         return dc.AlignedTemplates(
             templates=sample_iris_templates, distances=sample_distance_matrix, reference_template_id=0
         )
@@ -837,7 +843,7 @@ class TestAlignedTemplates:
         with pytest.raises(KeyError):
             aligned_templates.get_distance(0, 3)  # (0, 3) doesn't exist in the distance matrix
 
-    def test_serialize(self, aligned_templates):
+    def test_serialize(self, aligned_templates: dc.AlignedTemplates):
         """Test serialization."""
         serialized = aligned_templates.serialize()
 
@@ -850,7 +856,8 @@ class TestAlignedTemplates:
         assert serialized["reference_template_id"] == 0
         assert len(serialized["templates"]) == 3
         assert isinstance(serialized["distances"], dict)
-        assert isinstance(serialized["templates"][0]["iris_codes"], str)
+        assert isinstance(serialized["templates"][0]["template"]["iris_codes"], str)
+        assert "image_id" in serialized["templates"][0]
 
     def test_deserialize(self, sample_iris_templates, sample_distance_matrix):
         """Test deserialization."""
@@ -951,11 +958,16 @@ class TestAlignedTemplates:
 
         distance_matrix = DistanceMatrix(data=distance_data)
 
-        aligned_templates = dc.AlignedTemplates(templates=templates, distances=distance_matrix, reference_template_id=2)
+        templates_with_id = [
+            dc.IrisTemplateWithId(template=template, image_id=f"image_id_{i}") for i, template in enumerate(templates)
+        ]
+        aligned_templates = dc.AlignedTemplates(
+            templates=templates_with_id, distances=distance_matrix, reference_template_id=2
+        )
 
         assert len(aligned_templates.templates) == 5
         assert aligned_templates.distances.nb_templates == 5
-        assert aligned_templates.reference_template == templates[2]
+        assert aligned_templates.reference_template == templates_with_id[2]
 
         # Test some distances
         assert aligned_templates.get_distance(0, 1) == 0.1
@@ -1058,13 +1070,14 @@ class TestAlignedTemplates:
             mask_codes=mask_codes,
             iris_code_version=iris_code_version,
         )
+        template_with_id = dc.IrisTemplateWithId(template=template, image_id="image_id_0")
 
         # Create distance matrix for single template (empty since no distances needed)
         distance_matrix = DistanceMatrix(data={})
 
         # Should work with reference_template_id = 0
         aligned_templates = dc.AlignedTemplates(
-            templates=[template], distances=distance_matrix, reference_template_id=0
+            templates=[template_with_id], distances=distance_matrix, reference_template_id=0
         )
         assert aligned_templates.reference_template_id == 0
 
@@ -1088,43 +1101,16 @@ class TestAlignedTemplates:
             mask_codes=mask_codes,
             iris_code_version=iris_code_version,
         )
+        template_with_id = dc.IrisTemplateWithId(template=template, image_id="image_id_0")
 
         # Create distance matrix for single template (empty since no distances needed)
         distance_matrix = DistanceMatrix(data={})
 
         aligned_templates = dc.AlignedTemplates(
-            templates=[template], distances=distance_matrix, reference_template_id=0
+            templates=[template_with_id], distances=distance_matrix, reference_template_id=0
         )
 
         assert len(aligned_templates) == 1
-
-    def test_len_method_multiple_templates(self):
-        """Test that __len__ works correctly with multiple templates."""
-        # Create 5 templates
-        iris_codes = [np.random.choice(2, size=(8, 8)).astype(bool) for _ in range(2)]
-        mask_codes = [np.random.choice(2, size=(8, 8)).astype(bool) for _ in range(2)]
-        iris_code_version = "v14.28"
-
-        templates = [
-            dc.IrisTemplate(
-                iris_codes=iris_codes,
-                mask_codes=mask_codes,
-                iris_code_version=iris_code_version,
-            )
-            for _ in range(5)
-        ]
-
-        # Create distance matrix for 5 templates
-        distance_data = {}
-        for i in range(5):
-            for j in range(i + 1, 5):
-                distance_data[(i, j)] = float(i + j) / 10.0
-
-        distance_matrix = DistanceMatrix(data=distance_data)
-
-        aligned_templates = dc.AlignedTemplates(templates=templates, distances=distance_matrix, reference_template_id=2)
-
-        assert len(aligned_templates) == 5
 
     def test_len_method_consistency(self, aligned_templates):
         """Test that __len__ is consistent with other length-related properties."""
@@ -1177,15 +1163,21 @@ class TestAlignedTemplates:
         pytest.param(
             lambda: dc.AlignedTemplates(
                 templates=[
-                    dc.IrisTemplate(
-                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
-                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
-                        iris_code_version="v2.1",
+                    dc.IrisTemplateWithId(
+                        template=dc.IrisTemplate(
+                            iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                            mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                            iris_code_version="v2.1",
+                        ),
+                        image_id="image_id_0",
                     ),
-                    dc.IrisTemplate(
-                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
-                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
-                        iris_code_version="v2.1",
+                    dc.IrisTemplateWithId(
+                        template=dc.IrisTemplate(
+                            iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                            mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                            iris_code_version="v2.1",
+                        ),
+                        image_id="image_id_1",
                     ),
                 ],
                 distances=DistanceMatrix(data={(0, 1): 0.5}),
