@@ -9,7 +9,7 @@ from pydantic import Field, conint
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate, IrisTemplateWithId
 from iris.nodes.matcher.utils import simple_hamming_distance
 
 
@@ -161,16 +161,16 @@ class TemplateIdentityFilter(Algorithm):
     def run(
         self,
         aligned_templates: AlignedTemplates,
-    ) -> List[IrisTemplate]:
+    ) -> List[IrisTemplateWithId]:
         """
         Filter templates to ensure all are from the same identity based on Hamming distances.
 
         Args:
-            templates (List[IrisTemplate]): List of iris templates to validate.
+            aligned_templates (AlignedTemplates): Aligned templates object to filter.
             pairwise_distances (Dict[tuple, float], optional): Precomputed pairwise Hamming distances. If not provided, will be computed.
 
         Returns:
-            List[IrisTemplate]: Filtered list of templates passing identity validation.
+            List[IrisTemplateWithId]: Filtered list of templates passing identity validation.
 
         Raises:
             E.IdentityValidationError: If validation fails and action is RAISE_ERROR or not enough templates remain.
@@ -246,10 +246,10 @@ class TemplateIdentityFilter(Algorithm):
 
     def _handle_identity_outliers(
         self,
-        templates: List[IrisTemplate],
+        templates: List[IrisTemplateWithId],
         outlier_indices: List[int],
         distances: Dict[tuple, float],
-    ) -> List[IrisTemplate]:
+    ) -> List[IrisTemplateWithId]:
         action = self.params.identity_validation_action
         threshold = self.params.identity_distance_threshold
 

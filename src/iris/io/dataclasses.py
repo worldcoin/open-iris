@@ -869,21 +869,21 @@ class OutputFieldSpec(BaseModel):
 
 
 class DistanceMatrix(ImmutableModel):
-    """Data holder for a distance matrix."""
+    """Data holder for a distance matrix using position indices as keys."""
 
     data: Dict[Tuple[int, int], float]
 
     def get(self, i: int, j: int) -> float:
-        """Get the distance between two templates.
+        """Get the distance between two templates by their position indices.
 
         Args:
-            i (int): Index of the first template.
-            j (int): Index of the second template.
+            i (int): position index of the first template.
+            j (int): position index of the second template.
 
         Returns:
             float: Distance between the two templates.
         """
-        key = (min(i, j), max(i, j))
+        key = min(i, j), max(i, j)
         return self.data[key]
 
     def to_numpy(self) -> np.ndarray:
@@ -959,16 +959,34 @@ class DistanceMatrix(ImmutableModel):
         return DistanceMatrix(data=tuple_keyed)
 
 
+class IrisTemplateWithId(ImmutableModel):
+    """Iris template with an associated identifier that cannot be separated."""
+
+    template: IrisTemplate
+    image_id: str
+
+    def serialize(self) -> Dict[str, Any]:
+        """Serialize IrisTemplateWithId object."""
+        return {"template": self.template.serialize(), "image_id": self.image_id}
+
+    @staticmethod
+    def deserialize(data: Dict[str, Any], array_shape: Tuple = (16, 256, 2, 2)) -> "IrisTemplateWithId":
+        """Deserialize IrisTemplateWithId object."""
+        return IrisTemplateWithId(
+            template=IrisTemplate.deserialize(data["template"], array_shape), image_id=data["image_id"]
+        )
+
+
 class AlignedTemplates(ImmutableModel):
     """Data holder for aligned templates and Hamming distances between them.
 
     Args:
-        aligned_templates (List[IrisTemplate]): List of aligned Iris templates.
+        aligned_templates (List[IrisTemplateWithId]): List of aligned Iris templates with IDs.
         distances (Dict[Tuple[int, int], float]): Dictionary of Hamming distances between Iris templates.
         reference_template_id (int): Index of the reference template.
     """
 
-    templates: List[IrisTemplate]
+    templates: List[IrisTemplateWithId]
     distances: DistanceMatrix
     reference_template_id: int
 
@@ -1034,11 +1052,11 @@ class AlignedTemplates(ImmutableModel):
         return values
 
     @property
-    def reference_template(self) -> IrisTemplate:
+    def reference_template(self) -> IrisTemplateWithId:
         """Get the reference template.
 
         Returns:
-            IrisTemplate: Reference template.
+            IrisTemplateWithId: Reference template.
         """
         return self.templates[self.reference_template_id]
 
@@ -1086,7 +1104,7 @@ class AlignedTemplates(ImmutableModel):
             AlignedTemplates: Deserialized object.
         """
         return AlignedTemplates(
-            templates=[IrisTemplate.deserialize(template, array_shape) for template in data["templates"]],
+            templates=[IrisTemplateWithId.deserialize(template, array_shape) for template in data["templates"]],
             distances=DistanceMatrix.deserialize(data["distances"]),
             reference_template_id=data["reference_template_id"],
         )

@@ -24,7 +24,7 @@ from pydantic import Field, conint
 
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate
+from iris.io.dataclasses import AlignedTemplates, DistanceMatrix, IrisTemplate, IrisTemplateWithId
 from iris.nodes.matcher.utils import simple_hamming_distance
 
 
@@ -89,12 +89,12 @@ class HammingDistanceBasedAlignment(Algorithm):
             callbacks=callbacks,
         )
 
-    def run(self, templates: List[IrisTemplate]) -> AlignedTemplates:
+    def run(self, templates_with_ids: List[IrisTemplateWithId]) -> AlignedTemplates:
         """
         Align templates using hamming distance-based alignment.
 
         Args:
-            templates (List[IrisTemplate]): List of IrisTemplate objects to align
+            templates_with_ids (List[IrisTemplateWithId]): List of IrisTemplateWithId objects to align
 
         Returns:
             AlignedTemplates: an AlignedTemplates object
@@ -102,17 +102,19 @@ class HammingDistanceBasedAlignment(Algorithm):
         Raises:
             ValueError: If no templates provided
         """
-        if not templates:
+        if not templates_with_ids:
             raise ValueError("No templates provided for alignment")
 
-        if len(templates) == 1:
+        if len(templates_with_ids) == 1:
             return AlignedTemplates(
-                templates=templates,
+                templates=templates_with_ids,
                 distances=DistanceMatrix(data={}),
                 reference_template_id=0,
             )
 
         # Step 1: Calculate pairwise distances (invariant to global rotation)
+        # Extract templates for distance calculation
+        templates = [pair.template for pair in templates_with_ids]
         original_distances = self._calculate_pairwise_distances(templates)
 
         # Step 2: Find the best reference template using original distances
@@ -125,16 +127,18 @@ class HammingDistanceBasedAlignment(Algorithm):
         aligned_templates = []
 
         # Step 3: Align each template to the reference
-        for i, template in enumerate(templates):
+        for i, template_with_id in enumerate(templates_with_ids):
             if i == reference_idx:
                 # Reference template doesn't need alignment
-                aligned_templates.append(template)
+                aligned_templates.append(template_with_id)
             else:
                 # Find optimal rotation for this template
-                optimal_rotation = self._find_optimal_rotation(template, reference_template)
+                optimal_rotation = self._find_optimal_rotation(template_with_id.template, reference_template)
 
                 # Apply rotation to align the template
-                aligned_template = self._rotate_template(template, optimal_rotation)
+                aligned_template = self._rotate_template(template_with_id.template, optimal_rotation)
+
+                aligned_template = IrisTemplateWithId(template=aligned_template, image_id=template_with_id.image_id)
                 aligned_templates.append(aligned_template)
 
         at = AlignedTemplates(

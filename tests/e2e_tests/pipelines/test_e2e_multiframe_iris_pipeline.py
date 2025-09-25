@@ -95,6 +95,7 @@ class TestMultiframeIrisPipeline:
         assert "metadata" in aggregation_pipeline_output
         assert "individual_frames" in aggregation_pipeline_output
         assert "templates_aggregation_metadata" in aggregation_pipeline_output
+        assert aggregation_pipeline_output["metadata"]["eye_side"] == "right"
 
         # check that metadata is json serializable
         json.dumps(aggregation_pipeline_output["metadata"])
@@ -130,6 +131,7 @@ class TestMultiframeIrisPipeline:
         mock_ir_image.width = ir_image.shape[1]
         mock_ir_image.height = ir_image.shape[0]
         mock_ir_image.eye_side = "right"
+        mock_ir_image.image_id = "image_id"
         dummy_call_trace.get_input.return_value = mock_ir_image
         dummy_call_trace.get.side_effect = lambda k: None
         expected_keys = set(get_iris_pipeline_metadata(dummy_call_trace).keys())
@@ -192,3 +194,117 @@ class TestMultiframeIrisPipeline:
         assert aggregation_pipeline_output["templates_aggregation_metadata"]["metadata"][
             "post_identity_filter_templates_count"
         ] == len(ir_images)
+
+    @pytest.mark.parametrize(
+        "image_ids,expected_behavior",
+        [
+            # Test case 1: Valid strings
+            (["image_001", "img_alpha_beta", "test-image_2024", "normal123"], "valid_strings"),
+            # Test case 2: Invalid/Edge case strings
+            (["", "a" * 1000, "test\n\r\t", "🔍🎯"], "invalid_strings"),
+            # Test case 3: All Nones
+            ([None, None, None, None], "all_nones"),
+            # Test case 4: Combination of strings and Nones
+            (["image_1", None, "image_3", None], "mixed_strings_nones"),
+            # Test case 5: Duplicated strings
+            (["duplicate", "duplicate", "duplicate", "unique"], "duplicated_strings"),
+            # Test case 6: Conflict with auto-generated frame IDs
+            (["frame_1", None, "frame_3", None, None], "frame_conflicts"),
+            # Test case 7: Multiple levels of frame ID conflicts
+            (["frame_1", None, "frame_1_1", None, None], "deep_frame_conflicts"),
+        ],
+        ids=[
+            "valid_strings",
+            "invalid_strings",
+            "all_nones",
+            "mixed_strings_nones",
+            "duplicated_strings",
+            "frame_conflicts",
+            "deep_frame_conflicts",
+        ],
+    )
+    def test_iris_pipeline_image_id_assignments(self, image_ids, expected_behavior, ir_image):
+        """Test the iris pipeline with different image_id assignment scenarios."""
+        combined_config = load_yaml_config(MultiframeIrisPipeline.DEFAULT_PIPELINE_CFG_PATH)
+        env = MultiframeIrisPipeline.ORB_ENVIRONMENT
+
+        aggregation_pipeline = MultiframeIrisPipeline(config=combined_config, env=env)
+
+        # Create IRImages with specified image_ids
+        images = []
+        for i, image_id in enumerate(image_ids):
+            # Use the same image data for all frames
+            images.append(IRImage(img_data=ir_image, image_id=image_id, eye_side="right"))
+
+        # Run the pipeline
+        aggregation_pipeline_output = aggregation_pipeline.run(images)
+
+        # Basic assertions for all cases
+        assert isinstance(aggregation_pipeline_output, dict)
+        assert "error" in aggregation_pipeline_output
+        assert "individual_frames" in aggregation_pipeline_output
+        assert len(aggregation_pipeline_output["individual_frames"]) == len(image_ids)
+
+        # Extract the resulting image_ids from individual frames metadata
+        individual_frames_image_ids = []
+        for frame in aggregation_pipeline_output["individual_frames"]:
+            assert "metadata" in frame
+            assert "image_id" in frame["metadata"]
+            individual_frames_image_ids.append(frame["metadata"]["image_id"])
+
+        # Individual frames image_ids should be the same as the input image_ids
+        for original, result in zip(image_ids, individual_frames_image_ids):
+            assert result == original, f"Expected {original}, got {result}"
+
+        # extract image_ids from aggregation pipeline output
+        aggregation_pipeline_image_ids = aggregation_pipeline_output["templates_aggregation_metadata"]["metadata"][
+            "input_templates_image_ids"
+        ]
+
+        if expected_behavior in ["valid_strings", "invalid_strings", "duplicated_strings"]:
+            # Individual frames image_ids should be the same as the input image_ids
+            for original, result in zip(image_ids, aggregation_pipeline_image_ids):
+                assert result == original, f"Expected {original}, got {result}"
+
+        elif expected_behavior == "all_nones":
+            for i in range(len(image_ids)):
+                assert (
+                    aggregation_pipeline_image_ids[i] == f"frame_{i}"
+                ), f"Expected 'frame_{i}', got {aggregation_pipeline_image_ids[i]}"
+
+        elif expected_behavior == "mixed_strings_nones":
+            # Strings should be preserved, Nones should remain as None
+            for i, (original, result) in enumerate(zip(image_ids, aggregation_pipeline_image_ids)):
+                if original is not None:
+                    assert result == original, f"Expected {original}, got {result}"
+                else:
+                    assert result == f"frame_{i}", f"Expected 'frame_{i}', got {result}"
+
+        elif expected_behavior == "frame_conflicts":
+            # Test collision handling: existing strings preserved, None values get unique IDs
+            # Expected: ["frame_1", None, "frame_3", None, None]
+            # Should become: ["frame_1", "frame_1_1", "frame_3", "frame_3_1", "frame_4"]
+            expected_results = ["frame_1", "frame_1_1", "frame_3", "frame_3_1", "frame_4"]
+
+            for expected, actual in zip(expected_results, aggregation_pipeline_image_ids):
+                assert actual == expected, f"Expected {expected}, got {actual}"
+
+            # Verify all IDs are unique
+            assert len(set(aggregation_pipeline_image_ids)) == len(
+                aggregation_pipeline_image_ids
+            ), "All aggregation IDs should be unique"
+
+        elif expected_behavior == "deep_frame_conflicts":
+            # Test deep collision handling: multiple levels of conflicts
+            # Input: ["frame_1", "frame_1_1", None, None, None]
+            # Should become: ["frame_1", "frame_1_1", "frame_2", "frame_3", "frame_4"]
+            # Note: at i=1 frame_1 is already taken, so None tries to get frame_1_1, which is already taken, so it tries to get frame_1_2, etc.
+            expected_results = ["frame_1", "frame_1_2", "frame_1_1", "frame_3", "frame_4"]
+
+            for expected, actual in zip(expected_results, aggregation_pipeline_image_ids):
+                assert actual == expected, f"Expected {expected}, got {actual}"
+
+            # Verify all IDs are unique
+            assert len(set(aggregation_pipeline_image_ids)) == len(
+                aggregation_pipeline_image_ids
+            ), "All aggregation IDs should be unique"
