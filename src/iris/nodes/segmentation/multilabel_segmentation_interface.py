@@ -79,9 +79,11 @@ class MultilabelSemanticSegmentationInterface(Algorithm):
         Returns:
             np.ndarray: Preprocessed image.
         """
-        nn_input = cv2.resize(image.astype(float), input_resolution).astype(np.uint8)
+        nn_input = cv2.resize(image.astype(float), input_resolution)
         if denoise:
-            nn_input = self.image_denoise(nn_input, d=5, sigmaColor=75, sigmaSpace=10, intensityIgnore=75)
+            nn_input = self.image_denoise(
+                nn_input.astype(np.uint8), d=5, sigmaColor=75, sigmaSpace=10, intensityIgnore=75
+            )
 
         nn_input = np.divide(nn_input, 255)  # Replicates torchvision's ToTensor
 
