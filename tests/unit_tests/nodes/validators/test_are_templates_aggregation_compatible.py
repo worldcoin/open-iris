@@ -4,7 +4,7 @@ import pytest
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
 from iris.nodes.validators.object_validators import AreTemplatesAggregationCompatible
 
 
@@ -26,6 +26,15 @@ def compatible_templates():
         template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
         templates.append(template)
     return templates
+
+
+@pytest.fixture
+def compatible_templates_with_id(compatible_templates):
+    """Create a list of compatible IrisTemplatesWithId for testing."""
+    return [
+        IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+        for i, template in enumerate(compatible_templates)
+    ]
 
 
 @pytest.fixture
@@ -176,13 +185,13 @@ class TestAreTemplatesAggregationCompatible:
         ):
             validator.run([template1, template2])
 
-    def test_on_execute_start_method(self, compatible_templates):
+    def test_on_execute_start_method(self, compatible_templates_with_id):
         """Test on_execute_start method (callback interface)."""
         validator = AreTemplatesAggregationCompatible()
 
         # Should call the run method internally
         try:
-            validator.on_execute_start(compatible_templates)
+            validator.on_execute_start(compatible_templates_with_id)
         except E.TemplateAggregationCompatibilityError:
             pytest.fail("on_execute_start should not raise exception for compatible templates")
 
@@ -192,22 +201,24 @@ class TestAreTemplatesAggregationCompatible:
         mask_codes = [np.random.choice(2, size=(16, 256, 2)).astype(bool)]
 
         template1 = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+        template1_with_id = IrisTemplateWithId(template=template1, image_id="image_id_0")
         template2 = IrisTemplate(
             iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.2"
         )  # Different version
+        template2_with_id = IrisTemplateWithId(template=template2, image_id="image_id_1")
 
         validator = AreTemplatesAggregationCompatible()
 
         with pytest.raises(E.TemplateAggregationCompatibilityError):
-            validator.on_execute_start([template1, template2])
+            validator.on_execute_start([template1_with_id, template2_with_id])
 
-    def test_on_execute_start_with_additional_args(self, compatible_templates):
+    def test_on_execute_start_with_additional_args(self, compatible_templates_with_id):
         """Test on_execute_start method with additional args and kwargs."""
         validator = AreTemplatesAggregationCompatible()
 
         # Should work with additional arguments (they should be ignored)
         try:
-            validator.on_execute_start(compatible_templates, "extra_arg", extra_kwarg="value")
+            validator.on_execute_start(compatible_templates_with_id, "extra_arg", extra_kwarg="value")
         except E.TemplateAggregationCompatibilityError:
             pytest.fail("on_execute_start should not raise exception for compatible templates")
 

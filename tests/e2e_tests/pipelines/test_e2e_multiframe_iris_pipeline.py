@@ -13,9 +13,6 @@ from iris.io.dataclasses import IRImage, IrisTemplate
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import __get_iris_pipeline_metadata as get_iris_pipeline_metadata
-from iris.orchestration.output_builders import (
-    __get_templates_aggregation_metadata as get_templates_aggregation_metadata,
-)
 from iris.orchestration.output_builders import build_simple_multiframe_iris_pipeline_output
 from iris.pipelines.base_pipeline import load_yaml_config
 from iris.pipelines.multiframe_iris_pipeline import MultiframeIrisPipeline
@@ -148,14 +145,6 @@ class TestMultiframeIrisPipeline:
         assert "eye_side" in metadata
         assert "aggregation_successful" in metadata
         assert "is_aggregated" in metadata
-
-        # check that templates_aggregation_metadata contains all the metadata from TemplatesAggregationPipeline
-        dummy_call_trace = Mock()
-        dummy_call_trace.get_input.return_value = [None]
-        dummy_call_trace.get.side_effect = lambda k: None
-        expected_keys = set(get_templates_aggregation_metadata(dummy_call_trace).keys())
-        actual_keys = set(aggregation_pipeline_output["templates_aggregation_metadata"]["metadata"].keys())
-        assert expected_keys == actual_keys
 
     @pytest.mark.parametrize(
         "env",

@@ -86,7 +86,7 @@ class TemplatesAggregationPipeline(BasePipeline):
         """
         Write the list of IrisTemplateWithId objects to the call trace.
         Args:
-            pipeline_input (Any): List of IrisTemplateWithId objects.
+            pipeline_input (Any): Dictionary containing 'templates_with_ids' key with List[IrisTemplateWithId] value.
             *args: Optional positional arguments for extensibility.
             **kwargs: Optional keyword arguments for extensibility.
         """

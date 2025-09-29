@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import build_simple_templates_aggregation_output
@@ -160,22 +160,39 @@ class TestTemplatesAggregationPipeline:
             mock_base_run.return_value = {"result": "success"}
 
             pipeline = TemplatesAggregationPipeline(config=mock_config, subconfig_key="")
-            _ = pipeline.run(mock_templates_list)
+            _ = pipeline.run(
+                templates=mock_templates_list, image_ids=[f"image_id_{i}" for i in range(len(mock_templates_list))]
+            )
 
             # Verify that BasePipeline.run was called with correct input format
             mock_base_run.assert_called_once()
             call_args = mock_base_run.call_args[0]
-            assert call_args[0] == {"templates": mock_templates_list}
+            assert call_args[0] == {
+                "templates_with_ids": [
+                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                    for i, template in enumerate(mock_templates_list)
+                ]
+            }
 
     def test_handle_input(self, mock_config, mock_templates_list):
         """Test _handle_input method."""
         pipeline = TemplatesAggregationPipeline(config=mock_config, subconfig_key="")
         pipeline.call_trace = Mock()
 
-        pipeline_input = {"templates": mock_templates_list}
+        pipeline_input = {
+            "templates_with_ids": [
+                IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                for i, template in enumerate(mock_templates_list)
+            ]
+        }
         pipeline._handle_input(pipeline_input)
 
-        pipeline.call_trace.write_input.assert_called_once_with(mock_templates_list)
+        pipeline.call_trace.write_input.assert_called_once_with(
+            [
+                IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                for i, template in enumerate(mock_templates_list)
+            ]
+        )
 
     def test_handle_output(self, mock_config):
         """Test _handle_output method."""
@@ -300,7 +317,12 @@ class TestTemplatesAggregationPipeline:
                 }
 
                 pipeline = TemplatesAggregationPipeline()
-                _ = pipeline.run(mock_templates_list, "extra_arg", extra_kwarg="value")
+                _ = pipeline.run(
+                    mock_templates_list,
+                    [f"image_id_{i}" for i in range(len(mock_templates_list))],
+                    "extra_arg",
+                    extra_kwarg="value",
+                )
 
                 # Verify that additional args and kwargs are passed through
                 mock_base_run.assert_called_once()
@@ -316,8 +338,18 @@ class TestTemplatesAggregationPipeline:
             pipeline = TemplatesAggregationPipeline()
             pipeline.call_trace = Mock()
 
-            pipeline_input = {"templates": mock_templates_list}
+            pipeline_input = {
+                "templates_with_ids": [
+                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                    for i, template in enumerate(mock_templates_list)
+                ]
+            }
             pipeline._handle_input(pipeline_input, "extra_arg", extra_kwarg="value")
 
             # Should still write the templates to call trace regardless of extra args
-            pipeline.call_trace.write_input.assert_called_once_with(mock_templates_list)
+            pipeline.call_trace.write_input.assert_called_once_with(
+                [
+                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                    for i, template in enumerate(mock_templates_list)
+                ]
+            )

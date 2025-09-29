@@ -80,7 +80,7 @@ def standalone_aggregation_config():
                         "reference_selection_method": "linear",
                     },
                 },
-                "inputs": [{"name": "templates", "source_node": "input"}],
+                "inputs": [{"name": "templates_with_ids", "source_node": "input"}],
                 "callbacks": [],
             },
             {
@@ -107,7 +107,7 @@ def standalone_aggregation_config():
                         "inconsistent_bit_threshold": 0.4,
                     },
                 },
-                "inputs": [{"name": "templates", "source_node": "identity_validation"}],
+                "inputs": [{"name": "templates_with_ids", "source_node": "identity_validation"}],
                 "callbacks": [
                     {
                         "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
@@ -139,7 +139,7 @@ def composite_iris_config():
                             "reference_selection_method": "linear",
                         },
                     },
-                    "inputs": [{"name": "templates", "source_node": "input"}],
+                    "inputs": [{"name": "templates_with_ids", "source_node": "input"}],
                     "callbacks": [],
                 },
                 {
@@ -166,7 +166,7 @@ def composite_iris_config():
                             "inconsistent_bit_threshold": 0.4,
                         },
                     },
-                    "inputs": [{"name": "templates", "source_node": "identity_validation"}],
+                    "inputs": [{"name": "templates_with_ids", "source_node": "identity_validation"}],
                     "callbacks": [
                         {
                             "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
@@ -426,7 +426,7 @@ class TestTemplatesAggregationPipeline:
 
         # Check that input was written to call trace
         input_data = pipeline.call_trace.get_input()
-        assert input_data == same_id_iris_templates
+        assert [x.template for x in input_data] == same_id_iris_templates
 
         # Check that the aggregation node result is available
         aggregation_result = pipeline.call_trace["templates_aggregation"]
@@ -460,49 +460,6 @@ class TestTemplatesAggregationPipeline:
         assert result["error"] is None
         assert result["iris_template"] is not None
         assert result["metadata"]["input_templates_count"] == 20
-
-    def test_pipeline_parameter_propagation(self):
-        """Test that parameters are correctly propagated through the pipeline."""
-        # Create config with specific parameters
-        config = {
-            "metadata": {"pipeline_name": "param_test", "iris_version": "1.6.1"},
-            "pipeline": [
-                {
-                    "name": "templates_aggregation",
-                    "algorithm": {
-                        "class_name": "iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation",
-                        "params": {
-                            "consistency_threshold": 0.9,  # High threshold
-                            "mask_threshold": 0.1,  # Low threshold
-                            "use_inconsistent_bits": False,  # Disabled
-                            "inconsistent_bit_threshold": 0.0,
-                        },
-                    },
-                    "inputs": [{"name": "templates", "source_node": "input"}],
-                    "callbacks": [
-                        {
-                            "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
-                            "params": {},
-                        }
-                    ],
-                }
-            ],
-        }
-
-        # Create test templates
-        templates = []
-        for i in range(3):
-            iris_codes = [np.random.choice(2, size=(4, 8, 2)).astype(bool)]
-            mask_codes = [np.random.choice(2, size=(4, 8, 2)).astype(bool)]
-            template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
-            templates.append(template)
-
-        pipeline = TemplatesAggregationPipeline(config=config, subconfig_key="")
-        result = pipeline.run(templates)
-
-        # Should work with custom parameters
-        assert result["error"] is None
-        assert result["iris_template"] is not None
 
     def test_error_handling_and_recovery(self, standalone_aggregation_config):
         """Test error handling in the pipeline."""

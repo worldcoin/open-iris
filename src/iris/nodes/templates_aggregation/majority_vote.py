@@ -71,10 +71,10 @@ class MajorityVoteAggregation(Algorithm):
         Combine multiple iris templates from the same user.
 
         Args:
-            templates (List[IrisTemplateWithId]): List of IrisTemplateWithId objects from the same user
+            templates_with_ids (List[IrisTemplateWithId]): List of IrisTemplateWithId objects from the same user
 
         Returns:
-            combined_template (WeightedIrisTemplate): Combined WeightedIrisTemplate
+            WeightedIrisTemplate: Combined WeightedIrisTemplate
         """
         templates = [template_with_id.template for template_with_id in templates_with_ids]
         return self.combine_templates(templates)
