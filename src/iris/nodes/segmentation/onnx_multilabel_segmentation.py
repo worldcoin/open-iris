@@ -26,6 +26,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         session: ort.InferenceSession
         input_resolution: Tuple[PositiveInt, PositiveInt]
         input_num_channels: Literal[1, 3]
+        denoise: bool
 
     __parameters_type__ = Parameters
 
@@ -35,6 +36,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         model_name: str = "iris_semseg_upp_scse_mobilenetv2.onnx",
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
+        denoise: bool = False,
         callbacks: List[Callback] = [],
     ) -> ONNXMultilabelSegmentation:
         """Create ONNXMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.
@@ -43,6 +45,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.onnx".
             input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
 
         Returns:
@@ -55,13 +58,14 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             filename=model_name,
         )
 
-        return ONNXMultilabelSegmentation(model_path, input_resolution, input_num_channels, callbacks)
+        return ONNXMultilabelSegmentation(model_path, input_resolution, input_num_channels, denoise, callbacks)
 
     def __init__(
         self,
         model_path: str,
         input_resolution: Tuple[PositiveInt, PositiveInt] = (640, 480),
         input_num_channels: Literal[1, 3] = 3,
+        denoise: bool = False,
         callbacks: List[Callback] = [],
     ) -> None:
         """Assign parameters.
@@ -70,6 +74,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             model_path (str): Path to the ONNX model.
             input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).
             input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.
+            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.
             callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].
         """
         onnx_model = onnx.load(model_path)
@@ -79,6 +84,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             session=ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]),
             input_resolution=input_resolution,
             input_num_channels=input_num_channels,
+            denoise=denoise,
             callbacks=callbacks,
         )
 
@@ -108,7 +114,9 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         """
         nn_input = image.copy()
 
-        nn_input = self.preprocess(nn_input, self.params.input_resolution, self.params.input_num_channels)
+        nn_input = self.preprocess(
+            nn_input, self.params.input_resolution, self.params.input_num_channels, self.params.denoise
+        )
 
         return {self.params.session.get_inputs()[0].name: nn_input.astype(np.float32)}
 
