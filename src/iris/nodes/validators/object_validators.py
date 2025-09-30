@@ -6,15 +6,7 @@ from pydantic import Field
 import iris.io.errors as E
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import (
-    EyeOcclusion,
-    GeometryPolygons,
-    IrisTemplate,
-    IrisTemplateWithId,
-    Offgaze,
-    PupilToIrisProperty,
-    Sharpness,
-)
+from iris.io.dataclasses import EyeOcclusion, GeometryPolygons, IrisTemplate, Offgaze, PupilToIrisProperty, Sharpness
 from iris.utils.math import polygon_length
 
 
@@ -463,11 +455,10 @@ class AreTemplatesAggregationCompatible(Callback, Algorithm):
                     f"Mask codes for wavelet {wavelet_idx} have different shapes"
                 )
 
-    def on_execute_start(self, templates_with_ids: List[IrisTemplateWithId], *args, **kwargs) -> None:
+    def on_execute_start(self, templates: List[IrisTemplate], *args, **kwargs) -> None:
         """Wrap for validate method so that validator can be used as a Callback.
 
         Args:
-            templates_with_ids (List[IrisTemplateWithId]): List of IrisTemplateWithId objects to be validated.
+            templates (List[IrisTemplate]): List of IrisTemplate objects to be validated.
         """
-        templates = [template_with_id.template for template_with_id in templates_with_ids]
         self.run(templates)

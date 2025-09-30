@@ -32,8 +32,7 @@ def compatible_templates():
 def compatible_templates_with_id(compatible_templates):
     """Create a list of compatible IrisTemplatesWithId for testing."""
     return [
-        IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-        for i, template in enumerate(compatible_templates)
+        IrisTemplateWithId.from_template(template, f"image_id_{i}") for i, template in enumerate(compatible_templates)
     ]
 
 
@@ -201,11 +200,11 @@ class TestAreTemplatesAggregationCompatible:
         mask_codes = [np.random.choice(2, size=(16, 256, 2)).astype(bool)]
 
         template1 = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
-        template1_with_id = IrisTemplateWithId(template=template1, image_id="image_id_0")
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
         template2 = IrisTemplate(
             iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.2"
         )  # Different version
-        template2_with_id = IrisTemplateWithId(template=template2, image_id="image_id_1")
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         validator = AreTemplatesAggregationCompatible()
 

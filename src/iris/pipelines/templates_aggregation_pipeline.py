@@ -73,11 +73,11 @@ class TemplatesAggregationPipeline(BasePipeline):
                 f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
             )
 
-        # Create IrisTemplateWithId pairs
+        # Create IrisTemplateWithId
         templates_with_ids = []
         for i, template in enumerate(templates):
             image_id = image_ids[i] if image_ids else f"frame_{i}"
-            templates_with_ids.append(IrisTemplateWithId(template=template, image_id=image_id))
+            templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
 
         pipeline_input = {"templates_with_ids": templates_with_ids}
         return super().run(pipeline_input, *args, **kwargs)

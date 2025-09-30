@@ -107,7 +107,7 @@ def standalone_aggregation_config():
                         "inconsistent_bit_threshold": 0.4,
                     },
                 },
-                "inputs": [{"name": "templates_with_ids", "source_node": "identity_validation"}],
+                "inputs": [{"name": "templates", "source_node": "identity_validation"}],
                 "callbacks": [
                     {
                         "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
@@ -166,7 +166,7 @@ def composite_iris_config():
                             "inconsistent_bit_threshold": 0.4,
                         },
                     },
-                    "inputs": [{"name": "templates_with_ids", "source_node": "identity_validation"}],
+                    "inputs": [{"name": "templates", "source_node": "identity_validation"}],
                     "callbacks": [
                         {
                             "class_name": "iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible",
@@ -426,7 +426,12 @@ class TestTemplatesAggregationPipeline:
 
         # Check that input was written to call trace
         input_data = pipeline.call_trace.get_input()
-        assert [x.template for x in input_data] == same_id_iris_templates
+        # input_data are IrisTemplateWithId objects, same_id_iris_templates are IrisTemplate objects
+        # Since IrisTemplateWithId now inherits from IrisTemplate, we can compare the iris_codes
+        assert len(input_data) == len(same_id_iris_templates)
+        for i, (input_template, expected_template) in enumerate(zip(input_data, same_id_iris_templates)):
+            assert input_template.iris_code_version == expected_template.iris_code_version
+            assert len(input_template.iris_codes) == len(expected_template.iris_codes)
 
         # Check that the aggregation node result is available
         aggregation_result = pipeline.call_trace["templates_aggregation"]

@@ -210,7 +210,13 @@ class TestBuildAggregationTemplatesOrbOutput:
             iris_code_version=iris_code_version,
         )
         templaets_with_ids = [
-            IrisTemplateWithId(template=weighted_template, image_id=f"image_id_{i}") for i in range(1)
+            IrisTemplateWithId(
+                iris_codes=weighted_template.iris_codes,
+                mask_codes=weighted_template.mask_codes,
+                iris_code_version=weighted_template.iris_code_version,
+                image_id=f"image_id_{i}",
+            )
+            for i in range(1)
         ]
 
         call_trace.write("templates_aggregation", weighted_template)
@@ -235,7 +241,13 @@ class TestBuildAggregationTemplatesOrbOutput:
             iris_code_version=iris_code_version,
         )
         templaets_with_ids = [
-            IrisTemplateWithId(template=weighted_template, image_id=f"image_id_{i}") for i in range(1)
+            IrisTemplateWithId(
+                iris_codes=weighted_template.iris_codes,
+                mask_codes=weighted_template.mask_codes,
+                iris_code_version=weighted_template.iris_code_version,
+                image_id=f"image_id_{i}",
+            )
+            for i in range(1)
         ]
         call_trace.write("templates_aggregation", weighted_template)
         call_trace.write_input(templaets_with_ids)

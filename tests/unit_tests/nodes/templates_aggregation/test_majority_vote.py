@@ -44,15 +44,13 @@ def single_template():
 @pytest.fixture
 def single_template_with_id(single_template):
     """Create a single template with id for testing edge cases."""
-    return IrisTemplateWithId(template=single_template, image_id="image_id_0")
+    return IrisTemplateWithId.from_template(single_template, "image_id_0")
 
 
 @pytest.fixture
 def simple_templates_with_id(simple_templates):
     """Create simple test templates with known patterns with ids."""
-    return [
-        IrisTemplateWithId(template=template, image_id=f"image_id_{i}") for i, template in enumerate(simple_templates)
-    ]
+    return [IrisTemplateWithId.from_template(template, f"image_id_{i}") for i, template in enumerate(simple_templates)]
 
 
 class TestMajorityVoteAggregation:
@@ -135,15 +133,14 @@ class TestMajorityVoteAggregation:
         combined_template = weighted_template.as_iris_template()
         weights = weighted_template.weights
 
-        # Should return the same template
-        single_template = single_template_with_id.template
-        assert weighted_template.iris_code_version == single_template.iris_code_version
-        assert len(combined_template.iris_codes) == len(single_template.iris_codes)
-        assert len(combined_template.mask_codes) == len(single_template.mask_codes)
+        # Should return the same template (single_template_with_id IS the template now)
+        assert weighted_template.iris_code_version == single_template_with_id.iris_code_version
+        assert len(combined_template.iris_codes) == len(single_template_with_id.iris_codes)
+        assert len(combined_template.mask_codes) == len(single_template_with_id.mask_codes)
 
         # Weights should be all ones
-        assert len(weights) == len(single_template.iris_codes)
-        np.testing.assert_array_equal(weights[0], np.ones_like(single_template.iris_codes[0]))
+        assert len(weights) == len(single_template_with_id.iris_codes)
+        np.testing.assert_array_equal(weights[0], np.ones_like(single_template_with_id.iris_codes[0]))
 
     def test_run_multiple_templates(self, simple_templates_with_id):
         """Test run method with multiple templates."""
@@ -155,19 +152,19 @@ class TestMajorityVoteAggregation:
         combined_template = weighted_template.as_iris_template()
         weights = weighted_template.weights
 
-        # Check basic structure
-        simple_templates = [template_with_id.template for template_with_id in simple_templates_with_id]
+        # Check basic structure (templates_with_id ARE the templates now)
+
         assert isinstance(combined_template, IrisTemplate)
-        assert combined_template.iris_code_version == simple_templates[0].iris_code_version
-        assert len(combined_template.iris_codes) == len(simple_templates[0].iris_codes)
-        assert len(combined_template.mask_codes) == len(simple_templates[0].mask_codes)
-        assert len(weights) == len(simple_templates[0].iris_codes)
+        assert combined_template.iris_code_version == simple_templates_with_id[0].iris_code_version
+        assert len(combined_template.iris_codes) == len(simple_templates_with_id[0].iris_codes)
+        assert len(combined_template.mask_codes) == len(simple_templates_with_id[0].mask_codes)
+        assert len(weights) == len(simple_templates_with_id[0].iris_codes)
 
         # Check shapes
         for i in range(len(combined_template.iris_codes)):
-            assert combined_template.iris_codes[i].shape == simple_templates[0].iris_codes[i].shape
-            assert combined_template.mask_codes[i].shape == simple_templates[0].mask_codes[i].shape
-            assert weights[i].shape == simple_templates[0].iris_codes[i].shape
+            assert combined_template.iris_codes[i].shape == simple_templates_with_id[0].iris_codes[i].shape
+            assert combined_template.mask_codes[i].shape == simple_templates_with_id[0].mask_codes[i].shape
+            assert weights[i].shape == simple_templates_with_id[0].iris_codes[i].shape
 
     def test_combine_templates_method(self, simple_templates):
         """Test combine_templates method directly."""
@@ -325,12 +322,12 @@ class TestMajorityVoteAggregation:
         iris_codes_1 = [np.zeros((2, 2, 2), dtype=bool)]
         mask_codes_1 = [np.ones((2, 2, 2), dtype=bool)]
         template1 = IrisTemplate(iris_codes=iris_codes_1, mask_codes=mask_codes_1, iris_code_version="v2.1")
-        template1_with_id = IrisTemplateWithId(template=template1, image_id="image_id_0")
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
 
         iris_codes_2 = [np.zeros((2, 2, 2), dtype=bool)]
         mask_codes_2 = [np.ones((2, 2, 2), dtype=bool)]
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
-        template2_with_id = IrisTemplateWithId(template=template2, image_id="image_id_1")
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         aggregator = MajorityVoteAggregation()
         weighted_template = aggregator.run([template1_with_id, template2_with_id])
@@ -346,12 +343,12 @@ class TestMajorityVoteAggregation:
         iris_codes_1 = [np.ones((2, 2, 2), dtype=bool)]
         mask_codes_1 = [np.ones((2, 2, 2), dtype=bool)]
         template1 = IrisTemplate(iris_codes=iris_codes_1, mask_codes=mask_codes_1, iris_code_version="v2.1")
-        template1_with_id = IrisTemplateWithId(template=template1, image_id="image_id_0")
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
 
         iris_codes_2 = [np.ones((2, 2, 2), dtype=bool)]
         mask_codes_2 = [np.ones((2, 2, 2), dtype=bool)]
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
-        template2_with_id = IrisTemplateWithId(template=template2, image_id="image_id_1")
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         aggregator = MajorityVoteAggregation()
         weighted_template = aggregator.run([template1_with_id, template2_with_id])
@@ -367,12 +364,12 @@ class TestMajorityVoteAggregation:
         iris_codes_1 = [np.random.choice(2, size=(2, 2, 2)).astype(bool)]
         mask_codes_1 = [np.zeros((2, 2, 2), dtype=bool)]  # All invalid
         template1 = IrisTemplate(iris_codes=iris_codes_1, mask_codes=mask_codes_1, iris_code_version="v2.1")
-        template1_with_id = IrisTemplateWithId(template=template1, image_id="image_id_0")
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
 
         iris_codes_2 = [np.random.choice(2, size=(2, 2, 2)).astype(bool)]
         mask_codes_2 = [np.zeros((2, 2, 2), dtype=bool)]  # All invalid
         template2 = IrisTemplate(iris_codes=iris_codes_2, mask_codes=mask_codes_2, iris_code_version="v2.1")
-        template2_with_id = IrisTemplateWithId(template=template2, image_id="image_id_1")
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         aggregator = MajorityVoteAggregation(mask_threshold=0.5)
         weighted_template = aggregator.run([template1_with_id, template2_with_id])

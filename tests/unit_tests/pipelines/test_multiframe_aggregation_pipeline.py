@@ -167,32 +167,25 @@ class TestTemplatesAggregationPipeline:
             # Verify that BasePipeline.run was called with correct input format
             mock_base_run.assert_called_once()
             call_args = mock_base_run.call_args[0]
-            assert call_args[0] == {
-                "templates_with_ids": [
-                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-                    for i, template in enumerate(mock_templates_list)
-                ]
-            }
+            expected_templates = [
+                IrisTemplateWithId.from_template(template, f"image_id_{i}")
+                for i, template in enumerate(mock_templates_list)
+            ]
+            assert call_args[0] == {"templates_with_ids": expected_templates}
 
     def test_handle_input(self, mock_config, mock_templates_list):
         """Test _handle_input method."""
         pipeline = TemplatesAggregationPipeline(config=mock_config, subconfig_key="")
         pipeline.call_trace = Mock()
 
-        pipeline_input = {
-            "templates_with_ids": [
-                IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-                for i, template in enumerate(mock_templates_list)
-            ]
-        }
+        templates_with_ids = [
+            IrisTemplateWithId.from_template(template, f"image_id_{i}")
+            for i, template in enumerate(mock_templates_list)
+        ]
+        pipeline_input = {"templates_with_ids": templates_with_ids}
         pipeline._handle_input(pipeline_input)
 
-        pipeline.call_trace.write_input.assert_called_once_with(
-            [
-                IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-                for i, template in enumerate(mock_templates_list)
-            ]
-        )
+        pipeline.call_trace.write_input.assert_called_once_with(templates_with_ids)
 
     def test_handle_output(self, mock_config):
         """Test _handle_output method."""
@@ -340,16 +333,15 @@ class TestTemplatesAggregationPipeline:
 
             pipeline_input = {
                 "templates_with_ids": [
-                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+                    IrisTemplateWithId.from_template(template, f"image_id_{i}")
                     for i, template in enumerate(mock_templates_list)
                 ]
             }
             pipeline._handle_input(pipeline_input, "extra_arg", extra_kwarg="value")
 
             # Should still write the templates to call trace regardless of extra args
-            pipeline.call_trace.write_input.assert_called_once_with(
-                [
-                    IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-                    for i, template in enumerate(mock_templates_list)
-                ]
-            )
+            expected_templates = [
+                IrisTemplateWithId.from_template(template, f"image_id_{i}")
+                for i, template in enumerate(mock_templates_list)
+            ]
+            pipeline.call_trace.write_input.assert_called_once_with(expected_templates)

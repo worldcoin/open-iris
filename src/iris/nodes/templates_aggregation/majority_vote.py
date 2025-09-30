@@ -20,7 +20,7 @@ from pydantic import Field
 
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
-from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId, WeightedIrisTemplate
+from iris.io.dataclasses import IrisTemplate, WeightedIrisTemplate
 
 
 class MajorityVoteAggregation(Algorithm):
@@ -66,17 +66,16 @@ class MajorityVoteAggregation(Algorithm):
             callbacks=callbacks,
         )
 
-    def run(self, templates_with_ids: List[IrisTemplateWithId]) -> WeightedIrisTemplate:
+    def run(self, templates: List[IrisTemplate]) -> WeightedIrisTemplate:
         """
         Combine multiple iris templates from the same user.
 
         Args:
-            templates_with_ids (List[IrisTemplateWithId]): List of IrisTemplateWithId objects from the same user
+            templates (List[IrisTemplate]): List of IrisTemplate objects from the same user
 
         Returns:
             WeightedIrisTemplate: Combined WeightedIrisTemplate
         """
-        templates = [template_with_id.template for template_with_id in templates_with_ids]
         return self.combine_templates(templates)
 
     def combine_templates(self, templates: List[IrisTemplate]) -> WeightedIrisTemplate:

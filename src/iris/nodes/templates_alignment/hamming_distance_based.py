@@ -113,17 +113,15 @@ class HammingDistanceBasedAlignment(Algorithm):
             )
 
         # Step 1: Calculate pairwise distances (invariant to global rotation)
-        # Extract templates for distance calculation
-        templates = [pair.template for pair in templates_with_ids]
-        original_distances = self._calculate_pairwise_distances(templates)
+        original_distances = self._calculate_pairwise_distances(templates_with_ids)
 
         # Step 2: Find the best reference template using original distances
         if self.params.use_first_as_reference:
             reference_idx = 0
         else:
-            reference_idx = self._find_best_reference(templates, original_distances)
+            reference_idx = self._find_best_reference(templates_with_ids, original_distances)
 
-        reference_template = templates[reference_idx]
+        reference_template = templates_with_ids[reference_idx]
         aligned_templates = []
 
         # Step 3: Align each template to the reference
@@ -133,12 +131,12 @@ class HammingDistanceBasedAlignment(Algorithm):
                 aligned_templates.append(template_with_id)
             else:
                 # Find optimal rotation for this template
-                optimal_rotation = self._find_optimal_rotation(template_with_id.template, reference_template)
+                optimal_rotation = self._find_optimal_rotation(template_with_id, reference_template)
 
                 # Apply rotation to align the template
-                aligned_template = self._rotate_template(template_with_id.template, optimal_rotation)
+                aligned_template = self._rotate_template(template_with_id, optimal_rotation)
 
-                aligned_template = IrisTemplateWithId(template=aligned_template, image_id=template_with_id.image_id)
+                aligned_template = IrisTemplateWithId.from_template(aligned_template, template_with_id.image_id)
                 aligned_templates.append(aligned_template)
 
         at = AlignedTemplates(

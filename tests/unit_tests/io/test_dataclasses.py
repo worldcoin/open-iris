@@ -782,8 +782,7 @@ class TestAlignedTemplates:
         ]
 
         return [
-            dc.IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
-            for i, template in enumerate(iris_templates)
+            dc.IrisTemplateWithId.from_template(template, f"image_id_{i}") for i, template in enumerate(iris_templates)
         ]
 
     @pytest.fixture
@@ -856,7 +855,7 @@ class TestAlignedTemplates:
         assert serialized["reference_template_id"] == 0
         assert len(serialized["templates"]) == 3
         assert isinstance(serialized["distances"], dict)
-        assert isinstance(serialized["templates"][0]["template"]["iris_codes"], str)
+        assert isinstance(serialized["templates"][0]["iris_codes"], str)
         assert "image_id" in serialized["templates"][0]
 
     def test_deserialize(self, sample_iris_templates, sample_distance_matrix):
@@ -959,7 +958,7 @@ class TestAlignedTemplates:
         distance_matrix = DistanceMatrix(data=distance_data)
 
         templates_with_id = [
-            dc.IrisTemplateWithId(template=template, image_id=f"image_id_{i}") for i, template in enumerate(templates)
+            dc.IrisTemplateWithId.from_template(template, f"image_id_{i}") for i, template in enumerate(templates)
         ]
         aligned_templates = dc.AlignedTemplates(
             templates=templates_with_id, distances=distance_matrix, reference_template_id=2
@@ -1070,7 +1069,7 @@ class TestAlignedTemplates:
             mask_codes=mask_codes,
             iris_code_version=iris_code_version,
         )
-        template_with_id = dc.IrisTemplateWithId(template=template, image_id="image_id_0")
+        template_with_id = dc.IrisTemplateWithId.from_template(template, "image_id_0")
 
         # Create distance matrix for single template (empty since no distances needed)
         distance_matrix = DistanceMatrix(data={})
@@ -1101,7 +1100,7 @@ class TestAlignedTemplates:
             mask_codes=mask_codes,
             iris_code_version=iris_code_version,
         )
-        template_with_id = dc.IrisTemplateWithId(template=template, image_id="image_id_0")
+        template_with_id = dc.IrisTemplateWithId.from_template(template, "image_id_0")
 
         # Create distance matrix for single template (empty since no distances needed)
         distance_matrix = DistanceMatrix(data={})
@@ -1164,19 +1163,15 @@ class TestAlignedTemplates:
             lambda: dc.AlignedTemplates(
                 templates=[
                     dc.IrisTemplateWithId(
-                        template=dc.IrisTemplate(
-                            iris_codes=[np.ones((2, 2, 2), dtype=bool)],
-                            mask_codes=[np.ones((2, 2, 2), dtype=bool)],
-                            iris_code_version="v2.1",
-                        ),
+                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        iris_code_version="v2.1",
                         image_id="image_id_0",
                     ),
                     dc.IrisTemplateWithId(
-                        template=dc.IrisTemplate(
-                            iris_codes=[np.ones((2, 2, 2), dtype=bool)],
-                            mask_codes=[np.ones((2, 2, 2), dtype=bool)],
-                            iris_code_version="v2.1",
-                        ),
+                        iris_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        mask_codes=[np.ones((2, 2, 2), dtype=bool)],
+                        iris_code_version="v2.1",
                         image_id="image_id_1",
                     ),
                 ],

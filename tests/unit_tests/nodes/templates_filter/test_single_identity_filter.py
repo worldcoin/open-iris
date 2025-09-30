@@ -190,7 +190,7 @@ class TestTemplateIdentityFilter:
     @pytest.fixture
     def sample_iris_templates_with_id(self, sample_iris_templates):
         return [
-            IrisTemplateWithId(template=template, image_id=f"image_id_{i}")
+            IrisTemplateWithId.from_template(template, f"image_id_{i}")
             for i, template in enumerate(sample_iris_templates)
         ]
 

@@ -959,21 +959,72 @@ class DistanceMatrix(ImmutableModel):
         return DistanceMatrix(data=tuple_keyed)
 
 
-class IrisTemplateWithId(ImmutableModel):
-    """Iris template with an associated identifier that cannot be separated."""
+class IrisTemplateWithId(IrisTemplate):
+    """Iris template with an associated identifier that cannot be separated.
 
-    template: IrisTemplate
+    This class inherits from IrisTemplate and adds an image_id field to associate
+    the template with a specific image identifier.
+    """
+
     image_id: str
 
+    @classmethod
+    def from_template(cls, template: IrisTemplate, image_id: str) -> "IrisTemplateWithId":
+        """Create an IrisTemplateWithId from an existing IrisTemplate.
+
+        Args:
+            template (IrisTemplate): The base iris template.
+            image_id (str): The image identifier to associate with the template.
+
+        Returns:
+            IrisTemplateWithId: A new instance with the template data and image_id.
+        """
+        return cls(
+            iris_codes=template.iris_codes,
+            mask_codes=template.mask_codes,
+            iris_code_version=template.iris_code_version,
+            image_id=image_id,
+        )
+
     def serialize(self) -> Dict[str, Any]:
-        """Serialize IrisTemplateWithId object."""
-        return {"template": self.template.serialize(), "image_id": self.image_id}
+        """Serialize IrisTemplateWithId object.
+
+        Returns:
+            Dict[str, Any]: Serialized object containing iris template data and image_id.
+        """
+        template_data = super().serialize()
+        return {
+            "iris_codes": template_data["iris_codes"],
+            "mask_codes": template_data["mask_codes"],
+            "iris_code_version": template_data["iris_code_version"],
+            "image_id": self.image_id,
+        }
 
     @staticmethod
     def deserialize(data: Dict[str, Any], array_shape: Tuple = (16, 256, 2, 2)) -> "IrisTemplateWithId":
-        """Deserialize IrisTemplateWithId object."""
+        """Deserialize IrisTemplateWithId object.
+
+        Args:
+            data (Dict[str, Any]): Serialized object data.
+            array_shape (Tuple, optional): Shape of the iris code. Defaults to (16, 256, 2, 2).
+
+        Returns:
+            IrisTemplateWithId: Deserialized object.
+        """
+        # Use parent class deserialization for the template data
+        template_data = {
+            "iris_codes": data["iris_codes"],
+            "mask_codes": data["mask_codes"],
+            "iris_code_version": data["iris_code_version"],
+        }
+        base_template = IrisTemplate.deserialize(template_data, array_shape)
+
+        # Create IrisTemplateWithId by extending the base template with image_id
         return IrisTemplateWithId(
-            template=IrisTemplate.deserialize(data["template"], array_shape), image_id=data["image_id"]
+            iris_codes=base_template.iris_codes,
+            mask_codes=base_template.mask_codes,
+            iris_code_version=base_template.iris_code_version,
+            image_id=data["image_id"],
         )
 
 
@@ -986,7 +1037,7 @@ class AlignedTemplates(ImmutableModel):
         reference_template_id (int): Index of the reference template.
     """
 
-    templates: List[IrisTemplateWithId]
+    templates: List[IrisTemplate]
     distances: DistanceMatrix
     reference_template_id: int
 
@@ -1052,11 +1103,11 @@ class AlignedTemplates(ImmutableModel):
         return values
 
     @property
-    def reference_template(self) -> IrisTemplateWithId:
+    def reference_template(self) -> IrisTemplate:
         """Get the reference template.
 
         Returns:
-            IrisTemplateWithId: Reference template.
+            IrisTemplate: Reference template.
         """
         return self.templates[self.reference_template_id]
 
@@ -1103,8 +1154,18 @@ class AlignedTemplates(ImmutableModel):
         Returns:
             AlignedTemplates: Deserialized object.
         """
+        # Deserialize templates, determining the correct class based on data structure
+        templates = []
+        for template_data in data["templates"]:
+            if "image_id" in template_data:
+                # Has image_id, so it's an IrisTemplateWithId
+                templates.append(IrisTemplateWithId.deserialize(template_data, array_shape))
+            else:
+                # No image_id, so it's a regular IrisTemplate
+                templates.append(IrisTemplate.deserialize(template_data, array_shape))
+
         return AlignedTemplates(
-            templates=[IrisTemplateWithId.deserialize(template, array_shape) for template in data["templates"]],
+            templates=templates,
             distances=DistanceMatrix.deserialize(data["distances"]),
             reference_template_id=data["reference_template_id"],
         )
