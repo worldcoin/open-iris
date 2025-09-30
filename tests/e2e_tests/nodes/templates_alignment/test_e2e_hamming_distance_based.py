@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from iris.io.dataclasses import IrisTemplate
+from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
 from iris.nodes.templates_alignment.hamming_distance_based import (
     HammingDistanceBasedAlignment,
     ReferenceSelectionMethod,
@@ -118,14 +118,26 @@ class TestE2EHammingDistanceBasedAlignment:
         else:
             return sample_templates_corrupted
 
-    def test_e2e_alignment_default_parameters(self, template_set):
+    @pytest.fixture(params=["clean", "corrupted"])
+    def template_set_with_id(self, request, template_set, sample_templates_corrupted):
+        if request.param == "clean":
+            return [
+                IrisTemplateWithId.from_template(template, f"image_id_{i}") for i, template in enumerate(template_set)
+            ]
+        else:
+            return [
+                IrisTemplateWithId.from_template(template, f"image_id_{i}")
+                for i, template in enumerate(sample_templates_corrupted)
+            ]
+
+    def test_e2e_alignment_default_parameters(self, template_set_with_id):
         """Test end-to-end alignment with default parameters."""
         alignment = HammingDistanceBasedAlignment()
 
-        result = alignment.run(template_set)
+        result = alignment.run(template_set_with_id)
 
         # Check that we get the same number of templates back
-        assert len(result) == len(template_set)
+        assert len(result) == len(template_set_with_id)
 
         # Check that all templates have the same structure
         for template in result.templates:
@@ -137,38 +149,40 @@ class TestE2EHammingDistanceBasedAlignment:
                 assert iris_code.shape == (16, 256, 2)
                 assert mask_code.shape == (16, 256, 2)
 
-    def test_e2e_alignment_first_as_reference(self, template_set):
+    def test_e2e_alignment_first_as_reference(self, template_set_with_id):
         """Test end-to-end alignment using first template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=True, rotation_shift=10)
 
-        result = alignment.run(template_set)
+        result = alignment.run(template_set_with_id)
 
         # First template should remain unchanged
-        for i in range(len(template_set[0].iris_codes)):
-            np.testing.assert_array_equal(result.templates[0].iris_codes[i], template_set[0].iris_codes[i])
-            np.testing.assert_array_equal(result.templates[0].mask_codes[i], template_set[0].mask_codes[i])
+        for i in range(len(template_set_with_id[0].iris_codes)):
+            np.testing.assert_array_equal(result.templates[0].iris_codes[i], template_set_with_id[0].iris_codes[i])
+            np.testing.assert_array_equal(result.templates[0].mask_codes[i], template_set_with_id[0].mask_codes[i])
 
-    def test_e2e_alignment_best_reference(self, template_set):
+    def test_e2e_alignment_best_reference(self, template_set_with_id):
         """Test end-to-end alignment using best template as reference."""
         alignment = HammingDistanceBasedAlignment(use_first_as_reference=False, rotation_shift=15)
 
-        result = alignment.run(template_set)
+        result = alignment.run(template_set_with_id)
 
         # Check that alignment completed successfully
-        assert len(result) == len(template_set)
+        assert len(result) == len(template_set_with_id)
 
         # All templates should have consistent structure
-        for template in result.templates:
-            assert len(template.iris_codes) == len(template_set[0].iris_codes)
-            assert len(template.mask_codes) == len(template_set[0].mask_codes)
+        for i, template_with_id in enumerate(result.templates):
+            # template_with_id IS the template now
+            assert len(template_with_id.iris_codes) == len(template_set_with_id[i].iris_codes)
+            assert len(template_with_id.mask_codes) == len(template_set_with_id[i].mask_codes)
 
-    def test_e2e_known_rotation_alignment(self):
+    def test_e2e_known_rotation_alignment(self, template_set_with_id):
         """Test alignment with known rotation offset."""
         # Create base template
         base_iris = np.random.choice([True, False], size=(16, 64, 2))  # Smaller for easier testing
         base_mask = np.ones((16, 64, 2), dtype=bool)  # All valid
 
         base_template = IrisTemplate(iris_codes=[base_iris], mask_codes=[base_mask], iris_code_version="v2.1")
+        base_template_with_id = IrisTemplateWithId.from_template(base_template, "image_id_0")
 
         # Create rotated version
         rotation_offset = 3
@@ -177,12 +191,13 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.roll(base_mask, rotation_offset, axis=1)],
             iris_code_version="v2.1",
         )
+        rotated_template_with_id = IrisTemplateWithId.from_template(rotated_template, "image_id_1")
 
         alignment = HammingDistanceBasedAlignment(rotation_shift=10)
-        result = alignment.run([base_template, rotated_template])
+        result = alignment.run([base_template_with_id, rotated_template_with_id])
 
         # First template (reference) should be unchanged
-        np.testing.assert_array_equal(result.templates[0].iris_codes[0], base_template.iris_codes[0])
+        np.testing.assert_array_equal(result.templates[0].iris_codes[0], base_template_with_id.iris_codes[0])
 
         # Second template should be aligned to minimize hamming distance
         assert len(result.templates) == 2
@@ -195,9 +210,10 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.ones((16, 256, 2), dtype=bool)],
             iris_code_version="v2.1",
         )
+        template_with_id = IrisTemplateWithId.from_template(template, "image_id_0")
 
         alignment = HammingDistanceBasedAlignment()
-        result = alignment.run([template])
+        result = alignment.run([template_with_id])
 
         assert len(result.templates) == 1
         np.testing.assert_array_equal(result.templates[0].iris_codes[0], template.iris_codes[0])
@@ -218,6 +234,7 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.ones((16, 256, 2), dtype=bool)],
             iris_code_version="v2.1",
         )
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
 
         # Template with 2 wavelets
         template2 = IrisTemplate(
@@ -228,13 +245,14 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.ones((16, 256, 2), dtype=bool), np.ones((16, 256, 2), dtype=bool)],
             iris_code_version="v2.1",
         )
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         alignment = HammingDistanceBasedAlignment()
 
         # This should work since hamming distance matcher should handle different structures
         # or raise appropriate errors if incompatible
         try:
-            result = alignment.run([template1, template2])
+            result = alignment.run([template1_with_id, template2_with_id])
             # If it succeeds, check basic properties
             assert len(result) == 2
         except Exception as e:
@@ -250,15 +268,17 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.ones((8, 32, 2), dtype=bool)],
             iris_code_version="v2.1",
         )
+        base_template_with_id = IrisTemplateWithId.from_template(base_template, "image_id_0")
 
         rotated_template = IrisTemplate(
             iris_codes=[np.roll(base_template.iris_codes[0], 2, axis=1)],
             mask_codes=[np.roll(base_template.mask_codes[0], 2, axis=1)],
             iris_code_version="v2.1",
         )
+        rotated_template_with_id = IrisTemplateWithId.from_template(rotated_template, "image_id_1")
 
         alignment = HammingDistanceBasedAlignment(rotation_shift=rotation_shift)
-        result = alignment.run([base_template, rotated_template])
+        result = alignment.run([base_template_with_id, rotated_template_with_id])
 
         assert len(result.templates) == 2
         # Both templates should maintain their basic structure
@@ -275,15 +295,17 @@ class TestE2EHammingDistanceBasedAlignment:
             mask_codes=[np.ones((8, 32, 2), dtype=bool)],
             iris_code_version="v2.1",
         )
+        base_template_with_id = IrisTemplateWithId.from_template(base_template, "image_id_0")
 
         rotated_template = IrisTemplate(
             iris_codes=[np.roll(base_template.iris_codes[0], 3, axis=1)],
             mask_codes=[np.roll(base_template.mask_codes[0], 3, axis=1)],
             iris_code_version="v2.1",
         )
+        rotated_template_with_id = IrisTemplateWithId.from_template(rotated_template, "image_id_1")
 
         alignment = HammingDistanceBasedAlignment(normalise=normalise, rotation_shift=10)
-        result = alignment.run([base_template, rotated_template])
+        result = alignment.run([base_template_with_id, rotated_template_with_id])
 
         assert len(result.templates) == 2
         # Both templates should maintain their basic structure
@@ -309,12 +331,15 @@ class TestE2EHammingDistanceBasedAlignment:
         base_template = template_set[0]
         rotated_template1 = template_set[1]
         rotated_template2 = template_set[2]
+        base_template_with_id = IrisTemplateWithId.from_template(base_template, "image_id_0")
+        rotated_template1_with_id = IrisTemplateWithId.from_template(rotated_template1, "image_id_1")
+        rotated_template2_with_id = IrisTemplateWithId.from_template(rotated_template2, image_id="image_id_2")
 
         alignment = HammingDistanceBasedAlignment(
             use_first_as_reference=False, reference_selection_method=reference_method, rotation_shift=10
         )
 
-        result = alignment.run([base_template, rotated_template1, rotated_template2])
+        result = alignment.run([base_template_with_id, rotated_template1_with_id, rotated_template2_with_id])
 
         # Check that alignment completed successfully
         assert len(result.templates) == 3

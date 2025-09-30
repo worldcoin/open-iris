@@ -3,7 +3,7 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from iris.io.dataclasses import AlignedTemplates, IrisTemplate
+from iris.io.dataclasses import AlignedTemplates, IrisTemplate, IrisTemplateWithId
 from iris.nodes.templates_alignment.hamming_distance_based import (
     HammingDistanceBasedAlignment,
     ReferenceSelectionMethod,
@@ -52,12 +52,13 @@ class TestHammingDistanceBasedAlignment:
             mask_codes=[np.array([[[True, True], [True, True]]])],
             iris_code_version="v2.1",
         )
+        template_with_id = IrisTemplateWithId.from_template(template, "image_id_0")
 
-        result = alignment.run([template])
+        result = alignment.run([template_with_id])
 
         assert len(result) == 1
         assert isinstance(result, AlignedTemplates)
-        assert result.templates[0] == template
+        assert result.templates[0] == template_with_id
 
     def test_run_multiple_templates_first_as_reference(self):
         """Test alignment with multiple templates using first as reference."""
@@ -69,21 +70,24 @@ class TestHammingDistanceBasedAlignment:
             mask_codes=[np.array([[[True, True], [True, True]]])],
             iris_code_version="v2.1",
         )
+        template1_with_id = IrisTemplateWithId.from_template(template1, "image_id_0")
+
         template2 = IrisTemplate(
             iris_codes=[np.array([[[False, True], [True, False]]])],
             mask_codes=[np.array([[[True, True], [True, True]]])],
             iris_code_version="v2.1",
         )
+        template2_with_id = IrisTemplateWithId.from_template(template2, "image_id_1")
 
         with patch.object(alignment, "_find_optimal_rotation", return_value=1) as mock_rotation, patch.object(
             alignment, "_rotate_template", return_value=template2
         ) as mock_rotate:
-            result = alignment.run([template1, template2])
+            result = alignment.run([template1_with_id, template2_with_id])
 
             assert len(result) == 2
-            assert result.templates[0] == template1  # Reference template unchanged
-            mock_rotation.assert_called_once_with(template2, template1)
-            mock_rotate.assert_called_once_with(template2, 1)
+            assert result.templates[0] == template1_with_id  # Reference template unchanged
+            mock_rotation.assert_called_once_with(template2_with_id, template1_with_id)
+            mock_rotate.assert_called_once_with(template2_with_id, 1)
 
     def test_find_best_reference(self):
         """Test finding the best reference template."""
@@ -731,10 +735,14 @@ class TestHammingDistanceBasedAlignment:
         iris_code2 = np.roll(iris_code1, 1, axis=1)  # Shifted version
         mask_code2 = mask_code1.copy()
 
-        template1 = IrisTemplate(iris_codes=[iris_code1], mask_codes=[mask_code1], iris_code_version="v2.1")
-        template2 = IrisTemplate(iris_codes=[iris_code2], mask_codes=[mask_code2], iris_code_version="v2.1")
+        template1_with_id = IrisTemplateWithId(
+            iris_codes=[iris_code1], mask_codes=[mask_code1], iris_code_version="v2.1", image_id="image_id_0"
+        )
+        template2_with_id = IrisTemplateWithId(
+            iris_codes=[iris_code2], mask_codes=[mask_code2], iris_code_version="v2.1", image_id="image_id_1"
+        )
 
-        aligned_templates = alignment.run([template1, template2])
+        aligned_templates = alignment.run([template1_with_id, template2_with_id])
 
         # First template should remain unchanged (reference)
         np.testing.assert_array_equal(aligned_templates.templates[0].iris_codes[0], iris_code1)

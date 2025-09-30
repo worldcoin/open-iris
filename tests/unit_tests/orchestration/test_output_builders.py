@@ -8,6 +8,7 @@ from iris.io.dataclasses import (
     AlignedTemplates,
     DistanceMatrix,
     EyeCenters,
+    IrisTemplateWithId,
     Offgaze,
     OutputFieldSpec,
     WeightedIrisTemplate,
@@ -208,9 +209,19 @@ class TestBuildAggregationTemplatesOrbOutput:
             weights=weights,
             iris_code_version=iris_code_version,
         )
+        templaets_with_ids = [
+            IrisTemplateWithId(
+                iris_codes=weighted_template.iris_codes,
+                mask_codes=weighted_template.mask_codes,
+                iris_code_version=weighted_template.iris_code_version,
+                image_id=f"image_id_{i}",
+            )
+            for i in range(1)
+        ]
+
         call_trace.write("templates_aggregation", weighted_template)
         # Set input as a list of templates (simulate input)
-        call_trace.write_input([weighted_template])
+        call_trace.write_input(templaets_with_ids)
         return call_trace
 
     @pytest.fixture
@@ -229,17 +240,26 @@ class TestBuildAggregationTemplatesOrbOutput:
             weights=weights,
             iris_code_version=iris_code_version,
         )
+        templaets_with_ids = [
+            IrisTemplateWithId(
+                iris_codes=weighted_template.iris_codes,
+                mask_codes=weighted_template.mask_codes,
+                iris_code_version=weighted_template.iris_code_version,
+                image_id=f"image_id_{i}",
+            )
+            for i in range(1)
+        ]
         call_trace.write("templates_aggregation", weighted_template)
-        call_trace.write_input([weighted_template])
+        call_trace.write_input(templaets_with_ids)
         # Add aligned templates
         aligned_templates = AlignedTemplates(
-            templates=[weighted_template],
+            templates=templaets_with_ids,
             distances=DistanceMatrix(data={(0, 0): 0.0}),
             reference_template_id=0,
         )
         call_trace.write("templates_alignment", aligned_templates)
         # Add identity filter result
-        call_trace.write("identity_validation", [weighted_template])
+        call_trace.write("identity_validation", templaets_with_ids)
         return call_trace
 
     def test_with_missing_keys(self, mock_call_trace_with_missing_keys):

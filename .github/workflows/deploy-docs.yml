@@ -6,8 +6,9 @@ permissions:
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build-deploy-docs:

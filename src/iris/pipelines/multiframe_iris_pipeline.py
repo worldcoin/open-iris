@@ -1,8 +1,6 @@
 import os
 import traceback
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
-
-import numpy as np
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
@@ -82,9 +80,7 @@ class MultiframeIrisPipeline:
         # Initialize call trace for the combined pipeline
         self.call_trace = self.env.call_trace_initialiser(nodes={}, pipeline_nodes=[])
 
-    def estimate(
-        self, ir_images: List[IRImage], *args: Any, **kwargs: Any
-    ) -> Any:
+    def estimate(self, ir_images: List[IRImage], *args: Any, **kwargs: Any) -> Any:
         """
         Wrap the `run` method to match the Orb system AI models call interface.
 
@@ -113,10 +109,10 @@ class MultiframeIrisPipeline:
 
         # Process individual images through iris pipeline
         try:
-            iris_templates, _ = self._run_iris_pipeline(ir_images)
+            iris_templates, image_ids, _ = self._run_iris_pipeline(ir_images)
 
             # Run aggregation pipeline
-            _ = self._run_aggregation_pipeline(iris_templates)
+            _ = self._run_aggregation_pipeline(iris_templates, image_ids)
 
         except Exception as e:
             self._handle_pipeline_error(e)
@@ -229,7 +225,7 @@ class MultiframeIrisPipeline:
 
         return (n_rows, n_cols, n_filters, n_probe_schemas)
 
-    def _run_iris_pipeline(self, ir_images: List[IRImage]) -> Tuple[List[IrisTemplate], List[Any]]:
+    def _run_iris_pipeline(self, ir_images: List[IRImage]) -> Tuple[List[IrisTemplate], List[str], List[Any]]:
         """
         Process multiple images through the iris pipeline.
 
@@ -237,12 +233,20 @@ class MultiframeIrisPipeline:
             ir_images (List[IRImage]): List of input IR images.
 
         Returns:
-            Tuple[List[IrisTemplate], List[Any]]: Tuple containing:
+            Tuple[List[IrisTemplate], List[str], List[Any]]: Tuple containing:
                 - List of iris templates extracted from each image
+                - List of image IDs for each image
                 - List of individual pipeline outputs for each image
         """
         iris_templates = []
+        image_ids = []
         individual_templates_output = []  # Collect individual template outputs
+
+        # First pass: collect all non-None image_ids to avoid conflicts
+        existing_image_ids = set()
+        for img in ir_images:
+            if img.image_id is not None:
+                existing_image_ids.add(img.image_id)
 
         for i, img in enumerate(ir_images):
             iris_pipeline_output = self.iris_pipeline.run(img)
@@ -267,22 +271,38 @@ class MultiframeIrisPipeline:
 
             iris_templates.append(template)
 
+            # Handle image_id: preserve duplicates, but generate unique IDs for None values
+            if img.image_id is not None:
+                image_id = img.image_id
+            else:
+                # Generate unique ID for None values
+                base_id = f"frame_{i}"
+                image_id = base_id
+                counter = 1
+                while image_id in existing_image_ids:
+                    image_id = f"frame_{i}_{counter}"
+                    counter += 1
+                existing_image_ids.add(image_id)  # Add to set to avoid future conflicts
+
+            image_ids.append(image_id)
+
         # Write individual frames to call_trace
         self.call_trace.write("individual_frames", individual_templates_output)
 
-        return iris_templates, individual_templates_output
+        return iris_templates, image_ids, individual_templates_output
 
-    def _run_aggregation_pipeline(self, iris_templates: List[IrisTemplate]) -> Any:
+    def _run_aggregation_pipeline(self, iris_templates: List[IrisTemplate], image_ids: List[str]) -> Any:
         """
         Run the aggregation pipeline on a list of iris templates.
 
         Args:
             iris_templates (List[IrisTemplate]): List of iris templates to aggregate.
+            image_ids (List[str]): List of image IDs for each image.
 
         Returns:
             Any: Output from the aggregation pipeline.
         """
-        aggregation_pipeline_output = self.templates_aggregation_pipeline.run(iris_templates)
+        aggregation_pipeline_output = self.templates_aggregation_pipeline.run(iris_templates, image_ids)
 
         # Store aggregation result in call_trace
         self.call_trace.write("aggregation_result", aggregation_pipeline_output)
