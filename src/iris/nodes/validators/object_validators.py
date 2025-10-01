@@ -459,6 +459,6 @@ class AreTemplatesAggregationCompatible(Callback, Algorithm):
         """Wrap for validate method so that validator can be used as a Callback.
 
         Args:
-            templates (List[IrisTemplate]): List of IrisTemplates to be validated.
+            templates (List[IrisTemplate]): List of IrisTemplate objects to be validated.
         """
         self.run(templates)

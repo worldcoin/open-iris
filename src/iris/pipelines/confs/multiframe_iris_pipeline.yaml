@@ -1,12 +1,12 @@
 metadata:
   pipeline_name: multiframe_iris_pipeline
-  iris_version: 1.9.5
+  iris_version: 1.9.6
 
 # Configuration for individual image processing (IRISPipeline)
 iris_pipeline:
   metadata:
     pipeline_name: iris_pipeline
-    iris_version: 1.9.5
+    iris_version: 1.9.6
 
   pipeline:
     - name: segmentation
@@ -315,7 +315,7 @@ iris_pipeline:
 # Configuration for template aggregation (TemplatesAggregationPipeline)
 templates_aggregation_pipeline:
   metadata:
-    iris_version: 1.9.5
+    iris_version: 1.9.6
     pipeline_name: templates_aggregation
 
   pipeline:
@@ -328,7 +328,7 @@ templates_aggregation_pipeline:
           normalise: true
           reference_selection_method: linear
       inputs:
-        - name: templates
+        - name: templates_with_ids
           source_node: input
       callbacks:
 

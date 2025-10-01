@@ -715,12 +715,16 @@ class TestMultiframeIrisPipeline:
             IRImage(img_data=np.random.rand(15, 15), image_id="img2", eye_side="left"),
         ]
 
-        iris_templates, individual_templates_output = pipeline._run_iris_pipeline(ir_images)
+        iris_templates, image_ids, individual_templates_output = pipeline._run_iris_pipeline(ir_images)
 
         # Verify iris pipeline was called for each image
         assert mock_iris_pipeline.run.call_count == 2
         mock_iris_pipeline.run.assert_any_call(ir_images[0])
         mock_iris_pipeline.run.assert_any_call(ir_images[1])
+
+        assert len(image_ids) == 2
+        assert image_ids[0] == "img1"
+        assert image_ids[1] == "img2"
 
         # Verify outputs
         assert len(iris_templates) == 2
@@ -745,10 +749,12 @@ class TestMultiframeIrisPipeline:
             pipeline.run([1, 2, 3])
 
         with pytest.raises(ValueError, match="All IRImage objects must have the same eye_side."):
-            pipeline.run([
-                IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side="left"),
-                IRImage(img_data=np.random.rand(10, 10), image_id="img2", eye_side="right")
-            ])
+            pipeline.run(
+                [
+                    IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side="left"),
+                    IRImage(img_data=np.random.rand(10, 10), image_id="img2", eye_side="right"),
+                ]
+            )
 
         # valid run but error inside the call_trace
         ir_images = [IRImage(img_data=np.random.rand(10, 10), image_id="img1", eye_side=eye_side)]
