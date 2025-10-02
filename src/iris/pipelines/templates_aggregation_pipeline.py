@@ -8,6 +8,7 @@ from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
+from iris.io.errors import DifferentImageIdsTemplatesListLenError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
@@ -67,17 +68,21 @@ class TemplatesAggregationPipeline(BasePipeline):
     def run(
         self, templates: List[IrisTemplate], image_ids: Optional[List[str]] = None, *args: Any, **kwargs: Any
     ) -> Any:
-        # Validate input consistency
-        if image_ids is not None and len(image_ids) != len(templates):
-            raise ValueError(
-                f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
-            )
+        try:
+            # Validate input consistency
+            if image_ids is not None and len(image_ids) != len(templates):
+                raise DifferentImageIdsTemplatesListLenError(
+                    f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
+                )
 
-        # Create IrisTemplateWithId
-        templates_with_ids = []
-        for i, template in enumerate(templates):
-            image_id = image_ids[i] if image_ids else f"frame_{i}"
-            templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
+            # Create IrisTemplateWithId
+            templates_with_ids = []
+            for i, template in enumerate(templates):
+                image_id = image_ids[i] if image_ids else f"frame_{i}"
+                templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
+        except Exception as e:
+            self.env.error_manager(self.call_trace, e)
+            return self._handle_output(*args, **kwargs)
 
         pipeline_input = {"templates_with_ids": templates_with_ids}
         return super().run(pipeline_input, *args, **kwargs)
