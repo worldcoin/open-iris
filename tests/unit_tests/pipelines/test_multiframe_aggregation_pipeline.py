@@ -345,3 +345,33 @@ class TestTemplatesAggregationPipeline:
                 for i, template in enumerate(mock_templates_list)
             ]
             pipeline.call_trace.write_input.assert_called_once_with(expected_templates)
+
+    def test_node_error_handling(self, mock_templates_list):
+        n_templates = len(mock_templates_list)
+        image_ids = [f"image{i}" for i in range(n_templates)]
+
+        for node_name in [
+            "templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment",
+            "templates_filter.single_identity_filter.TemplateIdentityFilter",
+        ]:
+            node_run = f"iris.nodes.{node_name}.run"
+            with patch(node_run) as mock_node_run:
+                mock_node_run.side_effect = ValueError("Test error")
+                pipeline = TemplatesAggregationPipeline()
+                result = pipeline.run(templates=mock_templates_list, image_ids=image_ids)
+                assert result["error"] is not None
+                assert "Test error" in result["error"]["message"]
+                assert result["iris_template"] is None
+                assert result["metadata"]["final_aggregation_image_ids"] is None
+
+    def test_exception_during_run(self, mock_templates_list):
+        pipeline = TemplatesAggregationPipeline()
+        n_templates = len(mock_templates_list)
+
+        # on purpose providing less ids than templates
+        image_ids = [f"image{i}" for i in range(n_templates - 1)]
+        result = pipeline.run(templates=mock_templates_list, image_ids=image_ids)
+        assert result["error"] is not None
+        assert "must match number of templates" in result["error"]["message"]
+        assert result["iris_template"] is None
+        assert result["metadata"]["final_aggregation_image_ids"] is None

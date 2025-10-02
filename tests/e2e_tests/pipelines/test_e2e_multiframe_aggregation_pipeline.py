@@ -508,3 +508,136 @@ class TestTemplatesAggregationPipeline:
                 np.testing.assert_array_equal(
                     result1["iris_template"].mask_codes[i], result2["iris_template"].mask_codes[i]
                 )
+
+
+class TestE2ETemplatesAggregationFailures:
+    """End-to-end tests for templates aggregation pipeline failure scenarios."""
+
+    @pytest.fixture
+    def failure_prone_config_no_clusters(self):
+        """Configuration that will cause no identity clusters to be found."""
+        return {
+            "metadata": {"pipeline_name": "templates_aggregation", "iris_version": "1.7.1"},
+            "pipeline": [
+                {
+                    "name": "templates_alignment",
+                    "algorithm": {
+                        "class_name": "iris.nodes.templates_alignment.hamming_distance_based.HammingDistanceBasedAlignment",
+                        "params": {
+                            "rotation_shift": 15,
+                            "use_first_as_reference": False,
+                            "normalise": True,
+                            "reference_selection_method": "linear",
+                        },
+                    },
+                    "inputs": [{"name": "templates_with_ids", "source_node": "input"}],
+                    "callbacks": [],
+                },
+                {
+                    "name": "identity_validation",
+                    "algorithm": {
+                        "class_name": "iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter",
+                        "params": {
+                            "identity_distance_threshold": 0.05,  # Very low threshold
+                            "identity_validation_action": "raise_error",  # Will raise error
+                            "min_templates_after_validation": 1,
+                        },
+                    },
+                    "inputs": [{"name": "aligned_templates", "source_node": "templates_alignment"}],
+                    "callbacks": [],
+                },
+                {
+                    "name": "templates_aggregation",
+                    "algorithm": {
+                        "class_name": "iris.nodes.templates_aggregation.majority_vote.MajorityVoteAggregation",
+                        "params": {
+                            "consistency_threshold": 0.75,
+                            "mask_threshold": 0.01,
+                            "use_inconsistent_bits": True,
+                            "inconsistent_bit_threshold": 0.4,
+                        },
+                    },
+                    "inputs": [{"name": "templates", "source_node": "identity_validation"}],
+                    "callbacks": [],
+                },
+            ],
+        }
+
+    @pytest.fixture
+    def very_different_templates(self):
+        """Create templates that are very different from each other (high Hamming distances)."""
+        templates = []
+
+        for i in range(4):
+            iris_codes = []
+            mask_codes = []
+
+            for wavelet in range(2):
+                # Create very different patterns for each template
+                if i == 0:
+                    # Template 0: mostly zeros
+                    iris_code = np.zeros((8, 32, 2), dtype=bool)
+                elif i == 1:
+                    # Template 1: mostly ones
+                    iris_code = np.ones((8, 32, 2), dtype=bool)
+                elif i == 2:
+                    # Template 2: checkerboard pattern
+                    iris_code = np.zeros((8, 32, 2), dtype=bool)
+                    iris_code[::2, ::2] = True
+                    iris_code[1::2, 1::2] = True
+                else:
+                    # Template 3: inverse checkerboard
+                    iris_code = np.ones((8, 32, 2), dtype=bool)
+                    iris_code[::2, ::2] = False
+                    iris_code[1::2, 1::2] = False
+
+                # All templates have good masks
+                mask_code = np.ones((8, 32, 2), dtype=bool)
+
+                iris_codes.append(iris_code)
+                mask_codes.append(mask_code)
+
+            template = IrisTemplate(iris_codes=iris_codes, mask_codes=mask_codes, iris_code_version="v2.1")
+            templates.append(template)
+
+        return templates
+
+    def test_e2e_no_identity_clusters_found(self, failure_prone_config_no_clusters, very_different_templates):
+        """Test end-to-end pipeline when no identity clusters are found."""
+        env = Environment(
+            pipeline_output_builder=build_simple_templates_aggregation_output,
+            error_manager=store_error_manager,
+            call_trace_initialiser=PipelineCallTraceStorage.initialise,
+        )
+
+        pipeline = TemplatesAggregationPipeline(config=failure_prone_config_no_clusters, env=env, subconfig_key="")
+
+        image_ids = [f"image_{i}" for i in range(len(very_different_templates))]
+        result = pipeline.run(very_different_templates, image_ids)
+
+        # Should have error due to no clusters found
+        assert result["error"] is not None
+        assert "no identity clusters" in result["error"]["message"]
+        assert result["iris_template"] is None
+
+        # Metadata should still be generated
+        assert result["metadata"] is not None
+        assert result["metadata"]["input_templates_count"] == len(very_different_templates)
+
+    def test_e2e_empty_templates_list(self):
+        """Test end-to-end pipeline with empty templates list."""
+        env = Environment(
+            pipeline_output_builder=build_simple_templates_aggregation_output,
+            error_manager=store_error_manager,
+            call_trace_initialiser=PipelineCallTraceStorage.initialise,
+        )
+
+        pipeline = TemplatesAggregationPipeline(env=env, subconfig_key="")
+
+        result = pipeline.run(templates=[], image_ids=["image1"])
+
+        assert result["error"] is not None
+        assert "must match number of templates" in result["error"]["message"]
+        assert result["iris_template"] is None
+        assert result["metadata"] is not None
+        assert result["metadata"]["input_templates_count"] is None
