@@ -158,3 +158,9 @@ class IdentityValidationError(Exception):
     """Identity validation Error class."""
 
     pass
+
+
+class DifferentImageIdsTemplatesListLenError(Exception):
+    """Error raised when the number of image_ids doesn't match the number of templates."""
+
+    pass

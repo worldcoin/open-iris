@@ -8,6 +8,7 @@ from iris._version import __version__
 from iris.callbacks.pipeline_trace import PipelineCallTraceStorage
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import IrisTemplate, IrisTemplateWithId
+from iris.io.errors import DifferentImageIdsTemplatesListLenError
 from iris.orchestration.environment import Environment
 from iris.orchestration.error_managers import store_error_manager
 from iris.orchestration.output_builders import (
@@ -70,7 +71,7 @@ class TemplatesAggregationPipeline(BasePipeline):
         try:
             # Validate input consistency
             if image_ids is not None and len(image_ids) != len(templates):
-                raise ValueError(
+                raise DifferentImageIdsTemplatesListLenError(
                     f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
                 )
 
