@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Matching entities tutorial" href="matching_entities.html"><link rel="prev" title="Getting started tutorial" href="getting_started.html">
 
     <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>Configuring custom pipeline tutorial - iris v1.9.6</title>
+        <title>Configuring custom pipeline tutorial - iris v1.9.7</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.6</div></a>
+      <a href="../index.html"><div class="brand">iris v1.9.7</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.6</span>
+  <span class="sidebar-brand-text">iris v1.9.7</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -298,7 +298,7 @@
 <p>When the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> pipeline is created with default parameters, it’s graph is parsed from a default YAML file that is available in <code class="docutils literal notranslate"><span class="pre">/src/iris/pipelines/confs/pipeline.yaml</span></code> YAML file. The content of that file presents as follow.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">metadata</span><span class="p">:</span>
 <span class="nt">pipeline_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iris_pipeline</span>
-<span class="nt">iris_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.9.6</span>
+<span class="nt">iris_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.9.7</span>
 </pre></div>
 </div>
 <p>The top YAML file contains <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> metadata, used to both describe <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> and specify package parameters that are later used to verify compatibility between <code class="docutils literal notranslate"><span class="pre">iris</span></code> package version/release and later, specified in the <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> YAML file section, pipeline’s graph.</p>
@@ -364,7 +364,7 @@
 </div>
 <p>First let’s intantiate <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> with default configuration and see <code class="docutils literal notranslate"><span class="pre">iris.MultilabelSegmentationBinarization</span></code> threshold values.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_pipeline_conf</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.6&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.7&quot;</span><span class="p">},</span>
     <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span>
@@ -584,7 +584,7 @@
 <p><strong>Output:</strong> <code class="docutils literal notranslate"><span class="pre">eyeball_threshold=0.5</span> <span class="pre">iris_threshold=0.5</span> <span class="pre">pupil_threshold=0.5</span> <span class="pre">eyelashes_threshold=0.5</span></code></p>
 <p>As expected all threshold values are set to default <code class="docutils literal notranslate"><span class="pre">0.5</span></code> value. Now, let’s modify those values to be equal to <code class="docutils literal notranslate"><span class="pre">0.1</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_pipeline_conf</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.6&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.7&quot;</span><span class="p">},</span>
     <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span>
@@ -806,7 +806,7 @@
 <p>By default, <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node, responsible for refinement of vectorized iris and pupil points is taking as an input the output of <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> nodes, which btw is also doing refinement of vectorized iris and pupil points but of course a different one. The output of <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node is later passed to final <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> node as an input. Within commented section below user can follow that connection. Now, in this example let’s imagine we want to bypass <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node and perform <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> based on the output of <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> node while still keeping <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> node.</p>
 <p>First let’s instantiate <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> with default configuration and see nodes connected to <code class="docutils literal notranslate"><span class="pre">geometry_estimation</span></code> node.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_pipeline_conf</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.6&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.7&quot;</span><span class="p">},</span>
     <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span>
@@ -1030,7 +1030,7 @@
 <p><strong>Output:</strong> <code class="docutils literal notranslate"><span class="pre">[PipelineInput(name='input_polygons',</span> <span class="pre">index=None,</span> <span class="pre">source_node='smoothing'),</span> <span class="pre">PipelineInput(name='eye_center',</span> <span class="pre">index=None,</span> <span class="pre">source_node='eye_center_estimation')]</span></code></p>
 <p>As expected, <code class="docutils literal notranslate"><span class="pre">input_polygons</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">run</span></code> method is taken from the <code class="docutils literal notranslate"><span class="pre">smoothing</span></code> output. Let’s modify it to described before behaviour - <code class="docutils literal notranslate"><span class="pre">input_polygons</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">run</span></code> method is take from the <code class="docutils literal notranslate"><span class="pre">distance_filter</span></code> output.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_pipeline_conf</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.6&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;pipeline_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iris_pipeline&quot;</span><span class="p">,</span> <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.7&quot;</span><span class="p">},</span>
     <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;segmentation&quot;</span><span class="p">,</span>
@@ -1386,7 +1386,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=ab3a37ff"></script>
+</div><script src="../_static/documentation_options.js?v=0f42b3e6"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
