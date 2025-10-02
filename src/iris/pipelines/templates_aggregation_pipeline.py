@@ -80,7 +80,7 @@ class TemplatesAggregationPipeline(BasePipeline):
                 image_id = image_ids[i] if image_ids else f"frame_{i}"
                 templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
         except Exception as e:
-            self._handle_execution_error(None, e)
+            self.env.error_manager(self.call_trace, e)
             return self._handle_output(*args, **kwargs)
 
         pipeline_input = {"templates_with_ids": templates_with_ids}
