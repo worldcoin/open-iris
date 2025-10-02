@@ -107,7 +107,7 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
                     continue
                 _ = self.nodes[node.name](**input_kwargs)
             except Exception as e:
-                skip_error = self._handle_node_error(node, e)
+                skip_error = self._handle_execution_error(node, e)
                 if skip_error:
                     continue
                 break
@@ -159,11 +159,11 @@ class BasePipeline(Algorithm, Generic[InputType, OutputType], abc.ABC):
                     input_kwargs[node_input.name] = input_kwargs[node_input.name][node_input.index]
         return input_kwargs
 
-    def _handle_node_error(self, node: PipelineNode, error: Exception) -> bool:
+    def _handle_execution_error(self, node: Any, error: Exception) -> bool:
         """
         Default error handling for node execution. Can be overridden by subclasses.
         Args:
-            node (PipelineNode): The node where the error occurred.
+            node (Any): The node where the error occurred.
             error (Exception): The exception raised during node execution.
         Returns:
             bool: True if the error should be skipped, False otherwise.

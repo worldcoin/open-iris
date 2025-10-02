@@ -18,8 +18,10 @@ from iris.orchestration.output_builders import (
     _build_from_spec,
     build_aggregation_templates_orb_output,
     build_iris_pipeline_orb_output,
+    build_multiframe_iris_pipeline_orb_output,
     build_simple_iris_pipeline_debugging_output,
     build_simple_iris_pipeline_orb_output,
+    build_simple_multiframe_iris_pipeline_output,
 )
 
 SAFE_SERIALIZE = getattr(ob, "__safe_serialize")
@@ -330,3 +332,247 @@ class TestSafeSerialize:
 
         with pytest.raises(NotImplementedError):
             SAFE_SERIALIZE(Foo())
+
+
+class TestOutputBuildersNoneValues:
+    """Test output builders behavior when various keys are None or missing."""
+
+    @pytest.fixture
+    def mock_call_trace_aggregation_none(self):
+        """Create a mock call_trace where aggregation_result is None."""
+        call_trace = PipelineCallTraceStorage(results_names=["aggregation_result"])
+
+        # Mock the input to avoid errors in metadata extraction
+        mock_input = [Mock()]
+        mock_input[0].eye_side = "left"
+        call_trace.write_input(mock_input)
+
+        # Explicitly set aggregation_result to None
+        call_trace.write("aggregation_result", None)
+
+        # Add empty individual_frames to avoid KeyError
+        call_trace.write("individual_frames", [])
+
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_all_missing(self):
+        """Create a mock call_trace where all optional keys are missing."""
+        call_trace = PipelineCallTraceStorage(results_names=[])
+
+        # Mock the input to avoid errors in metadata extraction
+        mock_input = [Mock()]
+        mock_input[0].eye_side = "left"
+        call_trace.write_input(mock_input)
+
+        # Don't write any optional keys - they will all be None/missing
+
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_empty_input(self):
+        """Create a mock call_trace where input is empty."""
+        call_trace = PipelineCallTraceStorage(results_names=["aggregation_result", "individual_frames"])
+
+        # Set empty input
+        call_trace.write_input([])
+
+        # Set other keys to None/empty
+        call_trace.write("aggregation_result", None)
+        call_trace.write("individual_frames", [])
+
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_none_input(self):
+        """Create a mock call_trace where input is None."""
+        call_trace = PipelineCallTraceStorage(results_names=["aggregation_result", "individual_frames"])
+
+        # Set None input
+        call_trace.write_input(None)
+
+        # Set other keys to None/empty
+        call_trace.write("aggregation_result", None)
+        call_trace.write("individual_frames", [])
+
+        return call_trace
+
+    @pytest.fixture
+    def mock_call_trace_aggregation_with_error(self):
+        """Create a mock call_trace where aggregation_result contains an error."""
+        call_trace = PipelineCallTraceStorage(results_names=["aggregation_result", "individual_frames"])
+
+        # Mock the input to avoid errors in metadata extraction
+        mock_input = [Mock()]
+        mock_input[0].eye_side = "left"
+        call_trace.write_input(mock_input)
+
+        # Set aggregation_result with error
+        aggregation_result = {
+            "error": {
+                "error_type": "IdentityValidationError",
+                "message": "Found multiple identity clusters",
+                "traceback": "traceback here...",
+            },
+            "iris_template": None,
+            "metadata": {"some": "metadata"},
+        }
+        call_trace.write("aggregation_result", aggregation_result)
+
+        # Add empty individual_frames to avoid KeyError
+        call_trace.write("individual_frames", [])
+
+        return call_trace
+
+    def test_multiframe_orb_output_with_none_aggregation_result(self, mock_call_trace_aggregation_none):
+        """Test multiframe ORB output builder when aggregation_result is None."""
+        from iris.orchestration.output_builders import build_multiframe_iris_pipeline_orb_output
+
+        output = build_multiframe_iris_pipeline_orb_output(mock_call_trace_aggregation_none)
+
+        # Check that iris_template is None when aggregation_result is None
+        assert output["iris_template"] is None
+
+        # Check that metadata is still generated
+        assert "metadata" in output
+        assert output["metadata"]["iris_version"] is not None
+        assert output["metadata"]["input_images_count"] == 1
+        assert output["metadata"]["eye_side"] == "left"
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is False
+
+        # Check other fields
+        assert "error" in output
+        assert "individual_frames" in output
+        assert output["individual_frames"] == []
+        assert "templates_aggregation_metadata" in output
+        assert output["templates_aggregation_metadata"] is None
+
+    def test_multiframe_orb_output_with_all_keys_missing(self, mock_call_trace_all_missing):
+        """Test multiframe ORB output builder when all optional keys are missing."""
+
+        output = build_multiframe_iris_pipeline_orb_output(mock_call_trace_all_missing)
+
+        # Check that iris_template is None when aggregation_result is missing
+        assert output["iris_template"] is None
+
+        # Check that metadata is still generated with available data
+        assert "metadata" in output
+        assert output["metadata"]["iris_version"] is not None
+        assert output["metadata"]["input_images_count"] == 1
+        assert output["metadata"]["eye_side"] == "left"
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is False
+
+        # Check other fields handle missing keys gracefully
+        assert "error" in output
+        assert output["error"] is None  # No error stored
+        assert "individual_frames" in output
+        assert output["individual_frames"] == []  # Default empty list
+        assert "templates_aggregation_metadata" in output
+        assert output["templates_aggregation_metadata"] is None
+
+    def test_multiframe_orb_output_with_empty_input(self, mock_call_trace_empty_input):
+        """Test multiframe ORB output builder when input is empty."""
+
+        output = build_multiframe_iris_pipeline_orb_output(mock_call_trace_empty_input)
+
+        # Check that iris_template is None
+        assert output["iris_template"] is None
+
+        # Check that metadata handles empty input gracefully
+        assert "metadata" in output
+        assert output["metadata"]["iris_version"] is not None
+        assert output["metadata"]["input_images_count"] is None  # Empty input
+        assert output["metadata"]["eye_side"] is None  # No first entry
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is False
+
+        # Check other fields
+        assert "error" in output
+        assert "individual_frames" in output
+        assert output["individual_frames"] == []
+        assert "templates_aggregation_metadata" in output
+        assert output["templates_aggregation_metadata"] is None
+
+    def test_multiframe_orb_output_with_none_input(self, mock_call_trace_none_input):
+        """Test multiframe ORB output builder when input is None."""
+
+        output = build_multiframe_iris_pipeline_orb_output(mock_call_trace_none_input)
+
+        # Check that iris_template is None
+        assert output["iris_template"] is None
+
+        # Check that metadata handles None input gracefully
+        assert "metadata" in output
+        assert output["metadata"]["iris_version"] is not None
+        assert output["metadata"]["input_images_count"] is None  # None input
+        assert output["metadata"]["eye_side"] is None  # No first entry
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is False
+
+        # Check other fields
+        assert "error" in output
+        assert "individual_frames" in output
+        assert output["individual_frames"] == []
+        assert "templates_aggregation_metadata" in output
+        assert output["templates_aggregation_metadata"] is None
+
+    def test_multiframe_simple_output_with_none_values(self, mock_call_trace_all_missing):
+        """Test multiframe simple output builder when all optional keys are missing."""
+
+        output = build_simple_multiframe_iris_pipeline_output(mock_call_trace_all_missing)
+
+        # Check same structure as ORB output but without serialization
+        assert output["iris_template"] is None
+        assert "metadata" in output
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is False
+        assert "error" in output
+        assert output["error"] is None
+        assert "individual_frames" in output
+        assert output["individual_frames"] == []
+        assert "templates_aggregation_metadata" in output
+        assert output["templates_aggregation_metadata"] is None
+
+    def test_multiframe_output_with_aggregation_error(self, mock_call_trace_aggregation_with_error):
+        """Test multiframe output builder when aggregation_result contains an error."""
+        from iris.orchestration.output_builders import build_multiframe_iris_pipeline_orb_output
+
+        output = build_multiframe_iris_pipeline_orb_output(mock_call_trace_aggregation_with_error)
+
+        # Check that iris_template is None when aggregation has error
+        assert output["iris_template"] is None
+
+        # Check that metadata reflects failed aggregation
+        assert "metadata" in output
+        assert output["metadata"]["aggregation_successful"] is False
+        assert output["metadata"]["is_aggregated"] is True  # aggregation_result exists but failed
+
+        # Check that templates_aggregation_metadata includes error info
+        assert "templates_aggregation_metadata" in output
+        assert "error" in output["templates_aggregation_metadata"]
+        assert "metadata" in output["templates_aggregation_metadata"]
+
+    def test_templates_aggregation_output_with_none_values(self):
+        """Test templates aggregation output builders with None values."""
+        from iris.orchestration.output_builders import build_simple_templates_aggregation_output
+
+        # Create call_trace with None templates_aggregation
+        call_trace = PipelineCallTraceStorage(results_names=["templates_aggregation"])
+        call_trace.write_input([])  # Empty input
+        call_trace.write("templates_aggregation", None)
+
+        output = build_simple_templates_aggregation_output(call_trace)
+
+        # Check that iris_template is None when templates_aggregation is None
+        assert output["iris_template"] is None
+
+        # Check that metadata is still generated
+        assert "metadata" in output
+        assert output["metadata"]["iris_version"] is not None
+        assert output["metadata"]["input_templates_count"] == 0
+        assert output["metadata"]["input_templates_image_ids"] == []
+
+        # Check error field
+        assert "error" in output

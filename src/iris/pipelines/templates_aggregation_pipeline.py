@@ -67,17 +67,21 @@ class TemplatesAggregationPipeline(BasePipeline):
     def run(
         self, templates: List[IrisTemplate], image_ids: Optional[List[str]] = None, *args: Any, **kwargs: Any
     ) -> Any:
-        # Validate input consistency
-        if image_ids is not None and len(image_ids) != len(templates):
-            raise ValueError(
-                f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
-            )
+        try:
+            # Validate input consistency
+            if image_ids is not None and len(image_ids) != len(templates):
+                raise ValueError(
+                    f"Number of image_ids ({len(image_ids)}) must match number of templates ({len(templates)})"
+                )
 
-        # Create IrisTemplateWithId
-        templates_with_ids = []
-        for i, template in enumerate(templates):
-            image_id = image_ids[i] if image_ids else f"frame_{i}"
-            templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
+            # Create IrisTemplateWithId
+            templates_with_ids = []
+            for i, template in enumerate(templates):
+                image_id = image_ids[i] if image_ids else f"frame_{i}"
+                templates_with_ids.append(IrisTemplateWithId.from_template(template, image_id))
+        except Exception as e:
+            self._handle_execution_error(None, e)
+            return self._handle_output(*args, **kwargs)
 
         pipeline_input = {"templates_with_ids": templates_with_ids}
         return super().run(pipeline_input, *args, **kwargs)

@@ -267,7 +267,9 @@ MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC = [
     ),
     OutputFieldSpec(
         key="templates_aggregation_metadata",
-        extractor=lambda ct: {k: v for k, v in ct.get("aggregation_result", {}).items() if k != "iris_template"},
+        extractor=lambda ct: None
+        if (agg := ct.get("aggregation_result")) is None
+        else {k: v for k, v in agg.items() if k != "iris_template"},
         safe_serialize=False,
     ),
 ]
@@ -292,7 +294,9 @@ MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC = [
     ),
     OutputFieldSpec(
         key="templates_aggregation_metadata",
-        extractor=lambda ct: {k: v for k, v in ct.get("aggregation_result", {}).items() if k != "iris_template"},
+        extractor=lambda ct: None
+        if (agg := ct.get("aggregation_result")) is None
+        else {k: v for k, v in agg.items() if k != "iris_template"},
         safe_serialize=False,
     ),
 ]
