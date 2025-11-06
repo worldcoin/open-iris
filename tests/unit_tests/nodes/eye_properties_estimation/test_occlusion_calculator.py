@@ -46,12 +46,10 @@ def test_get_quantile_points(
 
     algorithm = OcclusionCalculator(quantile_angle=quantile_angle)
 
-    result_xs, result_ys = algorithm._get_quantile_points(
+    result = algorithm._get_quantile_points(
         mock_iris_coords,
         EyeOrientation(angle=eye_orientation_angle),
-        EyeCenters(pupil_x=0.0, pupil_y=0.0, iris_x=0.0, iris_y=0.0),
     )
-    result = np.vstack([result_xs, result_ys]).T
 
     assert np.mean(np.abs(np.sort(result) - np.sort(expected_result))) < 0.5
 
