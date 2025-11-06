@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 from pydantic import Field
@@ -6,7 +6,7 @@ from pydantic import Field
 from iris.callbacks.callback_interface import Callback
 from iris.io.class_configs import Algorithm
 from iris.io.dataclasses import EyeCenters, EyeOcclusion, EyeOrientation, GeometryPolygons, NoiseMask
-from iris.utils import common, math
+from iris.utils import common
 
 
 class OcclusionCalculator(Algorithm):
@@ -52,7 +52,6 @@ class OcclusionCalculator(Algorithm):
             extrapolated_polygons (GeometryPolygons): Extrapolated polygons contours.
             noise_mask (NoiseMask): Noise mask.
             eye_orientation (EyeOrientation): Eye orientation angle.
-            eye_centers (EyeCenters): Eye centers.
 
         Returns:
             EyeOcclusion: Visible iris fraction.
@@ -78,10 +77,8 @@ class OcclusionCalculator(Algorithm):
         pads = np.array([(-offset[1], overflow[1]), (-offset[0], overflow[0])]).astype(int)
         offseted_noise_mask = np.pad(noise_mask.mask, pads)
 
-        xs2mask, ys2mask = self._get_quantile_points(extrapolated_polygons.iris_array, eye_orientation, eye_centers)
-        iris_mask_quantile = common.contour_to_mask(
-            np.column_stack([xs2mask, ys2mask]) - offset, mask_shape=total_mask_shape
-        )
+        iris_quantile_polygon = self._get_quantile_points(extrapolated_polygons.iris_array, eye_orientation)
+        iris_mask_quantile = common.contour_to_mask(iris_quantile_polygon - offset, mask_shape=total_mask_shape)
         pupil_mask = common.contour_to_mask(extrapolated_polygons.pupil_array - offset, mask_shape=total_mask_shape)
         eyeball_mask = common.contour_to_mask(extrapolated_polygons.eyeball_array - offset, mask_shape=total_mask_shape)
         frame_mask = common.contour_to_mask(frame - offset, mask_shape=total_mask_shape)
@@ -97,8 +94,10 @@ class OcclusionCalculator(Algorithm):
         return EyeOcclusion(visible_fraction=visible_fraction)
 
     def _get_quantile_points(
-        self, iris_coords: np.ndarray, eye_orientation: EyeOrientation, eye_centers: EyeCenters
-    ) -> Tuple[np.ndarray, np.ndarray]:
+        self,
+        iris_coords: np.ndarray,
+        eye_orientation: EyeOrientation,
+    ) -> np.ndarray:
         """Get those iris's points which fall into a specified quantile.
 
         Args:
@@ -107,36 +106,19 @@ class OcclusionCalculator(Algorithm):
             eye_centers: (EyeCenters): Eye centers.
 
         Returns:
-            Tuple[np.ndarray, np.ndarray]: Tuple with xs and ys that falls into quantile region.
+            np.ndarray: Iris polygon coordinates that fall within the quantile regions.
         """
         orientation_angle = np.degrees(eye_orientation.angle)
         num_rotations = -round(orientation_angle * len(iris_coords) / 360.0)
-
-        iris_xs, iris_ys = iris_coords[:, 0], iris_coords[:, 1]
-        iris_rhos, iris_phis = math.cartesian2polar(iris_xs, iris_ys, eye_centers.iris_x, eye_centers.iris_y)
-
-        iris_phis = np.roll(iris_phis, num_rotations, axis=0)
-        iris_rhos = np.roll(iris_rhos, num_rotations, axis=0)
+        iris_coords = np.roll(iris_coords, num_rotations, axis=0)
 
         scaled_quantile = round(self.params.quantile_angle * len(iris_coords) / 360.0)
-
-        phis2mask = np.concatenate(
+        iris_quantile_coords = np.concatenate(
             [
-                iris_phis[:scaled_quantile],
-                iris_phis[-scaled_quantile:],
-                iris_phis[len(iris_phis) // 2 : len(iris_phis) // 2 + scaled_quantile],
-                iris_phis[len(iris_phis) // 2 - scaled_quantile : len(iris_phis) // 2],
+                iris_coords[0:scaled_quantile],
+                iris_coords[len(iris_coords) // 2 - scaled_quantile : len(iris_coords) // 2 + scaled_quantile],
+                iris_coords[len(iris_coords) - scaled_quantile :],
             ]
         )
-        rhos2mask = np.concatenate(
-            [
-                iris_rhos[:scaled_quantile],
-                iris_rhos[-scaled_quantile:],
-                iris_rhos[len(iris_rhos) // 2 : len(iris_rhos) // 2 + scaled_quantile],
-                iris_rhos[len(iris_rhos) // 2 - scaled_quantile : len(iris_rhos) // 2],
-            ]
-        )
-        phis2mask, rhos2mask = zip(*sorted(zip(phis2mask, rhos2mask)))
-        xs2mask, ys2mask = math.polar2cartesian(rhos2mask, phis2mask, eye_centers.iris_x, eye_centers.iris_y)
 
-        return xs2mask, ys2mask
+        return iris_quantile_coords
