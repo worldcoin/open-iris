@@ -103,7 +103,6 @@ class OcclusionCalculator(Algorithm):
         Args:
             iris_coords (np.ndarray): Iris polygon coordinates.
             eye_orientation: (EyeOrientation): Eye orientation.
-            eye_centers: (EyeCenters): Eye centers.
 
         Returns:
             np.ndarray: Iris polygon coordinates that fall within the quantile regions.
