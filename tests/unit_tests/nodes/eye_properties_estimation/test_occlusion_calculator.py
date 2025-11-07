@@ -51,7 +51,7 @@ def test_get_quantile_points(
         EyeOrientation(angle=eye_orientation_angle),
     )
 
-    assert np.mean(np.abs(np.sort(result) - np.sort(expected_result))) < 0.5
+    assert np.mean(np.abs(np.sort(result, axis=0) - np.sort(expected_result, axis=0))) < 0.5
 
 
 @pytest.mark.parametrize(
