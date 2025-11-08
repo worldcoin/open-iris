@@ -24,13 +24,15 @@ def algorithm() -> OcclusionCalculator:
         (
             30.0,
             np.radians(10.0),
-            np.concatenate(
-                [
-                    generate_arc(1.0, 0.0, 0.0, from_angle=np.radians(0), to_angle=np.radians(40), num_points=40),
-                    generate_arc(1.0, 0.0, 0.0, from_angle=np.radians(340), to_angle=np.radians(360), num_points=20),
-                    generate_arc(1.0, 0.0, 0.0, from_angle=np.radians(160), to_angle=np.radians(220), num_points=60),
-                ]
-            ),
+            (  # noqa: PLC3002
+                lambda coords: np.concatenate(
+                    [
+                        coords[0:40],
+                        coords[340:360],
+                        coords[160:220],
+                    ]
+                )
+            )(generate_arc(1.0, 0.0, 0.0, from_angle=0.0, to_angle=2 * np.pi, num_points=360)),
         ),
     ],
     ids=["90 degrees", "30 degrees"],
@@ -51,7 +53,10 @@ def test_get_quantile_points(
         EyeOrientation(angle=eye_orientation_angle),
     )
 
-    assert np.mean(np.abs(np.sort(result, axis=0) - np.sort(expected_result, axis=0))) < 0.5
+    # Sort rows by x then y for comparison (now valid since both use the same source coordinates)
+    result_sorted = result[np.lexsort((result[:, 1], result[:, 0]))]
+    expected_sorted = expected_result[np.lexsort((expected_result[:, 1], expected_result[:, 0]))]
+    assert np.allclose(result_sorted, expected_sorted)
 
 
 @pytest.mark.parametrize(
