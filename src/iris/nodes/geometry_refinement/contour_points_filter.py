@@ -77,7 +77,11 @@ class ContourPointNoiseEyeballDistanceFilter(Algorithm):
         Returns:
             np.ndarray: Filtered polygon's points.
         """
-        valid_points = [not forbidden_touch_map[y, x] for x, y in np.round(polygon_points).astype(int)]
+        height, width = forbidden_touch_map.shape
+        valid_points = [
+            0 <= x < width and 0 <= y < height and not forbidden_touch_map[y, x]
+            for x, y in np.round(polygon_points).astype(int)
+        ]
         if not any(valid_points):
             raise GeometryRefinementError("No valid points after filtering polygon points!")
 
