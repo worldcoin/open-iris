@@ -22,12 +22,10 @@ inherit = false
 ignore = ["D100", "D104", "D203", "D205", "D211", "D213", "D406", "D407", "D413"]
 match = ".*.py"
 
-[tool.pytest]
-minversion = 6.0
+[tool.pytest.ini_options]
+minversion = "6.0"
 xfail_strict = true
 log_auto_indent = true
-
-[tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.black]
