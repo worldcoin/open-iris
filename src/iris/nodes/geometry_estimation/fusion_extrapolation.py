@@ -113,6 +113,9 @@ class FusionExtrapolation(Algorithm):
         circle_poly = self.params.circle_extrapolation(input_polygons, eye_center)
         ellipse_poly = self.params.ellipse_fit(input_polygons)
 
+        if ellipse_poly is None:
+            return circle_poly
+
         circle_iris = circle_poly.iris_array
         circle_pupil = circle_poly.pupil_array
         ellipse_iris = ellipse_poly.iris_array
