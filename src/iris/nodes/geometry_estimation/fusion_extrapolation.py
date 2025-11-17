@@ -96,6 +96,68 @@ class FusionExtrapolation(Algorithm):
         pupil_sq = np.sum(pupil_centered**2, axis=1)
         return np.divide(iris_sq, np.maximum(pupil_sq, eps))
 
+    @staticmethod
+    def _all_points_in_poly(points: np.ndarray, poly: np.ndarray) -> bool:
+        """
+        Check if ALL points are strictly inside polygon.
+
+        points : (N,2) int array [x, y]
+        poly   : (M,2) int array polygon vertices [x, y] (open or closed)
+
+        Returns:
+            bool: True if all points are strictly inside polygon, False otherwise.
+        """
+        pts = np.asarray(points, dtype=np.int64)
+        P = np.asarray(poly, dtype=np.int64)
+        N = len(pts)
+
+        if P.shape[0] < 3 or N == 0:
+            return False
+
+        X1, Y1 = P[:, 0], P[:, 1]
+        X2 = np.roll(X1, -1)
+        Y2 = np.roll(Y1, -1)
+        dX = X2 - X1
+        dY = Y2 - Y1
+
+        # Precompute edge bounding boxes
+        min_X = np.minimum(X1, X2)
+        max_X = np.maximum(X1, X2)
+        min_Y = np.minimum(Y1, Y2)
+        max_Y = np.maximum(Y1, Y2)
+
+        # Quick polygon bbox prefilter
+        px_min, py_min = P[:, 0].min(), P[:, 1].min()
+        px_max, py_max = P[:, 0].max(), P[:, 1].max()
+
+        # Check each point individually for early exit
+        for i in range(N):
+            x, y = pts[i, 0], pts[i, 1]
+
+            # Bbox check - if outside, early exit
+            if not (px_min <= x <= px_max and py_min <= y <= py_max):
+                return False
+
+            # Boundary check - if on edge, early exit
+            # Check collinearity with each edge
+            cross = dX * (y - Y1) - dY * (x - X1)
+            in_bbox = (min_X <= x) & (x <= max_X) & (min_Y <= y) & (y <= max_Y)
+
+            if np.any((cross == 0) & in_bbox):
+                return False  # Point is on boundary
+
+            # Ray casting - if outside, early exit
+            y_cross = (Y1 > y) != (Y2 > y)
+            lhs = dX * (y - Y1)
+            rhs = (x - X1) * dY
+            cross_right = np.where(Y2 > Y1, lhs > rhs, lhs < rhs)
+
+            crossings = np.sum(y_cross & cross_right)
+            if (crossings & 1) == 0:
+                return False  # Point is outside
+
+        return True  # All points strictly inside
+
     def run(self, input_polygons: GeometryPolygons, eye_center: EyeCenters) -> GeometryPolygons:
         """Perform extrapolation algorithm and select the most plausible result.
 
@@ -112,6 +174,10 @@ class FusionExtrapolation(Algorithm):
         rhos_pupil, _ = cartesian2polar(xs_pupil, ys_pupil, eye_center.pupil_x, eye_center.pupil_y)
         circle_poly = self.params.circle_extrapolation(input_polygons, eye_center)
         ellipse_poly = self.params.ellipse_fit(input_polygons)
+
+        all_inside = self._all_points_in_poly(ellipse_poly.pupil_array, ellipse_poly.iris_array)
+        if not all_inside:
+            return circle_poly
 
         circle_iris = circle_poly.iris_array
         circle_pupil = circle_poly.pupil_array
