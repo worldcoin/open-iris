@@ -97,12 +97,12 @@ class BisectorsMethod(Algorithm):
         Returns:
             Tuple[np.ndarray, np.ndarray]: Calculated perpendicular bisectors.
         """
-        np.random.seed(142857)
+        rng = np.random.RandomState(142857)
 
         bisectors_first_points = np.empty([0, 2])
         bisectors_second_points = np.empty([0, 2])
         for _ in range(self.params.max_iterations):
-            random_indices = np.random.choice(len(polygon), size=(self.params.num_bisectors, 2))
+            random_indices = rng.choice(len(polygon), size=(self.params.num_bisectors, 2))
 
             first_drawn_points = polygon[random_indices[:, 0]]
             second_drawn_points = polygon[random_indices[:, 1]]
