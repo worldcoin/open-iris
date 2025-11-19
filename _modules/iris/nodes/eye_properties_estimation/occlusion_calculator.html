@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation.occlusion_calculator - iris v1.9.7</title>
+        <title>iris.nodes.eye_properties_estimation.occlusion_calculator - iris v1.9.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.9.8</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.9.8</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -278,7 +278,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.nodes.eye_properties_estimation.occlusion_calculator</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
@@ -286,7 +286,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.callbacks.callback_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callback</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.class_configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Algorithm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">EyeCenters</span><span class="p">,</span> <span class="n">EyeOcclusion</span><span class="p">,</span> <span class="n">EyeOrientation</span><span class="p">,</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">NoiseMask</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">common</span><span class="p">,</span> <span class="n">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">common</span>
 
 
 <div class="viewcode-block" id="OcclusionCalculator">
@@ -339,7 +339,6 @@
 <span class="sd">            extrapolated_polygons (GeometryPolygons): Extrapolated polygons contours.</span>
 <span class="sd">            noise_mask (NoiseMask): Noise mask.</span>
 <span class="sd">            eye_orientation (EyeOrientation): Eye orientation angle.</span>
-<span class="sd">            eye_centers (EyeCenters): Eye centers.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            EyeOcclusion: Visible iris fraction.</span>
@@ -365,10 +364,8 @@
         <span class="n">pads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="o">-</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">overflow</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="o">-</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">overflow</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">offseted_noise_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">noise_mask</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">pads</span><span class="p">)</span>
 
-        <span class="n">xs2mask</span><span class="p">,</span> <span class="n">ys2mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_quantile_points</span><span class="p">(</span><span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="n">eye_orientation</span><span class="p">,</span> <span class="n">eye_centers</span><span class="p">)</span>
-        <span class="n">iris_mask_quantile</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">xs2mask</span><span class="p">,</span> <span class="n">ys2mask</span><span class="p">])</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="n">mask_shape</span><span class="o">=</span><span class="n">total_mask_shape</span>
-        <span class="p">)</span>
+        <span class="n">iris_quantile_polygon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_quantile_points</span><span class="p">(</span><span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="n">eye_orientation</span><span class="p">)</span>
+        <span class="n">iris_mask_quantile</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span><span class="n">iris_quantile_polygon</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="n">mask_shape</span><span class="o">=</span><span class="n">total_mask_shape</span><span class="p">)</span>
         <span class="n">pupil_mask</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span><span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">pupil_array</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="n">mask_shape</span><span class="o">=</span><span class="n">total_mask_shape</span><span class="p">)</span>
         <span class="n">eyeball_mask</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span><span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">eyeball_array</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="n">mask_shape</span><span class="o">=</span><span class="n">total_mask_shape</span><span class="p">)</span>
         <span class="n">frame_mask</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span><span class="n">frame</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="n">mask_shape</span><span class="o">=</span><span class="n">total_mask_shape</span><span class="p">)</span>
@@ -385,49 +382,33 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_quantile_points</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">iris_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span> <span class="n">eye_centers</span><span class="p">:</span> <span class="n">EyeCenters</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">iris_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get those iris&#39;s points which fall into a specified quantile.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            iris_coords (np.ndarray): Iris polygon coordinates.</span>
 <span class="sd">            eye_orientation: (EyeOrientation): Eye orientation.</span>
-<span class="sd">            eye_centers: (EyeCenters): Eye centers.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with xs and ys that falls into quantile region.</span>
+<span class="sd">            np.ndarray: Iris polygon coordinates that fall within the quantile regions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">orientation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">eye_orientation</span><span class="o">.</span><span class="n">angle</span><span class="p">)</span>
         <span class="n">num_rotations</span> <span class="o">=</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">orientation_angle</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
-
-        <span class="n">iris_xs</span><span class="p">,</span> <span class="n">iris_ys</span> <span class="o">=</span> <span class="n">iris_coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">iris_coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">iris_rhos</span><span class="p">,</span> <span class="n">iris_phis</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cartesian2polar</span><span class="p">(</span><span class="n">iris_xs</span><span class="p">,</span> <span class="n">iris_ys</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_x</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_y</span><span class="p">)</span>
-
-        <span class="n">iris_phis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">iris_phis</span><span class="p">,</span> <span class="n">num_rotations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">iris_rhos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">iris_rhos</span><span class="p">,</span> <span class="n">num_rotations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">iris_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">,</span> <span class="n">num_rotations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">scaled_quantile</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">quantile_angle</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
-
-        <span class="n">phis2mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="n">iris_quantile_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">iris_phis</span><span class="p">[:</span><span class="n">scaled_quantile</span><span class="p">],</span>
-                <span class="n">iris_phis</span><span class="p">[</span><span class="o">-</span><span class="n">scaled_quantile</span><span class="p">:],</span>
-                <span class="n">iris_phis</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_phis</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_phis</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">scaled_quantile</span><span class="p">],</span>
-                <span class="n">iris_phis</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_phis</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">scaled_quantile</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_phis</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">iris_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">scaled_quantile</span><span class="p">],</span>
+                <span class="n">iris_coords</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">scaled_quantile</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">scaled_quantile</span><span class="p">],</span>
+                <span class="n">iris_coords</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">-</span> <span class="n">scaled_quantile</span> <span class="p">:],</span>
             <span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">rhos2mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">iris_rhos</span><span class="p">[:</span><span class="n">scaled_quantile</span><span class="p">],</span>
-                <span class="n">iris_rhos</span><span class="p">[</span><span class="o">-</span><span class="n">scaled_quantile</span><span class="p">:],</span>
-                <span class="n">iris_rhos</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_rhos</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_rhos</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">scaled_quantile</span><span class="p">],</span>
-                <span class="n">iris_rhos</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">iris_rhos</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">scaled_quantile</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_rhos</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-        <span class="n">phis2mask</span><span class="p">,</span> <span class="n">rhos2mask</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">phis2mask</span><span class="p">,</span> <span class="n">rhos2mask</span><span class="p">)))</span>
-        <span class="n">xs2mask</span><span class="p">,</span> <span class="n">ys2mask</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">polar2cartesian</span><span class="p">(</span><span class="n">rhos2mask</span><span class="p">,</span> <span class="n">phis2mask</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_x</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_y</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">xs2mask</span><span class="p">,</span> <span class="n">ys2mask</span></div>
+        <span class="k">return</span> <span class="n">iris_quantile_coords</span></div>
 
 </pre></div>
         </article>
@@ -461,7 +442,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../../../../_static/documentation_options.js?v=e7581024"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

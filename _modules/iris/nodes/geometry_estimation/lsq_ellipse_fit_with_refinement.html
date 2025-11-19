@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement - iris v1.9.7</title>
+        <title>iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement - iris v1.9.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.9.8</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.9.8</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -278,7 +278,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -320,46 +320,90 @@
 
 <div class="viewcode-block" id="LSQEllipseFitWithRefinement.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_estimation.html#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeometryPolygons</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate extrapolated polygons with OpenCV&#39;s method fitEllipse.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_polygons (GeometryPolygons): Smoothed polygons.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            GeometryPolygons: Extrapolated polygons.</span>
+<span class="sd">            Union[GeometryPolygons, None]: Extrapolated polygons or None if pupil is not inside iris.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">extrapolated_pupil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrapolate</span><span class="p">(</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span>
-        <span class="n">extrapolated_iris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrapolate</span><span class="p">(</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">)</span>
+        <span class="n">extrapolated_polygons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrapolate</span><span class="p">(</span><span class="n">input_polygons</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">extrapolated_polygons</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">input_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">:</span>
-            <span class="n">extrapolated_pupil</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_find_correspondence</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">extrapolated_pupil</span><span class="p">)]</span> <span class="o">=</span> <span class="n">point</span>
+            <span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_find_correspondence</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">extrapolated_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="n">point</span>
 
-        <span class="k">return</span> <span class="n">GeometryPolygons</span><span class="p">(</span>
-            <span class="n">pupil_array</span><span class="o">=</span><span class="n">extrapolated_pupil</span><span class="p">,</span> <span class="n">iris_array</span><span class="o">=</span><span class="n">extrapolated_iris</span><span class="p">,</span> <span class="n">eyeball_array</span><span class="o">=</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">eyeball_array</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">extrapolated_polygons</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_extrapolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_pupil_inside_iris_ellipses</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">px0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">py0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pb</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ix0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">iy0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ia</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ib</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fast conservative check using bounding circles.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            px0 (float): elliptical fit pupil center x-coordinate</span>
+<span class="sd">            py0 (float): elliptical fit pupil center y-coordinate</span>
+<span class="sd">            pa (float): elliptical fit pupil major axis length</span>
+<span class="sd">            pb (float): elliptical fit pupil minor axis length</span>
+<span class="sd">            ix0 (float): elliptical fit iris center x-coordinate</span>
+<span class="sd">            iy0 (float): elliptical fit iris center y-coordinate</span>
+<span class="sd">            ia (float): elliptical fit iris major axis length</span>
+<span class="sd">            ib (float): elliptical fit iris minor axis length</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if pupil is likely inside iris (conservative estimate)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Use max radius for pupil (worst case) and min radius for iris (best case)</span>
+        <span class="n">pupil_max_radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">iris_min_radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="c1"># Distance between centers</span>
+        <span class="n">center_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">px0</span> <span class="o">-</span> <span class="n">ix0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">py0</span> <span class="o">-</span> <span class="n">iy0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Conservative check: pupil&#39;s max reach &lt; iris&#39;s min reach</span>
+        <span class="c1"># Add small safety margin (e.g., 5%)</span>
+        <span class="n">safety_factor</span> <span class="o">=</span> <span class="mf">0.95</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">center_dist</span> <span class="o">+</span> <span class="n">pupil_max_radius</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">iris_min_radius</span> <span class="o">*</span> <span class="n">safety_factor</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extrapolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">GeometryPolygons</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform extrapolation for points in an array.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            polygon_points (np.ndarray): Smoothed polygon ready for applying extrapolation algorithm on it.</span>
+<span class="sd">            polygon_points (np.ndarray): Smoothed polygons ready for applying extrapolation algorithm on it.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Estimated extrapolated polygon.</span>
+<span class="sd">            Union[GeometryPolygons, None]: Extrapolated polygons or None if pupil is not inside iris.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">polygon_points</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">px0</span><span class="p">,</span> <span class="n">py0</span><span class="p">),</span> <span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">),</span> <span class="n">ptheta</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">),</span> <span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">),</span> <span class="n">itheta</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">)</span>
 
-        <span class="n">extrapolated_polygon</span> <span class="o">=</span> <span class="n">LSQEllipseFitWithRefinement</span><span class="o">.</span><span class="n">parametric_ellipsis</span><span class="p">(</span>
-            <span class="n">a</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">b</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="mi">360</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_pupil_inside_iris_ellipses</span><span class="p">(</span><span class="n">px0</span><span class="p">,</span> <span class="n">py0</span><span class="p">,</span> <span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">,</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">extrapolated_pupil_polygon</span> <span class="o">=</span> <span class="n">LSQEllipseFitWithRefinement</span><span class="o">.</span><span class="n">parametric_ellipsis</span><span class="p">(</span>
+            <span class="n">pa</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">pb</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">px0</span><span class="p">,</span> <span class="n">py0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ptheta</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="mi">360</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">extrapolated_iris_polygon</span> <span class="o">=</span> <span class="n">LSQEllipseFitWithRefinement</span><span class="o">.</span><span class="n">parametric_ellipsis</span><span class="p">(</span>
+            <span class="n">ia</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ib</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ix0</span><span class="p">,</span> <span class="n">iy0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">itheta</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="mi">360</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># Rotate such that 0 degree is parallel with x-axis and array is clockwise</span>
-        <span class="n">roll_amount</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="o">-</span><span class="n">theta</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
-        <span class="n">extrapolated_polygon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">extrapolated_polygon</span><span class="p">,</span> <span class="n">roll_amount</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">roll_amount</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="o">-</span><span class="n">ptheta</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
+        <span class="n">extrapolated_pupil_polygon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">extrapolated_pupil_polygon</span><span class="p">,</span> <span class="n">roll_amount</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">roll_amount</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="o">-</span><span class="n">itheta</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)</span>
+        <span class="n">extrapolated_iris_polygon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">extrapolated_iris_polygon</span><span class="p">,</span> <span class="n">roll_amount</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">extrapolated_polygon</span>
+        <span class="k">return</span> <span class="n">GeometryPolygons</span><span class="p">(</span>
+            <span class="n">pupil_array</span><span class="o">=</span><span class="n">extrapolated_pupil_polygon</span><span class="p">,</span>
+            <span class="n">iris_array</span><span class="o">=</span><span class="n">extrapolated_iris_polygon</span><span class="p">,</span>
+            <span class="n">eyeball_array</span><span class="o">=</span><span class="n">input_polygons</span><span class="o">.</span><span class="n">eyeball_array</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_correspondence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dst_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find correspondence with Euclidean distance.</span>
@@ -433,7 +477,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../../../../_static/documentation_options.js?v=e7581024"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>
