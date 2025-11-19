@@ -1,6 +1,6 @@
 metadata:
   pipeline_name: iris_pipeline
-  iris_version: 1.9.7
+  iris_version: 1.9.8
 
 pipeline:
   - name: segmentation
