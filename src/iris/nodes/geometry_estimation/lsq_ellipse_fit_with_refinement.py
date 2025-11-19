@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 import cv2
 import numpy as np
@@ -33,45 +33,89 @@ class LSQEllipseFitWithRefinement(Algorithm):
         """
         super().__init__(dphi=dphi, callbacks=callbacks)
 
-    def run(self, input_polygons: GeometryPolygons) -> GeometryPolygons:
+    def run(self, input_polygons: GeometryPolygons) -> Union[GeometryPolygons, None]:
         """Estimate extrapolated polygons with OpenCV's method fitEllipse.
 
         Args:
             input_polygons (GeometryPolygons): Smoothed polygons.
 
         Returns:
-            GeometryPolygons: Extrapolated polygons.
+            Union[GeometryPolygons, None]: Extrapolated polygons or None if pupil is not inside iris.
         """
-        extrapolated_pupil = self._extrapolate(input_polygons.pupil_array)
-        extrapolated_iris = self._extrapolate(input_polygons.iris_array)
+        extrapolated_polygons = self._extrapolate(input_polygons)
+
+        if extrapolated_polygons is None:
+            return None
 
         for point in input_polygons.pupil_array:
-            extrapolated_pupil[self._find_correspondence(point, extrapolated_pupil)] = point
+            extrapolated_polygons.pupil_array[
+                self._find_correspondence(point, extrapolated_polygons.pupil_array)
+            ] = point
 
-        return GeometryPolygons(
-            pupil_array=extrapolated_pupil, iris_array=extrapolated_iris, eyeball_array=input_polygons.eyeball_array
-        )
+        return extrapolated_polygons
 
-    def _extrapolate(self, polygon_points: np.ndarray) -> np.ndarray:
+    def _is_pupil_inside_iris_ellipses(
+        self, px0: float, py0: float, pa: float, pb: float, ix0: float, iy0: float, ia: float, ib: float
+    ) -> bool:
+        """Fast conservative check using bounding circles.
+
+        Args:
+            px0 (float): elliptical fit pupil center x-coordinate
+            py0 (float): elliptical fit pupil center y-coordinate
+            pa (float): elliptical fit pupil major axis length
+            pb (float): elliptical fit pupil minor axis length
+            ix0 (float): elliptical fit iris center x-coordinate
+            iy0 (float): elliptical fit iris center y-coordinate
+            ia (float): elliptical fit iris major axis length
+            ib (float): elliptical fit iris minor axis length
+
+        Returns:
+            bool: True if pupil is likely inside iris (conservative estimate)
+        """
+        # Use max radius for pupil (worst case) and min radius for iris (best case)
+        pupil_max_radius = max(pa, pb) / 2
+        iris_min_radius = min(ia, ib) / 2
+
+        # Distance between centers
+        center_dist = np.sqrt((px0 - ix0) ** 2 + (py0 - iy0) ** 2)
+
+        # Conservative check: pupil's max reach < iris's min reach
+        # Add small safety margin (e.g., 5%)
+        safety_factor = 0.95
+        return (center_dist + pupil_max_radius) < (iris_min_radius * safety_factor)
+
+    def _extrapolate(self, input_polygons: GeometryPolygons) -> Union[GeometryPolygons, None]:
         """Perform extrapolation for points in an array.
 
         Args:
-            polygon_points (np.ndarray): Smoothed polygon ready for applying extrapolation algorithm on it.
+            polygon_points (np.ndarray): Smoothed polygons ready for applying extrapolation algorithm on it.
 
         Returns:
-            np.ndarray: Estimated extrapolated polygon.
+            Union[GeometryPolygons, None]: Extrapolated polygons or None if pupil is not inside iris.
         """
-        (x0, y0), (a, b), theta = cv2.fitEllipse(polygon_points)
+        (px0, py0), (pa, pb), ptheta = cv2.fitEllipse(input_polygons.pupil_array)
+        (ix0, iy0), (ia, ib), itheta = cv2.fitEllipse(input_polygons.iris_array)
 
-        extrapolated_polygon = LSQEllipseFitWithRefinement.parametric_ellipsis(
-            a / 2, b / 2, x0, y0, np.radians(theta), round(360 / self.params.dphi)
+        if not self._is_pupil_inside_iris_ellipses(px0, py0, pa, pb, ix0, iy0, ia, ib):
+            return None
+        extrapolated_pupil_polygon = LSQEllipseFitWithRefinement.parametric_ellipsis(
+            pa / 2, pb / 2, px0, py0, np.radians(ptheta), round(360 / self.params.dphi)
+        )
+        extrapolated_iris_polygon = LSQEllipseFitWithRefinement.parametric_ellipsis(
+            ia / 2, ib / 2, ix0, iy0, np.radians(itheta), round(360 / self.params.dphi)
         )
 
         # Rotate such that 0 degree is parallel with x-axis and array is clockwise
-        roll_amount = round((-theta - 90) / self.params.dphi)
-        extrapolated_polygon = np.flip(np.roll(extrapolated_polygon, roll_amount, axis=0), axis=0)
+        roll_amount = round((-ptheta - 90) / self.params.dphi)
+        extrapolated_pupil_polygon = np.flip(np.roll(extrapolated_pupil_polygon, roll_amount, axis=0), axis=0)
+        roll_amount = round((-itheta - 90) / self.params.dphi)
+        extrapolated_iris_polygon = np.flip(np.roll(extrapolated_iris_polygon, roll_amount, axis=0), axis=0)
 
-        return extrapolated_polygon
+        return GeometryPolygons(
+            pupil_array=extrapolated_pupil_polygon,
+            iris_array=extrapolated_iris_polygon,
+            eyeball_array=input_polygons.eyeball_array,
+        )
 
     def _find_correspondence(self, src_point: np.ndarray, dst_points: np.ndarray) -> int:
         """Find correspondence with Euclidean distance.
