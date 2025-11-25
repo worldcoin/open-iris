@@ -99,7 +99,7 @@ def orientation(moments: Dict[str, float]) -> float:
         moments (Dict[str, float]): cv2.moments of desired the binary image or contour.
 
     Returns:
-        float: Main orientation of the shape. The orientation is a float in [-pi/2, pi/2[ representing the signed angle from the x axis.
+        float: Main orientation of the shape. The orientation is a float in [-pi/2, pi/2] representing the signed angle from the x axis.
     """
     orientation = 0.5 * np.arctan2(2 * moments["mu11"], moments["mu20"] - moments["mu02"])
     orientation = (orientation + np.pi / 2) % np.pi - np.pi / 2
