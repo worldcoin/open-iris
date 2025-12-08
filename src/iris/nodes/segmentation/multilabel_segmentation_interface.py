@@ -118,6 +118,6 @@ class MultilabelSemanticSegmentationInterface(Algorithm):
         """
         segmap = np.squeeze(segmap, axis=0)
         segmap = np.transpose(segmap, (1, 2, 0))
-        segmap = cv2.resize(segmap, original_image_resolution, interpolation=cv2.INTER_NEAREST)
+        segmap = cv2.resize(segmap.astype(np.float32), original_image_resolution, interpolation=cv2.INTER_NEAREST)
 
         return segmap
