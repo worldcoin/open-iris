@@ -899,13 +899,12 @@ def test_custom_pipeline_without_package_version_uses_parent():
 def test_update_config(config: str, expectation):
     """Test the update_config method with various configurations."""
     pipeline = IRISPipeline()
+    class MockSemSeg:
+        def __init__(self, **kwargs):
+            self._callbacks = []
+
     with expectation:
-        mock_model = MagicMock()
-        mock_model.SerializeToString.return_value = b"dummy_model_data"
-        mock_session = MagicMock(spec=ort.InferenceSession)
-        with patch("onnx.load", return_value=mock_model), patch("onnx.checker.check_model"), patch(
-            "onnxruntime.InferenceSession", return_value=mock_session
-        ):
+        with patch("iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation", MockSemSeg):
             pipeline.update_config(config)
             if isinstance(expectation, does_not_raise):
                 assert isinstance(pipeline.nodes, dict)

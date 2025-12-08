@@ -85,7 +85,6 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         if len(model_types) != 1:
             raise ValueError(f"Expected model to have a single data type, but got: {model_types}")
 
-
         super().__init__(
             session=ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]),
             input_resolution=input_resolution,
