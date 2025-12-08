@@ -27,6 +27,7 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         input_resolution: Tuple[PositiveInt, PositiveInt]
         input_num_channels: Literal[1, 3]
         denoise: bool
+        model_dtype: Literal["FLOAT16", "FLOAT"]
 
     __parameters_type__ = Parameters
 
@@ -80,12 +81,17 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
         onnx_model = onnx.load(model_path)
         onnx.checker.check_model(onnx_model)
 
+        model_types = set(onnx.TensorProto.DataType.Name(t.data_type) for t in onnx_model.graph.initializer)
+        if len(model_types) != 1:
+            raise ValueError(f"Expected model to have a single data type, but got: {model_types}")
+
         super().__init__(
             session=ort.InferenceSession(model_path, providers=["CPUExecutionProvider"]),
             input_resolution=input_resolution,
             input_num_channels=input_num_channels,
             denoise=denoise,
             callbacks=callbacks,
+            model_dtype=model_types.pop(),
         )
 
     def run(self, image: IRImage) -> SegmentationMap:
@@ -118,7 +124,8 @@ class ONNXMultilabelSegmentation(MultilabelSemanticSegmentationInterface):
             nn_input, self.params.input_resolution, self.params.input_num_channels, self.params.denoise
         )
 
-        return {self.params.session.get_inputs()[0].name: nn_input.astype(np.float32)}
+        input_dtype = np.float16 if self.params.model_dtype == "FLOAT16" else np.float32
+        return {self.params.session.get_inputs()[0].name: nn_input.astype(input_dtype)}
 
     def _forward(self, preprocessed_input: Dict[str, np.ndarray]) -> List[np.ndarray]:
         """Neural Network forward pass.
