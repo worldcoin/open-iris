@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="iris.nodes.geometry_refinement package" href="iris.nodes.geometry_refinement.html"><link rel="prev" title="iris.nodes.eye_properties_estimation package" href="iris.nodes.eye_properties_estimation.html">
 
     <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_estimation package - iris v1.9.7</title>
+        <title>iris.nodes.geometry_estimation package - iris v1.10.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.10.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -464,17 +464,17 @@ exceeds a threshold and the ellipse-based result looks sufficiently “regular�
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/iris/nodes/geometry_estimation/lsq_ellipse_fit_with_refinement.html#LSQEllipseFitWithRefinement.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.geometry_estimation.lsq_ellipse_fit_with_refinement.LSQEllipseFitWithRefinement.run" title="Link to this definition">¶</a></dt>
 <dd><p>Estimate extrapolated polygons with OpenCV’s method fitEllipse.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>input_polygons</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><em>GeometryPolygons</em></a>) – Smoothed polygons.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Extrapolated polygons.</p>
+<dd class="field-even"><p>Extrapolated polygons or None if pupil is not inside iris.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons">GeometryPolygons</a></p>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons">GeometryPolygons</a>, None]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -593,7 +593,7 @@ exceeds a threshold and the ellipse-based result looks sufficiently “regular�
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

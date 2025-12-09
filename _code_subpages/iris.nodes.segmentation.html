@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="iris.nodes.templates_aggregation package" href="iris.nodes.templates_aggregation.html"><link rel="prev" title="iris.nodes.normalization package" href="iris.nodes.normalization.html">
 
     <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.segmentation package - iris v1.9.7</title>
+        <title>iris.nodes.segmentation package - iris v1.10.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.10.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -406,7 +406,7 @@
 <p>For more detailed model description check model card available in SEMSEG_MODEL_CARD.md file.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">InferenceSession</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">PositiveInt</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PositiveInt</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_num_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denoise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/segmentation/onnx_multilabel_segmentation.html#ONNXMultilabelSegmentation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">InferenceSession</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">PositiveInt</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PositiveInt</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_num_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denoise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FLOAT16'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'FLOAT'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/segmentation/onnx_multilabel_segmentation.html#ONNXMultilabelSegmentation.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
 <p>Parameters class for ONNXMultilabelSegmentation objects.</p>
 <dl class="py attribute">
@@ -422,6 +422,11 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.input_resolution">
 <span class="sig-name descname"><span class="pre">input_resolution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">PositiveInt</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PositiveInt</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.input_resolution" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.model_dtype">
+<span class="sig-name descname"><span class="pre">model_dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FLOAT16'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'FLOAT'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.model_dtype" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -558,6 +563,7 @@
 <li><a class="reference internal" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.denoise"><code class="docutils literal notranslate"><span class="pre">ONNXMultilabelSegmentation.Parameters.denoise</span></code></a></li>
 <li><a class="reference internal" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.input_num_channels"><code class="docutils literal notranslate"><span class="pre">ONNXMultilabelSegmentation.Parameters.input_num_channels</span></code></a></li>
 <li><a class="reference internal" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.input_resolution"><code class="docutils literal notranslate"><span class="pre">ONNXMultilabelSegmentation.Parameters.input_resolution</span></code></a></li>
+<li><a class="reference internal" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.model_dtype"><code class="docutils literal notranslate"><span class="pre">ONNXMultilabelSegmentation.Parameters.model_dtype</span></code></a></li>
 <li><a class="reference internal" href="#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters.session"><code class="docutils literal notranslate"><span class="pre">ONNXMultilabelSegmentation.Parameters.session</span></code></a></li>
 </ul>
 </li>
@@ -580,7 +586,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

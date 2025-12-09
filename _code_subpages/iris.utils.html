@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="prev" title="iris.pipelines package" href="iris.pipelines.html">
 
     <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.utils package - iris v1.9.7</title>
+        <title>iris.utils package - iris v1.10.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.10.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -503,24 +503,22 @@ These conditions are not checked within this function.</p>
 <dt class="sig sig-object py" id="iris.utils.math.eccentricity">
 <span class="sig-prename descclassname"><span class="pre">iris.utils.math.</span></span><span class="sig-name descname"><span class="pre">eccentricity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iris/utils/math.html#eccentricity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.utils.math.eccentricity" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</p>
-<p>The eccentricity is a number in [0, 1] which caracterises the “roundness” or “linearity” of a shape.
+<blockquote>
+<div><p>The eccentricity is a number in [0, 1] which caracterises the “roundness” or “linearity” of a shape.
 A perfect circle will have an eccentricity of 0, and an infinite line an eccentricity of 1.
-For ellipses, the eccentricity is calculated as <span class="math notranslate nohighlight">\(\frac{\sqrt{a^2 - b^2}}{a^2}\)</span>
-with a (resp. b) the semi-major (resp. -minor) axis of the ellipses.</p>
+For ellipses, the eccentricity is calculated as :math:<a href="#id1"><span class="problematic" id="id2">`</span></a></p>
+</div></blockquote>
+<dl>
+<dt>rac{sqrt{a^2 - b^2}}{a^2}`</dt><dd><p>with a (resp. b) the semi-major (resp. -minor) axis of the ellipses.</p>
 <p>For <cite>mu20 + mu02 == 0</cite>, i.e. perfect line, the max theoretical value (1.0) is returned</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>moments</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – cv2.moments of desired the binary image or contour.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>moments (Dict[str, float]): cv2.moments of desired the binary image or contour.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the eccentricity of the contour or binary map.</p>
+<dt>Returns:</dt><dd><p>eccentricity (float): the eccentricity of the contour or binary map.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>eccentricity (float)</p>
+<dt>Reference:</dt><dd><p>[1] <a class="reference external" href="https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19">https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</a></p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>Reference:</dt><dd><p>[1] <a class="reference external" href="https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19">https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1017,10 +1015,9 @@ and the pupil and iris centers.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

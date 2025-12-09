@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.segmentation.onnx_multilabel_segmentation - iris v1.9.7</title>
+        <title>iris.nodes.segmentation.onnx_multilabel_segmentation - iris v1.10.0</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.10.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -310,7 +310,8 @@
         <span class="n">session</span><span class="p">:</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span>
         <span class="n">input_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">]</span>
         <span class="n">input_num_channels</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-        <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span></div>
+        <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">model_dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;FLOAT16&quot;</span><span class="p">,</span> <span class="s2">&quot;FLOAT&quot;</span><span class="p">]</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -368,12 +369,17 @@
         <span class="n">onnx_model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
         <span class="n">onnx</span><span class="o">.</span><span class="n">checker</span><span class="o">.</span><span class="n">check_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
 
+        <span class="n">model_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">onnx</span><span class="o">.</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">onnx_model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">initializer</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_types</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected model to have a single data type, but got: </span><span class="si">{</span><span class="n">model_types</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">session</span><span class="o">=</span><span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CPUExecutionProvider&quot;</span><span class="p">]),</span>
             <span class="n">input_resolution</span><span class="o">=</span><span class="n">input_resolution</span><span class="p">,</span>
             <span class="n">input_num_channels</span><span class="o">=</span><span class="n">input_num_channels</span><span class="p">,</span>
             <span class="n">denoise</span><span class="o">=</span><span class="n">denoise</span><span class="p">,</span>
             <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+            <span class="n">model_dtype</span><span class="o">=</span><span class="n">model_types</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="ONNXMultilabelSegmentation.run">
@@ -409,7 +415,8 @@
             <span class="n">nn_input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">input_resolution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">input_num_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">denoise</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">nn_input</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)}</span>
+        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model_dtype</span> <span class="o">==</span> <span class="s2">&quot;FLOAT16&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">nn_input</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">input_dtype</span><span class="p">)}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preprocessed_input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Neural Network forward pass.</span>
@@ -474,7 +481,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
     <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.utils.math - iris v1.9.7</title>
+        <title>iris.utils.math - iris v1.10.0</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.9.7</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.9.7</span>
+  <span class="sidebar-brand-text">iris v1.10.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -278,8 +278,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for iris.utils.math</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -396,20 +395,8 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Main orientation of the shape. The orientation is a float in [-pi/2, pi/2[ representing the signed angle from the x axis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Edge case of null denominator</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">orientation</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">orientation</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># General formula</span>
-        <span class="n">orientation</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">orientation</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
-
-        <span class="c1"># Restricting the angle to [-pi/2, pi/2[</span>
-        <span class="n">orientation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">orientation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="n">orientation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">orientation</span></div>
 
@@ -418,7 +405,7 @@
 <div class="viewcode-block" id="eccentricity">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.eccentricity">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">eccentricity</span><span class="p">(</span><span class="n">moments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</span>
 
 <span class="sd">    The eccentricity is a number in [0, 1] which caracterises the &quot;roundness&quot; or &quot;linearity&quot; of a shape.</span>
 <span class="sd">    A perfect circle will have an eccentricity of 0, and an infinite line an eccentricity of 1.</span>
@@ -436,12 +423,14 @@
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-10</span>
+    <span class="n">moment_sum</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">moment_sum</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span>
 
-    <span class="c1"># fmt: off</span>
-    <span class="n">eccentricity</span> <span class="o">=</span> <span class="p">((</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
-    <span class="c1"># fmt: on</span>
+    <span class="n">eccentricity</span> <span class="o">=</span> <span class="p">((</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">moment_sum</span><span class="o">**</span><span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">eccentricity</span></div>
 
@@ -537,7 +526,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=0f42b3e6"></script>
+</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
