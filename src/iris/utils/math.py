@@ -1,4 +1,3 @@
-import math
 from typing import Dict, Tuple
 
 import numpy as np
@@ -102,26 +101,14 @@ def orientation(moments: Dict[str, float]) -> float:
     Returns:
         float: Main orientation of the shape. The orientation is a float in [-pi/2, pi/2[ representing the signed angle from the x axis.
     """
-    # Edge case of null denominator
-    if (moments["mu20"] - moments["mu02"]) == 0:
-        if moments["mu11"] == 0:
-            orientation = 0.0
-        else:
-            orientation = math.copysign(np.pi / 4, moments["mu11"])
-    else:
-        # General formula
-        orientation = 0.5 * np.arctan(2 * moments["mu11"] / (moments["mu20"] - moments["mu02"]))
-        if (moments["mu20"] - moments["mu02"]) < 0:
-            orientation += np.pi / 2
-
-        # Restricting the angle to [-pi/2, pi/2[
-        orientation = np.mod(orientation + np.pi / 2, np.pi) - np.pi / 2
+    orientation = 0.5 * np.arctan2(2 * moments["mu11"], moments["mu20"] - moments["mu02"])
+    orientation = (orientation + np.pi / 2) % np.pi - np.pi / 2
 
     return orientation
 
 
 def eccentricity(moments: Dict[str, float]) -> float:
-    r"""Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.
+    """Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.
 
     The eccentricity is a number in [0, 1] which caracterises the "roundness" or "linearity" of a shape.
     A perfect circle will have an eccentricity of 0, and an infinite line an eccentricity of 1.
@@ -139,12 +126,14 @@ def eccentricity(moments: Dict[str, float]) -> float:
     Reference:
         [1] https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19
     """
-    if moments["mu20"] + moments["mu02"] == 0:
+
+    eps = 1e-10
+    moment_sum = moments["mu20"] + moments["mu02"]
+
+    if abs(moment_sum) < eps:
         return 1.0
 
-    # fmt: off
-    eccentricity = ((moments["mu20"] - moments["mu02"]) ** 2 + 4 * moments["mu11"] ** 2) / (moments["mu20"] + moments["mu02"]) ** 2
-    # fmt: on
+    eccentricity = ((moments["mu20"] - moments["mu02"]) ** 2 + 4 * moments["mu11"] ** 2) / moment_sum**2
 
     return eccentricity
 
