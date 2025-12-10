@@ -31,9 +31,16 @@ def algorithm() -> Smoothing:
 def test_cut_into_arcs(algorithm: Smoothing, arc: np.ndarray, expected_num_gaps: int) -> None:
     center_x, center_y = 0.0, 0.0
 
-    _, result_num_gaps = algorithm._cut_into_arcs(arc, (center_x, center_y))
+    result_arcs, result_num_gaps = algorithm._cut_into_arcs(arc, (center_x, center_y))
 
+    # Ensure number of gaps is as expected.
     assert result_num_gaps == expected_num_gaps
+
+    # Ensure that both arrays have the exact same elements.
+    arc_sorted = arc[np.lexsort(arc.T)]
+    result_stacked = np.vstack(result_arcs)
+    result_sorted = result_stacked[np.lexsort(result_stacked.T)]
+    np.testing.assert_equal(arc_sorted, result_sorted)
 
 
 @pytest.mark.parametrize(
