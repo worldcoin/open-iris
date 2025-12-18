@@ -91,32 +91,23 @@ class Smoothing(Algorithm):
         Returns:
             Tuple[List[np.ndarray], int]: Tuple with: (list of list of vertices, number of gaps detected in a contour).
         """
-        rho, phi = math.cartesian2polar(polygon[:, 0], polygon[:, 1], *center_xy)
-        phi, rho = self._sort_two_arrays(phi, rho)
+        # sort points by phi angle
+        _, phi = math.cartesian2polar(polygon[:, 0], polygon[:, 1], *center_xy)
+        idx_order = np.argsort(phi)
+        phi = phi[idx_order]
+        polygon = polygon[idx_order]
 
-        differences = np.abs(phi - np.roll(phi, -1))
-        # True distance between first and last point
-        differences[-1] = 2 * np.pi - differences[-1]
+        # find gaps
+        dphi = phi - np.roll(phi, 1)
+        dphi[0] += 2 * np.pi
+        gap_idx = np.where(dphi > np.radians(self.params.gap_threshold))[0]
 
-        gap_indices = np.argwhere(differences > np.radians(self.params.gap_threshold)).flatten()
-
-        if gap_indices.size < 2:
-            return [polygon], gap_indices.size
-
-        gap_indices += 1
-        phi, rho = np.split(phi, gap_indices), np.split(rho, gap_indices)
-
-        arcs = [
-            np.column_stack(math.polar2cartesian(rho_coords, phi_coords, *center_xy))
-            for rho_coords, phi_coords in zip(rho, phi)
-        ]
-
-        # Connect arc which lies between 0 and 2π.
-        if len(arcs) == gap_indices.size + 1:
-            arcs[0] = np.vstack([arcs[0], arcs[-1]])
-            arcs = arcs[:-1]
-
-        return arcs, gap_indices.size
+        # cut into arcs - each gap index marks the start of an arc
+        if gap_idx.size == 0:
+            return [polygon], 0
+        arcs = [np.vstack([polygon[gap_idx[-1] :], polygon[: gap_idx[0]]])]
+        arcs.extend([polygon[gap_idx[i] : gap_idx[i + 1]] for i in range(0, len(gap_idx) - 1)])
+        return arcs, gap_idx.size
 
     def _smooth_arc(self, vertices: np.ndarray, center_xy: Tuple[float, float]) -> np.ndarray:
         """Smooth a single contour arc.
