@@ -47,10 +47,9 @@ class LSQEllipseFitWithRefinement(Algorithm):
         if extrapolated_polygons is None:
             return None
 
+        extrapolated_pupil_copy = np.copy(extrapolated_polygons.pupil_array)
         for point in input_polygons.pupil_array:
-            extrapolated_polygons.pupil_array[
-                self._find_correspondence(point, extrapolated_polygons.pupil_array)
-            ] = point
+            extrapolated_polygons.pupil_array[self._find_correspondence(point, extrapolated_pupil_copy)] = point
 
         return extrapolated_polygons
 
