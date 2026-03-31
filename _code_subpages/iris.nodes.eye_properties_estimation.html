@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="iris.nodes.geometry_estimation package" href="iris.nodes.geometry_estimation.html"><link rel="prev" title="iris.nodes.encoder package" href="iris.nodes.encoder.html">
 
-    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation package - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.eye_properties_estimation package - iris v1.11.1</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.11.1</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.1</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -335,6 +335,55 @@ This requires that the cases of off-gaze have already been filtered out.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Eye’s centers object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters">EyeCenters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method">
+<span id="iris-nodes-eye-properties-estimation-circle-fit-for-eye-center-method-module"></span><h2>iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method module<a class="headerlink" href="#module-iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.</span></span><span class="sig-name descname"><span class="pre">CircleFitEyeCenterMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mad_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/circle_fit_for_eye_center_method.html#CircleFitEyeCenterMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm" title="iris.io.class_configs.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p>
+<p>Estimate pupil and iris centers using a robust circle-fitting approach.</p>
+<p>This algorithm estimates the center of a pupil or iris polygon using:</p>
+<ol class="arabic simple">
+<li><p>an initial least-squares circle fit to all polygon points,</p></li>
+<li><p>trimming of outlier points based on radial residuals using a dynamic threshold,</p></li>
+<li><p>a second circle fit on the retained inliers.</p></li>
+</ol>
+<p>LIMITATIONS:
+This method assumes that the pupil and iris contours are reasonably well
+approximated by circles in image space. It is therefore most appropriate
+when off-gaze and strong perspective distortion have already been filtered out.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mad_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConstrainedFloatValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/circle_fit_for_eye_center_method.html#CircleFitEyeCenterMethod.Parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="iris.io.html#iris.io.class_configs.Algorithm.Parameters" title="iris.io.class_configs.Algorithm.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameters</span></code></a></p>
+<p>Default parameters for circle-fit eye center algorithm.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters.mad_scale">
+<span class="sig-name descname"><span class="pre">mad_scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters.mad_scale" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><span class="pre">GeometryPolygons</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters"><span class="pre">EyeCenters</span></a></span></span><a class="reference internal" href="../_modules/iris/nodes/eye_properties_estimation/circle_fit_for_eye_center_method.html#CircleFitEyeCenterMethod.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.run" title="Link to this definition">¶</a></dt>
+<dd><p>Estimate pupil and iris centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geometries</strong> (<a class="reference internal" href="iris.io.html#iris.io.dataclasses.GeometryPolygons" title="iris.io.dataclasses.GeometryPolygons"><em>GeometryPolygons</em></a>) – Pupil and iris geometry polygons.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated pupil and iris center coordinates.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="iris.io.html#iris.io.dataclasses.EyeCenters" title="iris.io.dataclasses.EyeCenters">EyeCenters</a></p>
@@ -832,6 +881,17 @@ erosion_ksize (Tuple[int, int]): Mask erosion kernel size, must be odd integers.
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method">iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method module</a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod"><code class="docutils literal notranslate"><span class="pre">CircleFitEyeCenterMethod</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters"><code class="docutils literal notranslate"><span class="pre">CircleFitEyeCenterMethod.Parameters</span></code></a><ul>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters.mad_scale"><code class="docutils literal notranslate"><span class="pre">CircleFitEyeCenterMethod.Parameters.mad_scale</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.run"><code class="docutils literal notranslate"><span class="pre">CircleFitEyeCenterMethod.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-iris.nodes.eye_properties_estimation.eccentricity_offgaze_estimation">iris.nodes.eye_properties_estimation.eccentricity_offgaze_estimation module</a><ul>
 <li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.eccentricity_offgaze_estimation.EccentricityOffgazeEstimation"><code class="docutils literal notranslate"><span class="pre">EccentricityOffgazeEstimation</span></code></a><ul>
 <li><a class="reference internal" href="#iris.nodes.eye_properties_estimation.eccentricity_offgaze_estimation.EccentricityOffgazeEstimation.Parameters"><code class="docutils literal notranslate"><span class="pre">EccentricityOffgazeEstimation.Parameters</span></code></a><ul>
@@ -920,7 +980,7 @@ erosion_ksize (Tuple[int, int]): Mask erosion kernel size, must be odd integers.
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../_static/documentation_options.js?v=c8897f99"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
