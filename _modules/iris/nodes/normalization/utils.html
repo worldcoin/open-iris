@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.normalization.utils - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.normalization.utils - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -289,7 +289,7 @@
 <div class="viewcode-block" id="generate_iris_mask">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.generate_iris_mask">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_iris_mask</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">noise_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate iris mask by first finding the intersection region between extrapolated iris contours and eyeball contours. Then remove from the outputted mask those pixels for which noise_mask is equal to True.</span>
+<span class="w">    </span><span class="sd">"""Generate iris mask by first finding the intersection region between extrapolated iris contours and eyeball contours. Then remove from the outputted mask those pixels for which noise_mask is equal to True.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        extrapolated_contours (GeometryPolygons): Iris polygon vertices.</span>
@@ -297,7 +297,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: Iris mask.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">img_h</span><span class="p">,</span> <span class="n">img_w</span> <span class="o">=</span> <span class="n">noise_mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
 
     <span class="n">iris_mask</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">contour_to_mask</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="p">(</span><span class="n">img_w</span><span class="p">,</span> <span class="n">img_h</span><span class="p">))</span>
@@ -315,16 +315,16 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">correct_orientation</span><span class="p">(</span>
     <span class="n">pupil_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eye_orientation</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct orientation by changing the starting angle in pupil and iris points&#39; arrays.</span>
+<span class="w">    </span><span class="sd">"""Correct orientation by changing the starting angle in pupil and iris points' arrays.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        pupil_points (np.ndarray): Pupil boundary points&#39; array. NumPy array of shape (num_points = 360, xy_coords = 2).</span>
-<span class="sd">        iris_points (np.ndarray): Iris boundary points&#39; array. NumPy array of shape (num_points = 360, xy_coords = 2).</span>
+<span class="sd">        pupil_points (np.ndarray): Pupil boundary points' array. NumPy array of shape (num_points = 360, xy_coords = 2).</span>
+<span class="sd">        iris_points (np.ndarray): Iris boundary points' array. NumPy array of shape (num_points = 360, xy_coords = 2).</span>
 <span class="sd">        eye_orientation (float): Eye orientation angle in radians.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: Tuple with rotated based on eye_orientation angle boundary points (pupil_points, iris_points).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">orientation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">eye_orientation</span><span class="p">)</span>
     <span class="n">num_rotations</span> <span class="o">=</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">orientation_angle</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">pupil_points</span><span class="p">)</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
 
@@ -340,7 +340,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_pixel_or_default</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pixel_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the value of a pixel in the image 2D array.</span>
+<span class="w">    </span><span class="sd">"""Get the value of a pixel in the image 2D array.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image (np.ndarray): 2D Array.</span>
@@ -350,7 +350,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Union[bool, int]: Pixel value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pixel_x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">pixel_y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">w</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">h</span> <span class="k">else</span> <span class="n">default</span></div>
@@ -360,7 +360,7 @@
 <div class="viewcode-block" id="interpolate_pixel_intensity">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.interpolate_pixel_intensity">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">interpolate_pixel_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_coords</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform bilinear interpolation to estimate pixel intensity in a given location.</span>
+<span class="w">    </span><span class="sd">"""Perform bilinear interpolation to estimate pixel intensity in a given location.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image (np.ndarray): Original, not normalized image.</span>
@@ -371,12 +371,12 @@
 
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://en.wikipedia.org/wiki/Bilinear_interpolation</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_interpolation_points_coords</span><span class="p">(</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pixel_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pixel_y</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract interpolation points coordinates.</span>
+<span class="w">        </span><span class="sd">"""Extract interpolation points coordinates.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            image (np.ndarray): Original, not normalized image.</span>
@@ -385,7 +385,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[float, float, float, float]: Tuple with interpolation points coordinates in a format (xmin, ymin, xmax, ymax).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">pixel_x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">pixel_y</span><span class="p">)</span>
         <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">pixel_x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">pixel_y</span><span class="p">)</span>
 
@@ -435,7 +435,7 @@
     <span class="n">iris_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">src_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize all points of an image using nearest neighbor.</span>
+<span class="w">    </span><span class="sd">"""Normalize all points of an image using nearest neighbor.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image (np.ndarray): Original, not normalized image.</span>
@@ -444,7 +444,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: Tuple with normalized image and mask.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">src_shape</span> <span class="o">=</span> <span class="n">src_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">src_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">src_points</span><span class="p">)</span>
     <span class="n">image_size</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
@@ -468,14 +468,14 @@
 <div class="viewcode-block" id="to_uint8">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.utils.to_uint8">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_uint8</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map normalized image values from [0, 1] range to [0, 255] and cast dtype to np.uint8.</span>
+<span class="w">    </span><span class="sd">"""Map normalized image values from [0, 1] range to [0, 255] and cast dtype to np.uint8.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image (np.ndarray): Normalized iris.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: Normalized iris with modified values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">out_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">image</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>
     <span class="n">out_image</span> <span class="o">=</span> <span class="n">out_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 
@@ -513,7 +513,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

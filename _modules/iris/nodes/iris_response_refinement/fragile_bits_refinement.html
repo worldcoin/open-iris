@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.iris_response_refinement.fragile_bits_refinement - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.iris_response_refinement.fragile_bits_refinement - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -292,26 +292,26 @@
 <div class="viewcode-block" id="FragileType">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.iris_response_refinement.html#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FragileType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Makes wrapper for params.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Makes wrapper for params."""</span>
 
-    <span class="n">cartesian</span> <span class="o">=</span> <span class="s2">&quot;cartesian&quot;</span>
-    <span class="n">polar</span> <span class="o">=</span> <span class="s2">&quot;polar&quot;</span></div>
+    <span class="n">cartesian</span> <span class="o">=</span> <span class="s2">"cartesian"</span>
+    <span class="n">polar</span> <span class="o">=</span> <span class="s2">"polar"</span></div>
 
 
 
 <div class="viewcode-block" id="FragileBitRefinement">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.iris_response_refinement.html#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FragileBitRefinement</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate fragile bits for mask.</span>
+<span class="w">    </span><span class="sd">"""Calculate fragile bits for mask.</span>
 
 <span class="sd">    Algorithm:</span>
 <span class="sd">        Thresholding by the given parameter value_threshold at each bit, set the corresponding mask response to 0 if iris response is outside the thresholds.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="FragileBitRefinement.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.iris_response_refinement.html#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;FragileBitRefinement parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""FragileBitRefinement parameters."""</span>
 
         <span class="n">value_threshold</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
         <span class="n">fragile_type</span><span class="p">:</span> <span class="n">FragileType</span>
@@ -327,7 +327,7 @@
         <span class="n">maskisduplicated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Fragile Bit Refinement object.</span>
+<span class="w">        </span><span class="sd">"""Create Fragile Bit Refinement object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value_threshold (Tuple[confloat(ge=0), confloat(ge=0), confloat(ge=0)]): Threshold at which response</span>
@@ -338,7 +338,7 @@
 <span class="sd">                the values denote to radius and angle. Defaults to FragileType.polar.</span>
 <span class="sd">            maskisduplicated (bool, optional): If True, the mask is duplicated for both real and imaginary parts.</span>
 <span class="sd">            callbacks(List[Callback]): List of callbacks. Defaults to [].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">value_threshold</span><span class="o">=</span><span class="n">value_threshold</span><span class="p">,</span>
             <span class="n">fragile_type</span><span class="o">=</span><span class="n">fragile_type</span><span class="p">,</span>
@@ -349,7 +349,7 @@
 <div class="viewcode-block" id="FragileBitRefinement.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.iris_response_refinement.html#iris.nodes.iris_response_refinement.fragile_bits_refinement.FragileBitRefinement.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">IrisFilterResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IrisFilterResponse</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate refined IrisFilterResponse.</span>
+<span class="w">        </span><span class="sd">"""Generate refined IrisFilterResponse.</span>
 
 
 <span class="sd">        Args:</span>
@@ -357,7 +357,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            IrisFilterResponse: Filter bank response.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">fragile_masks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">iris_response</span><span class="p">,</span> <span class="n">iris_mask</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">iris_responses</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">mask_responses</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">fragile_type</span> <span class="o">==</span> <span class="n">FragileType</span><span class="o">.</span><span class="n">cartesian</span><span class="p">:</span>
@@ -448,7 +448,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

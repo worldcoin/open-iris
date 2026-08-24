@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.segmentation.onnx_multilabel_segmentation - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.segmentation.onnx_multilabel_segmentation - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -297,21 +297,21 @@
 <div class="viewcode-block" id="ONNXMultilabelSegmentation">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.segmentation.html#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ONNXMultilabelSegmentation</span><span class="p">(</span><span class="n">MultilabelSemanticSegmentationInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of class which uses ONNX model to perform semantic segmentation maps prediction.</span>
+<span class="w">    </span><span class="sd">"""Implementation of class which uses ONNX model to perform semantic segmentation maps prediction.</span>
 
 <span class="sd">    For more detailed model description check model card available in SEMSEG_MODEL_CARD.md file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="ONNXMultilabelSegmentation.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.segmentation.html#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">MultilabelSemanticSegmentationInterface</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for ONNXMultilabelSegmentation objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for ONNXMultilabelSegmentation objects."""</span>
 
         <span class="n">session</span><span class="p">:</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span>
         <span class="n">input_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">]</span>
         <span class="n">input_num_channels</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
         <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span>
-        <span class="n">model_dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;FLOAT16&quot;</span><span class="p">,</span> <span class="s2">&quot;FLOAT&quot;</span><span class="p">]</span></div>
+        <span class="n">model_dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"FLOAT16"</span><span class="p">,</span> <span class="s2">"FLOAT"</span><span class="p">]</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -321,16 +321,16 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_from_hugging_face</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;iris_semseg_upp_scse_mobilenetv2.onnx&quot;</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"iris_semseg_upp_scse_mobilenetv2.onnx"</span><span class="p">,</span>
         <span class="n">input_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span>
         <span class="n">input_num_channels</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ONNXMultilabelSegmentation</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create ONNXMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.</span>
+<span class="w">        </span><span class="sd">"""Create ONNXMultilabelSegmentation object with by downloading model from HuggingFace repository `MultilabelSemanticSegmentationInterface.HUGGING_FACE_REPO_ID`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to &quot;iris_semseg_upp_scse_mobilenetv2.onnx&quot;.</span>
+<span class="sd">            model_name (str, optional): Name of the ONNX model stored in HuggingFace repo. Defaults to "iris_semseg_upp_scse_mobilenetv2.onnx".</span>
 <span class="sd">            input_resolution (Tuple[PositiveInt, PositiveInt], optional): Neural Network input image resolution. Defaults to (640, 480).</span>
 <span class="sd">            input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.</span>
 <span class="sd">            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.</span>
@@ -338,8 +338,8 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ONNXMultilabelSegmentation: ONNXMultilabelSegmentation object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HF_HUB_ENABLE_HF_TRANSFER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+<span class="sd">        """</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HF_HUB_ENABLE_HF_TRANSFER"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"0"</span>
         <span class="n">model_path</span> <span class="o">=</span> <span class="n">hf_hub_download</span><span class="p">(</span>
             <span class="n">repo_id</span><span class="o">=</span><span class="n">MultilabelSemanticSegmentationInterface</span><span class="o">.</span><span class="n">HUGGING_FACE_REPO_ID</span><span class="p">,</span>
             <span class="n">cache_dir</span><span class="o">=</span><span class="n">MultilabelSemanticSegmentationInterface</span><span class="o">.</span><span class="n">MODEL_CACHE_DIR</span><span class="p">,</span>
@@ -357,7 +357,7 @@
         <span class="n">denoise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model_path (str): Path to the ONNX model.</span>
@@ -365,16 +365,16 @@
 <span class="sd">            input_num_channels (Literal[1, 3], optional): Neural Network input image number of channels. Defaults to 3.</span>
 <span class="sd">            denoise (bool, optional): Whether to apply denoising preprocessing step. Defaults to False.</span>
 <span class="sd">            callbacks (List[Callback], optional): List of algorithm callbacks. Defaults to [].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">onnx_model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
         <span class="n">onnx</span><span class="o">.</span><span class="n">checker</span><span class="o">.</span><span class="n">check_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
 
         <span class="n">model_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">onnx</span><span class="o">.</span><span class="n">TensorProto</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">onnx_model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">initializer</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_types</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected model to have a single data type, but got: </span><span class="si">{</span><span class="n">model_types</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Expected model to have a single data type, but got: </span><span class="si">{</span><span class="n">model_types</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">session</span><span class="o">=</span><span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CPUExecutionProvider&quot;</span><span class="p">]),</span>
+            <span class="n">session</span><span class="o">=</span><span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="s2">"CPUExecutionProvider"</span><span class="p">]),</span>
             <span class="n">input_resolution</span><span class="o">=</span><span class="n">input_resolution</span><span class="p">,</span>
             <span class="n">input_num_channels</span><span class="o">=</span><span class="n">input_num_channels</span><span class="p">,</span>
             <span class="n">denoise</span><span class="o">=</span><span class="n">denoise</span><span class="p">,</span>
@@ -385,14 +385,14 @@
 <div class="viewcode-block" id="ONNXMultilabelSegmentation.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.segmentation.html#iris.nodes.segmentation.onnx_multilabel_segmentation.ONNXMultilabelSegmentation.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">IRImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SegmentationMap</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform semantic segmentation prediction on an image.</span>
+<span class="w">        </span><span class="sd">"""Perform semantic segmentation prediction on an image.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            image (IRImage): Infrared image object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            SegmentationMap: Postprocessed model predictions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">nn_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preprocess</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">img_data</span><span class="p">)</span>
 
         <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">nn_input</span><span class="p">)</span>
@@ -401,36 +401,36 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image so that inference with ONNX model is possible.</span>
+<span class="w">        </span><span class="sd">"""Preprocess image so that inference with ONNX model is possible.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            image (np.ndarray): Infrared image object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, np.ndarray]: Dictionary with wrapped input name and image data {input_name: image_data}.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">nn_input</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="n">nn_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">(</span>
             <span class="n">nn_input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">input_resolution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">input_num_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">denoise</span>
         <span class="p">)</span>
 
-        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model_dtype</span> <span class="o">==</span> <span class="s2">&quot;FLOAT16&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">model_dtype</span> <span class="o">==</span> <span class="s2">"FLOAT16"</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
         <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">nn_input</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">input_dtype</span><span class="p">)}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preprocessed_input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Neural Network forward pass.</span>
+<span class="w">        </span><span class="sd">"""Neural Network forward pass.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            preprocessed_input (Dict[str, np.ndarray]): Inputs.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[np.ndarray]: Predictions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">preprocessed_input</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nn_output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">original_image_resolution</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SegmentationMap</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Postprocess model prediction and wrap it within SegmentationMap object for further processing.</span>
+<span class="w">        </span><span class="sd">"""Postprocess model prediction and wrap it within SegmentationMap object for further processing.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nn_output (List[np.ndarray]): Neural Network output. Should be of length equal to 2.</span>
@@ -438,7 +438,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            SegmentationMap: Postprocessed model predictions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">segmaps_tensor</span> <span class="o">=</span> <span class="n">nn_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">segmaps_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postprocess_segmap</span><span class="p">(</span><span class="n">segmaps_tensor</span><span class="p">,</span> <span class="n">original_image_resolution</span><span class="p">)</span>
@@ -481,7 +481,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

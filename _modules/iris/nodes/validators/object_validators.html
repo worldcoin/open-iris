@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.validators.object_validators - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.validators.object_validators - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -293,16 +293,16 @@
 <div class="viewcode-block" id="Pupil2IrisPropertyValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Pupil2IrisPropertyValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the pupil-to-iris ratio is within thresholds.</span>
+<span class="w">    </span><span class="sd">"""Validate that the pupil-to-iris ratio is within thresholds.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        E.PupilIrisPropertyEstimationError: If the pupil-to-iris ratio isn&#39;t within boundaries.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        E.PupilIrisPropertyEstimationError: If the pupil-to-iris ratio isn't within boundaries.</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Pupil2IrisPropertyValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for Pupil2IrisPropertyValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for Pupil2IrisPropertyValidator objects."""</span>
 
         <span class="n">min_allowed_diameter_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
         <span class="n">max_allowed_diameter_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
@@ -317,13 +317,13 @@
         <span class="n">max_allowed_diameter_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9999</span><span class="p">,</span>
         <span class="n">max_allowed_center_dist_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9999</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            min_allowed_diameter_ratio (float): Minimum allowed pupil2iris diameter ratio. Defaults to 0.0001 (by default every check will result in success).</span>
 <span class="sd">            max_allowed_diameter_ratio (float): Maximum allowed pupil2iris diameter ratio. Defaults to 0.9999 (by default every check will result in success).</span>
 <span class="sd">            max_allowed_center_dist_ratio (float): Maximum allowed pupil2iris center distance ratio. Defaults to 0.9999 (by default every check will result in success).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">min_allowed_diameter_ratio</span><span class="o">=</span><span class="n">min_allowed_diameter_ratio</span><span class="p">,</span>
             <span class="n">max_allowed_diameter_ratio</span><span class="o">=</span><span class="n">max_allowed_diameter_ratio</span><span class="p">,</span>
@@ -333,7 +333,7 @@
 <div class="viewcode-block" id="Pupil2IrisPropertyValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">PupilToIrisProperty</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate of pupil to iris calculation.</span>
+<span class="w">        </span><span class="sd">"""Validate of pupil to iris calculation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            p2i_property (PupilToIrisProperty): Computation result.</span>
@@ -342,29 +342,29 @@
 <span class="sd">            E.Pupil2IrisValidatorErrorConstriction: Raised if pupil is constricted.</span>
 <span class="sd">            E.Pupil2IrisValidatorErrorDilation: Raised if pupil is dilated.</span>
 <span class="sd">            E.Pupil2IrisValidatorErrorOffcenter: Raised if pupil and iris are offcenter.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorConstriction</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is below min threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too constricted.&quot;</span>
+                <span class="sa">f</span><span class="s2">"p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is below min threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too constricted."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorDilation</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is above max threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too dilated.&quot;</span>
+                <span class="sa">f</span><span class="s2">"p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_diameter_ratio</span><span class="si">}</span><span class="s2"> is above max threshold </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_diameter_ratio</span><span class="si">}</span><span class="s2">. Pupil is too dilated."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">Pupil2IrisValidatorErrorOffcenter</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="si">}</span><span class="s2">. Pupil and iris are off-center.&quot;</span>
+                <span class="sa">f</span><span class="s2">"p2i_property=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_to_iris_center_dist_ratio</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_center_dist_ratio</span><span class="si">}</span><span class="s2">. Pupil and iris are off-center."</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Pupil2IrisPropertyValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.Pupil2IrisPropertyValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">PupilToIrisProperty</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (PupilToIrisProperty): Pupil2Iris property resulted from computations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
@@ -373,16 +373,16 @@
 <div class="viewcode-block" id="OffgazeValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OffgazeValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OffgazeValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the offgaze score is below threshold.</span>
+<span class="w">    </span><span class="sd">"""Validate that the offgaze score is below threshold.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.OffgazeEstimationError: If the offgaze score is above threshold.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="OffgazeValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OffgazeValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for OffgazeValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for OffgazeValidator objects."""</span>
 
         <span class="n">max_allowed_offgaze</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
@@ -390,39 +390,39 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_allowed_offgaze</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            max_allowed_offgaze (float): Offgaze computation result max threshold that allows further sample processing.</span>
 <span class="sd">                Defaults to 1.0 (by default every check will result in success).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">max_allowed_offgaze</span><span class="o">=</span><span class="n">max_allowed_offgaze</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OffgazeValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OffgazeValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">Offgaze</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate of offgaze estimation algorithm.</span>
+<span class="w">        </span><span class="sd">"""Validate of offgaze estimation algorithm.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (Offgaze): Computed result.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            E.OffgazeEstimationError: Raised if result isn&#39;t greater then specified threshold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            E.OffgazeEstimationError: Raised if result isn't greater then specified threshold.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_offgaze</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">OffgazeEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;offgaze=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2"> &gt; max_allowed_offgaze=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_offgaze</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"offgaze=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2"> &gt; max_allowed_offgaze=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_allowed_offgaze</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OffgazeValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OffgazeValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Offgaze</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (Offgaze): Offgaze resulted from computations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
@@ -431,16 +431,16 @@
 <div class="viewcode-block" id="OcclusionValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OcclusionValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OcclusionValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the occlusion fration is above threshold.</span>
+<span class="w">    </span><span class="sd">"""Validate that the occlusion fration is above threshold.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.OcclusionError: If the occlusion fraction is below threshold.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="OcclusionValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OcclusionValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for OcclusionValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for OcclusionValidator objects."""</span>
 
         <span class="n">min_allowed_occlusion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
@@ -448,39 +448,39 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_allowed_occlusion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            min_allowed_occlusion (float): Occlusion computation result min threshold that allows further sample processing.</span>
 <span class="sd">                Defaults to 0.0 (by default every check will result in success).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_allowed_occlusion</span><span class="o">=</span><span class="n">min_allowed_occlusion</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OcclusionValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OcclusionValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">EyeOcclusion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate of occlusion estimation algorithm.</span>
+<span class="w">        </span><span class="sd">"""Validate of occlusion estimation algorithm.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (EyeOcclusion): Computed result.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            E.OcclusionError: Raised if result isn&#39;t greater then specified threshold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            E.OcclusionError: Raised if result isn't greater then specified threshold.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">visible_fraction</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_occlusion</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">OcclusionError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;visible_fraction=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">visible_fraction</span><span class="si">}</span><span class="s2"> &lt; min_allowed_occlusion=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_occlusion</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"visible_fraction=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">visible_fraction</span><span class="si">}</span><span class="s2"> &lt; min_allowed_occlusion=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_allowed_occlusion</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OcclusionValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.OcclusionValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">EyeOcclusion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (EyeOcclusion): EyeOcclusion resulted from computations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
@@ -489,43 +489,43 @@
 <div class="viewcode-block" id="IsPupilInsideIrisValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsPupilInsideIrisValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IsPupilInsideIrisValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the pupil is fully contained within the iris.</span>
+<span class="w">    </span><span class="sd">"""Validate that the pupil is fully contained within the iris.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.IsPupilInsideIrisValidatorError: If the pupil polygon is not fully contained within the iris polygon.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="IsPupilInsideIrisValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsPupilInsideIrisValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate if extrapolated pupil polygons are withing extrapolated iris boundaries.</span>
+<span class="w">        </span><span class="sd">"""Validate if extrapolated pupil polygons are withing extrapolated iris boundaries.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (GeometryPolygons): Computed result.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.IsPupilInsideIrisValidatorError: Raised if the pupil polygon is not fully contained within the iris polygon.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_pupil_point_is_inside_iris</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">iris_array</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IsPupilInsideIrisValidatorError</span><span class="p">(</span>
-                    <span class="s2">&quot;Entire extrapolated pupil polygon isn&#39;t included in an extrapolated iris polygon.&quot;</span>
+                    <span class="s2">"Entire extrapolated pupil polygon isn't included in an extrapolated iris polygon."</span>
                 <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="IsPupilInsideIrisValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsPupilInsideIrisValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (GeometryPolygons): GeometryPolygons resulted from computations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_pupil_point_is_inside_iris</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">polygon_pts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if pupil point is inside iris polygon.</span>
+<span class="w">        </span><span class="sd">"""Check if pupil point is inside iris polygon.</span>
 
 <span class="sd">        Reference:</span>
 <span class="sd">            [1] https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/</span>
@@ -536,15 +536,15 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Check result.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">num_iris_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">polygon_pts</span><span class="p">)</span>
         <span class="n">polygon_sides</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">(</span><span class="n">polygon_pts</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_iris_points</span><span class="p">],</span> <span class="n">polygon_pts</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_iris_points</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iris_points</span><span class="p">)</span>
         <span class="p">]</span>
 
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">point</span>
-        <span class="n">to_right_ray</span> <span class="o">=</span> <span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">y</span><span class="p">]))</span>
-        <span class="n">to_left_ray</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">y</span><span class="p">]),</span> <span class="n">point</span><span class="p">)</span>
+        <span class="n">to_right_ray</span> <span class="o">=</span> <span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="n">y</span><span class="p">]))</span>
+        <span class="n">to_left_ray</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="n">y</span><span class="p">]),</span> <span class="n">point</span><span class="p">)</span>
 
         <span class="n">right_ray_intersections</span><span class="p">,</span> <span class="n">left_ray_intersections</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">poly_side</span> <span class="ow">in</span> <span class="n">polygon_sides</span><span class="p">:</span>
@@ -562,7 +562,7 @@
         <span class="n">side_line</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
         <span class="n">is_ray_pointing_to_left</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if ray is intersecting with a polygon side.</span>
+<span class="w">        </span><span class="sd">"""Check if ray is intersecting with a polygon side.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            ray_line (Tuple[np.ndarray, np.ndarray]): Ray line two points.</span>
@@ -571,7 +571,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Check result.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="p">(</span><span class="n">ray_start_x</span><span class="p">,</span> <span class="n">ray_start_y</span><span class="p">),</span> <span class="p">(</span><span class="n">ray_end_x</span><span class="p">,</span> <span class="n">ray_end_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">ray_line</span>
         <span class="p">(</span><span class="n">side_start_x</span><span class="p">,</span> <span class="n">side_start_y</span><span class="p">),</span> <span class="p">(</span><span class="n">side_end_x</span><span class="p">,</span> <span class="n">side_end_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">side_line</span>
 
@@ -592,16 +592,16 @@
 <div class="viewcode-block" id="PolygonsLengthValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.PolygonsLengthValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PolygonsLengthValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the pupil and iris polygons have a sufficient length.</span>
+<span class="w">    </span><span class="sd">"""Validate that the pupil and iris polygons have a sufficient length.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.GeometryEstimationError: If the total iris or pupil polygon length is below the desired threshold.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="PolygonsLengthValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.PolygonsLengthValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for PolygonsLengthValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for PolygonsLengthValidator objects."""</span>
 
         <span class="n">min_iris_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">min_pupil_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
@@ -610,46 +610,46 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_iris_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">min_pupil_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            min_iris_length (int): Minimum cumulated length of the iris polygon. If too small, the extrapolation algorithm won&#39;t work properly. Defaults to 150.</span>
-<span class="sd">            min_pupil_length (int): Minimum cumulated length of the pupil polygon. If too small, the extrapolation algorithm won&#39;t work properly. Defaults to 75.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            min_iris_length (int): Minimum cumulated length of the iris polygon. If too small, the extrapolation algorithm won't work properly. Defaults to 150.</span>
+<span class="sd">            min_pupil_length (int): Minimum cumulated length of the pupil polygon. If too small, the extrapolation algorithm won't work properly. Defaults to 75.</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_iris_length</span><span class="o">=</span><span class="n">min_iris_length</span><span class="p">,</span> <span class="n">min_pupil_length</span><span class="o">=</span><span class="n">min_pupil_length</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PolygonsLengthValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.PolygonsLengthValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that the total iris and pupil polygon length is above the desired threshold.</span>
+<span class="w">        </span><span class="sd">"""Validate that the total iris and pupil polygon length is above the desired threshold.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (GeometryPolygons): GeometryPolygons to be validated.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.GeometryEstimationError: Raised if the total iris or pupil polygon length is below the desired threshold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">pupil_length</span> <span class="o">=</span> <span class="n">polygon_length</span><span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span>
         <span class="n">iris_length</span> <span class="o">=</span> <span class="n">polygon_length</span><span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">iris_array</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pupil_length</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_pupil_length</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">GeometryEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Valid pupil polygon is too small: Got </span><span class="si">{</span><span class="n">pupil_length</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_pupil_length</span><span class="si">}</span><span class="s2"> px.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Valid pupil polygon is too small: Got </span><span class="si">{</span><span class="n">pupil_length</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_pupil_length</span><span class="si">}</span><span class="s2"> px."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">iris_length</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_iris_length</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">GeometryEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Valid iris polygon is too small: Got </span><span class="si">{</span><span class="n">iris_length</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_iris_length</span><span class="si">}</span><span class="s2"> px.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Valid iris polygon is too small: Got </span><span class="si">{</span><span class="n">iris_length</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_iris_length</span><span class="si">}</span><span class="s2"> px."</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PolygonsLengthValidator.on_execute_start">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.PolygonsLengthValidator.on_execute_start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_polygons (GeometryPolygons): input GeometryPolygons to be validated.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_polygons</span><span class="p">)</span></div>
 </div>
 
@@ -658,16 +658,16 @@
 <div class="viewcode-block" id="SharpnessValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SharpnessValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the normalized image is not too blurry.</span>
+<span class="w">    </span><span class="sd">"""Validate that the normalized image is not too blurry.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.SharpnessEstimationError: If the sharpness score is below threshold.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="SharpnessValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for SharpnessValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for SharpnessValidator objects."""</span>
 
         <span class="n">min_sharpness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
 
@@ -675,38 +675,38 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_sharpness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            min_sharpness (float): Minimum sharpness score. Sharpness computation min threshold that allows further sample processing. Defaults to 0.0 (by default every check will result in success).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_sharpness</span><span class="o">=</span><span class="n">min_sharpness</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SharpnessValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">Sharpness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate of sharpness estimation algorithm.</span>
+<span class="w">        </span><span class="sd">"""Validate of sharpness estimation algorithm.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (Sharpness): Computed result.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.SharpnessEstimationError: Raised if the sharpness score is below the desired threshold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_sharpness</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">SharpnessEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;sharpness=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2"> &lt; min_sharpness=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_sharpness</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"sharpness=</span><span class="si">{</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2"> &lt; min_sharpness=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_sharpness</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SharpnessValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.SharpnessValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Sharpness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            result (Sharpness): Sharpness resulted from computations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 </div>
 
@@ -715,18 +715,18 @@
 <div class="viewcode-block" id="IsMaskTooSmallValidator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IsMaskTooSmallValidator</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the masked part of the IrisTemplate is small enough.</span>
+<span class="w">    </span><span class="sd">"""Validate that the masked part of the IrisTemplate is small enough.</span>
 
 <span class="sd">    The larger the mask, the less reliable information is available to create a robust identity.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.MaskTooSmallError: If the total number of non-masked bits is below threshold.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="IsMaskTooSmallValidator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for IsMaskTooSmallValidator objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for IsMaskTooSmallValidator objects."""</span>
 
         <span class="n">min_maskcodes_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
@@ -734,40 +734,40 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_maskcodes_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            min_maskcodes_size (int): Minimum size of mask codes. If too small, valid iris texture is too small, should be rejected.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_maskcodes_size</span><span class="o">=</span><span class="n">min_maskcodes_size</span><span class="p">)</span>
 
 <div class="viewcode-block" id="IsMaskTooSmallValidator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that the total mask codes size is above the desired threshold.</span>
+<span class="w">        </span><span class="sd">"""Validate that the total mask codes size is above the desired threshold.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (IrisTemplate): IrisTemplate to be validated.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.MaskTooSmallError: Raised if the total mask codes size is below the desired threshold.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">maskcodes_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_arguments</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">maskcodes_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_maskcodes_size</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">MaskTooSmallError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Valid mask codes size is too small: Got </span><span class="si">{</span><span class="n">maskcodes_size</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_maskcodes_size</span><span class="si">}</span><span class="s2"> px.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Valid mask codes size is too small: Got </span><span class="si">{</span><span class="n">maskcodes_size</span><span class="si">}</span><span class="s2"> px, min </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_maskcodes_size</span><span class="si">}</span><span class="s2"> px."</span>
             <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="IsMaskTooSmallValidator.on_execute_end">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.IsMaskTooSmallValidator.on_execute_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_template</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_template (IrisTemplate): input IrisTemplate to be validated.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_template</span><span class="p">)</span></div>
 </div>
 
@@ -776,59 +776,59 @@
 <div class="viewcode-block" id="AreTemplatesAggregationCompatible">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AreTemplatesAggregationCompatible</span><span class="p">(</span><span class="n">Callback</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that multiple IrisTemplates are compatible for aggregation.</span>
+<span class="w">    </span><span class="sd">"""Validate that multiple IrisTemplates are compatible for aggregation.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        E.TemplateAggregationCompatibilityError: If the templates are not compatible for aggregation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="AreTemplatesAggregationCompatible.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_arguments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IrisTemplate</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that multiple IrisTemplates are compatible for aggregation.</span>
+<span class="w">        </span><span class="sd">"""Validate that multiple IrisTemplates are compatible for aggregation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_arguments (List[IrisTemplate]): List of IrisTemplates to be validated.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.TemplateAggregationCompatibilityError: Raised if the templates are not compatible for aggregation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">val_arguments</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">&quot;No templates provided for validation&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">"No templates provided for validation"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_arguments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span>  <span class="c1"># Single template is always compatible</span>
 
         <span class="c1"># Check iris code version</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">iris_code_version</span> <span class="o">==</span> <span class="n">val_arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iris_code_version</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">val_arguments</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">&quot;Templates have different iris code versions&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">"Templates have different iris code versions"</span><span class="p">)</span>
 
         <span class="c1"># Check number of wavelets</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">val_arguments</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">&quot;Templates have different numbers of wavelets&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span><span class="s2">"Templates have different numbers of wavelets"</span><span class="p">)</span>
 
         <span class="c1"># Check dimensions of iris codes and mask codes</span>
         <span class="k">for</span> <span class="n">wavelet_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val_arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">)):</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="n">val_arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">[</span><span class="n">wavelet_idx</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">iris_codes</span><span class="p">[</span><span class="n">wavelet_idx</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">shape</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">val_arguments</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Iris codes for wavelet </span><span class="si">{</span><span class="n">wavelet_idx</span><span class="si">}</span><span class="s2"> have different shapes&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Iris codes for wavelet </span><span class="si">{</span><span class="n">wavelet_idx</span><span class="si">}</span><span class="s2"> have different shapes"</span>
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">mask_codes</span><span class="p">[</span><span class="n">wavelet_idx</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">shape</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">val_arguments</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">TemplateAggregationCompatibilityError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Mask codes for wavelet </span><span class="si">{</span><span class="n">wavelet_idx</span><span class="si">}</span><span class="s2"> have different shapes&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Mask codes for wavelet </span><span class="si">{</span><span class="n">wavelet_idx</span><span class="si">}</span><span class="s2"> have different shapes"</span>
                 <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AreTemplatesAggregationCompatible.on_execute_start">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.validators.html#iris.nodes.validators.object_validators.AreTemplatesAggregationCompatible.on_execute_start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_execute_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">templates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IrisTemplate</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap for validate method so that validator can be used as a Callback.</span>
+<span class="w">        </span><span class="sd">"""Wrap for validate method so that validator can be used as a Callback.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            templates (List[IrisTemplate]): List of IrisTemplate objects to be validated.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span></div>
 </div>
 
@@ -864,7 +864,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

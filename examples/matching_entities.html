@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Contact" href="../issues_note.html"><link rel="prev" title="Configuring custom pipeline tutorial" href="custom_pipeline.html">
 
-    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>Matching entities tutorial - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>Matching entities tutorial - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -293,9 +293,9 @@
 <p>Load all IR images with <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code> package.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
 
-<span class="n">subject1_first_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject1_first_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
-<span class="n">subject1_second_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject1_second_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
-<span class="n">subject2_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./subject2_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">subject1_first_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">"./subject1_first_image.png"</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">subject1_second_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">"./subject1_second_image.png"</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">subject2_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">"./subject2_image.png"</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object and compute <code class="docutils literal notranslate"><span class="pre">IrisTemplates</span></code> for all images.</p>
@@ -303,14 +303,14 @@
 
 <span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">()</span>
 
-<span class="n">output_1</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_first_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject1_first_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
-<span class="n">subject1_first_code</span> <span class="o">=</span> <span class="n">output_1</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
+<span class="n">output_1</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_first_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"subject1_first_image"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"left"</span><span class="p">))</span>
+<span class="n">subject1_first_code</span> <span class="o">=</span> <span class="n">output_1</span><span class="p">[</span><span class="s2">"iris_template"</span><span class="p">]</span>
 
-<span class="n">output_2</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_second_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject1_second_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
-<span class="n">subject1_second_code</span> <span class="o">=</span> <span class="n">output_2</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
+<span class="n">output_2</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject1_second_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"subject1_second_image"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"left"</span><span class="p">))</span>
+<span class="n">subject1_second_code</span> <span class="o">=</span> <span class="n">output_2</span><span class="p">[</span><span class="s2">"iris_template"</span><span class="p">]</span>
 
-<span class="n">output_3</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject2_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;subject2_image&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">))</span>
-<span class="n">subject2_code</span> <span class="o">=</span> <span class="n">output_3</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span>
+<span class="n">output_3</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">subject2_image</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"subject2_image"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"left"</span><span class="p">))</span>
+<span class="n">subject2_code</span> <span class="o">=</span> <span class="n">output_3</span><span class="p">[</span><span class="s2">"iris_template"</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Create a <code class="docutils literal notranslate"><span class="pre">HammingDistanceMatcher</span></code> matcher object.</p>
@@ -322,7 +322,7 @@
     <span class="n">separate_half_matching</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">    </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">   Args:</span>
 <span class="sd">        rotation_shift (int): rotations allowed in matching, experessed in iris code columns. Defaults to 15.</span>
@@ -330,7 +330,7 @@
 <span class="sd">        nm_dist (Optional[confloat(ge=0, le = 1, strict=True)]): nonmatch distance used for normalized HD. Optional paremeter for normalized HD. Defaults to 0.45.</span>
 <span class="sd">        separate_half_matching (bool): separate the upper and lower halves for matching. Defaults to True.</span>
 <span class="sd">        weights (Optional[List[np.ndarray]]): list of weights table. Optional paremeter for weighted HD. Defaults to None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">matcher</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">HammingDistanceMatcher</span><span class="p">()</span>
@@ -416,7 +416,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

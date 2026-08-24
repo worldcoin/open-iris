@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.io.validators - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.io.validators - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -292,7 +292,7 @@
 <div class="viewcode-block" id="is_odd">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_odd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_odd</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that kernel size are odd numbers.</span>
+<span class="w">    </span><span class="sd">"""Check that kernel size are odd numbers.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -300,13 +300,13 @@
 <span class="sd">        field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Exception raised if number isn&#39;t odd.</span>
+<span class="sd">        ValueError: Exception raised if number isn't odd.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        int: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be odd numbers.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be odd numbers."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -315,10 +315,10 @@
 <div class="viewcode-block" id="is_uint8">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_uint8">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_uint8</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if np array contains only uint8 values.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if np array contains only uint8 values."""</span>
     <span class="n">values_check</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">values_check</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be of uint8 type. Received </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be of uint8 type. Received </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span></div>
 
 
@@ -326,7 +326,7 @@
 <div class="viewcode-block" id="is_binary">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_binary">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_binary</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if array has only boolean values, i.e. is binary.</span>
+<span class="w">    </span><span class="sd">"""Check if array has only boolean values, i.e. is binary.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -334,13 +334,13 @@
 <span class="sd">        field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Exception raised if array doesn&#39;t contain bool datatypes.</span>
+<span class="sd">        ValueError: Exception raised if array doesn't contain bool datatypes.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be binary. got dtype </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"bool"</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be binary. got dtype </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -349,7 +349,7 @@
 <div class="viewcode-block" id="is_list_of_points">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_list_of_points">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_list_of_points</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if np.ndarray has shape (_, 2).</span>
+<span class="w">    </span><span class="sd">"""Check if np.ndarray has shape (_, 2).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -357,13 +357,13 @@
 <span class="sd">        field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Exception raised if array doesn&#39;t contain 2D points.</span>
+<span class="sd">        ValueError: Exception raised if array doesn't contain 2D points.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have shape (_, 2).&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have shape (_, 2)."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -372,7 +372,7 @@
 <div class="viewcode-block" id="is_not_empty">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_empty">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_not_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that both inputs are not empty.</span>
+<span class="w">    </span><span class="sd">"""Check that both inputs are not empty.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -384,9 +384,9 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Any]: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> list cannot be empty.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> list cannot be empty."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -395,7 +395,7 @@
 <div class="viewcode-block" id="is_not_zero_sum">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_not_zero_sum">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_not_zero_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that both inputs are not empty.</span>
+<span class="w">    </span><span class="sd">"""Check that both inputs are not empty.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -403,13 +403,13 @@
 <span class="sd">        field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Raised if v doesn&#39;t sum to 0.</span>
+<span class="sd">        ValueError: Raised if v doesn't sum to 0.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Any: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> sum cannot be zero.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> sum cannot be zero."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -418,7 +418,7 @@
 <div class="viewcode-block" id="are_all_positive">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_positive">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">are_all_positive</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that all values are positive.</span>
+<span class="w">    </span><span class="sd">"""Check that all values are positive.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -430,12 +430,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Any: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: all </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive. Received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: all </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive. Received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive. Received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive. Received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -444,9 +444,9 @@
 <div class="viewcode-block" id="iris_code_version_check">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.iris_code_version_check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">iris_code_version_check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the version provided in the input config matches the current iris.__version__.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;v[\d]+\.[\d]+$&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong iris code version. Expected standard version nuber, received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Check if the version provided in the input config matches the current iris.__version__."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"v[\d]+\.[\d]+$"</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Wrong iris code version. Expected standard version nuber, received </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span></div>
 
 
@@ -454,7 +454,7 @@
 <div class="viewcode-block" id="to_dtype_float32">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.to_dtype_float32">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_dtype_float32</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert input np.ndarray to dtype np.float32.</span>
+<span class="w">    </span><span class="sd">"""Convert input np.ndarray to dtype np.float32.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -463,7 +463,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
 
 
@@ -474,11 +474,11 @@
 <div class="viewcode-block" id="is_valid_bbox">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_valid_bbox">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_valid_bbox</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the bounding box is valid.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_min&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_max&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_min&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_max&quot;</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Check that the bounding box is valid."""</span>
+    <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"x_min"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"x_max"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">values</span><span class="p">[</span><span class="s2">"y_min"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"y_max"</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: invalid bbox. x_min=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_min&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">, x_max=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;x_max&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">,&#39;</span>
-            <span class="sa">f</span><span class="s1">&#39; y_min=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_min&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">, y_max=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;y_max&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: invalid bbox. x_min=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">"x_min"</span><span class="p">]</span><span class="si">}</span><span class="s1">, x_max=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">"x_max"</span><span class="p">]</span><span class="si">}</span><span class="s1">,'</span>
+            <span class="sa">f</span><span class="s1">' y_min=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">"y_min"</span><span class="p">]</span><span class="si">}</span><span class="s1">, y_max=</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">"y_max"</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">values</span></div>
@@ -491,21 +491,21 @@
 <div class="viewcode-block" id="is_array_n_dimensions">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.is_array_n_dimensions">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_array_n_dimensions</span><span class="p">(</span><span class="n">nb_dimensions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if an array is n-dimensional.</span>
+<span class="w">    </span><span class="sd">"""Create a pydantic validator checking if an array is n-dimensional.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        nb_dimensions (int): number of dimensions the array must have</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: the validator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the array has the right number of dimensions.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if the array has the right number of dimensions."""</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="n">nb_dimensions</span> <span class="ow">and</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)</span> <span class="ow">or</span> <span class="n">nb_dimensions</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: wrong number of dimensions for </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">nb_dimensions</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: wrong number of dimensions for </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Expected </span><span class="si">{</span><span class="n">nb_dimensions</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">v</span>
@@ -520,7 +520,7 @@
 <div class="viewcode-block" id="are_lengths_equal">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_lengths_equal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">are_lengths_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if the two fields have the same length.</span>
+<span class="w">    </span><span class="sd">"""Create a pydantic validator checking if the two fields have the same length.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        field1 (str): name of the first field</span>
@@ -528,17 +528,17 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: the validator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if len(field1) equals len(field2).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if len(field1) equals len(field2)."""</span>
         <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> length mismatch, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;resp. </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">])</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> length mismatch, "</span>
+                <span class="sa">f</span><span class="s2">"resp. </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">])</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">values</span>
@@ -550,7 +550,7 @@
 <div class="viewcode-block" id="are_shapes_equal">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_shapes_equal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">are_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if the two fields have the same shape.</span>
+<span class="w">    </span><span class="sd">"""Create a pydantic validator checking if the two fields have the same shape.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        field1 (str): name of the first field</span>
@@ -558,15 +558,15 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: the validator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if field1.shape equals field2.shape.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if field1.shape equals field2.shape."""</span>
         <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span>
 
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> shape mismatch.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> shape mismatch."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
     <span class="k">return</span> <span class="n">__root_validator</span></div>
@@ -576,7 +576,7 @@
 <div class="viewcode-block" id="are_all_shapes_equal">
 <a class="viewcode-back" href="../../../_code_subpages/iris.io.html#iris.io.validators.are_all_shapes_equal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">are_all_shapes_equal</span><span class="p">(</span><span class="n">field1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a pydantic validator checking if two lists of array have the same shape per element.</span>
+<span class="w">    </span><span class="sd">"""Create a pydantic validator checking if two lists of array have the same shape per element.</span>
 
 <span class="sd">    This function creates a pydantic validator for two lists of np.ndarrays which checks if they have the same length,</span>
 <span class="sd">    and if all of their element have the same shape one by one.</span>
@@ -587,10 +587,10 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: the validator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__root_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if len(field1) equals len(field2) and if every element have the same shape.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if len(field1) equals len(field2) and if every element have the same shape."""</span>
         <span class="k">if</span> <span class="n">field1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="n">field2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span>
 
@@ -599,7 +599,7 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field1</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">field2</span><span class="p">])</span> <span class="ow">or</span> <span class="n">shapes_field_1</span> <span class="o">!=</span> <span class="n">shapes_field_2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> shape mismatch, resp. </span><span class="si">{</span><span class="n">shapes_field_1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">shapes_field_2</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">field1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">field2</span><span class="si">}</span><span class="s2"> shape mismatch, resp. </span><span class="si">{</span><span class="n">shapes_field_1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">shapes_field_2</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">values</span>
@@ -638,7 +638,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

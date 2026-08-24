@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html"><link rel="search" title="Search" href="../../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.iris_response.probe_schemas.regular_probe_schema - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.iris_response.probe_schemas.regular_probe_schema - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,47 +290,47 @@
 <div class="viewcode-block" id="RegularProbeSchema">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchema</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Probe Schema for a regular Grid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Probe Schema for a regular Grid."""</span>
 
 <div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">RegularProbeSchemaParameters</span><span class="p">(</span><span class="n">ProbeSchema</span><span class="o">.</span><span class="n">ProbeSchemaParameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;RegularProbeSchema parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""RegularProbeSchema parameters."""</span>
 
         <span class="n">n_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">n_cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">boundary_rho</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
         <span class="n">boundary_phi</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
-            <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span>
+            <span class="n">Literal</span><span class="p">[</span><span class="s2">"periodic-symmetric"</span><span class="p">,</span> <span class="s2">"periodic-left"</span><span class="p">],</span>
             <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span>
         <span class="p">]</span>
         <span class="n">image_shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="RegularProbeSchema.RegularProbeSchemaParameters.check_overlap">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.RegularProbeSchemaParameters.check_overlap">[docs]</a>
-        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;boundary_rho&quot;</span><span class="p">,</span> <span class="s2">&quot;boundary_phi&quot;</span><span class="p">)</span>
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">"boundary_rho"</span><span class="p">,</span> <span class="s2">"boundary_phi"</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">check_overlap</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
-            <span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]],</span>
+            <span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"periodic-symmetric"</span><span class="p">,</span> <span class="s2">"periodic-left"</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]],</span>
             <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]]:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Validate offsets to avoid overlap.</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"periodic-symmetric"</span><span class="p">,</span> <span class="s2">"periodic-left"</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]]:</span>
+<span class="w">            </span><span class="sd">"""Validate offsets to avoid overlap.</span>
 
 <span class="sd">            Args:</span>
 <span class="sd">                cls (type): Class type.</span>
-<span class="sd">                v (Union[Literal[&quot;periodic-symmetric&quot;, &quot;periodic-left&quot;], List[confloat(ge=0.0, lt=1)]]): Value to check.</span>
+<span class="sd">                v (Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]]): Value to check.</span>
 <span class="sd">                field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">            Raises:</span>
 <span class="sd">                ProbeSchemaError: Raises warning that offsets are together too large.</span>
 
 <span class="sd">            Returns:</span>
-<span class="sd">                Union[Literal[&quot;periodic-symmetric&quot;, &quot;periodic-left&quot;], List[confloat(ge=0.0, lt=1)]]: The value for boundary_rho or boundary_phi respectively</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">                Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]]: The value for boundary_rho or boundary_phi respectively</span>
+<span class="sd">            """</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">List</span><span class="p">):</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Offset for </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on left and right corner must be a sum smaller 1, otherwise, offsets overlap.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Offset for </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on left and right corner must be a sum smaller 1, otherwise, offsets overlap."</span>
                     <span class="p">)</span>
 
             <span class="k">return</span> <span class="n">v</span></div>
@@ -345,11 +345,11 @@
         <span class="n">n_cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">boundary_rho</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0625</span><span class="p">],</span>
         <span class="n">boundary_phi</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
-            <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">,</span>
+            <span class="n">Literal</span><span class="p">[</span><span class="s2">"periodic-symmetric"</span><span class="p">,</span> <span class="s2">"periodic-left"</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="s2">"periodic-left"</span><span class="p">,</span>
         <span class="n">image_shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PositiveInt</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            n_rows (int): Number of rows used, represents the number of different rho</span>
@@ -357,20 +357,20 @@
 <span class="sd">            n_cols (int): Number of columns used, represents the number of different</span>
 <span class="sd">                            phi values</span>
 <span class="sd">            boundary_rho (List[float], optional): List with two values f1 and f2. The sampling goes from 0+f1 to 0-f2.</span>
-<span class="sd">            boundary_phi (Union[Literal[&quot;periodic-symmetric&quot;, &quot;periodic-left&quot;], List[confloat(ge=0.0, lt=1)]], optional): Boundary conditions for the probing</span>
+<span class="sd">            boundary_phi (Union[Literal["periodic-symmetric", "periodic-left"], List[confloat(ge=0.0, lt=1)]], optional): Boundary conditions for the probing</span>
 <span class="sd">                can either be periodic or non-periodic, if they are periodic, the distance</span>
 <span class="sd">                from one column to the next must be the same also for the boundaries.</span>
 <span class="sd">                Else, no conditions for the boundaries are required. Options are:</span>
-<span class="sd">                    - &#39;periodic-symmetric&#39;: the first and the last column are placed with an offset to the</span>
+<span class="sd">                    - 'periodic-symmetric': the first and the last column are placed with an offset to the</span>
 <span class="sd">                                borders, that is half of the spacing of the two columns</span>
-<span class="sd">                    - &#39;periodic-left&#39;: the first column is at the border of the bottom of the image, while</span>
+<span class="sd">                    - 'periodic-left': the first column is at the border of the bottom of the image, while</span>
 <span class="sd">                            the last column is one spacing apart from the top of the image</span>
 <span class="sd">                    - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the</span>
-<span class="sd">                            the sampling no longer goes from 0 to 1 (&#39;no-offset&#39;) but instead from 0+f1 to 0-f2</span>
-<span class="sd">                Defaults to &quot;periodic_symmetric&quot;.</span>
+<span class="sd">                            the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2</span>
+<span class="sd">                Defaults to "periodic_symmetric".</span>
 <span class="sd">            image_shape (list, optional): list containing the desired image dimensions. If provided, the function will throw</span>
 <span class="sd">                a warning if interpolation happens, i.e. if a kernel would be placed in between two pixels. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">n_rows</span><span class="o">=</span><span class="n">n_rows</span><span class="p">,</span>
             <span class="n">n_cols</span><span class="o">=</span><span class="n">n_cols</span><span class="p">,</span>
@@ -382,20 +382,20 @@
 <div class="viewcode-block" id="RegularProbeSchema.generate_schema">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.regular_probe_schema.RegularProbeSchema.generate_schema">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate rhos and phis.</span>
+<span class="w">        </span><span class="sd">"""Generate rhos and phis.</span>
 
 <span class="sd">        Return:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: the rhos and phis.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
             <span class="mi">0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_rho</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_rho</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_phi</span> <span class="o">==</span> <span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_phi</span> <span class="o">==</span> <span class="s2">"periodic-symmetric"</span><span class="p">:</span>
             <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_cols</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">phi</span> <span class="o">=</span> <span class="n">phi</span> <span class="o">+</span> <span class="p">(</span><span class="n">phi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_phi</span> <span class="o">==</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_phi</span> <span class="o">==</span> <span class="s2">"periodic-left"</span><span class="p">:</span>
             <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_cols</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_phi</span><span class="p">,</span> <span class="n">List</span><span class="p">):</span>
@@ -421,10 +421,10 @@
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">rho_pixel_values</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Choice for n_rows </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_rows</span><span class="si">}</span><span class="s2"> leads to interpolation errors, please change input variables&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Choice for n_rows </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_rows</span><span class="si">}</span><span class="s2"> leads to interpolation errors, please change input variables"</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">phi_pixel_values</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Choice for n_cols </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_cols</span><span class="si">}</span><span class="s2"> leads to interpolation errors&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Choice for n_cols </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">n_cols</span><span class="si">}</span><span class="s2"> leads to interpolation errors"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">phis</span></div>
 
 
@@ -436,35 +436,35 @@
         <span class="n">row_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">boundary_condition</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
-            <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">,</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">],</span>
+            <span class="n">Literal</span><span class="p">[</span><span class="s2">"periodic-symmetric"</span><span class="p">,</span> <span class="s2">"periodic-left"</span><span class="p">],</span>
             <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;periodic_symmetric&quot;</span><span class="p">,</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="s2">"periodic_symmetric"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find proper spacing of rows/columns for given boundary conditions (i.e. image size, offset. etc).</span>
+<span class="w">        </span><span class="sd">"""Find proper spacing of rows/columns for given boundary conditions (i.e. image size, offset. etc).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            row_min (int): Starting value for row count</span>
 <span class="sd">            row_max (int): End value for row count</span>
 <span class="sd">            length (int): Pixels in the respective dimension</span>
-<span class="sd">            boundary_condition (Union[Literal[&quot;periodic-symmetric&quot;, &quot;periodic-left&quot;], List[float]], optional):  Boundary conditions for the probing can either be periodic or non-periodic, if they are periodic, the distance from one row to the next must be the same also for the boundaries. Defaults to &quot;periodic_symmetric&quot;.</span>
+<span class="sd">            boundary_condition (Union[Literal["periodic-symmetric", "periodic-left"], List[float]], optional):  Boundary conditions for the probing can either be periodic or non-periodic, if they are periodic, the distance from one row to the next must be the same also for the boundaries. Defaults to "periodic_symmetric".</span>
 <span class="sd">            Else, no conditions for the boundaries are required. Options are:</span>
-<span class="sd">                - &#39;periodic-symmetric&#39;: the first and the last row are placed with an offset to the</span>
+<span class="sd">                - 'periodic-symmetric': the first and the last row are placed with an offset to the</span>
 <span class="sd">                            borders, that is half of the spacing of the two rows</span>
-<span class="sd">                - &#39;periodic-left&#39;: the first row is at the border of the bottom of the image, while</span>
+<span class="sd">                - 'periodic-left': the first row is at the border of the bottom of the image, while</span>
 <span class="sd">                        the last row is one spacing apart from the top of the image</span>
 <span class="sd">                - list with two values: in this case the an offset of value f1 and f2 is set on both ends, i.e. the</span>
-<span class="sd">                        the sampling no longer goes from 0 to 1 (&#39;no-offset&#39;) but instead from 0+f1 to 0-f2</span>
+<span class="sd">                        the sampling no longer goes from 0 to 1 ('no-offset') but instead from 0+f1 to 0-f2</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[int]: List of all number of rows that does not lead to interpolation errors</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">suitable_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># loop through all values and validate whether they are suitable</span>
         <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row_min</span><span class="p">,</span> <span class="n">row_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">boundary_condition</span> <span class="o">==</span> <span class="s2">&quot;periodic-symmetric&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">boundary_condition</span> <span class="o">==</span> <span class="s2">"periodic-symmetric"</span><span class="p">:</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">counter</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="k">if</span> <span class="n">boundary_condition</span> <span class="o">==</span> <span class="s2">&quot;periodic-left&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">boundary_condition</span> <span class="o">==</span> <span class="s2">"periodic-left"</span><span class="p">:</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">counter</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">boundary_condition</span><span class="p">,</span> <span class="n">List</span><span class="p">):</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span> <span class="o">+</span> <span class="n">boundary_condition</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">boundary_condition</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">counter</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -513,7 +513,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=46bd48cc"></script>

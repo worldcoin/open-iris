@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation.sharpness_estimation - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.eye_properties_estimation.sharpness_estimation - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -293,29 +293,29 @@
 <div class="viewcode-block" id="SharpnessEstimation">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SharpnessEstimation</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate sharpness of the normalized iris.</span>
+<span class="w">    </span><span class="sd">"""Calculate sharpness of the normalized iris.</span>
 
 <span class="sd">    The goal of this algorithm is to calculate the sharpness of the normalized iris using the variance of Laplacian.</span>
 
 <span class="sd">    LIMITATIONS:</span>
 
 <span class="sd">    This method may be biased against dark images with inadequate lighting.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="SharpnessEstimation.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for SharpnessEstimation objects.</span>
+<span class="w">        </span><span class="sd">"""Parameters class for SharpnessEstimation objects.</span>
 
 <span class="sd">        lap_ksize (int): Laplacian kernel size, must be odd integer no larger than 31.</span>
 <span class="sd">        erosion_ksize (Tuple[int, int]): Mask erosion kernel size, must be odd integers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">lap_ksize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
         <span class="n">erosion_ksize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">_is_odd0</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;lap_ksize&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span>
-        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;erosion_ksize&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
+        <span class="n">_is_odd0</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"lap_ksize"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span>
+        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"erosion_ksize"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -326,26 +326,26 @@
         <span class="n">erosion_ksize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            lap_ksize (int, optional): kernal size for Laplacian. Defaults to 11.</span>
 <span class="sd">            erosion_ksize (Tuple[int, int], optional): kernal size for mask erosion. Defaults to (29,15).</span>
 <span class="sd">            callbacks (List[Callback]): callbacks list. Defaults to [].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">lap_ksize</span><span class="o">=</span><span class="n">lap_ksize</span><span class="p">,</span> <span class="n">erosion_ksize</span><span class="o">=</span><span class="n">erosion_ksize</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SharpnessEstimation.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.sharpness_estimation.SharpnessEstimation.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalization_output</span><span class="p">:</span> <span class="n">NormalizedIris</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sharpness</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate sharpness of the normalized iris.</span>
+<span class="w">        </span><span class="sd">"""Calculate sharpness of the normalized iris.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            normalization_output (NormalizedIris): Normalized iris.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Sharpness: Sharpness object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">output_im</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Laplacian</span><span class="p">(</span><span class="n">normalization_output</span><span class="o">.</span><span class="n">normalized_image</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CV_32F</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">lap_ksize</span><span class="p">)</span>
         <span class="n">mask_im</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span>
             <span class="n">normalization_output</span><span class="o">.</span><span class="n">normalized_mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="n">kernel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">erosion_ksize</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
@@ -386,7 +386,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

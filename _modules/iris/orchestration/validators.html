@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.orchestration.validators - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.orchestration.validators - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -289,7 +289,7 @@
 <div class="viewcode-block" id="pipeline_config_duplicate_node_name_check">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.validators.pipeline_config_duplicate_node_name_check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pipeline_config_duplicate_node_name_check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if all pipeline nodes have distinct names.</span>
+<span class="w">    </span><span class="sd">"""Check if all pipeline nodes have distinct names.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): Class type.</span>
@@ -297,15 +297,15 @@
 <span class="sd">        field (fields.ModelField): Field descriptor.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        IRISPipelineError: Raised if pipeline nodes aren&#39;t unique.</span>
+<span class="sd">        IRISPipelineError: Raised if pipeline nodes aren't unique.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Any]: `v` sent for further processing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">node_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">node_names</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_names</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pipeline node name must be unique. Received </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">node_names</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pipeline node name must be unique. Received </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">node_names</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
 
@@ -314,11 +314,11 @@
 <div class="viewcode-block" id="pipeline_metadata_version_check">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.validators.pipeline_metadata_version_check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pipeline_metadata_version_check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">fields</span><span class="o">.</span><span class="n">ModelField</span><span class="p">,</span> <span class="n">expected_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the version provided in the input config matches the expected version (e.g. iris.__version__).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if the version provided in the input config matches the expected version (e.g. iris.__version__)."""</span>
     <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">expected_version</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">IRISPipelineError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Wrong config version. Cannot initialise IRISPipeline version </span><span class="si">{</span><span class="n">expected_version</span><span class="si">}</span><span class="s2"> on a config file &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;version </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Wrong config version. Cannot initialise IRISPipeline version </span><span class="si">{</span><span class="n">expected_version</span><span class="si">}</span><span class="s2"> on a config file "</span>
+            <span class="sa">f</span><span class="s2">"version </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">v</span></div>
@@ -355,7 +355,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

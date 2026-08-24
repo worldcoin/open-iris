@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.templates_filter.single_identity_filter - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.templates_filter.single_identity_filter - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -298,7 +298,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">greedy_purification</span><span class="p">(</span>
     <span class="n">distances</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nb_templates</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">min_templates</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Iteratively remove the template with the highest mean distance to others until</span>
 <span class="sd">    all pairwise distances are within threshold or until min_templates remain.</span>
 
@@ -310,7 +310,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[int]: indices of outlier templates to remove</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">remaining</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb_templates</span><span class="p">))</span>
     <span class="n">removed</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -351,7 +351,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">find_identity_clusters</span><span class="p">(</span>
     <span class="n">distances</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="n">nb_templates</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">min_cluster_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Identifies clusters (potential identities) among templates based on pairwise distances.</span>
 
 <span class="sd">    Args:</span>
@@ -362,7 +362,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Set[int]]: List of clusters, each cluster is a set of template indices. Only clusters with size &gt;= min_cluster_size are returned.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Build adjacency list: connect nodes (templates) if their distance is within the threshold</span>
     <span class="n">adj</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distances</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -394,20 +394,20 @@
 <div class="viewcode-block" id="IdentityValidationAction">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.templates_filter.html#iris.nodes.templates_filter.single_identity_filter.IdentityValidationAction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IdentityValidationAction</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-    <span class="n">REMOVE</span> <span class="o">=</span> <span class="s2">&quot;remove&quot;</span>
-    <span class="n">RAISE_ERROR</span> <span class="o">=</span> <span class="s2">&quot;raise_error&quot;</span>
-    <span class="n">LOG_WARNING</span> <span class="o">=</span> <span class="s2">&quot;log_warning&quot;</span></div>
+    <span class="n">REMOVE</span> <span class="o">=</span> <span class="s2">"remove"</span>
+    <span class="n">RAISE_ERROR</span> <span class="o">=</span> <span class="s2">"raise_error"</span>
+    <span class="n">LOG_WARNING</span> <span class="o">=</span> <span class="s2">"log_warning"</span></div>
 
 
 
 <div class="viewcode-block" id="TemplateIdentityFilter">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.templates_filter.html#iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TemplateIdentityFilter</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Node for filtering iris templates to ensure all templates are likely from the same identity.</span>
 <span class="sd">    Uses pairwise Hamming distances to detect and remove (or flag) outlier templates.</span>
 <span class="sd">    Can operate on precomputed distances (from alignment node) or compute them internally.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TemplateIdentityFilter.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.templates_filter.html#iris.nodes.templates_filter.single_identity_filter.TemplateIdentityFilter.Parameters">[docs]</a>
@@ -416,14 +416,14 @@
             <span class="n">default</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum allowed Hamming distance between templates to consider them from the same identity.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Maximum allowed Hamming distance between templates to consider them from the same identity."</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">identity_validation_action</span><span class="p">:</span> <span class="n">IdentityValidationAction</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
             <span class="n">default</span><span class="o">=</span><span class="n">IdentityValidationAction</span><span class="o">.</span><span class="n">REMOVE</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Action if identity validation fails: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">IdentityValidationAction</span><span class="p">])</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Action if identity validation fails: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">IdentityValidationAction</span><span class="p">])</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">min_templates_after_validation</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-            <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Minimum number of templates required after filtering. Raise error if fewer remain.&quot;</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Minimum number of templates required after filtering. Raise error if fewer remain."</span>
         <span class="p">)</span></div>
 
 
@@ -436,7 +436,7 @@
         <span class="n">min_templates_after_validation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize the TemplateIdentityFilter node.</span>
 
 <span class="sd">        Args:</span>
@@ -444,7 +444,7 @@
 <span class="sd">            identity_validation_action (IdentityValidationAction): Action to take if validation fails.</span>
 <span class="sd">            min_templates_after_validation (int): Minimum number of templates required after filtering.</span>
 <span class="sd">            callbacks (List[Callback]): List of callback functions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">identity_distance_threshold</span><span class="o">=</span><span class="n">identity_distance_threshold</span><span class="p">,</span>
             <span class="n">identity_validation_action</span><span class="o">=</span><span class="n">identity_validation_action</span><span class="p">,</span>
@@ -458,7 +458,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">aligned_templates</span><span class="p">:</span> <span class="n">AlignedTemplates</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">IrisTemplateWithId</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Filter templates to ensure all are from the same identity based on Hamming distances.</span>
 
 <span class="sd">        Args:</span>
@@ -470,7 +470,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            E.IdentityValidationError: If validation fails and action is RAISE_ERROR or not enough templates remain.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aligned_templates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">aligned_templates</span><span class="o">.</span><span class="n">templates</span>
 
@@ -481,8 +481,8 @@
         <span class="n">expected_num_distances</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairwise_distances</span><span class="p">)</span> <span class="o">!=</span> <span class="n">expected_num_distances</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IdentityValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Number of pairwise distances is incorrect. Expected: </span><span class="si">{</span><span class="n">expected_num_distances</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pairwise_distances</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Number of pairwise distances is incorrect. Expected: </span><span class="si">{</span><span class="n">expected_num_distances</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"got: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pairwise_distances</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="c1"># Use provided distances or compute them if not given</span>
@@ -491,7 +491,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_pairwise_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">templates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IrisTemplate</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DistanceMatrix</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Compute pairwise Hamming distances between all templates.</span>
 
 <span class="sd">        Args:</span>
@@ -499,7 +499,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[tuple, float]: Dictionary with (i, j) as keys and Hamming distances as values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -510,7 +510,7 @@
         <span class="k">return</span> <span class="n">distances_matrix</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_identity_outliers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distances</span><span class="p">:</span> <span class="n">DistanceMatrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Identify indices of templates that are outliers based on the identity distance threshold.</span>
 
 <span class="sd">        Args:</span>
@@ -518,7 +518,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[int]: Indices of templates considered outliers.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">nb_templates</span>
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">identity_distance_threshold</span>
 
@@ -527,13 +527,13 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IdentityValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Found no identity clusters. All templates have Hamming distance exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">"Found no identity clusters. All templates have Hamming distance exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. "</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IdentityValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Found multiple identity clusters with Hamming distance exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Template indices of the clusters: </span><span class="si">{</span><span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">clusters</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Found multiple identity clusters with Hamming distance exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Template indices of the clusters: </span><span class="si">{</span><span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">clusters</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="c1"># Step 2: if there is only one cluster, treat other nodes as outliers</span>
@@ -553,29 +553,29 @@
         <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="n">IdentityValidationAction</span><span class="o">.</span><span class="n">RAISE_ERROR</span><span class="p">:</span>
             <span class="n">max_distance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
             <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IdentityValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Identity validation failed: Found templates with Hamming distance </span><span class="si">{</span><span class="n">max_distance</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. Template indices with violations: </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Identity validation failed: Found templates with Hamming distance </span><span class="si">{</span><span class="n">max_distance</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"exceeding threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">. Template indices with violations: </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">IdentityValidationAction</span><span class="o">.</span><span class="n">REMOVE</span><span class="p">:</span>
             <span class="n">valid_templates</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">outlier_indices</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_templates</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_templates_after_validation</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">E</span><span class="o">.</span><span class="n">IdentityValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Identity validation removed too many templates. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Remaining: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_templates</span><span class="p">)</span><span class="si">}</span><span class="s2">, required: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_templates_after_validation</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Identity validation removed too many templates. "</span>
+                    <span class="sa">f</span><span class="s2">"Remaining: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_templates</span><span class="p">)</span><span class="si">}</span><span class="s2">, required: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_templates_after_validation</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">outlier_indices</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Identity validation: templates at indices </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2"> exceed threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Identity validation: templates at indices </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2"> exceed threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">valid_templates</span>
         <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="n">IdentityValidationAction</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">outlier_indices</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Identity validation: templates at indices </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2"> exceed threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Identity validation: templates at indices </span><span class="si">{</span><span class="n">outlier_indices</span><span class="si">}</span><span class="s2"> exceed threshold </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">templates</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown identity_validation_action: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown identity_validation_action: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 </pre></div>
         </article>
@@ -609,7 +609,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

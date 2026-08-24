@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_refinement.contour_points_filter - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.geometry_refinement.contour_points_filter - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,19 +290,19 @@
 <div class="viewcode-block" id="ContourPointNoiseEyeballDistanceFilter">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_points_filter.ContourPointNoiseEyeballDistanceFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContourPointNoiseEyeballDistanceFilter</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of point filtering algorithm that removes points which are to close to eyeball or noise.</span>
+<span class="w">    </span><span class="sd">"""Implementation of point filtering algorithm that removes points which are to close to eyeball or noise.</span>
 
 <span class="sd">    The role of this algorithm is to create a buffer around the pupil and iris polygons. This accounts for</span>
 <span class="sd">    potential segmentation imprecisions, making the overall pipeline more robust against edge cases and out-of-distribution images.</span>
 
 <span class="sd">    The buffer width is computed relatively to the iris diameter: `min_distance_to_noise_and_eyeball * iris_diameter`</span>
 <span class="sd">    The trigger for this buffer are the eyeball boundary and the noise (e.g. eyelashes, specular reflection, etc.).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="ContourPointNoiseEyeballDistanceFilter.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_points_filter.ContourPointNoiseEyeballDistanceFilter.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default ContourPointToNoiseEyeballDistanceFilter parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Default ContourPointToNoiseEyeballDistanceFilter parameters."""</span>
 
         <span class="n">min_distance_to_noise_and_eyeball</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
@@ -310,17 +310,17 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_distance_to_noise_and_eyeball</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            min_distance_to_noise_and_eyeball (float, optional): Minimum distance to eyeball or noise expressed as a fraction of iris diameter length. Defaults to 0.025.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">min_distance_to_noise_and_eyeball</span><span class="o">=</span><span class="n">min_distance_to_noise_and_eyeball</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContourPointNoiseEyeballDistanceFilter.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_points_filter.ContourPointNoiseEyeballDistanceFilter.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">geometry_mask</span><span class="p">:</span> <span class="n">NoiseMask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform polygon refinement by filtering out those iris/pupil polygons points which are to close to eyeball or noise.</span>
+<span class="w">        </span><span class="sd">"""Perform polygon refinement by filtering out those iris/pupil polygons points which are to close to eyeball or noise.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygons (GeometryPolygons): Polygons to refine.</span>
@@ -328,7 +328,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            GeometryPolygons: Refined geometry polygons.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">noise_and_eyeball_polygon_points_mask</span> <span class="o">=</span> <span class="n">geometry_mask</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">eyeball_point</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">polygons</span><span class="o">.</span><span class="n">eyeball_array</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
@@ -356,18 +356,18 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_filter_polygon_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forbidden_touch_map</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">polygon_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter polygon&#39;s points.</span>
+<span class="w">        </span><span class="sd">"""Filter polygon's points.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            forbidden_touch_map (np.ndarray): Forbidden touch map. If value of an element is greater then 0 then it means that point is to close to noise or eyeball.</span>
-<span class="sd">            polygon_points (np.ndarray): Polygon&#39;s points.</span>
+<span class="sd">            polygon_points (np.ndarray): Polygon's points.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Filtered polygon&#39;s points.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: Filtered polygon's points.</span>
+<span class="sd">        """</span>
         <span class="n">valid_points</span> <span class="o">=</span> <span class="p">[</span><span class="ow">not</span> <span class="n">forbidden_touch_map</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">polygon_points</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">valid_points</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">&quot;No valid points after filtering polygon points!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">"No valid points after filtering polygon points!"</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">polygon_points</span><span class="p">[</span><span class="n">valid_points</span><span class="p">]</span></div>
 
@@ -403,7 +403,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.utils.math - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.utils.math - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -286,9 +286,9 @@
 <div class="viewcode-block" id="area">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.area">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">area</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">signed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shoelace formula for simple polygon area calculation.</span>
+<span class="w">    </span><span class="sd">"""Shoelace formula for simple polygon area calculation.</span>
 
-<span class="sd">    WARNING: This formula only works for &quot;simple polygons&quot;, i.e planar polygon without self-intersection nor holes.</span>
+<span class="sd">    WARNING: This formula only works for "simple polygons", i.e planar polygon without self-intersection nor holes.</span>
 <span class="sd">    These conditions are not checked within this function.</span>
 
 <span class="sd">    Args:</span>
@@ -304,9 +304,9 @@
 <span class="sd">    References:</span>
 <span class="sd">        [1] https://en.wikipedia.org/wiki/Shoelace_formula</span>
 <span class="sd">        [2] https://stackoverflow.com/questions/24467972/calculate-area-of-polygon-given-x-y-coordinates</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to determine the area of a polygon with shape </span><span class="si">{</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. Expecting (_, 2).&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unable to determine the area of a polygon with shape </span><span class="si">{</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. Expecting (_, 2)."</span><span class="p">)</span>
 
     <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">T</span>
     <span class="n">area</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
@@ -320,7 +320,7 @@
 <div class="viewcode-block" id="estimate_diameter">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.estimate_diameter">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">estimate_diameter</span><span class="p">(</span><span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimates the diameter of an arbitrary arc by evaluating the maximum distance between any two points on the arc.</span>
+<span class="w">    </span><span class="sd">"""Estimates the diameter of an arbitrary arc by evaluating the maximum distance between any two points on the arc.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        polygon (np.ndarray): Polygon points.</span>
@@ -330,7 +330,7 @@
 
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://sparrow.dev/pairwise-distance-in-numpy/</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">polygon</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">polygon</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span></div>
 
 
@@ -338,17 +338,17 @@
 <div class="viewcode-block" id="cartesian2polar">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.cartesian2polar">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cartesian2polar</span><span class="p">(</span><span class="n">xs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ys</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">center_y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert xs and ys cartesian coordinates to polar coordinates.</span>
+<span class="w">    </span><span class="sd">"""Convert xs and ys cartesian coordinates to polar coordinates.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xs (np.ndarray): x values.</span>
 <span class="sd">        ys (np.ndarray): y values.</span>
-<span class="sd">        center_x (float): center&#39;s x.</span>
-<span class="sd">        center_y (float): center&#39;s y.</span>
+<span class="sd">        center_x (float): center's x.</span>
+<span class="sd">        center_y (float): center's y.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: Converted coordinates (rhos, phis).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">x_rel</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">xs</span> <span class="o">-</span> <span class="n">center_x</span>
     <span class="n">y_rel</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">ys</span> <span class="o">-</span> <span class="n">center_y</span>
 
@@ -366,17 +366,17 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">polar2cartesian</span><span class="p">(</span>
     <span class="n">rhos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">phis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">center_y</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert polar coordinates to cartesian coordinates.</span>
+<span class="w">    </span><span class="sd">"""Convert polar coordinates to cartesian coordinates.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        rho (np.ndarray): rho values.</span>
 <span class="sd">        phi (np.ndarray): phi values.</span>
-<span class="sd">        center_x (float): center&#39;s x.</span>
-<span class="sd">        center_y (float): center&#39;s y.</span>
+<span class="sd">        center_x (float): center's x.</span>
+<span class="sd">        center_y (float): center's y.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: Converted coordinates (xs, ys).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="n">center_x</span> <span class="o">+</span> <span class="n">rhos</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phis</span><span class="p">)</span>
     <span class="n">ys</span> <span class="o">=</span> <span class="n">center_y</span> <span class="o">+</span> <span class="n">rhos</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phis</span><span class="p">)</span>
 
@@ -387,15 +387,15 @@
 <div class="viewcode-block" id="orientation">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.orientation">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">orientation</span><span class="p">(</span><span class="n">moments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the main orientation of a contour or a binary image given its precomputed cv2 moments.</span>
+<span class="w">    </span><span class="sd">"""Compute the main orientation of a contour or a binary image given its precomputed cv2 moments.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        moments (Dict[str, float]): cv2.moments of desired the binary image or contour.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Main orientation of the shape. The orientation is a float in [-pi/2, pi/2[ representing the signed angle from the x axis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">orientation</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span>
+<span class="sd">    """</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu11"</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu20"</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu02"</span><span class="p">])</span>
     <span class="n">orientation</span> <span class="o">=</span> <span class="p">(</span><span class="n">orientation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">orientation</span></div>
@@ -405,9 +405,9 @@
 <div class="viewcode-block" id="eccentricity">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.eccentricity">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">eccentricity</span><span class="p">(</span><span class="n">moments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</span>
+<span class="w">    </span><span class="sd">"""Compute the eccentricity of a contour or a binary image given its precomputed cv2 moments.</span>
 
-<span class="sd">    The eccentricity is a number in [0, 1] which caracterises the &quot;roundness&quot; or &quot;linearity&quot; of a shape.</span>
+<span class="sd">    The eccentricity is a number in [0, 1] which caracterises the "roundness" or "linearity" of a shape.</span>
 <span class="sd">    A perfect circle will have an eccentricity of 0, and an infinite line an eccentricity of 1.</span>
 <span class="sd">    For ellipses, the eccentricity is calculated as :math:`\frac{\sqrt{a^2 - b^2}}{a^2}`</span>
 <span class="sd">    with a (resp. b) the semi-major (resp. -minor) axis of the ellipses.</span>
@@ -422,15 +422,15 @@
 
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-10</span>
-    <span class="n">moment_sum</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">]</span>
+    <span class="n">moment_sum</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu20"</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu02"</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">moment_sum</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span>
 
-    <span class="n">eccentricity</span> <span class="o">=</span> <span class="p">((</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu20&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu02&quot;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;mu11&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">moment_sum</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">eccentricity</span> <span class="o">=</span> <span class="p">((</span><span class="n">moments</span><span class="p">[</span><span class="s2">"mu20"</span><span class="p">]</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu02"</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">moments</span><span class="p">[</span><span class="s2">"mu11"</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">moment_sum</span><span class="o">**</span><span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">eccentricity</span></div>
 
@@ -439,7 +439,7 @@
 <div class="viewcode-block" id="apply_weights_1d">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.apply_weights_1d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_weights_1d</span><span class="p">(</span><span class="n">scores_1d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weights_1d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply weights for score fusion.</span>
+<span class="w">    </span><span class="sd">"""Apply weights for score fusion.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        scores_1d (np.ndarray): scores to be fused.</span>
@@ -450,15 +450,15 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        float: fused score.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores_1d</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights_1d</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to apply weights. Dimension is different between scores and weights.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unable to apply weights. Dimension is different between scores and weights."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights_1d</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to apply weights. Empty arrays.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unable to apply weights. Empty arrays."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights_1d</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to apply weights. Sum of weights is zero.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unable to apply weights. Sum of weights is zero."</span><span class="p">)</span>
 
     <span class="n">weighted_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">scores_1d</span><span class="p">,</span> <span class="n">weights_1d</span><span class="p">))</span>
 
@@ -469,11 +469,11 @@
 <div class="viewcode-block" id="polygon_length">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.math.polygon_length">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">polygon_length</span><span class="p">(</span><span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">max_point_distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the length of a polygon represented as a (_, 2)-dimensionnal numpy array.</span>
+<span class="w">    </span><span class="sd">"""Compute the length of a polygon represented as a (_, 2)-dimensionnal numpy array.</span>
 
 <span class="sd">    One polygon can include several disjoint arcs, which should be identified as separate so that the distance</span>
 <span class="sd">    between them is not counted. If a polygon is made of two small arc separated by a large distance, then the large</span>
-<span class="sd">    distance between the two arcs will not be discounted in the polygon&#39;s length</span>
+<span class="sd">    distance between the two arcs will not be discounted in the polygon's length</span>
 
 <span class="sd">    WARNING: The input polygon is assumed to be non-looped, i.e. if the first and last point are not equal,</span>
 <span class="sd">    which is the case for all ou GeometryPolygons. The last implicit segment looping back from the</span>
@@ -485,9 +485,9 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        float: length of the polygon, in pixels.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">polygon</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">polygon</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This function expects a polygon, i.e. an array of shape (_, 2). Got </span><span class="si">{</span><span class="n">polygon</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"This function expects a polygon, i.e. an array of shape (_, 2). Got </span><span class="si">{</span><span class="n">polygon</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">inter_point_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">polygon</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">inter_point_distances</span> <span class="o">=</span> <span class="n">inter_point_distances</span><span class="p">[</span><span class="n">inter_point_distances</span> <span class="o">&lt;</span> <span class="n">max_point_distance</span><span class="p">]</span>
@@ -526,7 +526,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

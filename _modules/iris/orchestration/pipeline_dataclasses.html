@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.orchestration.pipeline_dataclasses - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.orchestration.pipeline_dataclasses - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -288,7 +288,7 @@
 <div class="viewcode-block" id="PipelineMetadata">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineMetadata">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineMetadata</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for input config&#39;s metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data holder for input config's metadata."""</span>
 
     <span class="n">pipeline_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">iris_version</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -298,7 +298,7 @@
 <div class="viewcode-block" id="PipelineValue">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineValue">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineValue</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for pipeline value that flows through the system with optional index to specify value this holder refers to if value is of Iterable type.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data holder for pipeline value that flows through the system with optional index to specify value this holder refers to if value is of Iterable type."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
@@ -308,7 +308,7 @@
 <div class="viewcode-block" id="PipelineInput">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineInput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineInput</span><span class="p">(</span><span class="n">PipelineValue</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the reference to an input node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data holder for the reference to an input node."""</span>
 
     <span class="n">source_node</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PipelineValue</span><span class="p">]]]</span></div>
 
@@ -317,7 +317,7 @@
 <div class="viewcode-block" id="PipelineClass">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineClass">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineClass</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the reference to any class: Algorithm, Callback, etc.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data holder for the reference to any class: Algorithm, Callback, etc."""</span>
 
     <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
@@ -337,7 +337,7 @@
 <div class="viewcode-block" id="PipelineNode">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.pipeline_dataclasses.PipelineNode">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineNode</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for one node in a declared pipeline.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Data holder for one node in a declared pipeline."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">algorithm</span><span class="p">:</span> <span class="n">PipelineClass</span>
@@ -377,7 +377,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

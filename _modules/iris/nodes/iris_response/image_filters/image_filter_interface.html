@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html"><link rel="search" title="Search" href="../../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.iris_response.image_filters.image_filter_interface - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.iris_response.image_filters.image_filter_interface - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,12 +290,12 @@
 <div class="viewcode-block" id="ImageFilter">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.image_filter_interface.ImageFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ImageFilter</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Image filter abstract class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Image filter abstract class."""</span>
 
 <div class="viewcode-block" id="ImageFilter.Parameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.image_filter_interface.ImageFilter.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default ImageFilter parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Default ImageFilter parameters."""</span>
 
         <span class="k">pass</span></div>
 
@@ -303,53 +303,53 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init function.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Init function."""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_kernel_values</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__kernel_norm</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;fro&quot;</span><span class="p">)</span>
-            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;fro&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">"fro"</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">"fro"</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">kernel_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get kernel norm.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kernel_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get kernel norm.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            float: Filter kernel norm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.complex64 : Filter kernel norm.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__kernel_norm</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get kernel values.</span>
+<span class="w">        </span><span class="sd">"""Get kernel values.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Filter kernel values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__kernel_values</span>
 
     <span class="nd">@kernel_values</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prevent overwriting generated kernel values.</span>
+<span class="w">        </span><span class="sd">"""Prevent overwriting generated kernel values.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Any): New kernel values.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ImageFilterError: Raised always since overwriting is forbidden.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">&quot;ImageFilter kernel_values are immutable.&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">"ImageFilter kernel_values are immutable."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ImageFilter.compute_kernel_values">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.image_filter_interface.ImageFilter.compute_kernel_values">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">compute_kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute values of filter kernel.</span>
+<span class="w">        </span><span class="sd">"""Compute values of filter kernel.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Computed kernel values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 </div>
 
@@ -385,7 +385,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=46bd48cc"></script>

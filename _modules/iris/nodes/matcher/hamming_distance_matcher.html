@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.matcher.hamming_distance_matcher - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.matcher.hamming_distance_matcher - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -291,7 +291,7 @@
 <div class="viewcode-block" id="HammingDistanceMatcher">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HammingDistanceMatcher</span><span class="p">(</span><span class="n">Matcher</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hamming distance Matcher with additional optional features.</span>
+<span class="w">    </span><span class="sd">"""Hamming distance Matcher with additional optional features.</span>
 
 <span class="sd">    Algorithm steps:</span>
 <span class="sd">       1) Calculate counts of nonmatch irisbits (IB_Counts) in common unmasked region and the counts of common maskbits (MB_Counts) in common unmasked region for both upper and lower half of iris, respectively.</span>
@@ -301,12 +301,12 @@
 <span class="sd">       5) Otherwise, calculate Hamming distance (HD) based on IB_Counts and MB_Counts.</span>
 <span class="sd">       6) If parameter rotation_shift is &gt; 0, repeat the above steps for additional rotations of the iriscode.</span>
 <span class="sd">       7) Return the minimum distance from above calculations.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="HammingDistanceMatcher.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Matcher</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;HammingDistanceMatcher parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""HammingDistanceMatcher parameters."""</span>
 
         <span class="n">rotation_shift</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span>
@@ -329,7 +329,7 @@
         <span class="n">weights_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            rotation_shift (Optional[conint(ge=0, strict=True)], optional): Rotation shifts allowed in matching (in columns). Defaults to 15.</span>
@@ -339,7 +339,7 @@
 <span class="sd">            separate_half_matching (bool, optional): Separate the upper and lower halves for matching. Defaults to True.</span>
 <span class="sd">            weights_path (Optional[str], optional): Path to the weights table. Optional parameter for weighted HD. Defaults to None.</span>
 <span class="sd">            weights (Optional[List[np.ndarray]], optional): list of weights table. Optional parameter for weighted HD. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">weights_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -355,7 +355,7 @@
 <div class="viewcode-block" id="HammingDistanceMatcher.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.matcher.html#iris.nodes.matcher.hamming_distance_matcher.HammingDistanceMatcher.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_probe</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">,</span> <span class="n">template_gallery</span><span class="p">:</span> <span class="n">IrisTemplate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Match iris templates using Hamming distance.</span>
+<span class="w">        </span><span class="sd">"""Match iris templates using Hamming distance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            template_probe (IrisTemplate): Iris template from probe.</span>
@@ -363,7 +363,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float: matching distance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">score</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">hamming_distance</span><span class="p">(</span>
             <span class="n">template_probe</span><span class="o">=</span><span class="n">template_probe</span><span class="p">,</span>
             <span class="n">template_gallery</span><span class="o">=</span><span class="n">template_gallery</span><span class="p">,</span>
@@ -410,7 +410,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

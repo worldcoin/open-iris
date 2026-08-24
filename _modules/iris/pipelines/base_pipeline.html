@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.pipelines.base_pipeline - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.pipelines.base_pipeline - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -289,14 +289,14 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.orchestration.pipeline_dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineNode</span>
 
-<span class="n">InputType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;InputType&quot;</span><span class="p">)</span>
-<span class="n">OutputType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;OutputType&quot;</span><span class="p">)</span>
+<span class="n">InputType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"InputType"</span><span class="p">)</span>
+<span class="n">OutputType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"OutputType"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="load_yaml_config">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.base_pipeline.load_yaml_config">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_yaml_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Loads YAML config from a YAML string or a path to a YAML file.</span>
 
 <span class="sd">    Args:</span>
@@ -306,34 +306,34 @@
 <span class="sd">        Dict[str, Any]: Deserialized config dict.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If config is None, not a string, or can&#39;t be parsed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        ValueError: If config is None, not a string, or can't be parsed.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No configuration provided.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No configuration provided."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Config must be a YAML string or a path to a YAML file.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Config must be a YAML string or a path to a YAML file."</span><span class="p">)</span>
 
-    <span class="c1"># Check if it&#39;s a path to a file</span>
+    <span class="c1"># Check if it's a path to a file</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span><span class="p">,</span> <span class="n">yaml</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParserError</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provided string is not valid YAML or a valid path to a YAML file.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Provided string is not valid YAML or a valid path to a YAML file."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="BasePipeline">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.base_pipeline.BasePipeline">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BasePipeline</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">InputType</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">],</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generic base class for IRIS pipelines, abstracting shared logic for pipeline execution,</span>
 <span class="sd">    node instantiation, environment setup, and call trace management.</span>
 <span class="sd">    Subclasses should implement input/output specifics via _handle_input and _handle_output.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">PACKAGE_VERSION</span><span class="p">:</span> <span class="nb">str</span>
 
@@ -342,12 +342,12 @@
         <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize the pipeline with configuration and environment.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            config (Dict[str, Any]): Pipeline configuration dictionary.</span>
 <span class="sd">            env (Environment): Pipeline environment (output builder, error manager, etc.).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_pipeline_coherency</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
@@ -356,15 +356,15 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;PACKAGE_VERSION&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">PACKAGE_VERSION</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PACKAGE_VERSION</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must define a non-empty string PACKAGE_VERSION class attribute.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"PACKAGE_VERSION"</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">PACKAGE_VERSION</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PACKAGE_VERSION</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must define a non-empty string PACKAGE_VERSION class attribute."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">"Parameters"</span><span class="p">):</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">__outer_class__</span> <span class="o">=</span> <span class="bp">cls</span>
 
 <div class="viewcode-block" id="BasePipeline.estimate">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.base_pipeline.BasePipeline.estimate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_input</span><span class="p">:</span> <span class="n">InputType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap the `run` method to match the Orb system AI models call interface.</span>
+<span class="w">        </span><span class="sd">"""Wrap the `run` method to match the Orb system AI models call interface.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pipeline_input (InputType): Input to the pipeline (type defined by subclass).</span>
@@ -372,14 +372,14 @@
 <span class="sd">            **kwargs (Any): Optional keyword arguments for extensibility.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            OutputType: Output from the pipeline (type defined by subclass).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pipeline_input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BasePipeline.run">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.base_pipeline.BasePipeline.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_input</span><span class="p">:</span> <span class="n">InputType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Main pipeline execution loop. Handles input, node execution, and output.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            pipeline_input (InputType): Input to the pipeline (type defined by subclass).</span>
@@ -387,7 +387,7 @@
 <span class="sd">            **kwargs (Any): Optional keyword arguments for extensibility.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            OutputType: Output from the pipeline (type defined by subclass).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_handle_input</span><span class="p">(</span><span class="n">pipeline_input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">:</span>
@@ -406,35 +406,35 @@
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_input</span><span class="p">:</span> <span class="n">InputType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the pipeline input to the call trace. To be implemented by subclasses.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            pipeline_input (InputType): Input to the pipeline.</span>
 <span class="sd">            *args (Any): Optional positional arguments for extensibility.</span>
 <span class="sd">            **kwargs (Any): Optional keyword arguments for extensibility.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Build and return the pipeline output from the call trace. To be implemented by subclasses.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            *args (Any): Optional positional arguments for extensibility.</span>
 <span class="sd">            **kwargs (Any): Optional keyword arguments for extensibility.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            OutputType: Output from the pipeline.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_node_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">PipelineNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Gather the input arguments for a pipeline node from the call trace.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            node (PipelineNode): The pipeline node for which to gather inputs.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, Any]: Dictionary of input arguments for the node.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">input_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">node_input</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_input</span><span class="o">.</span><span class="n">source_node</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -451,23 +451,23 @@
         <span class="k">return</span> <span class="n">input_kwargs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_node_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Default error handling for node execution. Can be overridden by subclasses.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            node (PipelineNode): The node where the error occurred.</span>
 <span class="sd">            error (Exception): The exception raised during node execution.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if the error should be skipped, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">error_manager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_instanciate_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Instantiate all pipeline nodes, filtering out those in disabled_qa if present.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, Algorithm]: Dictionary of node name to Algorithm instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">instanciated_pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instanciate_pipeline</span><span class="p">()</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instanciate_node</span><span class="p">(</span>
@@ -480,31 +480,31 @@
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">node_name</span><span class="p">:</span> <span class="n">node</span>
             <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">&quot;disabled_qa&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">"disabled_qa"</span><span class="p">,</span> <span class="p">[])</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">nodes</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_instantiate_pipeline_node_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Instantiate a single parameter value if it has a class_name attribute.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            param_value (Any): The parameter value to instantiate.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Any: The instantiated parameter value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="c1"># preserve the original type (list vs tuple)</span>
             <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">param_value</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">_instantiate_pipeline_node_param</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">param_value</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="s2">&quot;class_name&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="s2">"class_name"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">instantiate_class_from_name</span><span class="p">(</span><span class="n">class_name</span><span class="o">=</span><span class="n">param_value</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">param_value</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">param_value</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_instanciate_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Instantiate the pipeline nodes, resolving any nested PipelineClass references.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            List[PipelineNode]: List of instantiated pipeline nodes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">instanciated_pipeline</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">:</span>
             <span class="n">current_node</span> <span class="o">=</span> <span class="n">node</span>
@@ -517,7 +517,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_instanciate_node</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">node_class</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">algorithm_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Algorithm</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Instantiate a single pipeline node, including its callbacks.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            node_class (str): Fully qualified class name of the node.</span>
@@ -525,23 +525,23 @@
 <span class="sd">            callbacks (Optional[List[Any]]): Optional list of callback PipelineClass objects.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Algorithm: Instantiated node.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">callbacks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">callbacks</span><span class="p">):</span>
             <span class="n">instanciated_callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="n">instantiate_class_from_name</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="n">cb</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">callbacks</span><span class="p">]</span>
             <span class="n">instanciated_callbacks</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">instanciated_callbacks</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">&quot;disabled_qa&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="n">cb</span> <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">instanciated_callbacks</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">"disabled_qa"</span><span class="p">,</span> <span class="p">[])</span>
             <span class="p">]</span>
-            <span class="n">algorithm_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">algorithm_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;callbacks&quot;</span><span class="p">:</span> <span class="n">instanciated_callbacks</span><span class="p">}}</span>
+            <span class="n">algorithm_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">algorithm_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"callbacks"</span><span class="p">:</span> <span class="n">instanciated_callbacks</span><span class="p">}}</span>
         <span class="k">return</span> <span class="n">instantiate_class_from_name</span><span class="p">(</span><span class="n">node_class</span><span class="p">,</span> <span class="n">algorithm_params</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_pipeline_coherency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Check the pipeline configuration for coherency (all node inputs must be declared prior to use).</span>
 <span class="sd">        Args:</span>
 <span class="sd">            params (Any): Pipeline parameters (should have a .pipeline attribute).</span>
 <span class="sd">        Raises:</span>
-<span class="sd">            Exception: If a node&#39;s input is not declared before its use.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Exception: If a node's input is not declared before its use.</span>
+<span class="sd">        """</span>
         <span class="n">parent_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">INPUT_KEY_NAME</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">pipeline</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">input_node</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
@@ -549,13 +549,13 @@
                     <span class="k">for</span> <span class="n">input_element</span> <span class="ow">in</span> <span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">input_element</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parent_names</span><span class="p">:</span>
                             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Pipeline configuration incoherent. Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has input &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_element</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> not declared prior. Please fix pipeline configuration.&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Pipeline configuration incoherent. Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has input "</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">input_element</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> not declared prior. Please fix pipeline configuration."</span>
                             <span class="p">)</span>
                 <span class="k">elif</span> <span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parent_names</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Pipeline configuration incoherent. Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has input &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span><span class="si">}</span><span class="s2"> not declared prior. Please fix pipeline configuration.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Pipeline configuration incoherent. Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has input "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">input_node</span><span class="o">.</span><span class="n">source_node</span><span class="si">}</span><span class="s2"> not declared prior. Please fix pipeline configuration."</span>
                     <span class="p">)</span>
             <span class="n">parent_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -591,7 +591,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
