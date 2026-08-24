@@ -79,7 +79,7 @@ class MultilabelSemanticSegmentationInterface(Algorithm):
         Returns:
             np.ndarray: Preprocessed image.
         """
-        nn_input = cv2.resize(image.astype(float), input_resolution)
+        nn_input = cv2.resize(image, input_resolution).astype(float)
         if denoise:
             nn_input = self.image_denoise(
                 nn_input.astype(np.uint8), d=5, sigmaColor=75, sigmaSpace=10, intensityIgnore=75
