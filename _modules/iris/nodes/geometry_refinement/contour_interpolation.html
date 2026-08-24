@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_refinement.contour_interpolation - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.geometry_refinement.contour_interpolation - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,16 +290,16 @@
 <div class="viewcode-block" id="ContourInterpolation">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_interpolation.ContourInterpolation">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContourInterpolation</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of contour interpolation algorithm conditioned by given NoiseMask.</span>
+<span class="w">    </span><span class="sd">"""Implementation of contour interpolation algorithm conditioned by given NoiseMask.</span>
 
-<span class="sd">    Algorithm performs linar interpolation of points between vectorized, predicted points such that maximum distance between two consecutive points in a polygon isn&#39;t greater than</span>
+<span class="sd">    Algorithm performs linar interpolation of points between vectorized, predicted points such that maximum distance between two consecutive points in a polygon isn't greater than</span>
 <span class="sd">    a fraction of an iris diameter length specified as `max_distance_between_boundary_points` parameter.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="ContourInterpolation.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_interpolation.ContourInterpolation.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for ContourInterpolation objects.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for ContourInterpolation objects."""</span>
 
         <span class="n">max_distance_between_boundary_points</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
@@ -307,24 +307,24 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_distance_between_boundary_points</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            max_distance_between_boundary_points (float, optional): Maximum distance between boundary contour points expressed as a fraction of a iris diameter length. Defaults to 0.01.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">max_distance_between_boundary_points</span><span class="o">=</span><span class="n">max_distance_between_boundary_points</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContourInterpolation.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.contour_interpolation.ContourInterpolation.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refine polygons by interpolating contour points.</span>
+<span class="w">        </span><span class="sd">"""Refine polygons by interpolating contour points.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygons (GeometryPolygons): Polygons to refine.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            GeometryPolygons: Refined polygons.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">max_boundary_dist_in_px</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">max_distance_between_boundary_points</span> <span class="o">*</span> <span class="n">polygons</span><span class="o">.</span><span class="n">iris_diameter</span>
 
         <span class="n">refined_pupil_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interpolate_polygon_points</span><span class="p">(</span><span class="n">polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span> <span class="n">max_boundary_dist_in_px</span><span class="p">)</span>
@@ -339,7 +339,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_interpolate_polygon_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">max_distance_between_points_px</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interpolate contours points, so that the distance between two is no greater than `self.params.max_distance_between_boundary_points` in pixel space.</span>
+<span class="w">        </span><span class="sd">"""Interpolate contours points, so that the distance between two is no greater than `self.params.max_distance_between_boundary_points` in pixel space.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygon (np.ndarray): Contour polygons.</span>
@@ -347,7 +347,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Interpolated polygon points.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">previous_boundary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">polygon</span> <span class="o">-</span> <span class="n">previous_boundary</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">num_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">distances</span> <span class="o">/</span> <span class="n">max_distance_between_points_px</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
@@ -396,7 +396,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

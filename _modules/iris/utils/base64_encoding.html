@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.utils.base64_encoding - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.utils.base64_encoding - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -287,16 +287,16 @@
 <div class="viewcode-block" id="base64_encode_float_array">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_float_array">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_encode_float_array</span><span class="p">(</span><span class="n">array2encode</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a numpy float array to a base64-encoded bytes string.</span>
+<span class="w">    </span><span class="sd">"""Convert a numpy float array to a base64-encoded bytes string.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        array2encode (np.ndarray): The float array to convert.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        bytes: The base64-encoded bytes string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">array2encode</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input array must be of float dtype&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Input array must be of float dtype"</span><span class="p">)</span>
     <span class="n">byte_data</span> <span class="o">=</span> <span class="n">array2encode</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>  <span class="c1"># or float64 if you need higher precision</span>
     <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">byte_data</span><span class="p">)</span></div>
 
@@ -305,7 +305,7 @@
 <div class="viewcode-block" id="base64_decode_float_array">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_float_array">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_decode_float_array</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a base64-encoded bytes string to a numpy float array.</span>
+<span class="w">    </span><span class="sd">"""Convert a base64-encoded bytes string to a numpy float array.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bytes_array (str): The base64-encoded bytes string.</span>
@@ -314,7 +314,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: The float array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">decoded_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">)</span>
     <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">decoded_bytes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array_shape</span><span class="p">)</span></div>
@@ -324,14 +324,14 @@
 <div class="viewcode-block" id="base64_encode_array">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_array">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_encode_array</span><span class="p">(</span><span class="n">array2encode</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a numpy array to a packed base64 string.</span>
+<span class="w">    </span><span class="sd">"""Convert a numpy array to a packed base64 string.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        array2encode (np.ndarray): The array to convert.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        bytes: The packed base64 string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">co_pack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">packbits</span><span class="p">(</span><span class="n">array2encode</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">co_pack</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span></div>
@@ -341,7 +341,7 @@
 <div class="viewcode-block" id="base64_decode_array">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_array">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_decode_array</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a packed base64 string to a numpy array.</span>
+<span class="w">    </span><span class="sd">"""Convert a packed base64 string to a numpy array.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bytes_array (bytes): The packed base64 byte string.</span>
@@ -349,7 +349,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: The array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">decoded_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">bytes_array</span><span class="p">)</span>
 
     <span class="n">deserialized_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">decoded_bytes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
@@ -362,14 +362,14 @@
 <div class="viewcode-block" id="base64_encode_str">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_encode_str">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_encode_str</span><span class="p">(</span><span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a string to base64 string. Both input and output are string, but base64 encoded vs non-encoded.</span>
+<span class="w">    </span><span class="sd">"""Convert a string to base64 string. Both input and output are string, but base64 encoded vs non-encoded.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_str (str): The string to encode.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: the encoded base64 string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">input_str</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
@@ -377,14 +377,14 @@
 <div class="viewcode-block" id="base64_decode_str">
 <a class="viewcode-back" href="../../../_code_subpages/iris.utils.html#iris.utils.base64_encoding.base64_decode_str">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">base64_decode_str</span><span class="p">(</span><span class="n">base64_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert base64-encoded string to decoded string. Both input and output are string, but base64 encoded vs non-encoded.</span>
+<span class="w">    </span><span class="sd">"""Convert base64-encoded string to decoded string. Both input and output are string, but base64 encoded vs non-encoded.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        base64_str (str): The base64-encoded string</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: the decoded string</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_str</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 </pre></div>
@@ -419,7 +419,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

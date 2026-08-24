@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation.occlusion_calculator - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.eye_properties_estimation.occlusion_calculator - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -292,23 +292,23 @@
 <div class="viewcode-block" id="OcclusionCalculator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.occlusion_calculator.OcclusionCalculator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OcclusionCalculator</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the eye occlusion value.</span>
+<span class="w">    </span><span class="sd">"""Calculate the eye occlusion value.</span>
 
 <span class="sd">    This algorithm computes the fraction of visible iris in an image based on extrapolated polygons and the various noise masks.</span>
 <span class="sd">    For an occlusion of 0, the iris is completely occluded. For an occlusion of 1, the iris is completely visible</span>
-<span class="sd">    For historical reasons, this remained called &quot;Occlusion&quot;, while it more precisely refers to the &quot;Opening&quot; of the eye.</span>
+<span class="sd">    For historical reasons, this remained called "Occlusion", while it more precisely refers to the "Opening" of the eye.</span>
 
 <span class="sd">    The parameter `quantile_angle` refers to the zone of the iris to consider for the occlusion computation.</span>
 <span class="sd">    This is because the middle horizontal third of the iris is usually more useful, since less likely to be occluded by the eyelids.</span>
 <span class="sd">    For a `quantile_angle` of 90º, the entire iris will be considered.</span>
 <span class="sd">    For a `quantile_angle` of 30º, the horizontal middle third of the iris will be considered.</span>
 <span class="sd">    For a `quantile_angle` of 0º, nothing will be considered (limit value).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="OcclusionCalculator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.occlusion_calculator.OcclusionCalculator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default OcclusionCalculator parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Default OcclusionCalculator parameters."""</span>
 
         <span class="n">quantile_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">90.0</span><span class="p">)</span></div>
 
@@ -316,12 +316,12 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile_angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            quantile_angle (float): Quantile angle for estimating the area in which we want to calculate the visible fraction value in degrees.</span>
 <span class="sd">            callbacks (List[Callback]): callbacks list. Defaults to [].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">quantile_angle</span><span class="o">=</span><span class="n">quantile_angle</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OcclusionCalculator.run">
@@ -333,7 +333,7 @@
         <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span>
         <span class="n">eye_centers</span><span class="p">:</span> <span class="n">EyeCenters</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeOcclusion</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the iris visible fraction.</span>
+<span class="w">        </span><span class="sd">"""Compute the iris visible fraction.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            extrapolated_polygons (GeometryPolygons): Extrapolated polygons contours.</span>
@@ -342,7 +342,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            EyeOcclusion: Visible iris fraction.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">quantile_angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">EyeOcclusion</span><span class="p">(</span><span class="n">visible_fraction</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="n">img_h</span><span class="p">,</span> <span class="n">img_w</span> <span class="o">=</span> <span class="n">noise_mask</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span>
@@ -386,7 +386,7 @@
         <span class="n">iris_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get those iris&#39;s points which fall into a specified quantile.</span>
+<span class="w">        </span><span class="sd">"""Get those iris's points which fall into a specified quantile.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            iris_coords (np.ndarray): Iris polygon coordinates.</span>
@@ -394,7 +394,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Iris polygon coordinates that fall within the quantile regions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">orientation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">eye_orientation</span><span class="o">.</span><span class="n">angle</span><span class="p">)</span>
         <span class="n">num_rotations</span> <span class="o">=</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">orientation_angle</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">)</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
         <span class="n">iris_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">iris_coords</span><span class="p">,</span> <span class="n">num_rotations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -442,7 +442,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.normalization.perspective_normalization - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.normalization.perspective_normalization - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -299,19 +299,19 @@
 <div class="viewcode-block" id="PerspectiveNormalization">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PerspectiveNormalization</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a normalization algorithm which uses perspective transformation to map image pixels.</span>
+<span class="w">    </span><span class="sd">"""Implementation of a normalization algorithm which uses perspective transformation to map image pixels.</span>
 
 <span class="sd">    Algorithm steps:</span>
 <span class="sd">        1) Create a grid of trapezoids around iris in original image based on following algorithm parameters: res_in_phi, res_in_r, intermediate_radiuses.</span>
 <span class="sd">        2) Create a grid of corresponding to each trapezoid rectangles in normalized image.</span>
 <span class="sd">        3) For each corresponding trapezoid, rectangle pair compute perspective matrix to estimate normalized image pixel location in an original image location.</span>
 <span class="sd">        4) Map each normalized image pixel to original image pixel based on estimated perspective matrix and perform bilinear interpolation if necessary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="PerspectiveNormalization.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters class for PerspectiveNormalization.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters class for PerspectiveNormalization."""</span>
 
         <span class="n">res_in_phi</span><span class="p">:</span> <span class="n">PositiveInt</span>
         <span class="n">res_in_r</span><span class="p">:</span> <span class="n">PositiveInt</span>
@@ -321,9 +321,9 @@
 
 <div class="viewcode-block" id="PerspectiveNormalization.Parameters.check_intermediate_radiuses">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.Parameters.check_intermediate_radiuses">[docs]</a>
-        <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;intermediate_radiuses&quot;</span><span class="p">)</span>
+        <span class="nd">@validator</span><span class="p">(</span><span class="s2">"intermediate_radiuses"</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">check_intermediate_radiuses</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Check intermediate_radiuses parameter.</span>
+<span class="w">            </span><span class="sd">"""Check intermediate_radiuses parameter.</span>
 
 <span class="sd">            Args:</span>
 <span class="sd">                cls (type): PerspectiveNormalization.Parameters class.</span>
@@ -334,13 +334,13 @@
 
 <span class="sd">            Returns:</span>
 <span class="sd">                Collection[float]: intermediate_radiuses value passed for further processing.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">            """</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid number of intermediate_radiuses: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid number of intermediate_radiuses: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid min value of intermediate_radiuses: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid min value of intermediate_radiuses: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid max value of intermediate_radiuses: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid max value of intermediate_radiuses: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">v</span></div>
 </div>
@@ -356,7 +356,7 @@
         <span class="n">intermediate_radiuses</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
         <span class="n">oversat_threshold</span><span class="p">:</span> <span class="n">PositiveInt</span> <span class="o">=</span> <span class="mi">254</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            res_in_phi (PositiveInt): Normalized image phi resolution. Defaults to 1024.</span>
@@ -366,7 +366,7 @@
 <span class="sd">            intermediate_radiuses (t.Iterable[float], optional): Intermediate rings radiuses used to generate additional points for estimating transformations.</span>
 <span class="sd">                Defaults to np.linspace(0.0, 1.0, 10).</span>
 <span class="sd">            oversat_threshold (PositiveInt, optional): threshold for masking over-satuated pixels. Defaults to 254.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">res_in_phi</span><span class="o">=</span><span class="n">res_in_phi</span><span class="p">,</span>
             <span class="n">res_in_r</span><span class="o">=</span><span class="n">res_in_r</span><span class="p">,</span>
@@ -384,7 +384,7 @@
         <span class="n">extrapolated_contours</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span>
         <span class="n">eye_orientation</span><span class="p">:</span> <span class="n">EyeOrientation</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NormalizedIris</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize iris using perspective transformation estimated for every region of an image separately.</span>
+<span class="w">        </span><span class="sd">"""Normalize iris using perspective transformation estimated for every region of an image separately.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            image (IRImage): Input image to normalize.</span>
@@ -397,9 +397,9 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            NormalizationError: Raised if amount of iris and pupil points is different.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">iris_array</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="s2">&quot;Extrapolated amount of iris and pupil points must be the same.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NormalizationError</span><span class="p">(</span><span class="s2">"Extrapolated amount of iris and pupil points must be the same."</span><span class="p">)</span>
 
         <span class="n">pupil_points</span><span class="p">,</span> <span class="n">iris_points</span> <span class="o">=</span> <span class="n">correct_orientation</span><span class="p">(</span>
             <span class="n">extrapolated_contours</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span>
@@ -453,7 +453,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_generate_correspondences</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pupil_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">iris_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate correspondences between points in original image and normalized image.</span>
+<span class="w">        </span><span class="sd">"""Generate correspondences between points in original image and normalized image.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pupil_points (np.ndarray): Pupil bounding points. NumPy array of shape (num_points = 360, xy_coords = 2).</span>
@@ -461,7 +461,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with generated correspondences.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">pupil_points</span> <span class="o">=</span> <span class="n">pupil_points</span><span class="p">[::</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">skip_boundary_points</span><span class="p">]</span>
         <span class="n">iris_points</span> <span class="o">=</span> <span class="n">iris_points</span><span class="p">[::</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">skip_boundary_points</span><span class="p">]</span>
 
@@ -489,18 +489,18 @@
         <span class="n">dst_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">normalize_roi_output_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize a single ROI of an image.</span>
+<span class="w">        </span><span class="sd">"""Normalize a single ROI of an image.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            original_image (np.ndarray): Entire input image to normalize.</span>
 <span class="sd">            iris_mask (np.ndarray): Iris class segmentation mask.</span>
-<span class="sd">            src_points (np.ndarray): ROI&#39;s original input image points.</span>
-<span class="sd">            dst_points (np.ndarray): ROI&#39;s normalized image points.</span>
+<span class="sd">            src_points (np.ndarray): ROI's original input image points.</span>
+<span class="sd">            dst_points (np.ndarray): ROI's normalized image points.</span>
 <span class="sd">            normalize_roi_output_shape (t.Tuple[float, float]): Output shape of normalized ROI.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with normalized image and mask ROIs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bbox_coords</span><span class="p">(</span><span class="n">dst_points</span><span class="p">)</span>
 
         <span class="n">normalize_image_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
@@ -532,14 +532,14 @@
         <span class="k">return</span> <span class="n">normalized_image_roi</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span> <span class="n">normalized_mask_roi</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_bbox_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">norm_dst_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the bounding box of currently processed normalized image ROI.</span>
+<span class="w">        </span><span class="sd">"""Extract the bounding box of currently processed normalized image ROI.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            norm_dst_points (np.ndarray): Normalized image ROI coordinates.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[int, int, int, int]: Bounding box coordinates in form (xmin, ymin, xmax, ymax).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">norm_dst_points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">norm_dst_points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
@@ -552,7 +552,7 @@
         <span class="n">src_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">dst_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a single correspondence ROIs between original image and normalized one based on angle index and ring index.</span>
+<span class="w">        </span><span class="sd">"""Generate a single correspondence ROIs between original image and normalized one based on angle index and ring index.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            angle_idx (int): Boundary point angle index.</span>
@@ -572,7 +572,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with extracted from src_points and dst_points ROIs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">src_roi</span> <span class="o">=</span> <span class="n">src_points</span><span class="p">[</span><span class="n">ring_idx</span> <span class="p">:</span> <span class="n">ring_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">angle_idx</span> <span class="p">:</span> <span class="n">angle_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
         <span class="n">dst_roi</span> <span class="o">=</span> <span class="n">dst_points</span><span class="p">[</span><span class="n">ring_idx</span> <span class="p">:</span> <span class="n">ring_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">angle_idx</span> <span class="p">:</span> <span class="n">angle_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
 
@@ -582,14 +582,14 @@
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.cartesian2homogeneous">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cartesian2homogeneous</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert points in cartesian coordinates to homogeneous coordinates.</span>
+<span class="w">        </span><span class="sd">"""Convert points in cartesian coordinates to homogeneous coordinates.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            points (List[np.ndarray]): Points in cartesian coordinates. Array should be in format: [[x values], [y values]].</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Points in homogeneous coordinates. Returned array will have format: [[x values], [y values], [1 ... 1]].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span> <span class="o">=</span> <span class="n">points</span>
 
         <span class="n">x_coords</span> <span class="o">=</span> <span class="n">x_coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -604,14 +604,14 @@
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.normalization.html#iris.nodes.normalization.perspective_normalization.PerspectiveNormalization.homogeneous2cartesian">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">homogeneous2cartesian</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert points in homogeneous coordinates to cartesian coordinates.</span>
+<span class="w">        </span><span class="sd">"""Convert points in homogeneous coordinates to cartesian coordinates.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            points (np.ndarray): Points in homogeneous coordinates. Array should be in format: [[x values], [y values], [perspective scale values]].</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Points in cartesian coordinates. Returned array will have format: [[x values], [y values]].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">points</span> <span class="o">/=</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
 
@@ -650,7 +650,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_estimation.fusion_extrapolation - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.geometry_estimation.fusion_extrapolation - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -293,24 +293,24 @@
 <div class="viewcode-block" id="FusionExtrapolation">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_estimation.html#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FusionExtrapolation</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fuse two extrapolation strategies and pick the result based on shape statistics.</span>
+<span class="w">    </span><span class="sd">"""Fuse two extrapolation strategies and pick the result based on shape statistics.</span>
 
 <span class="sd">    1) Circle-like extrapolation: LinearExtrapolation (linear extrapolation algorithm)</span>
 <span class="sd">    2) Ellipse-like extrapolation: LSQEllipseFitWithRefinement (least square ellipse fit with iris polygon refinement)</span>
 
 <span class="sd">    By default, the linear extrapolation is used. If the (relative) spread of radii</span>
-<span class="sd">    exceeds a threshold and the ellipse-based result looks sufficiently &quot;regular&quot;</span>
+<span class="sd">    exceeds a threshold and the ellipse-based result looks sufficiently "regular"</span>
 <span class="sd">    (based on squared radii ratios), we prefer the ellipse fit.</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">    - &quot;Relative std&quot; means std/mean with an epsilon guard.</span>
+<span class="sd">    - "Relative std" means std/mean with an epsilon guard.</span>
 <span class="sd">    - We compare regularity via the relative std of iris/pupil squared-radius ratios under three centering choices (circle/circle, ellipse/ellipse, ellipse/circle).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="FusionExtrapolation.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_estimation.html#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters of fusion extrapolation algorithm.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters of fusion extrapolation algorithm."""</span>
 
         <span class="n">circle_extrapolation</span><span class="p">:</span> <span class="n">Algorithm</span>
         <span class="n">ellipse_fit</span><span class="p">:</span> <span class="n">Algorithm</span>
@@ -328,7 +328,7 @@
         <span class="n">algorithm_switch_std_conditioned_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callback</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            circle_extrapolation (Algorithm, optional): More circular shape estimation algorithm. Defaults to LinearExtrapolation(dphi=360 / 512, degrees / width of normalized image).</span>
@@ -336,7 +336,7 @@
 <span class="sd">            algorithm_switch_std_threshold (float, optional): Threshold on (rel. std of iris + rel. std of pupil) beyond which we consider switching to ellipse.. Defaults to 0.014.</span>
 <span class="sd">            algorithm_switch_std_conditioned_multiplier (float, optional): How strongly iris spread penalizes circle regularity in the switch condition. Default: 2.0.</span>
 <span class="sd">            callbacks (List[Callback], optional): _description_. Defaults to [].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ellipse_fit</span><span class="o">=</span><span class="n">ellipse_fit</span><span class="p">,</span>
             <span class="n">circle_extrapolation</span><span class="o">=</span><span class="n">circle_extrapolation</span><span class="p">,</span>
@@ -347,7 +347,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_relative_std</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Relative std = std / max(mean, eps).</span>
 
 <span class="sd">        Args:</span>
@@ -356,7 +356,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float: relative std.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">m</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
         <span class="n">s</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -366,7 +366,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_squared_relative_radii</span><span class="p">(</span>
         <span class="n">iris_centered</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pupil_centered</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-12</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Ratio of iris over pupil squared radii, element wise.</span>
 
 <span class="sd">        Args:</span>
@@ -376,7 +376,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (N,) array: iris_sq / pupil_sq</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">iris_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">iris_centered</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">pupil_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pupil_centered</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">iris_sq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">pupil_sq</span><span class="p">,</span> <span class="n">eps</span><span class="p">))</span>
@@ -384,7 +384,7 @@
 <div class="viewcode-block" id="FusionExtrapolation.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_estimation.html#iris.nodes.geometry_estimation.fusion_extrapolation.FusionExtrapolation.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">eye_center</span><span class="p">:</span> <span class="n">EyeCenters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform extrapolation algorithm and select the most plausible result.</span>
+<span class="w">        </span><span class="sd">"""Perform extrapolation algorithm and select the most plausible result.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            input_polygons (GeometryPolygons): Smoothed polygons.</span>
@@ -392,7 +392,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            GeometryPolygons: Extrapolated polygons</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xs_iris</span><span class="p">,</span> <span class="n">ys_iris</span> <span class="o">=</span> <span class="n">input_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">input_polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">rhos_iris</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cartesian2polar</span><span class="p">(</span><span class="n">xs_iris</span><span class="p">,</span> <span class="n">ys_iris</span><span class="p">,</span> <span class="n">eye_center</span><span class="o">.</span><span class="n">iris_x</span><span class="p">,</span> <span class="n">eye_center</span><span class="o">.</span><span class="n">iris_y</span><span class="p">)</span>
         <span class="n">xs_pupil</span><span class="p">,</span> <span class="n">ys_pupil</span> <span class="o">=</span> <span class="n">input_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">input_polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
@@ -480,7 +480,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

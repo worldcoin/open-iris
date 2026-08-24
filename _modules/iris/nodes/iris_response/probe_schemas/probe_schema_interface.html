@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html"><link rel="search" title="Search" href="../../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.iris_response.probe_schemas.probe_schema_interface - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.iris_response.probe_schemas.probe_schema_interface - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,72 +290,72 @@
 <div class="viewcode-block" id="ProbeSchema">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.probe_schema_interface.ProbeSchema">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProbeSchema</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Probe schema abstract class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Probe schema abstract class."""</span>
 
 <div class="viewcode-block" id="ProbeSchema.ProbeSchemaParameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.probe_schema_interface.ProbeSchema.ProbeSchemaParameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">ProbeSchemaParameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default ProbeSchema parameters.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Default ProbeSchema parameters."""</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">ProbeSchemaParameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init function.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Init function."""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__rhos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_schema</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">rhos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get rhos&#39; position values.</span>
+<span class="w">        </span><span class="sd">"""Get rhos' position values.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: rhos&#39; position values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: rhos' position values.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rhos</span>
 
     <span class="nd">@rhos</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">rhos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prevent overwriting generated rhos&#39; positions values.</span>
+<span class="w">        </span><span class="sd">"""Prevent overwriting generated rhos' positions values.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value (Any): New rhos&#39; position values.</span>
+<span class="sd">            value (Any): New rhos' position values.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ProbeSchemaError: Raised always since overwriting is forbidden.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="s2">&quot;ProbeSchema rhos values are immutable.&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="s2">"ProbeSchema rhos values are immutable."</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">phis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get phis&#39; position values.</span>
+<span class="w">        </span><span class="sd">"""Get phis' position values.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: phis&#39; position values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: phis' position values.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phis</span>
 
     <span class="nd">@phis</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">phis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prevent overwriting generated phis&#39; positions values.</span>
+<span class="w">        </span><span class="sd">"""Prevent overwriting generated phis' positions values.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value (Any): New phis&#39; position values.</span>
+<span class="sd">            value (Any): New phis' position values.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ProbeSchemaError: Raised always since overwriting is forbidden.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="s2">&quot;ProbeSchema phis values are immutable.&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="n">ProbeSchemaError</span><span class="p">(</span><span class="s2">"ProbeSchema phis values are immutable."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ProbeSchema.generate_schema">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.probe_schemas.html#iris.nodes.iris_response.probe_schemas.probe_schema_interface.ProbeSchema.generate_schema">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate rhos&#39; and phis&#39; positions values.</span>
+<span class="w">        </span><span class="sd">"""Generate rhos' and phis' positions values.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with generated schema (rhos, phis).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 </div>
 
@@ -391,7 +391,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=46bd48cc"></script>

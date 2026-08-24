@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.geometry_refinement.smoothing - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.geometry_refinement.smoothing - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -292,18 +292,18 @@
 <div class="viewcode-block" id="Smoothing">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.smoothing.Smoothing">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Smoothing</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of contour smoothing algorithm.</span>
+<span class="w">    </span><span class="sd">"""Implementation of contour smoothing algorithm.</span>
 
 <span class="sd">    Algorithm steps:</span>
 <span class="sd">        1) Map iris/pupil points to polar space based on estimated iris/pupil centers.</span>
 <span class="sd">        2) Smooth iris/pupil contour by applying 1D convolution with rolling median kernel approach.</span>
 <span class="sd">        3) Map points back to cartesian space from polar space.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Smoothing.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.smoothing.Smoothing.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Smoothing parameters class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Smoothing parameters class."""</span>
 
         <span class="n">dphi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">360.0</span><span class="p">)</span>
         <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">360.0</span><span class="p">)</span>
@@ -313,28 +313,28 @@
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dphi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">gap_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            dphi (float, optional): phi angle delta used to sample points while doing smoothing by interpolation. Defaults to 1.0.</span>
 <span class="sd">            kernel_size (float, optional): Rolling median kernel size expressed in radians. Final kernel size is computed as a quotient of kernel_size and dphi. Defaults to 10.0.</span>
 <span class="sd">            gap_threshold (float, optional): Gap threshold distance. Defaults to None. Defaults to 10.0.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dphi</span><span class="o">=</span><span class="n">dphi</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">gap_threshold</span><span class="o">=</span><span class="n">gap_threshold</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">kernel_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Kernel offset (distance from kernel center to border) property used when smoothing with rolling median. If a quotient is less then 1 then kernel size equal to 1 is returned.</span>
+<span class="w">        </span><span class="sd">"""Kernel offset (distance from kernel center to border) property used when smoothing with rolling median. If a quotient is less then 1 then kernel size equal to 1 is returned.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: Kernel size.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">)))</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Smoothing.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.geometry_refinement.html#iris.nodes.geometry_refinement.smoothing.Smoothing.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">,</span> <span class="n">eye_centers</span><span class="p">:</span> <span class="n">EyeCenters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeometryPolygons</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform smoothing refinement.</span>
+<span class="w">        </span><span class="sd">"""Perform smoothing refinement.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygons (GeometryPolygons): Contours to refine.</span>
@@ -342,7 +342,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            GeometryPolygons: Smoothed contours.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">pupil_arcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smooth</span><span class="p">(</span><span class="n">polygons</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span> <span class="p">(</span><span class="n">eye_centers</span><span class="o">.</span><span class="n">pupil_x</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">pupil_y</span><span class="p">))</span>
         <span class="n">iris_arcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smooth</span><span class="p">(</span><span class="n">polygons</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="p">(</span><span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_x</span><span class="p">,</span> <span class="n">eye_centers</span><span class="o">.</span><span class="n">iris_y</span><span class="p">))</span>
 
@@ -350,15 +350,15 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_smooth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Smooth a single contour.</span>
+<span class="w">        </span><span class="sd">"""Smooth a single contour.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygon (np.ndarray): Contour to smooth.</span>
-<span class="sd">            center_xy (Tuple[float, float]): Contour&#39;s center.</span>
+<span class="sd">            center_xy (Tuple[float, float]): Contour's center.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Smoothed contour&#39;s vertices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: Smoothed contour's vertices.</span>
+<span class="sd">        """</span>
         <span class="n">arcs</span><span class="p">,</span> <span class="n">num_gaps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cut_into_arcs</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">center_xy</span><span class="p">)</span>
 
         <span class="n">arcs</span> <span class="o">=</span> <span class="p">(</span>
@@ -370,15 +370,15 @@
         <span class="k">return</span> <span class="n">arcs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_cut_into_arcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cut contour into arcs.</span>
+<span class="w">        </span><span class="sd">"""Cut contour into arcs.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygon (np.ndarray): Contour polygon.</span>
-<span class="sd">            center_xy (Tuple[float, float]): Polygon&#39;s center.</span>
+<span class="sd">            center_xy (Tuple[float, float]): Polygon's center.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[List[np.ndarray], int]: Tuple with: (list of list of vertices, number of gaps detected in a contour).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rho</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cartesian2polar</span><span class="p">(</span><span class="n">polygon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">polygon</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="n">center_xy</span><span class="p">)</span>
         <span class="n">phi</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_two_arrays</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
 
@@ -407,15 +407,15 @@
         <span class="k">return</span> <span class="n">arcs</span><span class="p">,</span> <span class="n">gap_indices</span><span class="o">.</span><span class="n">size</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_smooth_arc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Smooth a single contour arc.</span>
+<span class="w">        </span><span class="sd">"""Smooth a single contour arc.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            vertices (np.ndarray): Arc&#39;s vertices.</span>
+<span class="sd">            vertices (np.ndarray): Arc's vertices.</span>
 <span class="sd">            center_xy (Tuple[float, float]): Center of an entire contour.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Smoothed arc&#39;s vertices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: Smoothed arc's vertices.</span>
+<span class="sd">        """</span>
         <span class="n">rho</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cartesian2polar</span><span class="p">(</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="n">center_xy</span><span class="p">)</span>
         <span class="n">phi</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_two_arrays</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
 
@@ -432,15 +432,15 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x_smoothed</span><span class="p">,</span> <span class="n">y_smoothed</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_smooth_circular_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">center_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Smooth arc in a form of a circular shape.</span>
+<span class="w">        </span><span class="sd">"""Smooth arc in a form of a circular shape.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            vertices (np.ndarray): Arc&#39;s vertices.</span>
+<span class="sd">            vertices (np.ndarray): Arc's vertices.</span>
 <span class="sd">            center_xy (Tuple[float, float]): Center of an entire contour.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Smoothed arc&#39;s vertices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            np.ndarray: Smoothed arc's vertices.</span>
+<span class="sd">        """</span>
         <span class="n">rho</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cartesian2polar</span><span class="p">(</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">vertices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="n">center_xy</span><span class="p">)</span>
 
         <span class="n">padded_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">phi</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">phi</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">])</span>
@@ -456,7 +456,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x_smoothed</span><span class="p">,</span> <span class="n">y_smoothed</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_smooth_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rhos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Smooth coordinates expressed in polar space.</span>
+<span class="w">        </span><span class="sd">"""Smooth coordinates expressed in polar space.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            phis (np.ndarray): phi values.</span>
@@ -464,7 +464,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with smoothed coordinates (phis, rhos).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">interpolated_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">phis</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">phis</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dphi</span><span class="p">))</span>
         <span class="n">interpolated_rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">interpolated_phi</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="n">phis</span><span class="p">,</span> <span class="n">fp</span><span class="o">=</span><span class="n">rhos</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
@@ -477,7 +477,7 @@
         <span class="k">return</span> <span class="n">smoothed_phi</span><span class="p">,</span> <span class="n">smoothed_rho</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_sort_two_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_list</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">second_list</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sort both numpy arrays based on values from the first_list.</span>
+<span class="w">        </span><span class="sd">"""Sort both numpy arrays based on values from the first_list.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            first_list (np.ndarray): First array.</span>
@@ -485,7 +485,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple with (sorted first array, sorted second array).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">zipped_lists</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">first_list</span><span class="p">,</span> <span class="n">second_list</span><span class="p">)</span>
         <span class="n">sorted_pairs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">zipped_lists</span><span class="p">)</span>
 
@@ -495,7 +495,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">first_list</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">second_list</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_start_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the start index by checking the largest gap. phi needs to be sorted.</span>
+<span class="w">        </span><span class="sd">"""Find the start index by checking the largest gap. phi needs to be sorted.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            phi (np.ndarray): phi angle values.</span>
@@ -505,9 +505,9 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            int: Index value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">phi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">&quot;Smoothing._find_start_index phi must be sorted ascendingly!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">"Smoothing._find_start_index phi must be sorted ascendingly!"</span><span class="p">)</span>
 
         <span class="n">phi_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">phi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">],</span> <span class="n">phi</span><span class="p">,</span> <span class="p">[</span><span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">]))</span>
         <span class="n">phi_tmp_left_neighbor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">phi_tmp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -517,7 +517,7 @@
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">largest_gap_index</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_rolling_median</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">kernel_offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute rolling median of a 1D signal.</span>
+<span class="w">        </span><span class="sd">"""Compute rolling median of a 1D signal.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            signal (np.ndarray): Signal values.</span>
@@ -528,9 +528,9 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Rolling median result.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">signal</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">&quot;Smoothing._rolling_median only works for 1d arrays.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">GeometryRefinementError</span><span class="p">(</span><span class="s2">"Smoothing._rolling_median only works for 1d arrays."</span><span class="p">)</span>
 
         <span class="n">stacked_signals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">kernel_offset</span><span class="p">,</span> <span class="n">kernel_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -575,7 +575,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

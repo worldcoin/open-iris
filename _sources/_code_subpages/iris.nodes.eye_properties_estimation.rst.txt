@@ -12,6 +12,14 @@ iris.nodes.eye\_properties\_estimation.bisectors\_method module
    :undoc-members:
    :show-inheritance:
 
+iris.nodes.eye\_properties\_estimation.circle\_fit\_for\_eye\_center\_method module
+-----------------------------------------------------------------------------------
+
+.. automodule:: iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 iris.nodes.eye\_properties\_estimation.eccentricity\_offgaze\_estimation module
 -------------------------------------------------------------------------------
 

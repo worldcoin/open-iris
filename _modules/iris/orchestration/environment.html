@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.orchestration.environment - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.orchestration.environment - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -288,16 +288,16 @@
 <div class="viewcode-block" id="Environment">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.environment.Environment">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Environment</span><span class="p">(</span><span class="n">ImmutableModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data holder for the pipeline environment properties.</span>
+<span class="w">    </span><span class="sd">"""Data holder for the pipeline environment properties.</span>
 
 <span class="sd">    call_trace_initialiser is responsible for initialising the PipelineCallTraceStorage instance in the pipeline.</span>
 
 <span class="sd">    pipeline_output_builder is responsible for building the pipeline output from the call_trace, which kept all intermediary results so far.</span>
 
-<span class="sd">    error_manager is responsible for the pipeline&#39;s behaviour in case of an exception</span>
+<span class="sd">    error_manager is responsible for the pipeline's behaviour in case of an exception</span>
 
 <span class="sd">    disabled_qa stores a list of Algorithm and/or Callbacks types to be disabled.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">call_trace_initialiser</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Algorithm</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]],</span> <span class="n">PipelineCallTraceStorage</span><span class="p">]</span>
     <span class="n">pipeline_output_builder</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">PipelineCallTraceStorage</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
@@ -336,7 +336,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

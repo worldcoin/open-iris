@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Getting started tutorial" href="../examples/getting_started.html"><link rel="prev" title="Setup for development" href="setup_for_development.html">
 
-    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>Running inference - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>Running inference - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -294,11 +294,11 @@
 <span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">()</span>
 
 <span class="c1"># 2. Load IR image of an eye</span>
-<span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;/path/to/ir/image&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">"/path/to/ir/image"</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
 
 <span class="c1"># 3. Perform inference</span>
-<span class="c1"># Options for the `eye_side` argument are: [&quot;left&quot;, &quot;right&quot;]</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;image_id&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="c1"># Options for the `eye_side` argument are: ["left", "right"]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"image_id"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To fully explore and understand the extensive capabilities of the iris package, visit the <cite>Examples</cite> subpages. Here, you’ll find a collection of Jupyter Notebooks that serve as valuable resources, offering practical guides and real-world examples to provide a comprehensive insight into the rich functionalities and potential applications of the <code class="docutils literal notranslate"><span class="pre">iris</span></code> package.</p>
@@ -353,7 +353,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

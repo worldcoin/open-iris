@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
     <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
-        <title>iris.nodes.eye_properties_estimation.moment_of_area - iris v1.11.2</title>
+        <title>iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -277,80 +277,160 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for iris.nodes.eye_properties_estimation.moment_of_area</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+          <h1>Source code for iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">iris.utils.math</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">math_utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.class_configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Algorithm</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">EyeOrientation</span><span class="p">,</span> <span class="n">GeometryPolygons</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EyeOrientationEstimationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">EyeCenters</span><span class="p">,</span> <span class="n">GeometryPolygons</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iris.io.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EyeCentersEstimationError</span>
 
 
-<div class="viewcode-block" id="MomentOfArea">
-<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.moment_of_area.MomentOfArea">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MomentOfArea</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Estimate the eye orientation using the second order moments of the eyeball polygon.</span>
+<div class="viewcode-block" id="CircleFitEyeCenterMethod">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CircleFitEyeCenterMethod</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Estimate pupil and iris centers using a robust circle-fitting approach.</span>
 
-<span class="sd">    The eye orientation refers to the horizontal direction of the eye. It comes useful for determining the</span>
-<span class="sd">    partial eye occlusion (e.g. occlusion at the horizontal middle third of the iris).</span>
+<span class="sd">    This algorithm estimates the center of a pupil or iris polygon using:</span>
 
-<span class="sd">    References:</span>
-<span class="sd">        [1] https://t1.daumcdn.net/cfile/tistory/15425F4150F4EBFC19</span>
-<span class="sd">        [2] https://en.wikipedia.org/wiki/Image_moment</span>
+<span class="sd">    1. an initial least-squares circle fit to all polygon points,</span>
+<span class="sd">    2. trimming of outlier points based on radial residuals using a dynamic threshold,</span>
+<span class="sd">    3. a second circle fit on the retained inliers.</span>
+
+<span class="sd">    LIMITATIONS:</span>
+<span class="sd">    This method assumes that the pupil and iris contours are reasonably well</span>
+<span class="sd">    approximated by circles in image space. It is therefore most appropriate</span>
+<span class="sd">    when off-gaze and strong perspective distortion have already been filtered out.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="MomentOfArea.Parameters">
-<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.moment_of_area.MomentOfArea.Parameters">[docs]</a>
+<div class="viewcode-block" id="CircleFitEyeCenterMethod.Parameters">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""MomentOfArea parameters.</span>
+<span class="w">        </span><span class="sd">"""Default parameters for circle-fit eye center algorithm."""</span>
 
-<span class="sd">        eccentricity_threshold: float in [0, 1].</span>
-<span class="sd">            The threshold below which a shape is considered not linear enough to reliably estimate its orientation.</span>
-<span class="sd">        """</span>
-
-        <span class="n">eccentricity_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+        <span class="n">mad_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eccentricity_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mad_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            eccentricity_threshold: float in [0, 1]. The threshold below which a shape is considered not linear enough to reliably estimate its orientation. Defaults to 0.1.</span>
+<span class="sd">            mad_scale (float, optional): Scale factor used in the dynamic inlier</span>
+<span class="sd">                threshold: median(residuals) + mad_scale * MAD(residuals).</span>
+<span class="sd">                Defaults to 3.0.</span>
 <span class="sd">        """</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">eccentricity_threshold</span><span class="o">=</span><span class="n">eccentricity_threshold</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mad_scale</span><span class="o">=</span><span class="n">mad_scale</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MomentOfArea.run">
-<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.moment_of_area.MomentOfArea.run">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometries</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeOrientation</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Compute the eye orientation using the second order moments or the eyeball.</span>
-
-<span class="sd">        WARNING: cv2.moments MUST only receive np.float32 arrays. Otherwise, the array will be interpreted as a sparse</span>
-<span class="sd">        matrix instead of a list of points. See https://github.com/opencv/opencv/issues/6643#issuecomment-224204774.</span>
+<div class="viewcode-block" id="CircleFitEyeCenterMethod.run">
+<a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.circle_fit_for_eye_center_method.CircleFitEyeCenterMethod.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometries</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeCenters</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Estimate pupil and iris centers.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            geometries (GeometryPolygons): segmentation map used for eye orientation estimation.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            EyeOrientationEstimationError if the eyeball's eccentricity is below `eccentricity_threshold` i.e. if the eyeball shape is not circular enough to reliably estimate the orientation.</span>
+<span class="sd">            geometries (GeometryPolygons): Pupil and iris geometry polygons.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            EyeOrientation: eye orientation object.</span>
+<span class="sd">            EyeCenters: Estimated pupil and iris center coordinates.</span>
 <span class="sd">        """</span>
-        <span class="n">moments</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">moments</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">eyeball_array</span><span class="p">)</span>
+        <span class="n">pupil_center_x</span><span class="p">,</span> <span class="n">pupil_center_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_circle_fit_center</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">pupil_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+        <span class="n">iris_center_x</span><span class="p">,</span> <span class="n">iris_center_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_circle_fit_center</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">iris_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
 
-        <span class="n">eccentricity</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">eccentricity</span><span class="p">(</span><span class="n">moments</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">eccentricity</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">eccentricity_threshold</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">EyeOrientationEstimationError</span><span class="p">(</span>
-                <span class="s2">"The eyeball is too circular to reliably determine its orientation. "</span>
-                <span class="sa">f</span><span class="s2">"Computed eccentricity: </span><span class="si">{</span><span class="n">eccentricity</span><span class="si">}</span><span class="s2">. Threshold: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">eccentricity_threshold</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">EyeCenters</span><span class="p">(</span>
+            <span class="n">pupil_x</span><span class="o">=</span><span class="n">pupil_center_x</span><span class="p">,</span>
+            <span class="n">pupil_y</span><span class="o">=</span><span class="n">pupil_center_y</span><span class="p">,</span>
+            <span class="n">iris_x</span><span class="o">=</span><span class="n">iris_center_x</span><span class="p">,</span>
+            <span class="n">iris_y</span><span class="o">=</span><span class="n">iris_center_y</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-        <span class="n">orientation</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">orientation</span><span class="p">(</span><span class="n">moments</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">EyeOrientation</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="n">orientation</span><span class="p">)</span></div>
-</div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_circle_fit_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Estimate the center of a polygon using fit -&gt; trim outliers -&gt; refit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polygon (np.ndarray): Polygon points of shape (N, 2) representing a</span>
+<span class="sd">                contour that is approximately circular.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EyeCentersEstimationError: Raised if the polygon is invalid or if a</span>
+<span class="sd">                valid circle cannot be fit.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[float, float]: Estimated center coordinates (x, y).</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">polygon</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">polygon</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">polygon</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EyeCentersEstimationError</span><span class="p">(</span><span class="s2">"Polygon must have shape (N, 2) with at least 3 points"</span><span class="p">)</span>
+
+        <span class="n">pts</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Initial least-squares circle fit</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="n">ok</span><span class="p">,</span> <span class="n">coeffs</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">DECOMP_SVD</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EyeCentersEstimationError</span><span class="p">(</span><span class="s2">"Circle fit failed"</span><span class="p">)</span>
+
+        <span class="n">a</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coeffs</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="n">cx</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="o">-</span><span class="n">b_</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="n">r_sq</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">*</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">*</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">c</span>
+        <span class="k">if</span> <span class="n">r_sq</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EyeCentersEstimationError</span><span class="p">(</span><span class="s2">"Failed to fit a valid circle to the polygon"</span><span class="p">)</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">r_sq</span><span class="p">)</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="c1"># Trim outliers using dynamic radial residual threshold</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pts</span> <span class="o">-</span> <span class="n">center</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span>
+
+        <span class="n">median_residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span>
+        <span class="n">mad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">residuals</span> <span class="o">-</span> <span class="n">median_residual</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">mad</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">keep_mask</span> <span class="o">=</span> <span class="n">residuals</span> <span class="o">&lt;=</span> <span class="n">median_residual</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="n">median_residual</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">mad_scale</span> <span class="o">*</span> <span class="n">mad</span>
+            <span class="n">keep_mask</span> <span class="o">=</span> <span class="n">residuals</span> <span class="o">&lt;=</span> <span class="n">threshold</span>
+
+        <span class="n">inliers</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="n">keep_mask</span><span class="p">]</span>
+
+        <span class="c1"># Ensure enough points remain to refit</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inliers</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">keep_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">residuals</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">inliers</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="n">keep_idx</span><span class="p">]</span>
+
+        <span class="c1"># Refit circle on inliers</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">inliers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">inliers</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="n">coeffs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">a</span><span class="p">,</span> <span class="n">b_</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coeffs</span>
+        <span class="n">cx</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="o">-</span><span class="n">b_</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="n">r_sq</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">*</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">*</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">c</span>
+        <span class="k">if</span> <span class="n">r_sq</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EyeCentersEstimationError</span><span class="p">(</span><span class="s2">"Failed to refit a valid circle to the inlier polygon points"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">cx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">cy</span><span class="p">)</span></div>
 
 </pre></div>
         </article>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.pipelines.templates_aggregation_pipeline - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.pipelines.templates_aggregation_pipeline - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -304,12 +304,12 @@
 <div class="viewcode-block" id="TemplatesAggregationPipeline">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TemplatesAggregationPipeline</span><span class="p">(</span><span class="n">BasePipeline</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Pipeline for iris templates aggregation.</span>
 <span class="sd">    Inherits shared logic from BasePipeline and implements input/output specifics.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">DEFAULT_PIPELINE_CFG_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;confs&quot;</span><span class="p">,</span> <span class="s2">&quot;templates_aggregation_pipeline.yaml&quot;</span><span class="p">)</span>
+    <span class="n">DEFAULT_PIPELINE_CFG_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">"confs"</span><span class="p">,</span> <span class="s2">"templates_aggregation_pipeline.yaml"</span><span class="p">)</span>
     <span class="n">PACKAGE_VERSION</span> <span class="o">=</span> <span class="n">__version__</span>
 
     <span class="n">ORB_ENVIRONMENT</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
@@ -323,7 +323,7 @@
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">PipelineMetadata</span>
         <span class="n">pipeline</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PipelineNode</span><span class="p">]</span>
-        <span class="n">_config_duplicate_node_name_check</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;pipeline&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span>
+        <span class="n">_config_duplicate_node_name_check</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"pipeline"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span>
             <span class="n">pipeline_config_duplicate_node_name_check</span>
         <span class="p">)</span></div>
 
@@ -338,15 +338,15 @@
             <span class="n">error_manager</span><span class="o">=</span><span class="n">store_error_manager</span><span class="p">,</span>
             <span class="n">call_trace_initialiser</span><span class="o">=</span><span class="n">PipelineCallTraceStorage</span><span class="o">.</span><span class="n">initialise</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">subconfig_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;templates_aggregation&quot;</span><span class="p">,</span>
+        <span class="n">subconfig_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"templates_aggregation"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Initialize TemplatesAggregationPipeline with config and environment.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            config (Union[Dict[str, Any], Optional[str]]): Pipeline config dict or YAML string.</span>
 <span class="sd">            env (Environment): Pipeline environment.</span>
 <span class="sd">            subconfig_key (str): The key to extract from the config dict. If provided, the config will be loaded from the subconfig key. Empty string means no subconfig is provided and the entire config is loaded.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">deserialized_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">keyword</span><span class="o">=</span><span class="n">subconfig_key</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">deserialized_config</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
 
@@ -359,51 +359,51 @@
             <span class="c1"># Validate input consistency</span>
             <span class="k">if</span> <span class="n">image_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_ids</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">DifferentImageIdsTemplatesListLenError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Number of image_ids (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">) must match number of templates (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Number of image_ids (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">) must match number of templates (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="p">)</span>
 
             <span class="c1"># Create IrisTemplateWithId</span>
             <span class="n">templates_with_ids</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">template</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">templates</span><span class="p">):</span>
-                <span class="n">image_id</span> <span class="o">=</span> <span class="n">image_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">image_ids</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;frame_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">image_id</span> <span class="o">=</span> <span class="n">image_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">image_ids</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"frame_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
                 <span class="n">templates_with_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IrisTemplateWithId</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">image_id</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">error_manager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_output</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">pipeline_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;templates_with_ids&quot;</span><span class="p">:</span> <span class="n">templates_with_ids</span><span class="p">}</span>
+        <span class="n">pipeline_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"templates_with_ids"</span><span class="p">:</span> <span class="n">templates_with_ids</span><span class="p">}</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pipeline_input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_input</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write the list of IrisTemplateWithId objects to the call trace.</span>
 <span class="sd">        Args:</span>
-<span class="sd">            pipeline_input (Any): Dictionary containing &#39;templates_with_ids&#39; key with List[IrisTemplateWithId] value.</span>
+<span class="sd">            pipeline_input (Any): Dictionary containing 'templates_with_ids' key with List[IrisTemplateWithId] value.</span>
 <span class="sd">            *args: Optional positional arguments for extensibility.</span>
 <span class="sd">            **kwargs: Optional keyword arguments for extensibility.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">templates_with_ids</span> <span class="o">=</span> <span class="n">pipeline_input</span><span class="p">[</span><span class="s2">&quot;templates_with_ids&quot;</span><span class="p">]</span>
+<span class="sd">        """</span>
+        <span class="n">templates_with_ids</span> <span class="o">=</span> <span class="n">pipeline_input</span><span class="p">[</span><span class="s2">"templates_with_ids"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="o">.</span><span class="n">write_input</span><span class="p">(</span><span class="n">templates_with_ids</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_handle_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build and return the pipeline output using the environment&#39;s output builder.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Build and return the pipeline output using the environment's output builder.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            *args: Optional positional arguments for extensibility.</span>
 <span class="sd">            **kwargs: Optional keyword arguments for extensibility.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Any: Output as built by the pipeline_output_builder.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">pipeline_output_builder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_trace</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TemplatesAggregationPipeline.load_config">
 <a class="viewcode-back" href="../../../_code_subpages/iris.pipelines.html#iris.pipelines.templates_aggregation_pipeline.TemplatesAggregationPipeline.load_config">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">keyword</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;templates_aggregation&quot;</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">keyword</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"templates_aggregation"</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Load and deserialize the pipeline configuration (for templates aggregation).</span>
 
 <span class="sd">        Args:</span>
@@ -417,25 +417,25 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if `keyword` is non-empty and not found in the config.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># 1) Figure out the raw dictionary</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">raw</span> <span class="o">=</span> <span class="n">config</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># config is a YAML string or None: load from the default multiframe_pipeline.yaml</span>
-            <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">config</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>  <span class="c1"># noqa</span>
+            <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">config</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>  <span class="c1"># noqa</span>
                 <span class="n">config</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_PIPELINE_CFG_PATH</span>
             <span class="n">raw</span> <span class="o">=</span> <span class="n">load_yaml_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
         <span class="c1"># 2) If they asked for the whole dict, just return it</span>
-        <span class="k">if</span> <span class="n">keyword</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">keyword</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>  <span class="c1"># noqa</span>
+        <span class="k">if</span> <span class="n">keyword</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">keyword</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>  <span class="c1"># noqa</span>
             <span class="k">return</span> <span class="n">raw</span>
 
         <span class="c1"># 3) Otherwise, extract the sub‐key or raise once</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">raw</span><span class="p">[</span><span class="n">keyword</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TemplatesAggregation requires &#39;</span><span class="si">{</span><span class="n">keyword</span><span class="si">}</span><span class="s2">&#39; in the configuration.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TemplatesAggregation requires '</span><span class="si">{</span><span class="n">keyword</span><span class="si">}</span><span class="s2">' in the configuration."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TemplatesAggregationPipeline.load_from_config">
@@ -443,14 +443,14 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_from_config</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;TemplatesAggregationPipeline&quot;</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"TemplatesAggregationPipeline"</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Given an iris config string in base64, initialise a TemplatesAggregationPipeline with this config.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            config (str): Base64-encoded config string.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, Union[TemplatesAggregationPipeline, Optional[Dict[str, Any]]]]: Initialised pipeline and error (if any).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">pipeline</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
@@ -458,11 +458,11 @@
             <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">decoded_config_str</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
             <span class="n">error</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span>
-                <span class="s2">&quot;traceback&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">exception</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)),</span>
+                <span class="s2">"error_type"</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="s2">"message"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span>
+                <span class="s2">"traceback"</span><span class="p">:</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">exception</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)),</span>
             <span class="p">}</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;agent&quot;</span><span class="p">:</span> <span class="n">pipeline</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">error</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"agent"</span><span class="p">:</span> <span class="n">pipeline</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="n">error</span><span class="p">}</span></div>
 </div>
 
 </pre></div>
@@ -497,7 +497,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation.iris_bbox_calculator - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.eye_properties_estimation.iris_bbox_calculator - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -293,23 +293,23 @@
 <div class="viewcode-block" id="IrisBBoxCalculator">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.iris_bbox_calculator.IrisBBoxCalculator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IrisBBoxCalculator</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the smallest bounding box around the iris polygon, cropped or not, padded or not.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Calculate the smallest bounding box around the iris polygon, cropped or not, padded or not."""</span>
 
 <div class="viewcode-block" id="IrisBBoxCalculator.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.iris_bbox_calculator.IrisBBoxCalculator.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters of the iris bounding box calculator.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parameters of the iris bounding box calculator."""</span>
 
         <span class="n">buffer</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">Number</span><span class="p">]]</span>
         <span class="n">crop</span><span class="p">:</span> <span class="nb">bool</span>
 
-        <span class="n">_are_all_positive</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;buffer&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">are_all_positive</span><span class="p">)</span></div>
+        <span class="n">_are_all_positive</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"buffer"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">are_all_positive</span><span class="p">)</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">Number</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">crop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        WARNING: Depending on wether `buffer` is a float or an int, behaviour differs.</span>
 <span class="sd">        `buffer=2.0` =&gt; the iris size will be multiplied by 2., `buffer=2` =&gt; 2 pixels padding will be added.</span>
@@ -317,20 +317,20 @@
 <span class="sd">        Args:</span>
 <span class="sd">            buffer (Union[int, float, Tuple[Number, Number]], optional): Iris buffer in pixels.</span>
 <span class="sd">                if `int`, the bounding box will be padded by `buffer` pixels in each direction.</span>
-<span class="sd">                if `float`, the bounding box&#39; height and width will be multiplied by `buffer`.</span>
+<span class="sd">                if `float`, the bounding box' height and width will be multiplied by `buffer`.</span>
 <span class="sd">                if `Tuple[int]`, the bounding box will be padded by `buffer[0]` pixels in the x direction</span>
 <span class="sd">                (left and right) and `buffer[1]` pixels in the y direction (top and bottom).</span>
 <span class="sd">                if `Tuple[float]`, the bounding box width will be multiplied by `buffer[0]` and height by `buffer[1]`.</span>
 <span class="sd">            crop (bool, optional): If True, the bounding box will be cropped to the shape of the input IR Image. Defaults to False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">buffer</span><span class="o">=</span><span class="n">buffer</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="n">crop</span><span class="p">)</span>
 
 <div class="viewcode-block" id="IrisBBoxCalculator.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.iris_bbox_calculator.IrisBBoxCalculator.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ir_image</span><span class="p">:</span> <span class="n">IRImage</span><span class="p">,</span> <span class="n">geometry_polygons</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoundingBox</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the bounding box around the iris with an additional buffer. Works best on extrapolated polygons.</span>
+<span class="w">        </span><span class="sd">"""Compute the bounding box around the iris with an additional buffer. Works best on extrapolated polygons.</span>
 
-<span class="sd">        The buffer&#39;s behaviour is explained in the constructor&#39;s docstring.</span>
+<span class="sd">        The buffer's behaviour is explained in the constructor's docstring.</span>
 <span class="sd">        The bounding box will be cropped to the shape of the input IR Image.</span>
 
 <span class="sd">        Args:</span>
@@ -339,7 +339,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            BoundingBox: Estimated iris bounding box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">iris_polygon</span> <span class="o">=</span> <span class="n">geometry_polygons</span><span class="o">.</span><span class="n">iris_array</span>
         <span class="n">image_height</span><span class="p">,</span> <span class="n">image_width</span> <span class="o">=</span> <span class="p">(</span><span class="n">ir_image</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
         <span class="n">buffer</span> <span class="o">=</span> <span class="p">(</span>
@@ -355,8 +355,8 @@
 
         <span class="k">if</span> <span class="n">original_x_max</span> <span class="o">==</span> <span class="n">original_x_min</span> <span class="ow">or</span> <span class="n">original_y_max</span> <span class="o">==</span> <span class="n">original_y_min</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BoundingBoxEstimationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Iris bounding box empty. x_min=</span><span class="si">{</span><span class="n">original_x_min</span><span class="si">}</span><span class="s2">, x_max=</span><span class="si">{</span><span class="n">original_x_max</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;y_min=</span><span class="si">{</span><span class="n">original_y_min</span><span class="si">}</span><span class="s2">, y_max=</span><span class="si">{</span><span class="n">original_y_max</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Iris bounding box empty. x_min=</span><span class="si">{</span><span class="n">original_x_min</span><span class="si">}</span><span class="s2">, x_max=</span><span class="si">{</span><span class="n">original_x_max</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"y_min=</span><span class="si">{</span><span class="n">original_y_min</span><span class="si">}</span><span class="s2">, y_max=</span><span class="si">{</span><span class="n">original_y_max</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
@@ -416,7 +416,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

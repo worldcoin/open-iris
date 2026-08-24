@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html"><link rel="search" title="Search" href="../../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.iris_response.image_filters.gabor_filters - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.iris_response.image_filters.gabor_filters - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -291,7 +291,7 @@
 <div class="viewcode-block" id="upper_bound_Gabor_parameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.upper_bound_Gabor_parameters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">upper_bound_Gabor_parameters</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check upper bounds of Gabor filter parameters such as sigma_phi, sigma_rho and lambda_phi for the given kernel_size.</span>
+<span class="w">    </span><span class="sd">"""Check upper bounds of Gabor filter parameters such as sigma_phi, sigma_rho and lambda_phi for the given kernel_size.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): class type.</span>
@@ -302,20 +302,20 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]:  values of checked parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">kernel_size</span><span class="p">,</span> <span class="n">sigma_phi</span><span class="p">,</span> <span class="n">sigma_rho</span><span class="p">,</span> <span class="n">lambda_phi</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">&quot;kernel_size&quot;</span><span class="p">],</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">&quot;sigma_phi&quot;</span><span class="p">],</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">&quot;sigma_rho&quot;</span><span class="p">],</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">&quot;lambda_phi&quot;</span><span class="p">],</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"kernel_size"</span><span class="p">],</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"sigma_phi"</span><span class="p">],</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"sigma_rho"</span><span class="p">],</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"lambda_phi"</span><span class="p">],</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">sigma_phi</span> <span class="o">&gt;=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">&quot;Invalid parameters: sigma_phi can not be greater than kernel_size[0].&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">"Invalid parameters: sigma_phi can not be greater than kernel_size[0]."</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sigma_rho</span> <span class="o">&gt;=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">&quot;Invalid parameters: sigma_rho can not be greater than kernel_size[1].&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">"Invalid parameters: sigma_rho can not be greater than kernel_size[1]."</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">lambda_phi</span> <span class="o">&gt;=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">&quot;Invalid parameters: lambda_phi can not be greater than kernel_size[0].&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">"Invalid parameters: lambda_phi can not be greater than kernel_size[0]."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">values</span></div>
 
@@ -324,7 +324,7 @@
 <div class="viewcode-block" id="upper_bound_LogGabor_parameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.upper_bound_LogGabor_parameters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">upper_bound_LogGabor_parameters</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check upper bound of LogGabor filter parameter lambda_rho for the given kernel_size.</span>
+<span class="w">    </span><span class="sd">"""Check upper bound of LogGabor filter parameter lambda_rho for the given kernel_size.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cls (type): class type.</span>
@@ -335,11 +335,11 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]: values of checked parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">kernel_size</span><span class="p">,</span> <span class="n">lambda_rho</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;kernel_size&quot;</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;lambda_rho&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">kernel_size</span><span class="p">,</span> <span class="n">lambda_rho</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"kernel_size"</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="s2">"lambda_rho"</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">lambda_rho</span> <span class="o">&gt;=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">&quot;Invalid parameters: lambda_rho can not be greater than kernel_size[1].&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImageFilterError</span><span class="p">(</span><span class="s2">"Invalid parameters: lambda_rho can not be greater than kernel_size[1]."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">values</span></div>
 
@@ -348,21 +348,21 @@
 <div class="viewcode-block" id="get_xy_mesh">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.get_xy_mesh">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_xy_mesh</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get (x,y) meshgrids for a given kernel size.</span>
+<span class="w">    </span><span class="sd">"""Get (x,y) meshgrids for a given kernel size.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kernel_size (Tuple[int, int]): Kernel width and height.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: meshgrid of (x, y) positions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ksize_phi_half</span> <span class="o">=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
     <span class="n">ksize_rho_half</span> <span class="o">=</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
 
     <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">ksize_phi_half</span><span class="p">,</span> <span class="n">ksize_phi_half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">ksize_rho_half</span><span class="p">,</span> <span class="n">ksize_rho_half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span>
+        <span class="n">indexing</span><span class="o">=</span><span class="s2">"xy"</span><span class="p">,</span>
         <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -373,7 +373,7 @@
 <div class="viewcode-block" id="get_radius">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.get_radius">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_radius</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get radius to the image center for a given array of relative positions (x,y).</span>
+<span class="w">    </span><span class="sd">"""Get radius to the image center for a given array of relative positions (x,y).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (np.ndarray): x position relative to the image center.</span>
@@ -381,7 +381,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: radius to the image center.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">radius</span></div>
@@ -391,7 +391,7 @@
 <div class="viewcode-block" id="rotate">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.rotate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotate a given array of relative positions (x,y) by a given angle.</span>
+<span class="w">    </span><span class="sd">"""Rotate a given array of relative positions (x,y) by a given angle.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (np.ndarray): x position.</span>
@@ -400,7 +400,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[np.ndarray, np.ndarray]: rotated x, y positions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">cos_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
     <span class="n">sin_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
 
@@ -414,20 +414,20 @@
 <div class="viewcode-block" id="normalize_kernel_values">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.normalize_kernel_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_kernel_values</span><span class="p">(</span><span class="n">kernel_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize the kernel values so that the square sum is 1.</span>
+<span class="w">    </span><span class="sd">"""Normalize the kernel values so that the square sum is 1.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kernel_values (np.ndarray): Kernel values (complex numbers).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: normalized Kernel values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">norm_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;fro&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">norm_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">"fro"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">norm_real</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">kernel_values</span><span class="o">.</span><span class="n">real</span> <span class="o">/=</span> <span class="n">norm_real</span>
 
-    <span class="n">norm_imag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;fro&quot;</span><span class="p">)</span>
+    <span class="n">norm_imag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">"fro"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">norm_imag</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">kernel_values</span><span class="o">.</span><span class="n">imag</span> <span class="o">/=</span> <span class="n">norm_imag</span>
 
@@ -438,14 +438,14 @@
 <div class="viewcode-block" id="convert_to_fixpoint_kernelvalues">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.convert_to_fixpoint_kernelvalues">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_to_fixpoint_kernelvalues</span><span class="p">(</span><span class="n">kernel_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the kernel values (both real and imaginary) to fix points.</span>
+<span class="w">    </span><span class="sd">"""Convert the kernel values (both real and imaginary) to fix points.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kernel_values (np.ndarray): Kernel values.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: fix-point Kernel values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">kernel_values</span><span class="p">):</span>
         <span class="n">kernel_values</span><span class="o">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">15</span><span class="p">)</span>
         <span class="n">kernel_values</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">kernel_values</span><span class="o">.</span><span class="n">imag</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">15</span><span class="p">)</span>
@@ -459,16 +459,16 @@
 <div class="viewcode-block" id="GaborFilter">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.GaborFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GaborFilter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a 2D Gabor filter.</span>
+<span class="w">    </span><span class="sd">"""Implementation of a 2D Gabor filter.</span>
 
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://inc.ucsd.edu/mplab/75/media//gabor.pdf.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="GaborFilter.Parameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.GaborFilter.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;GaborFilter parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""GaborFilter parameters."""</span>
 
         <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">conint</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">99</span><span class="p">),</span> <span class="n">conint</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">99</span><span class="p">)]</span>
         <span class="n">sigma_phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -479,7 +479,7 @@
         <span class="n">to_fixpoints</span><span class="p">:</span> <span class="nb">bool</span>
 
         <span class="n">_upper_bound</span> <span class="o">=</span> <span class="n">root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">upper_bound_Gabor_parameters</span><span class="p">)</span>
-        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;kernel_size&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
+        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"kernel_size"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -495,7 +495,7 @@
         <span class="n">dc_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">to_fixpoints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            kernel_size (Tuple[conint(gt=3, lt=99), conint(gt=3, lt=99)]): Kernel width and height.</span>
@@ -506,7 +506,7 @@
 <span class="sd">            dc_correction (bool, optional): whether to enable DC correction. Defaults to True.</span>
 <span class="sd">            to_fixpoints (bool, optional): whether to convert kernel values to fixpoints. Defaults to False.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
             <span class="n">sigma_phi</span><span class="o">=</span><span class="n">sigma_phi</span><span class="p">,</span>
@@ -520,11 +520,11 @@
 <div class="viewcode-block" id="GaborFilter.compute_kernel_values">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.GaborFilter.compute_kernel_values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compute_kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 2D Gabor filter kernel values.</span>
+<span class="w">        </span><span class="sd">"""Compute 2D Gabor filter kernel values.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Kernel values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># convert to polar coordinates</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_xy_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">)</span>
         <span class="n">rotx</span><span class="p">,</span> <span class="n">roty</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">theta_degrees</span><span class="p">)</span>
@@ -559,16 +559,16 @@
 <div class="viewcode-block" id="LogGaborFilter">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.LogGaborFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LogGaborFilter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of a 2D LogGabor filter.</span>
+<span class="w">    </span><span class="sd">"""Implementation of a 2D LogGabor filter.</span>
 
 <span class="sd">    Reference:</span>
 <span class="sd">        [1] https://en.wikipedia.org/wiki/Log_Gabor_filter.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="LogGaborFilter.Parameters">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.LogGaborFilter.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;LogGaborFilter parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""LogGaborFilter parameters."""</span>
 
         <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">conint</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">99</span><span class="p">),</span> <span class="n">conint</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">99</span><span class="p">)]</span>
         <span class="n">sigma_phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
@@ -578,7 +578,7 @@
         <span class="n">to_fixpoints</span><span class="p">:</span> <span class="nb">bool</span>
 
         <span class="n">_upper_bound</span> <span class="o">=</span> <span class="n">root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">upper_bound_LogGabor_parameters</span><span class="p">)</span>
-        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">&quot;kernel_size&quot;</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
+        <span class="n">_is_odd</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="s2">"kernel_size"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">pydantic_v</span><span class="o">.</span><span class="n">is_odd</span><span class="p">)</span></div>
 
 
     <span class="n">__parameters_type__</span> <span class="o">=</span> <span class="n">Parameters</span>
@@ -593,7 +593,7 @@
         <span class="n">lambda_rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">to_fixpoints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            kernel_size (Tuple[conint(gt=3, lt=99), conint(gt=3, lt=99)]): Kernel width and height.</span>
@@ -602,7 +602,7 @@
 <span class="sd">            theta_degrees (float): orientation of filter in degrees.</span>
 <span class="sd">            lambda_rho (float): wavelength in rho.</span>
 <span class="sd">            to_fixpoints (bool, optional): whether to convert kernel values to fixpoints. Defaults to False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
             <span class="n">sigma_phi</span><span class="o">=</span><span class="n">sigma_phi</span><span class="p">,</span>
@@ -615,11 +615,11 @@
 <div class="viewcode-block" id="LogGaborFilter.compute_kernel_values">
 <a class="viewcode-back" href="../../../../../_code_subpages/iris.nodes.iris_response.image_filters.html#iris.nodes.iris_response.image_filters.gabor_filters.LogGaborFilter.compute_kernel_values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compute_kernel_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 2D LogGabor filter kernel values.</span>
+<span class="w">        </span><span class="sd">"""Compute 2D LogGabor filter kernel values.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Kernel values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># convert to polar coordinates</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_xy_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">)</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="n">get_radius</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -684,7 +684,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/scripts/furo.js?v=46bd48cc"></script>

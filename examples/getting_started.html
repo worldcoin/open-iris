@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Configuring custom pipeline tutorial" href="custom_pipeline.html"><link rel="prev" title="Running inference" href="../quickstart/running_inference.html">
 
-    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>Getting started tutorial - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>Getting started tutorial - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -186,7 +186,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -296,7 +296,7 @@
 <h2>1. Running the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> inference<a class="headerlink" href="#running-the-irispipeline-inference" title="Link to this heading">¶</a></h2>
 <p>Load IR image with <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code> package.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
-<span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./sample_ir_image.png&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+<span class="n">img_pixels</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">"./sample_ir_image.png"</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> object.</p>
@@ -311,19 +311,19 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <li><p>Using <code class="docutils literal notranslate"><span class="pre">run</span></code> method</p></li>
 <li><p>Using <code class="docutils literal notranslate"><span class="pre">estimate</span></code> method</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Options for the `eye_side` argument are: [&quot;left&quot;, &quot;right&quot;]</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;image_id&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;image_id&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;image_id&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Options for the `eye_side` argument are: ["left", "right"]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"image_id"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"image_id"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"image_id"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The output of <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> is a dictionary with following keys: <code class="docutils literal notranslate"><span class="pre">[&quot;error&quot;,</span> <span class="pre">&quot;iris_template&quot;,</span> <span class="pre">&quot;metadata&quot;]</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">error</span></code> value contains information about potential exceptions being raised during performing inference. The <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> implements the concept of a state machine. Therefore, error handling is done through setting an appropriate variable and returning it to user for inference success status verification.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">output[&quot;error&quot;]</span></code> value is <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> finished inference call without any exception being raised. If the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> raised some exception when performing an inference, <code class="docutils literal notranslate"><span class="pre">output[&quot;error&quot;]</span></code> value will be a <code class="docutils literal notranslate"><span class="pre">dict</span></code>, containing three keys: <code class="docutils literal notranslate"><span class="pre">[&quot;error_type&quot;,</span> <span class="pre">&quot;message&quot;,</span> <span class="pre">&quot;traceback&quot;]</span></code>. An example of <code class="docutils literal notranslate"><span class="pre">output[&quot;error&quot;]</span></code> with an error looks like:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;error_type&#39;</span><span class="p">:</span> <span class="s1">&#39;TypeError&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s2">&quot;run() got an unexpected keyword argument &#39;segmentation_map2&#39;&quot;</span><span class="p">,</span>
-    <span class="s1">&#39;traceback&#39;</span><span class="p">:</span> <span class="s1">&#39;Very long exception traceback&#39;</span>
+    <span class="s1">'error_type'</span><span class="p">:</span> <span class="s1">'TypeError'</span><span class="p">,</span>
+    <span class="s1">'message'</span><span class="p">:</span> <span class="s2">"run() got an unexpected keyword argument 'segmentation_map2'"</span><span class="p">,</span>
+    <span class="s1">'traceback'</span><span class="p">:</span> <span class="s1">'Very long exception traceback'</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -386,7 +386,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
 </div>
 <p>Let’s test it and see the output of the <code class="docutils literal notranslate"><span class="pre">IRISPipeline</span></code> with <code class="docutils literal notranslate"><span class="pre">DEBUGGING_ENVIRONMENT</span></code> set.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">iris_pipeline</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">IRISPipeline</span><span class="o">.</span><span class="n">DEBUGGING_ENVIRONMENT</span><span class="p">)</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">&quot;image_id&quot;</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">iris_pipeline</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">image_id</span><span class="o">=</span><span class="s2">"image_id"</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>In the same manner, we can investigate what has been returned from <code class="docutils literal notranslate"><span class="pre">DEBUGGING_ENVIRONMENT</span></code> and we can see that more intermediate result are available for us in the <code class="docutils literal notranslate"><span class="pre">output</span></code> dictionary.</p>
@@ -407,10 +407,10 @@ There are several methods that wraps <code class="docutils literal notranslate">
 <p>Below you can find a bunch of exemplary <code class="docutils literal notranslate"><span class="pre">iris_visualizer</span></code> plotting methods calls.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">iris_visualizer</span><span class="o">.</span><span class="n">plot_ir_image</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">))</span>
+<span class="n">canvas</span> <span class="o">=</span> <span class="n">iris_visualizer</span><span class="o">.</span><span class="n">plot_ir_image</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">IRImage</span><span class="p">(</span><span class="n">img_data</span><span class="o">=</span><span class="n">img_pixels</span><span class="p">,</span> <span class="n">eye_side</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">iris_visualizer</span><span class="o">.</span><span class="n">plot_iris_template</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">])</span>
+<span class="n">canvas</span> <span class="o">=</span> <span class="n">iris_visualizer</span><span class="o">.</span><span class="n">plot_iris_template</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">"iris_template"</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -489,7 +489,7 @@ There are several methods that wraps <code class="docutils literal notranslate">
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

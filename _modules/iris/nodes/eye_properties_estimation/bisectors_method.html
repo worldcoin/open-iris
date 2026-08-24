@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html"><link rel="search" title="Search" href="../../../../search.html">
 
-    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.nodes.eye_properties_estimation.bisectors_method - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.nodes.eye_properties_estimation.bisectors_method - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -291,7 +291,7 @@
 <div class="viewcode-block" id="BisectorsMethod">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.bisectors_method.BisectorsMethod">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BisectorsMethod</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of eye&#39;s center estimation algorithm using bisectors method for finding a circle center.</span>
+<span class="w">    </span><span class="sd">"""Implementation of eye's center estimation algorithm using bisectors method for finding a circle center.</span>
 
 <span class="sd">    This algorithm samples a given number of bisectors from the pupil and iris polygons, and averages their intersection</span>
 <span class="sd">    to produce the polygon center. This method is robust against noise in the polygons, making it a good choice for</span>
@@ -301,12 +301,12 @@
 <span class="sd">    LIMITATIONS:</span>
 <span class="sd">    The iris and pupil can be approximated to circles, when the user is properly gazing at the camera.</span>
 <span class="sd">    This requires that the cases of off-gaze have already been filtered out.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="BisectorsMethod.Parameters">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.bisectors_method.BisectorsMethod.Parameters">[docs]</a>
     <span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">(</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">Parameters</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default Parameters for BisectorsMethod algorithm.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Default Parameters for BisectorsMethod algorithm."""</span>
 
         <span class="n">num_bisectors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">min_distance_between_sector_points</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
@@ -321,13 +321,13 @@
         <span class="n">min_distance_between_sector_points</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span>
         <span class="n">max_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign parameters.</span>
+<span class="w">        </span><span class="sd">"""Assign parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            num_bisectors (int, optional): Number of bisectors.. Defaults to 100.</span>
 <span class="sd">            min_distance_between_sector_points (float, optional): Minimum distance between sectors expressed as a fractional value of a circular shape diameter. Defaults to 0.75.</span>
 <span class="sd">            max_iterations (int, optional): Max iterations for bisector search.. Defaults to 50.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">num_bisectors</span><span class="o">=</span><span class="n">num_bisectors</span><span class="p">,</span>
             <span class="n">min_distance_between_sector_points</span><span class="o">=</span><span class="n">min_distance_between_sector_points</span><span class="p">,</span>
@@ -337,14 +337,14 @@
 <div class="viewcode-block" id="BisectorsMethod.run">
 <a class="viewcode-back" href="../../../../_code_subpages/iris.nodes.eye_properties_estimation.html#iris.nodes.eye_properties_estimation.bisectors_method.BisectorsMethod.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometries</span><span class="p">:</span> <span class="n">GeometryPolygons</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EyeCenters</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate eye&#39;s iris and pupil centers.</span>
+<span class="w">        </span><span class="sd">"""Estimate eye's iris and pupil centers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            geometries (GeometryPolygons): Geometry polygons.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            EyeCenters: Eye&#39;s centers object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            EyeCenters: Eye's centers object.</span>
+<span class="sd">        """</span>
         <span class="n">pupil_center_x</span><span class="p">,</span> <span class="n">pupil_center_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_center_coords</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">pupil_array</span><span class="p">,</span> <span class="n">geometries</span><span class="o">.</span><span class="n">pupil_diameter</span><span class="p">)</span>
         <span class="n">iris_center_x</span><span class="p">,</span> <span class="n">iris_center_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_center_coords</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">iris_array</span><span class="p">,</span> <span class="n">geometries</span><span class="o">.</span><span class="n">iris_diameter</span><span class="p">)</span>
 
@@ -352,7 +352,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_center_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">diameter</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find center coordinates of a polygon.</span>
+<span class="w">        </span><span class="sd">"""Find center coordinates of a polygon.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            polygon (np.ndarray): np.ndarray.</span>
@@ -360,7 +360,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[float, float]: Tuple with the center location coordinates (x, y).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">min_distance_between_sector_points_in_px</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">min_distance_between_sector_points</span> <span class="o">*</span> <span class="n">diameter</span>
 
         <span class="n">first_bisectors_point</span><span class="p">,</span> <span class="n">second_bisectors_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_perpendicular_bisectors</span><span class="p">(</span>
@@ -372,7 +372,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_perpendicular_bisectors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_distance_between_sector_points_in_px</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the perpendicular bisector of self.params.num_bisectors randomly chosen points from a polygon&#39;s vertices.</span>
+<span class="w">        </span><span class="sd">"""Calculate the perpendicular bisector of self.params.num_bisectors randomly chosen points from a polygon's vertices.</span>
 <span class="sd">            A pair of points is used if their distance is larger then min_distance_between_sector_points_in_px.</span>
 
 <span class="sd">        Args:</span>
@@ -384,7 +384,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Calculated perpendicular bisectors.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">142857</span><span class="p">)</span>
 
         <span class="n">bisectors_first_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
@@ -405,7 +405,7 @@
                 <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">EyeCentersEstimationError</span><span class="p">(</span>
-                <span class="s2">&quot;Not able to find enough random pairs of points on the arc with a large enough distance!&quot;</span>
+                <span class="s2">"Not able to find enough random pairs of points on the arc with a large enough distance!"</span>
             <span class="p">)</span>
 
         <span class="n">bisectors_first_points</span> <span class="o">=</span> <span class="n">bisectors_first_points</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">num_bisectors</span><span class="p">]</span>
@@ -428,7 +428,7 @@
         <span class="k">return</span> <span class="n">first_bisectors_point</span><span class="p">,</span> <span class="n">second_bisectors_point</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_find_best_intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fst_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sec_points</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;fst_points and sec_points are NxD arrays defining N lines. D is the dimension of the space.</span>
+<span class="w">        </span><span class="sd">"""fst_points and sec_points are NxD arrays defining N lines. D is the dimension of the space.</span>
 <span class="sd">            This function returns the least squares intersection of the N lines from the system given by eq. 13 in</span>
 <span class="sd">            http://cal.cs.illinois.edu/~johannes/research/LS_line_intersecpdf.</span>
 
@@ -441,7 +441,7 @@
 
 <span class="sd">        Reference:</span>
 <span class="sd">            [1] http://cal.cs.illinois.edu/~johannes/research/LS_line_intersecpdf</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">norm_bisectors</span> <span class="o">=</span> <span class="p">(</span><span class="n">sec_points</span> <span class="o">-</span> <span class="n">fst_points</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sec_points</span> <span class="o">-</span> <span class="n">fst_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
         <span class="c1"># Generate the array of all projectors I - n*n.T</span>
@@ -489,7 +489,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

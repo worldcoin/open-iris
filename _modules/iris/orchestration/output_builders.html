@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.09.25 -->
-        <title>iris.orchestration.output_builders - iris v1.10.0</title>
+    <link rel="shortcut icon" href="../../../_static/wld.png"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>iris.orchestration.output_builders - iris v1.11.2</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -164,7 +164,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">iris v1.10.0</div></a>
+      <a href="../../../index.html"><div class="brand">iris v1.11.2</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -185,7 +185,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
-  <span class="sidebar-brand-text">iris v1.10.0</span>
+  <span class="sidebar-brand-text">iris v1.11.2</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -290,10 +290,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_nested_safe_serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Apply __safe_serialize to obj, handling nested dicts by recursing into values.</span>
 <span class="sd">    Lists and tuples are handled by __safe_serialize itself.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -309,7 +309,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OutputFieldSpec</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generic builder that constructs an output dict based on a list of OutputFieldSpec.</span>
 
 <span class="sd">    Args:</span>
@@ -318,7 +318,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]: A dict mapping each spec.key to the (optionally serialized) extracted value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">output</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">:</span>
         <span class="c1"># Extract the raw value using the provided extractor function</span>
@@ -331,7 +331,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__safe_serialize</span><span class="p">(</span><span class="nb">object</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize an object.</span>
+<span class="w">    </span><span class="sd">"""Serialize an object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        object (Optional[Any]): Object to be serialized.</span>
@@ -341,7 +341,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Optional[Any]: Serialized object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">ImmutableModel</span><span class="p">):</span>
@@ -353,111 +353,111 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
         <span class="k">return</span> <span class="nb">object</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not serializable.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not serializable."</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_iris_pipeline_metadata</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce metadata output from a call_trace.</span>
+<span class="w">    </span><span class="sd">"""Produce metadata output from a call_trace.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        call_trace (PipelineCallTraceStorage): Pipeline call trace.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]: Metadata dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ir_image</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get_input</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
-        <span class="s2">&quot;image_id&quot;</span><span class="p">:</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">image_id</span><span class="p">,</span>
-        <span class="s2">&quot;image_size&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">ir_image</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
-        <span class="s2">&quot;eye_side&quot;</span><span class="p">:</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">eye_side</span><span class="p">,</span>
-        <span class="s2">&quot;eye_centers&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;eye_center_estimation&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;pupil_to_iris_property&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pupil_to_iris_property_estimation&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;offgaze_score&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;offgaze_estimation&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;eye_orientation&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;eye_orientation&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;occlusion90&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;occlusion90_calculator&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;occlusion30&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;occlusion30_calculator&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;iris_bbox&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bounding_box_estimation&quot;</span><span class="p">)),</span>
-        <span class="s2">&quot;sharpness_score&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharpness_estimation&quot;</span><span class="p">)),</span>
+        <span class="s2">"iris_version"</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
+        <span class="s2">"image_id"</span><span class="p">:</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">image_id</span><span class="p">,</span>
+        <span class="s2">"image_size"</span><span class="p">:</span> <span class="p">(</span><span class="n">ir_image</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+        <span class="s2">"eye_side"</span><span class="p">:</span> <span class="n">ir_image</span><span class="o">.</span><span class="n">eye_side</span><span class="p">,</span>
+        <span class="s2">"eye_centers"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"eye_center_estimation"</span><span class="p">)),</span>
+        <span class="s2">"pupil_to_iris_property"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pupil_to_iris_property_estimation"</span><span class="p">)),</span>
+        <span class="s2">"offgaze_score"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"offgaze_estimation"</span><span class="p">)),</span>
+        <span class="s2">"eye_orientation"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"eye_orientation"</span><span class="p">)),</span>
+        <span class="s2">"occlusion90"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"occlusion90_calculator"</span><span class="p">)),</span>
+        <span class="s2">"occlusion30"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"occlusion30_calculator"</span><span class="p">)),</span>
+        <span class="s2">"iris_bbox"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"bounding_box_estimation"</span><span class="p">)),</span>
+        <span class="s2">"sharpness_score"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sharpness_estimation"</span><span class="p">)),</span>
     <span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_error</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce error output from a call_trace.</span>
+<span class="w">    </span><span class="sd">"""Produce error output from a call_trace.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        call_trace (PipelineCallTraceStorage): Pipeline call trace.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Optional[Dict[str, Any]]: Optional error dictionary if such occured.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">exception</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get_error</span><span class="p">()</span>
     <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
         <span class="n">error</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span>
-            <span class="s2">&quot;traceback&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">exception</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)),</span>
+            <span class="s2">"error_type"</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s2">"message"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span>
+            <span class="s2">"traceback"</span><span class="p">:</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">exception</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)),</span>
         <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">error</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_templates_aggregation_metadata</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce templates aggregation metadata output from a call_trace.</span>
+<span class="w">    </span><span class="sd">"""Produce templates aggregation metadata output from a call_trace.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        call_trace (PipelineCallTraceStorage): Pipeline call trace.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]: Metadata dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">templates</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get_input</span><span class="p">()</span>
-    <span class="n">aligned_templates</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates_alignment&quot;</span><span class="p">)</span>
-    <span class="n">identity_filtered_templates</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;identity_validation&quot;</span><span class="p">)</span>
+    <span class="n">aligned_templates</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"templates_alignment"</span><span class="p">)</span>
+    <span class="n">identity_filtered_templates</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"identity_validation"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
-        <span class="s2">&quot;input_templates_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span> <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;input_templates_image_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">image_id</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">]</span> <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;aligned_templates&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;reference_template_id&quot;</span><span class="p">:</span> <span class="n">aligned_templates</span><span class="o">.</span><span class="n">reference_template_id</span> <span class="k">if</span> <span class="n">aligned_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;distances&quot;</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">aligned_templates</span><span class="o">.</span><span class="n">distances</span><span class="p">)</span> <span class="k">if</span> <span class="n">aligned_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"iris_version"</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
+        <span class="s2">"input_templates_count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span> <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"input_templates_image_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">image_id</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">]</span> <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"aligned_templates"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"reference_template_id"</span><span class="p">:</span> <span class="n">aligned_templates</span><span class="o">.</span><span class="n">reference_template_id</span> <span class="k">if</span> <span class="n">aligned_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"distances"</span><span class="p">:</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">aligned_templates</span><span class="o">.</span><span class="n">distances</span><span class="p">)</span> <span class="k">if</span> <span class="n">aligned_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="s2">&quot;post_identity_filter_templates_count&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"post_identity_filter_templates_count"</span><span class="p">:</span> <span class="p">(</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">identity_filtered_templates</span><span class="p">)</span> <span class="k">if</span> <span class="n">identity_filtered_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
-        <span class="s2">&quot;final_aggregation_image_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">image_id</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">identity_filtered_templates</span><span class="p">]</span>
+        <span class="s2">"final_aggregation_image_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">image_id</span> <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">identity_filtered_templates</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">identity_filtered_templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_multiframe_iris_pipeline_metadata</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce multiframe iris pipeline metadata output from a call_trace.</span>
+<span class="w">    </span><span class="sd">"""Produce multiframe iris pipeline metadata output from a call_trace.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        call_trace (PipelineCallTraceStorage): Pipeline call trace.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dict[str, Any]: Metadata dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get_input</span><span class="p">()</span>
     <span class="n">first_entry</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">input_data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">first_entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">eye_side</span> <span class="o">=</span> <span class="n">first_entry</span><span class="o">.</span><span class="n">eye_side</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">eye_side</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">aggregation_result</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">)</span>
+    <span class="n">aggregation_result</span> <span class="o">=</span> <span class="n">call_trace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;iris_version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
-        <span class="s2">&quot;input_images_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_data</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;eye_side&quot;</span><span class="p">:</span> <span class="n">eye_side</span><span class="p">,</span>
-        <span class="s2">&quot;aggregation_successful&quot;</span><span class="p">:</span> <span class="n">aggregation_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">aggregation_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;is_aggregated&quot;</span><span class="p">:</span> <span class="n">aggregation_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"iris_version"</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
+        <span class="s2">"input_images_count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_data</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"eye_side"</span><span class="p">:</span> <span class="n">eye_side</span><span class="p">,</span>
+        <span class="s2">"aggregation_successful"</span><span class="p">:</span> <span class="n">aggregation_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">aggregation_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"is_aggregated"</span><span class="p">:</span> <span class="n">aggregation_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">}</span>
 
 
@@ -467,116 +467,116 @@
 
 <span class="c1"># Simple ORB output: raw iris_template, error info, and metadata</span>
 <span class="n">IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoder&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"encoder"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">IRIS_PIPE_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoder&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"encoder"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="c1"># Debugging output: includes various intermediate pipeline results</span>
 <span class="n">IRIS_PIPE_DEBUG_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoder&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;segmentation_map&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segmentation&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"encoder"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"segmentation_map"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"segmentation"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"segmentation_binarization"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">&quot;noise&quot;</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segmentation_binarization&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">"geometry"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"segmentation_binarization"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"segmentation_binarization"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"noise"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"segmentation_binarization"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"segmentation_binarization"</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
         <span class="p">},</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;extrapolated_polygons&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geometry_estimation&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"extrapolated_polygons"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"geometry_estimation"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;normalized_iris&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;normalization&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_response&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filter_bank&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"normalized_iris"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"normalization"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"iris_response"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter_bank"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_response_refined&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iris_response_refinement&quot;</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"iris_response_refined"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"iris_response_refinement"</span><span class="p">),</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">TEMPLATES_AGG_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates_aggregation&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_iris_template</span><span class="p">()</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates_aggregation&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"templates_aggregation"</span><span class="p">)</span><span class="o">.</span><span class="n">as_iris_template</span><span class="p">()</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"templates_aggregation"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_templates_aggregation_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_templates_aggregation_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">TEMPLATES_AGG_SIMPLE_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates_aggregation&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_iris_template</span><span class="p">()</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;templates_aggregation&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"templates_aggregation"</span><span class="p">)</span><span class="o">.</span><span class="n">as_iris_template</span><span class="p">()</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"templates_aggregation"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_templates_aggregation_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_templates_aggregation_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="p">]</span>
 
 
 <span class="c1"># Multiframe iris pipeline output specs</span>
 <span class="n">MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iris_template&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"iris_template"</span><span class="p">)</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_multiframe_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_multiframe_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;individual_frames&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"individual_frames"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;iris_template&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;individual_frames&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"iris_template"</span><span class="p">}</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"individual_frames"</span><span class="p">,</span> <span class="p">[])</span>
         <span class="p">],</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;templates_aggregation_metadata&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"templates_aggregation_metadata"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">agg</span> <span class="o">:=</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="k">else</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">agg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;iris_template&quot;</span><span class="p">},</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">agg</span> <span class="o">:=</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">agg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"iris_template"</span><span class="p">},</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">]</span>
 
 
 <span class="n">MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"error"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_error</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;iris_template&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"iris_template"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iris_template&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"iris_template"</span><span class="p">)</span> <span class="k">if</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_multiframe_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">OutputFieldSpec</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">extractor</span><span class="o">=</span><span class="n">__get_multiframe_iris_pipeline_metadata</span><span class="p">,</span> <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;individual_frames&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"individual_frames"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;iris_template&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;individual_frames&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"iris_template"</span><span class="p">}</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"individual_frames"</span><span class="p">,</span> <span class="p">[])</span>
         <span class="p">],</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">OutputFieldSpec</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;templates_aggregation_metadata&quot;</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="s2">"templates_aggregation_metadata"</span><span class="p">,</span>
         <span class="n">extractor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ct</span><span class="p">:</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">agg</span> <span class="o">:=</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aggregation_result&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="k">else</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">agg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;iris_template&quot;</span><span class="p">},</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">agg</span> <span class="o">:=</span> <span class="n">ct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"aggregation_result"</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">agg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"iris_template"</span><span class="p">},</span>
         <span class="n">safe_serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">]</span>
@@ -590,7 +590,7 @@
 <div class="viewcode-block" id="build_simple_iris_pipeline_orb_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_simple_iris_pipeline_orb_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_simple_iris_pipeline_orb_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct simple ORB output: raw iris_template, error, and metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct simple ORB output: raw iris_template, error, and metadata."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -598,7 +598,7 @@
 <div class="viewcode-block" id="build_iris_pipeline_orb_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_iris_pipeline_orb_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_iris_pipeline_orb_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct ORB output with serialized iris_template.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct ORB output with serialized iris_template."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">IRIS_PIPE_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -606,7 +606,7 @@
 <div class="viewcode-block" id="build_simple_iris_pipeline_debugging_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_simple_iris_pipeline_debugging_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_simple_iris_pipeline_debugging_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct debugging output with intermediate results (raw values).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct debugging output with intermediate results (raw values)."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">IRIS_PIPE_DEBUG_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -614,12 +614,12 @@
 <div class="viewcode-block" id="build_iris_pipeline_debugging_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_iris_pipeline_debugging_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_iris_pipeline_debugging_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Construct full debugging output: wrap simple_debugging and ensure</span>
 <span class="sd">    the iris_template is also safely serialized.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">build_simple_iris_pipeline_debugging_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">)</span>
-    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;iris_template&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iris_template&quot;</span><span class="p">))</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">"iris_template"</span><span class="p">]</span> <span class="o">=</span> <span class="n">__safe_serialize</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"iris_template"</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 
@@ -627,7 +627,7 @@
 <div class="viewcode-block" id="build_aggregation_templates_orb_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_aggregation_templates_orb_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_aggregation_templates_orb_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct templates aggregation ORB output with safe serialization.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct templates aggregation ORB output with safe serialization."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">TEMPLATES_AGG_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -635,7 +635,7 @@
 <div class="viewcode-block" id="build_simple_templates_aggregation_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_simple_templates_aggregation_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_simple_templates_aggregation_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct simple templates aggregation output (raw values).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct simple templates aggregation output (raw values)."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">TEMPLATES_AGG_SIMPLE_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -643,7 +643,7 @@
 <div class="viewcode-block" id="build_multiframe_iris_pipeline_orb_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_multiframe_iris_pipeline_orb_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_multiframe_iris_pipeline_orb_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct combined iris pipeline ORB output with safe serialization.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct combined iris pipeline ORB output with safe serialization."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">MULTIFRAME_IRIS_PIPE_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 
@@ -651,7 +651,7 @@
 <div class="viewcode-block" id="build_simple_multiframe_iris_pipeline_output">
 <a class="viewcode-back" href="../../../_code_subpages/iris.orchestration.html#iris.orchestration.output_builders.build_simple_multiframe_iris_pipeline_output">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_simple_multiframe_iris_pipeline_output</span><span class="p">(</span><span class="n">call_trace</span><span class="p">:</span> <span class="n">PipelineCallTraceStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct simple combined iris pipeline output (raw values).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Construct simple combined iris pipeline output (raw values)."""</span>
     <span class="k">return</span> <span class="n">_build_from_spec</span><span class="p">(</span><span class="n">call_trace</span><span class="p">,</span> <span class="n">MULTIFRAME_IRIS_PIPE_SIMPLE_ORB_OUTPUT_SPEC</span><span class="p">)</span></div>
 
 </pre></div>
@@ -686,7 +686,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=1d24b1d9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ff71f5f3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
