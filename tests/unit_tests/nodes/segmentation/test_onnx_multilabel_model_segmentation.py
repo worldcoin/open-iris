@@ -14,7 +14,7 @@ def multilabel_model() -> ONNXMultilabelSegmentation:
 
 
 def test_forward(multilabel_model: ONNXMultilabelSegmentation) -> None:
-    mock_grayscale_image_data = np.ones((1440, 1080), dtype=np.uint) * 255
+    mock_grayscale_image_data = np.ones((1440, 1080), dtype=np.uint8) * 255
     mock_irimage = IRImage(img_data=mock_grayscale_image_data, eye_side="left")
 
     preprocessed_input = multilabel_model._preprocess(image=mock_irimage.img_data)
@@ -59,7 +59,7 @@ def test_postprocess(multilabel_model: ONNXMultilabelSegmentation) -> None:
 
 
 def test_run(multilabel_model: ONNXMultilabelSegmentation) -> None:
-    mock_grayscale_image_data = np.ones((1440, 1080), dtype=np.uint) * 255
+    mock_grayscale_image_data = np.ones((1440, 1080), dtype=np.uint8) * 255
     mock_irimage = IRImage(img_data=mock_grayscale_image_data, eye_side="left")
 
     mock_prediction = [
